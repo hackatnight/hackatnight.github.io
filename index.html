@@ -1,0 +1,1878 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="SUB7_LEGENDS">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HACKATNIGHT v.2.2.0 // SubSeven Legends Edition by gr33n</title>
+  <style>
+    /* =========================================================================
+       THEME DEFINITIONS — DEFAULT: SUB7_LEGENDS (SubSeven v.2.1.5 by mobman)
+       ========================================================================= */
+    :root, [data-theme="SUB7_LEGENDS"] {
+      --outer-bg: #000000;
+      --frame-border: #d0d7e5;
+      --title-grad-1: #8486eb;
+      --title-grad-2: #5b5dc7;
+      --title-text: #ffffff;
+      --chassis-bg: #000000;
+      --strip-bg: #090c18;
+      --strip-border: #3a4272;
+      --sidebar-bg: #000000;
+      --side-btn-bg: #030612;
+      --side-btn-border: #2a4880;
+      --side-btn-hover: #0a1838;
+      --side-btn-active: #043c82;
+      --side-btn-text: #7ca8e8;
+      --side-btn-active-text: #ffffff;
+      --viewport-bg: #043c82;
+      --viewport-border: #4a78c2;
+      --card-bg: #032d63;
+      --card-border: #386bb8;
+      --input-bg: #000000;
+      --input-border: #4b558a;
+      --accent: #7ce8ff;
+      --accent-2: #b9bbff;
+      --text: #eef6ff;
+      --muted: #9ec0eb;
+      --warn: #ffd166;
+      --danger: #ff6b8b;
+      --status-bg: #000000;
+      --status-border: #55598c;
+      --scroll-track: #d4d0c8;
+      --scroll-thumb: #b8b4ac;
+    }
+    [data-theme="HACK_MATRIX"] {
+      --outer-bg: #030604;
+      --frame-border: #00ff88;
+      --title-grad-1: #0b3d24;
+      --title-grad-2: #062114;
+      --title-text: #00ff88;
+      --chassis-bg: #050a07;
+      --strip-bg: #09120d;
+      --strip-border: #1a4731;
+      --sidebar-bg: #050a07;
+      --side-btn-bg: #08120c;
+      --side-btn-border: #1b4d34;
+      --side-btn-hover: #0e2418;
+      --side-btn-active: #123824;
+      --side-btn-text: #5cd69c;
+      --side-btn-active-text: #00ff88;
+      --viewport-bg: #08140e;
+      --viewport-border: #1e593b;
+      --card-bg: #0c1d15;
+      --card-border: #226644;
+      --input-bg: #030705;
+      --input-border: #1f5c3d;
+      --accent: #00ff88;
+      --accent-2: #00d4ff;
+      --text: #e0f7ec;
+      --muted: #7eb398;
+      --warn: #fbbf24;
+      --danger: #ff4d6d;
+      --status-bg: #040806;
+      --status-border: #1a4731;
+      --scroll-track: #0b1a12;
+      --scroll-thumb: #1f5c3d;
+    }
+    [data-theme="AMBER_CRT"] {
+      --outer-bg: #080602;
+      --frame-border: #ffb000;
+      --title-grad-1: #4a3200;
+      --title-grad-2: #261900;
+      --title-text: #ffb000;
+      --chassis-bg: #0a0702;
+      --strip-bg: #140e04;
+      --strip-border: #5c3f08;
+      --sidebar-bg: #0a0702;
+      --side-btn-bg: #120c03;
+      --side-btn-border: #593d07;
+      --side-btn-hover: #261a06;
+      --side-btn-active: #3b2808;
+      --side-btn-text: #d99b26;
+      --side-btn-active-text: #ffd166;
+      --viewport-bg: #140e04;
+      --viewport-border: #6e4b09;
+      --card-bg: #1c1406;
+      --card-border: #7d550b;
+      --input-bg: #080501;
+      --input-border: #694708;
+      --accent: #ffb000;
+      --accent-2: #ff7b00;
+      --text: #fff2d6;
+      --muted: #b89456;
+      --warn: #fde047;
+      --danger: #ef4444;
+      --status-bg: #080602;
+      --status-border: #5c3f08;
+      --scroll-track: #1c1406;
+      --scroll-thumb: #6e4b09;
+    }
+    [data-theme="RED_TEAM"] {
+      --outer-bg: #080304;
+      --frame-border: #ff3355;
+      --title-grad-1: #4d0d18;
+      --title-grad-2: #29060c;
+      --title-text: #ffccd5;
+      --chassis-bg: #0a0405;
+      --strip-bg: #14080a;
+      --strip-border: #5c1925;
+      --sidebar-bg: #0a0405;
+      --side-btn-bg: #120608;
+      --side-btn-border: #591823;
+      --side-btn-hover: #260a0f;
+      --side-btn-active: #3d0f17;
+      --side-btn-text: #e06c80;
+      --side-btn-active-text: #ffccd5;
+      --viewport-bg: #14070a;
+      --viewport-border: #6e1d2b;
+      --card-bg: #1c0b0e;
+      --card-border: #802232;
+      --input-bg: #080304;
+      --input-border: #691b29;
+      --accent: #ff3355;
+      --accent-2: #ff8c42;
+      --text: #ffe6ea;
+      --muted: #b87a84;
+      --warn: #fbbf24;
+      --danger: #ff1e42;
+      --status-bg: #080304;
+      --status-border: #5c1925;
+      --scroll-track: #1c0b0e;
+      --scroll-thumb: #6e1d2b;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--outer-bg);
+      color: var(--text);
+      font-family: "Tahoma", "MS Sans Serif", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* =========================================================================
+       FULL-SCREEN SUBSEVEN v.2.1.5 LEGENDS CHASSIS
+       ========================================================================= */
+    .sub7-window {
+      width: 100vw;
+      height: 100vh;
+      background: var(--chassis-bg);
+      border: 1px solid var(--frame-border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Periwinkle-Lavender Title Bar */
+    .sub7-titlebar {
+      background: linear-gradient(90deg, var(--title-grad-1), var(--title-grad-2));
+      color: var(--title-text);
+      padding: 4px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.4px;
+      border-bottom: 1px solid #000000;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .sub7-titlebar .win-glyphs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+    }
+
+    /* Metallic H7 Connection Strip */
+    .sub7-connstrip {
+      background: var(--strip-bg);
+      border-bottom: 1px solid var(--strip-border);
+      padding: 6px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .conn-left, .conn-right {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+    .h7-badge {
+      background: linear-gradient(180deg, #e2e8f0 0%, #64748b 100%);
+      color: #090d16;
+      font-weight: 900;
+      font-size: 15px;
+      padding: 2px 7px;
+      border: 1px outset #cbd5e1;
+      border-radius: 2px;
+      text-shadow: 0 1px 0 #ffffff;
+      letter-spacing: -0.5px;
+    }
+    .conn-label {
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .conn-box {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: #ffffff;
+      padding: 3px 7px;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .s7-btn {
+      background: var(--side-btn-bg);
+      border: 1px solid var(--side-btn-border);
+      color: var(--text);
+      padding: 3px 9px;
+      font-family: inherit;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .s7-btn:hover {
+      background: var(--side-btn-hover);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .s7-btn.active-toggle {
+      background: var(--side-btn-active);
+      border-color: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    /* Main Split Body: Left Sidebar + Royal Blue Viewport */
+    .sub7-workspace {
+      flex: 1;
+      display: flex;
+      min-height: 0;
+      overflow: hidden;
+      padding: 6px;
+      gap: 6px;
+      background: var(--chassis-bg);
+    }
+
+    /* Left Navigation Stack */
+    .sub7-sidebar {
+      width: 176px;
+      flex-shrink: 0;
+      background: var(--sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      overflow-y: auto;
+    }
+    .nav-item {
+      width: 100%;
+      background: var(--side-btn-bg);
+      border: 1px solid var(--side-btn-border);
+      color: var(--side-btn-text);
+      padding: 6px 8px;
+      font-family: inherit;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: left;
+    }
+    .nav-item:hover {
+      background: var(--side-btn-hover);
+      color: #ffffff;
+      border-color: var(--accent);
+    }
+    .nav-item.active {
+      background: var(--side-btn-active);
+      border-color: var(--accent);
+      color: var(--side-btn-active-text);
+      font-weight: 700;
+    }
+    .sidebar-telemetry-box {
+      margin-top: auto;
+      border: 1px solid var(--side-btn-border);
+      background: #030612;
+      padding: 7px;
+      font-size: 10px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    /* Right Panel: Royal Blue Viewport + Full-Width Bottom Action Bar */
+    .sub7-right-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      gap: 5px;
+    }
+
+    .sub7-viewport {
+      flex: 1;
+      background: var(--viewport-bg);
+      border: 1px solid var(--viewport-border);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 12px;
+      min-height: 0;
+    }
+
+    /* Classic Win98/2000 Scrollbar Styling */
+    .sub7-viewport::-webkit-scrollbar { width: 15px; }
+    .sub7-viewport::-webkit-scrollbar-track { background: var(--scroll-track); border-left: 1px solid #808080; }
+    .sub7-viewport::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border: 2px outset #ffffff; }
+
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* Full-width bottom action button inside right column */
+    .sub7-bottom-cta {
+      width: 100%;
+      background: var(--side-btn-bg);
+      border: 1px solid var(--side-btn-border);
+      color: var(--text);
+      padding: 5px 10px;
+      text-align: center;
+      font-family: inherit;
+      font-size: 11px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .sub7-bottom-cta:hover {
+      background: var(--side-btn-hover);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Split Bottom Status Bar */
+    .sub7-statusbar {
+      background: var(--status-bg);
+      border-top: 1px solid var(--status-border);
+      padding: 3px 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+    .status-pill {
+      border: 1px inset var(--status-border);
+      padding: 1px 10px;
+      color: var(--accent);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .status-msg {
+      flex: 1;
+      border: 1px inset var(--status-border);
+      padding: 1px 8px;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* =========================================================================
+       CARDS, GRIDS, GLOBE HUD & FORMS INSIDE ROYAL BLUE VIEWPORT
+       ========================================================================= */
+    .banner-box {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .banner-box h1 {
+      margin: 0 0 3px;
+      font-size: 14px;
+      color: var(--accent);
+    }
+    .banner-box p {
+      margin: 0;
+      font-size: 11px;
+      color: var(--text);
+    }
+
+    .globe-panel {
+      background: #010814;
+      border: 1px solid var(--card-border);
+      margin-bottom: 10px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .globe-hud-bar {
+      background: #021229;
+      border-bottom: 1px solid var(--card-border);
+      padding: 5px 8px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 11px;
+    }
+    .globe-toggles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .canvas-wrap {
+      position: relative;
+      width: 100%;
+      height: 360px;
+    }
+    canvas#globeCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: grab;
+    }
+    canvas#globeCanvas:active { cursor: grabbing; }
+    .globe-overlay-tl {
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      pointer-events: none;
+      font-size: 10px;
+      color: var(--accent);
+      background: rgba(1, 8, 20, 0.78);
+      border: 1px solid var(--card-border);
+      padding: 5px 8px;
+      line-height: 1.45;
+    }
+    .globe-overlay-br {
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+      pointer-events: none;
+      font-size: 10px;
+      color: var(--muted);
+      background: rgba(1, 8, 20, 0.78);
+      border: 1px solid var(--card-border);
+      padding: 4px 8px;
+    }
+    .globe-tooltip {
+      position: absolute;
+      display: none;
+      pointer-events: none;
+      background: #000000;
+      border: 1px solid var(--accent);
+      color: #ffffff;
+      padding: 4px 7px;
+      font-size: 10px;
+      z-index: 20;
+      white-space: nowrap;
+    }
+
+    .grid-6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 8px; margin-bottom: 10px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; margin-bottom: 10px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px; margin-bottom: 10px; }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 10px;
+    }
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 5px;
+      gap: 6px;
+    }
+    .kpi-num {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .kpi-sub { font-size: 10px; color: var(--muted); margin-top: 2px; }
+
+    .sec-bar {
+      background: #021d42;
+      border: 1px solid var(--card-border);
+      padding: 5px 9px;
+      margin: 10px 0 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .tag {
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 1px 5px;
+      font-size: 9px;
+      font-weight: 700;
+    }
+    .tag-danger { border-color: var(--danger); color: var(--danger); }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    th, td { text-align: left; padding: 5px 7px; border-bottom: 1px solid var(--card-border); }
+    th { color: var(--muted); font-size: 10px; }
+
+    label { display: block; font-size: 10px; color: var(--muted); margin: 7px 0 3px; }
+    input, select, textarea {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      color: #ffffff;
+      padding: 5px 7px;
+      font-family: inherit;
+      font-size: 11px;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
+
+    .alert-box {
+      display: none;
+      margin-top: 8px;
+      padding: 7px 9px;
+      background: #01142e;
+      border: 1px solid var(--accent);
+      color: #ffffff;
+      font-size: 11px;
+    }
+
+    /* X-Ray Overlay Tags */
+    .xray-pill {
+      display: none;
+      background: #000000;
+      border: 1px dashed #ffd166;
+      color: #ffd166;
+      font-size: 9px;
+      padding: 1px 5px;
+      margin-left: 6px;
+    }
+    body.xray-on .xray-pill { display: inline-block; }
+
+    /* Modal Drawer for [edit nav] */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      z-index: 60;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      width: 100%;
+      max-width: 480px;
+      background: var(--chassis-bg);
+      border: 1px solid var(--frame-border);
+    }
+
+    @media (max-width: 720px) {
+      .sub7-workspace { flex-direction: column; }
+      .sub7-sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        flex-shrink: 0;
+      }
+      .nav-item { width: auto; white-space: nowrap; }
+      .sidebar-telemetry-box { display: none; }
+      .canvas-wrap { height: 280px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sub7-window">
+    <!-- TOP TITLE BAR -->
+    <div class="sub7-titlebar">
+      <div class="win-glyphs">
+        <span>&raquo;</span>
+        <span id="titleVersionBadge">[v.2.2.0]</span>
+      </div>
+      <div id="titleCenterText">HACKATNIGHT v.2.2.0 // SubSeven Legends Edition by gr33n</div>
+      <div class="win-glyphs">
+        <span>ip</span>
+        <span>X</span>
+      </div>
+    </div>
+
+    <!-- METALLIC CONNECTION STRIP -->
+    <div class="sub7-connstrip">
+      <div class="conn-left">
+        <div class="h7-badge">H7</div>
+        <span class="conn-label">host/ip:</span>
+        <input class="conn-box" style="width:138px" value="hackatnight.com" readonly />
+        <span class="conn-label">port:</span>
+        <input class="conn-box" style="width:52px" value="443" readonly />
+        <button class="s7-btn" onclick="triggerLiveProbe()">probe</button>
+        <button class="s7-btn" id="xrayBtn" onclick="toggleXray()" title="Toggle Google Sheet Schema X-Ray">!</button>
+        <button class="s7-btn" onclick="saveSnapshot()" title="Save local UI state checkpoint">[save]</button>
+        <button class="s7-btn" onclick="restoreSnapshot()" title="Restore saved checkpoint">[restore]</button>
+        <button class="s7-btn" onclick="openNavEditor()">[edit nav]</button>
+      </div>
+      <div class="conn-right">
+        <span id="netHealthPill" class="conn-box" style="color:var(--accent)">NET: 99.98%</span>
+        <select id="themeSelect" class="conn-box" aria-label="Theme Selector">
+          <option value="SUB7_LEGENDS">theme: sub7 legends</option>
+          <option value="HACK_MATRIX">theme: hack matrix</option>
+          <option value="AMBER_CRT">theme: amber crt</option>
+          <option value="RED_TEAM">theme: red team</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- MAIN SPLIT WORKSPACE -->
+    <div class="sub7-workspace">
+      <!-- LEFT SIDEBAR -->
+      <aside class="sub7-sidebar">
+        <div id="sidebarNav" style="display:flex;flex-direction:column;gap:4px;width:100%"></div>
+        <div class="sidebar-telemetry-box" id="sidebarBox">
+          <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
+          <div><strong>LOC:</strong> VENICE, FL</div>
+          <div><strong>OP:</strong> gr33n</div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.2.0</span></div>
+        </div>
+      </aside>
+
+      <!-- RIGHT COLUMN: ROYAL BLUE VIEWPORT + BOTTOM ACTION BAR -->
+      <div class="sub7-right-col">
+        <div class="sub7-viewport" id="mainViewport">
+
+          <!-- 01 // OVERVIEW / STATS (GLOBE FIRST) -->
+          <section id="view-overview" class="view active">
+            <!-- 3D ROTATING VISITOR GEO-GLOBE AT TOP -->
+            <div class="globe-panel">
+              <div class="globe-hud-bar">
+                <div>
+                  <strong>3D VISITOR &amp; ORBITAL TELEMETRY GLOBE</strong>
+                  <span class="xray-pill">TAB: Visits Log + ECEF Orbitals</span>
+                </div>
+                <div class="globe-toggles">
+                  <button class="s7-btn active-toggle" id="btnMode" onclick="toggleGlobeMode()">mode: 3d globe</button>
+                  <button class="s7-btn" id="btnSpin" onclick="toggleEarthSpin()">earth: gentle spin</button>
+                  <button class="s7-btn active-toggle" id="btnSats" onclick="toggleSats()">sats: on</button>
+                  <button class="s7-btn active-toggle" id="btnSolar" onclick="toggleSolar()">solar: on</button>
+                  <button class="s7-btn active-toggle" id="btnCables" onclick="toggleCables()">cables: on</button>
+                  <button class="s7-btn" onclick="simulatePing()">+ ping node</button>
+                </div>
+              </div>
+              <div class="canvas-wrap" id="canvasWrap">
+                <canvas id="globeCanvas"></canvas>
+                <div class="globe-overlay-tl" id="globeHudTL">
+                  HQ_NODE: VENICE, FL (27.10°N, 82.45°W)<br/>
+                  ISS_LIVE: SYNCING ORBITAL TELEMETRY...<br/>
+                  ACTIVE_TRACKS: ISS, STARLINK-3041, NOAA-19, GPS-BIIR-11
+                </div>
+                <div class="globe-overlay-br">
+                  DRAG: ROTATE // SCROLL: ZOOM // HOVER: INSPECT NODE
+                </div>
+                <div class="globe-tooltip" id="globeTooltip"></div>
+              </div>
+            </div>
+
+            <!-- PRACTICE INTRO BANNER -->
+            <div class="banner-box">
+              <div>
+                <h1>HACKATNIGHT // Private IT Services &amp; Systems Engineering</h1>
+                <p>Independent infrastructure hardening, private cloud storage, system diagnostics, and custom embedded firmware operated by <strong>gr33n</strong>.</p>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <button class="s7-btn active-toggle" onclick="switchTab('services')">it services -&gt;</button>
+                <button class="s7-btn" onclick="switchTab('support')">open ticket</button>
+              </div>
+            </div>
+
+            <!-- 6 KPI METRICS -->
+            <div class="grid-6">
+              <div class="card"><div class="card-head"><span>GLOBAL UPTIME</span><span class="xray-pill">Status_Log</span></div><div class="kpi-num" id="kpiUptime">99.98%</div><div class="kpi-sub">30-day probe SLA</div></div>
+              <div class="card"><div class="card-head"><span>AVG LATENCY</span></div><div class="kpi-num" id="kpiLatency">-- ms</div><div class="kpi-sub">Edge response</div></div>
+              <div class="card"><div class="card-head"><span>ACTIVE NODES</span><span class="xray-pill">Monitored_Nodes</span></div><div class="kpi-num" id="kpiNodes">--</div><div class="kpi-sub">Monitored endpoints</div></div>
+              <div class="card"><div class="card-head"><span>TOTAL VIEWS</span><span class="xray-pill">Visits Log</span></div><div class="kpi-num" id="kpiViews">--</div><div class="kpi-sub">Logged page hits</div></div>
+              <div class="card"><div class="card-head"><span>SESSIONS</span></div><div class="kpi-num" id="kpiSessions">--</div><div class="kpi-sub">Unique visitors</div></div>
+              <div class="card"><div class="card-head"><span>TOP REGION</span></div><div class="kpi-num" style="font-size:13px" id="kpiRegion">--</div><div class="kpi-sub">Primary timezone</div></div>
+            </div>
+
+            <!-- INFRASTRUCTURE HEALTH -->
+            <div class="sec-bar">
+              <span>INFRASTRUCTURE HEALTH &amp; ENDPOINT UPTIME <span class="xray-pill">GET ?action=bootstrap</span></span>
+              <button class="s7-btn" onclick="triggerLiveProbe()">run live probe</button>
+            </div>
+            <div class="grid-3" id="uptimeGrid"></div>
+
+            <!-- RECENT SESSIONS TABLE -->
+            <div class="sec-bar">
+              <span>RECENT INCOMING VISITOR SESSIONS <span class="xray-pill">TAB: Visits Log (Sanitized)</span></span>
+              <span>LIVE FEED</span>
+            </div>
+            <div class="card">
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Time</th><th>Route</th><th>Device</th><th>Region</th></tr></thead>
+                  <tbody id="visitsTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <!-- 02 // IT SERVICES -->
+          <section id="view-services" class="view">
+            <div class="banner-box">
+              <div>
+                <h1>PRIVATE IT SERVICES // HACKATNIGHT</h1>
+                <p>Direct technical consulting, network security architecture, private NAS storage, and custom hardware/firmware engineering.</p>
+              </div>
+              <button class="s7-btn active-toggle" onclick="switchTab('support')">dispatch support ticket -&gt;</button>
+            </div>
+            <div class="grid-2" id="servicesGrid"></div>
+          </section>
+
+          <!-- 03 // CLIENT VAULT -->
+          <section id="view-vault" class="view">
+            <div class="grid-2">
+              <div class="card">
+                <div class="card-head"><span>DIAGNOSTIC PAYLOAD DROP (MAX 25 MB)</span><span class="xray-pill">POST vault_upload -&gt; Drive</span></div>
+                <p style="font-size:11px;color:var(--muted);margin-top:0">Upload crash dumps, router configs, or diagnostic logs directly into the encrypted HACKATNIGHT Google Drive vault.</p>
+                <label>SUPPORT TICKET ID (OPTIONAL)</label>
+                <input id="vaultTicketId" placeholder="e.g. HACK-4821" />
+                <label>YOUR EMAIL</label>
+                <input id="vaultEmail" type="email" placeholder="client@domain.com" />
+                <label>SELECT FILE</label>
+                <input id="vaultFile" type="file" />
+                <label>NOTES</label>
+                <input id="vaultNotes" placeholder="Brief context for this diagnostic archive" />
+                <div style="margin-top:10px">
+                  <button class="s7-btn active-toggle" onclick="uploadVaultFile()">encrypt &amp; transmit to vault</button>
+                </div>
+                <div id="vaultUploadStatus" class="alert-box"></div>
+              </div>
+
+              <div class="card">
+                <div class="card-head"><span>TOKEN-GATED RELEASE UNLOCK</span><span class="xray-pill">GET ?action=unlock_key</span></div>
+                <p style="font-size:11px;color:var(--muted);margin-top:0">Enter a single-use or expiring access key issued by <strong>gr33n</strong> to unlock private firmware builds or recovery images.</p>
+                <label>RELEASE ACCESS KEY</label>
+                <input id="releaseKeyInput" placeholder="XXXX-XXXX" />
+                <div style="margin-top:10px">
+                  <button class="s7-btn active-toggle" onclick="redeemReleaseKey()">verify key &amp; unlock</button>
+                </div>
+                <div id="vaultKeyStatus" class="alert-box"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 04 // PROJECTS -->
+          <section id="view-projects" class="view">
+            <div class="sec-bar" style="margin-top:0">
+              <span>FLAGSHIP BUILDS &amp; PUBLIC REPOSITORIES <span class="xray-pill">TAB: Projects + Live Repo API</span></span>
+              <span>OPERATOR: hackatnight</span>
+            </div>
+            <div class="grid-2" id="projectsGrid"></div>
+          </section>
+
+          <!-- 05 // DOWNLOADS -->
+          <section id="view-downloads" class="view">
+            <div class="sec-bar" style="margin-top:0">
+              <span>VERIFIED UTILITIES &amp; FIRMWARE BINARIES <span class="xray-pill">TAB: Downloads</span></span>
+              <span>SHA-256 VERIFIED</span>
+            </div>
+            <div class="grid-3" id="downloadsGrid"></div>
+          </section>
+
+          <!-- 06 // IT SUPPORT -->
+          <section id="view-support" class="view">
+            <div class="card" style="max-width:740px;margin:0 auto">
+              <div class="card-head"><span>IT SUPPORT DISPATCH INTAKE</span><span class="xray-pill">POST support -&gt; IT_Support_Queue + Email</span></div>
+              <p style="font-size:11px;color:var(--muted);margin-top:0">Submit a technical support request below. A tracking ID is generated immediately and dispatched directly to <strong>gr33n</strong>.</p>
+              <div class="grid-2" style="margin-bottom:0">
+                <div>
+                  <label>NAME / ORGANIZATION</label>
+                  <input id="supName" placeholder="Your name or business" />
+                </div>
+                <div>
+                  <label>EMAIL ADDRESS</label>
+                  <input id="supEmail" type="email" placeholder="you@domain.com" />
+                </div>
+              </div>
+              <div class="grid-2" style="margin-bottom:0">
+                <div>
+                  <label>SERVICE CATEGORY</label>
+                  <select id="supTier">
+                    <option>Network &amp; Security Hardening</option>
+                    <option>Private Cloud &amp; NAS Architecture</option>
+                    <option>System Diagnostics &amp; Recovery</option>
+                    <option>Custom Embedded &amp; Firmware Builds</option>
+                    <option>General IT Consultation</option>
+                  </select>
+                </div>
+                <div>
+                  <label>PRIORITY LEVEL</label>
+                  <select id="supUrgency">
+                    <option value="STANDARD">STANDARD (24-48h)</option>
+                    <option value="PRIORITY">PRIORITY (Same-Day)</option>
+                    <option value="CRITICAL">CRITICAL (System Down)</option>
+                  </select>
+                </div>
+              </div>
+              <label>TARGET HARDWARE / OS / ENVIRONMENT</label>
+              <input id="supHardware" placeholder="e.g. Windows 11 Workstation, Synology NAS, Ubiquiti Network, ESP32" />
+              <label>ISSUE OR PROJECT DESCRIPTION</label>
+              <textarea id="supDesc" rows="4" placeholder="Describe the issue, symptoms, or project requirements..."></textarea>
+              <div style="margin-top:10px">
+                <button class="s7-btn active-toggle" onclick="submitSupportTicket()">dispatch support ticket</button>
+              </div>
+              <div id="supStatus" class="alert-box"></div>
+            </div>
+          </section>
+
+          <!-- 07 // COMMS & TRIAGE -->
+          <section id="view-comms" class="view">
+            <div class="grid-2">
+              <div class="card">
+                <div class="card-head"><span>DIRECT OPERATOR COMMS</span><span class="xray-pill">POST comms -&gt; Comms_Inbox</span></div>
+                <label>HANDLE / NAME</label>
+                <input id="commsHandle" placeholder="Your name or handle" />
+                <label>RETURN EMAIL</label>
+                <input id="commsEmail" type="email" placeholder="you@domain.com" />
+                <label>SUBJECT</label>
+                <input id="commsSubject" placeholder="Inquiry topic" />
+                <label>MESSAGE</label>
+                <textarea id="commsMsg" rows="4" placeholder="Write your message..."></textarea>
+                <div style="margin-top:10px">
+                  <button class="s7-btn active-toggle" onclick="submitComms()">transmit message</button>
+                </div>
+                <div id="commsStatus" class="alert-box"></div>
+              </div>
+
+              <div class="card">
+                <div class="card-head"><span>BUG &amp; FEATURE TRIAGE BOARD</span><span class="xray-pill">TAB: Bug_Triage</span></div>
+                <div class="grid-2" style="margin-bottom:0">
+                  <div>
+                    <label>PROJECT</label>
+                    <input id="triageProject" placeholder="e.g. CYD Emulator" />
+                  </div>
+                  <div>
+                    <label>SEVERITY</label>
+                    <select id="triageSeverity">
+                      <option value="LOW">LOW / FEATURE</option>
+                      <option value="MEDIUM">MEDIUM</option>
+                      <option value="HIGH">HIGH</option>
+                    </select>
+                  </div>
+                </div>
+                <label>ENVIRONMENT</label>
+                <input id="triageEnv" placeholder="Board revision, OS, or browser" />
+                <label>SUMMARY</label>
+                <textarea id="triageSummary" rows="2" placeholder="Steps to reproduce or feature details..."></textarea>
+                <div style="margin-top:8px">
+                  <button class="s7-btn active-toggle" onclick="submitTriage()">log triage issue</button>
+                </div>
+                <div id="triageStatus" class="alert-box"></div>
+                <div class="table-wrap" style="margin-top:10px">
+                  <table>
+                    <thead><tr><th>ID</th><th>Project</th><th>Severity</th><th>Status</th></tr></thead>
+                    <tbody id="triageTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+
+        <!-- FULL-WIDTH BOTTOM ACTION BUTTON -->
+        <button class="sub7-bottom-cta" onclick="switchTab('support')">
+          visit hackatnight.com support dispatch // request private it engineering
+        </button>
+      </div>
+    </div>
+
+    <!-- SPLIT BOTTOM STATUS BAR -->
+    <div class="sub7-statusbar">
+      <div class="status-pill" id="statusPill">- online -</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.2.0]</div>
+    </div>
+  </div>
+
+  <!-- MODULAR NAV EDITOR MODAL -->
+  <div class="modal-backdrop" id="navModal">
+    <div class="modal-box">
+      <div class="sub7-titlebar">
+        <span>[MODULE_MANAGER // EDIT_NAV]</span>
+        <button class="s7-btn" onclick="closeNavEditor()">X</button>
+      </div>
+      <div style="padding:12px">
+        <p style="font-size:11px;color:var(--muted);margin-top:0">Toggle or reorder modules dynamically. Changes persist in localStorage.</p>
+        <div id="navEditorList" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px"></div>
+        <div style="display:flex;justify-content:space-between;gap:8px">
+          <button class="s7-btn" onclick="resetNavConfig()">reset defaults</button>
+          <button class="s7-btn active-toggle" onclick="closeNavEditor()">done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================================
+       01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
+       ========================================================================= */
+    const SITE_CONFIG = {
+      APP_VERSION: "v.2.2.0",
+      BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
+      PUBLIC_USER: "hackatnight",
+      HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
+    };
+
+    /* =========================================================================
+       02 // MODULES — EASY ADD/REMOVE/REORDER SIDEBAR TABS
+       ========================================================================= */
+    const DEFAULT_MODULES = [
+      { id: "overview",  label: "overview / stats", enabled: true },
+      { id: "services",  label: "it services",      enabled: true },
+      { id: "vault",     label: "client vault",     enabled: true },
+      { id: "projects",  label: "projects",         enabled: true },
+      { id: "downloads", label: "downloads",        enabled: true },
+      { id: "support",   label: "it support",       enabled: true },
+      { id: "comms",     label: "comms / triage",   enabled: true }
+    ];
+
+    /* =========================================================================
+       03 // SERVICES_DATA — PRIVATE IT SERVICE OFFERINGS
+       ========================================================================= */
+    const SERVICES_DATA = [
+      {
+        code: "01 // INFRA",
+        title: "Network & Security Hardening",
+        desc: "Enterprise mesh deployment, VLAN segmentation, firewall policy design, DNS sinkholing, and privacy-focused device debloating."
+      },
+      {
+        code: "02 // STORAGE",
+        title: "Private Cloud & NAS Architecture",
+        desc: "Self-hosted Synology and Linux storage servers, automated encrypted backups, Docker/Portainer stacks, and sovereign media clouds."
+      },
+      {
+        code: "03 // RECOVERY",
+        title: "System Diagnostics & Recovery",
+        desc: "OS rescue, malware remediation, hardware fault isolation, workstation tuning, and cross-platform Android/Windows/Linux recovery."
+      },
+      {
+        code: "04 // EMBEDDED",
+        title: "Custom Embedded & Firmware Builds",
+        desc: "ESP32 microcontroller prototyping, custom display interfaces, OBD-II / CAN-bus telemetry integrations, and bespoke utility tools."
+      }
+    ];
+
+    /* =========================================================================
+       04 // FALLBACK_DATA — PREVIEW / OFFLINE BASELINE DATA
+       ========================================================================= */
+    const FALLBACK_DATA = {
+      uptime: [
+        { id: "NODE-01", name: "HACKATNIGHT_CORE", url: "https://hackatnight.com", uptime: "99.99", latency: 36, status: 200, state: "ONLINE", history: [40, 38, 35, 39, 36, 37, 35, 36] },
+        { id: "NODE-02", name: "TESTING_REPO_DEMO", url: "https://hackatnight.github.io/TestingRepo/", uptime: "99.96", latency: 49, status: 200, state: "ONLINE", history: [53, 50, 52, 48, 51, 49, 50, 49] },
+        { id: "NODE-03", name: "WORKSPACE_API_RELAY", url: "https://script.google.com", uptime: "99.98", latency: 114, status: 200, state: "ONLINE", history: [122, 118, 115, 119, 114, 117, 113, 114] }
+      ],
+      telemetry: {
+        totalViews: 184,
+        uniqueSessions: 82,
+        topRegion: "America/New_York",
+        recent: [
+          { timestamp: new Date().toISOString(), path: "/#overview", referrer: "Direct", device: "Desktop", region: "America/New_York" },
+          { timestamp: new Date(Date.now() - 2400000).toISOString(), path: "/#projects", referrer: "hackatnight.github.io", device: "Mobile", region: "America/Chicago" },
+          { timestamp: new Date(Date.now() - 5100000).toISOString(), path: "/#services", referrer: "Direct", device: "Desktop", region: "Europe/London" }
+        ]
+      },
+      projects: [
+        { Title: "ESP32-2432S024C Handheld Game Boy Emulator", Category: "EMBEDDED", Status: "ACTIVE", Version: "v1.4.2", Description: "Peanut-GB core on CYD hardware with LovyanGFX, CST816S touch UI, GPIO haptics, and SD ROM streaming.", "Live URL": "https://hackatnight.github.io/TestingRepo/", "Source URL": "https://github.com/hackatnight/TestingRepo" },
+        { Title: "ESP32 CYD Live OBD-II Vehicle Telemetry Gauge", Category: "AUTOMOTIVE", Status: "ACTIVE", Version: "v1.1.0", Description: "Real-time CAN/OBD-II diagnostic cluster via Bluetooth ELM327 and custom CYD display.", "Live URL": "", "Source URL": "https://github.com/hackatnight" },
+        { Title: "9211B Head Unit Firmware & CAN-Bus Bridge", Category: "AUTOMOTIVE", Status: "STABLE", Version: "v2.0.3", Description: "Debloated Android 8 automotive head unit image with custom CAN-bus steering and telemetry bindings.", "Live URL": "", "Source URL": "https://github.com/hackatnight" },
+        { Title: "Sovereign Home Lab & Enterprise Mesh Stack", Category: "INFRA", Status: "PROD", Version: "v3.2.0", Description: "Segmented VLAN architecture, Synology private cloud storage, and self-hosted container orchestration.", "Live URL": "", "Source URL": "https://github.com/hackatnight" }
+      ],
+      downloads: [
+        { "File ID": "DL-01", Title: "CYD-GB-Emulator-Firmware.bin", Version: "v1.4.2", Platform: "ESP32-2432S024C", Size: "1.42 MB", "SHA-256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "Download URL": "https://github.com/hackatnight/TestingRepo", Count: 148 },
+        { "File ID": "DL-02", Title: "FireOS8-Debloat-ADB-Kit.zip", Version: "v1.0.8", Platform: "Windows / Linux ADB", Size: "312 KB", "SHA-256": "8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4", "Download URL": "https://github.com/hackatnight", Count: 94 },
+        { "File ID": "DL-03", Title: "ELM327-OBD2-PID-Scanner.ino", Version: "v1.1.0", Platform: "PlatformIO / Arduino", Size: "64 KB", "SHA-256": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae", "Download URL": "https://github.com/hackatnight", Count: 73 }
+      ],
+      triage: [
+        { id: "BUG-104", project: "CYD Emulator", severity: "LOW", summary: "Add palette cycle shortcut on touch bezel", status: "IN_PROGRESS" },
+        { id: "BUG-101", project: "OBD2 Gauge", severity: "MEDIUM", summary: "Auto-reconnect ELM327 after ignition cycle", status: "FIXED" }
+      ]
+    };
+
+    /* =========================================================================
+       05 // BACKEND_API — GOOGLE APPS SCRIPT + PUBLIC REPO FETCH CLIENT
+       ========================================================================= */
+    const BACKEND_API = {
+      isLive() {
+        return SITE_CONFIG.BACKEND_URL && !SITE_CONFIG.BACKEND_URL.includes("PASTE_YOUR_WEB_APP_URL");
+      },
+      async get(params) {
+        const qs = new URLSearchParams(params).toString();
+        const res = await fetch(`${SITE_CONFIG.BACKEND_URL}?${qs}`);
+        return res.json();
+      },
+      async post(payload) {
+        if (!this.isLive()) return { status: "preview" };
+        const res = await fetch(SITE_CONFIG.BACKEND_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        return res.json();
+      }
+    };
+
+    /* =========================================================================
+       06 // APPLICATION STATE, VERSIONING & NAVIGATION ENGINE
+       ========================================================================= */
+    let STATE = JSON.parse(JSON.stringify(FALLBACK_DATA));
+    let MODULES = JSON.parse(localStorage.getItem("hackatnight_modules") || "null") || JSON.parse(JSON.stringify(DEFAULT_MODULES));
+    let ACTIVE_TAB = "overview";
+
+    function syncVersionLabels() {
+      const v = SITE_CONFIG.APP_VERSION;
+      document.title = `HACKATNIGHT ${v} // SubSeven Legends Edition by gr33n`;
+      document.getElementById("titleVersionBadge").textContent = `[${v}]`;
+      document.getElementById("titleCenterText").textContent = `HACKATNIGHT ${v} // SubSeven Legends Edition by gr33n`;
+      document.getElementById("sideVer").textContent = v;
+    }
+
+    function setStatus(msg, pillText) {
+      if (pillText) document.getElementById("statusPill").textContent = pillText;
+      document.getElementById("statusMsg").textContent = `${msg} [${SITE_CONFIG.APP_VERSION}]`;
+    }
+
+    function renderSidebar() {
+      const nav = document.getElementById("sidebarNav");
+      nav.innerHTML = MODULES.filter(m => m.enabled).map(m => {
+        const isAct = m.id === ACTIVE_TAB;
+        return `<button class="nav-item ${isAct ? "active" : ""}" onclick="switchTab('${m.id}')">
+          <span>${m.label}</span>
+          <span>${isAct ? "&#9660;" : "&#9661;"}</span>
+        </button>`;
+      }).join("");
+    }
+
+    function switchTab(tabId) {
+      const enabled = MODULES.filter(m => m.enabled);
+      const targetMod = enabled.find(m => m.id === tabId) || enabled[0] || MODULES[0];
+      ACTIVE_TAB = targetMod.id;
+
+      document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+      const panel = document.getElementById("view-" + ACTIVE_TAB);
+      if (panel) panel.classList.add("active");
+      renderSidebar();
+      if (location.hash !== "#" + ACTIVE_TAB) history.replaceState(null, "", "#" + ACTIVE_TAB);
+      setStatus(`module active: ${targetMod.label}`);
+      if (ACTIVE_TAB === "overview") resizeGlobeCanvas();
+    }
+
+    function bookService(title) {
+      switchTab("support");
+      const sel = document.getElementById("supTier");
+      for (let i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].text === title) sel.selectedIndex = i;
+      }
+      setStatus(`pre-selected service: ${title}`);
+    }
+
+    // Theme & X-Ray Controls
+    const themeSelect = document.getElementById("themeSelect");
+    const savedTheme = localStorage.getItem("hackatnight_theme") || "SUB7_LEGENDS";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+    themeSelect.value = savedTheme;
+    themeSelect.addEventListener("change", () => {
+      document.documentElement.setAttribute("data-theme", themeSelect.value);
+      localStorage.setItem("hackatnight_theme", themeSelect.value);
+      setStatus(`theme switched -> ${themeSelect.value}`);
+    });
+
+    function toggleXray() {
+      document.body.classList.toggle("xray-on");
+      const on = document.body.classList.contains("xray-on");
+      document.getElementById("xrayBtn").classList.toggle("active-toggle", on);
+      setStatus(on ? "x-ray sheet schema overlay enabled." : "x-ray overlay disabled.");
+    }
+
+    // Snapshot Save / Restore
+    function saveSnapshot() {
+      const snap = {
+        version: SITE_CONFIG.APP_VERSION,
+        theme: themeSelect.value,
+        modules: MODULES,
+        globe: GLOBE_STATE,
+        savedAt: new Date().toISOString()
+      };
+      localStorage.setItem("hackatnight_snapshot", JSON.stringify(snap));
+      setStatus(`snapshot saved (${new Date().toLocaleTimeString()}).`);
+    }
+
+    function restoreSnapshot() {
+      const raw = localStorage.getItem("hackatnight_snapshot");
+      if (!raw) return setStatus("no saved snapshot found in localStorage.");
+      const snap = JSON.parse(raw);
+      if (snap.theme) {
+        themeSelect.value = snap.theme;
+        document.documentElement.setAttribute("data-theme", snap.theme);
+      }
+      if (snap.modules) {
+        MODULES = snap.modules;
+        localStorage.setItem("hackatnight_modules", JSON.stringify(MODULES));
+      }
+      if (snap.globe) Object.assign(GLOBE_STATE, snap.globe);
+      syncGlobeToggleButtons();
+      switchTab(ACTIVE_TAB);
+      setStatus(`restored snapshot from ${new Date(snap.savedAt).toLocaleTimeString()}.`);
+    }
+
+    // Modular Navigation Editor
+    function openNavEditor() {
+      const list = document.getElementById("navEditorList");
+      list.innerHTML = MODULES.map((m, idx) => `
+        <div style="display:flex;align-items:center;justify-content:space-between;background:#090c18;border:1px solid #2a4880;padding:5px 8px">
+          <label style="margin:0;display:flex;align-items:center;gap:6px;color:#fff;cursor:pointer">
+            <input type="checkbox" style="width:auto" ${m.enabled ? "checked" : ""} onchange="toggleModule(${idx}, this.checked)" />
+            <span>${m.label}</span>
+          </label>
+          <div style="display:flex;gap:4px">
+            <button class="s7-btn" onclick="moveModule(${idx}, -1)">&#9650;</button>
+            <button class="s7-btn" onclick="moveModule(${idx}, 1)">&#9660;</button>
+          </div>
+        </div>`).join("");
+      document.getElementById("navModal").classList.add("open");
+    }
+    function closeNavEditor() { document.getElementById("navModal").classList.remove("open"); }
+    function toggleModule(idx, val) {
+      MODULES[idx].enabled = val;
+      localStorage.setItem("hackatnight_modules", JSON.stringify(MODULES));
+      renderSidebar();
+    }
+    function moveModule(idx, dir) {
+      const target = idx + dir;
+      if (target < 0 || target >= MODULES.length) return;
+      const tmp = MODULES[idx];
+      MODULES[idx] = MODULES[target];
+      MODULES[target] = tmp;
+      localStorage.setItem("hackatnight_modules", JSON.stringify(MODULES));
+      openNavEditor();
+      renderSidebar();
+    }
+    function resetNavConfig() {
+      MODULES = JSON.parse(JSON.stringify(DEFAULT_MODULES));
+      localStorage.setItem("hackatnight_modules", JSON.stringify(MODULES));
+      openNavEditor();
+      renderSidebar();
+      setStatus("navigation modules reset to default.");
+    }
+
+    /* =========================================================================
+       07 // UI RENDERERS & INTERACTIVE WORKSPACE ACTIONS
+       ========================================================================= */
+    function renderAll() {
+      const nodes = STATE.uptime;
+      const avgLat = nodes.length ? Math.round(nodes.reduce((a, b) => a + Number(b.latency || 0), 0) / nodes.length) : 0;
+      const avgUp = nodes.length ? (nodes.reduce((a, b) => a + Number(b.uptime || 100), 0) / nodes.length).toFixed(2) : "100.00";
+
+      document.getElementById("netHealthPill").textContent = `NET: ${avgUp}%`;
+      document.getElementById("kpiUptime").textContent = avgUp + "%";
+      document.getElementById("kpiLatency").textContent = avgLat + " ms";
+      document.getElementById("kpiNodes").textContent = nodes.length;
+      document.getElementById("kpiViews").textContent = STATE.telemetry.totalViews;
+      document.getElementById("kpiSessions").textContent = STATE.telemetry.uniqueSessions;
+      document.getElementById("kpiRegion").textContent = STATE.telemetry.topRegion;
+
+      // Uptime Cards
+      document.getElementById("uptimeGrid").innerHTML = nodes.map(n => {
+        const hist = n.history && n.history.length ? n.history : [40, 42, 41];
+        const max = Math.max(...hist, 100);
+        const pts = hist.map((v, i) => `${(i / Math.max(hist.length - 1, 1)) * 220},${34 - (v / max) * 28}`).join(" ");
+        return `
+          <div class="card">
+            <div class="card-head"><span>${n.name}</span><span class="${n.state === "ONLINE" ? "tag" : "tag tag-danger"}">${n.state} (${n.status})</span></div>
+            <div style="font-size:15px;font-weight:700;color:var(--accent)">${n.uptime}% <span style="font-size:11px;color:var(--muted)">// ${n.latency} ms</span></div>
+            <div style="font-size:10px;color:var(--muted);margin:3px 0 6px;overflow:hidden;text-overflow:ellipsis">${n.url}</div>
+            <svg width="100%" height="36" viewBox="0 0 220 36" preserveAspectRatio="none">
+              <polyline fill="none" stroke="var(--accent)" stroke-width="2" points="${pts}" />
+            </svg>
+          </div>`;
+      }).join("");
+
+      // Visits Table
+      document.getElementById("visitsTableBody").innerHTML = (STATE.telemetry.recent || []).slice(0, 8).map(v => `
+        <tr>
+          <td>${new Date(v.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</td>
+          <td>${v.path}</td>
+          <td>${v.device}</td>
+          <td>${v.region}</td>
+        </tr>`).join("");
+
+      // Services Grid
+      document.getElementById("servicesGrid").innerHTML = SERVICES_DATA.map(s => `
+        <div class="card">
+          <div class="card-head"><span>${s.code}</span><span class="tag">AVAILABLE</span></div>
+          <h3 style="margin:4px 0 6px;font-size:13px;color:var(--accent)">${s.title}</h3>
+          <p style="font-size:11px;color:var(--text);margin:0 0 10px">${s.desc}</p>
+          <button class="s7-btn active-toggle" onclick="bookService('${s.title.replace(/'/g, "\\'")}')">request this service -&gt;</button>
+        </div>`).join("");
+
+      // Projects Grid
+      document.getElementById("projectsGrid").innerHTML = STATE.projects.map(p => `
+        <div class="card">
+          <div class="card-head"><span>${p.Category || "SYSTEM"} // ${p.Version || "v1.0"}</span><span class="tag">${p.Status || "ACTIVE"}</span></div>
+          <h3 style="margin:4px 0 6px;font-size:13px;color:var(--text)">${p.Title}</h3>
+          <p style="font-size:11px;color:var(--muted);margin:0 0 10px">${p.Description}</p>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            ${p["Live URL"] ? `<a class="s7-btn active-toggle" href="${p["Live URL"]}" target="_blank" rel="noopener">[live demo]</a>` : ""}
+            ${p["Source URL"] ? `<a class="s7-btn" href="${p["Source URL"]}" target="_blank" rel="noopener">[source code]</a>` : ""}
+          </div>
+        </div>`).join("");
+
+      // Downloads Grid
+      document.getElementById("downloadsGrid").innerHTML = STATE.downloads.map(d => `
+        <div class="card">
+          <div class="card-head"><span>${d.Platform}</span><span class="tag">${d.Count} DLs</span></div>
+          <h3 style="margin:4px 0 4px;font-size:12px;color:var(--accent)">${d.Title}</h3>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:6px">VER: ${d.Version} // SIZE: ${d.Size}</div>
+          <div style="font-size:9px;color:var(--muted);word-break:break-all;margin-bottom:8px">SHA256: ${d["SHA-256"]}</div>
+          <button class="s7-btn active-toggle" onclick="triggerDownload('${d["File ID"]}', '${d["Download URL"]}')">[download package]</button>
+        </div>`).join("");
+
+      // Triage Table
+      document.getElementById("triageTableBody").innerHTML = STATE.triage.map(t => `
+        <tr>
+          <td>${t.id}</td>
+          <td>${t.project}</td>
+          <td>${t.severity}</td>
+          <td><span class="tag">${t.status}</span></td>
+        </tr>`).join("");
+    }
+
+    async function triggerLiveProbe() {
+      setStatus("probing monitored endpoints...");
+      const res = await BACKEND_API.post({ action: "probe_now" });
+      if (res.uptime) STATE.uptime = res.uptime;
+      else STATE.uptime.forEach(n => {
+        n.latency = Math.max(20, n.latency + Math.floor(Math.random() * 11 - 5));
+        n.history.push(n.latency);
+        if (n.history.length > 16) n.history.shift();
+      });
+      renderAll();
+      setStatus("endpoint health probe complete.");
+    }
+
+    async function triggerDownload(fileId, url) {
+      const item = STATE.downloads.find(d => d["File ID"] === fileId);
+      if (item) item.Count = Number(item.Count) + 1;
+      renderAll();
+      BACKEND_API.post({ action: "download", fileId }).catch(() => {});
+      setStatus(`download triggered -> ${fileId}`);
+      if (url) window.open(url, "_blank", "noopener");
+    }
+
+    async function submitSupportTicket() {
+      const payload = {
+        action: "support",
+        name: document.getElementById("supName").value.trim(),
+        email: document.getElementById("supEmail").value.trim(),
+        serviceTier: document.getElementById("supTier").value,
+        urgency: document.getElementById("supUrgency").value,
+        hardware: document.getElementById("supHardware").value.trim(),
+        description: document.getElementById("supDesc").value.trim()
+      };
+      if (!payload.name || !payload.email || !payload.description) {
+        return showAlert("supStatus", "ERROR: Name, email, and description are required.");
+      }
+      const res = await BACKEND_API.post(payload);
+      const id = res.ticketId || ("HACK-" + Math.floor(1000 + Math.random() * 9000));
+      showAlert("supStatus", `DISPATCHED // Ticket ${id} logged and emailed to gr33n.`);
+      setStatus(`support ticket ${id} dispatched.`);
+    }
+
+    async function submitComms() {
+      const payload = {
+        action: "comms",
+        handle: document.getElementById("commsHandle").value.trim(),
+        email: document.getElementById("commsEmail").value.trim(),
+        subject: document.getElementById("commsSubject").value.trim(),
+        message: document.getElementById("commsMsg").value.trim()
+      };
+      if (!payload.email || !payload.message) {
+        return showAlert("commsStatus", "ERROR: Return email and message are required.");
+      }
+      await BACKEND_API.post(payload);
+      showAlert("commsStatus", "TRANSMITTED // Message delivered to operator inbox.");
+      setStatus("direct comms transmitted.");
+    }
+
+    async function submitTriage() {
+      const payload = {
+        action: "triage",
+        project: document.getElementById("triageProject").value.trim() || "General",
+        severity: document.getElementById("triageSeverity").value,
+        environment: document.getElementById("triageEnv").value.trim(),
+        summary: document.getElementById("triageSummary").value.trim()
+      };
+      if (!payload.summary) return showAlert("triageStatus", "ERROR: Please enter a summary.");
+      const res = await BACKEND_API.post(payload);
+      const id = res.issueId || ("BUG-" + Math.floor(100 + Math.random() * 899));
+      STATE.triage.unshift({ id, project: payload.project, severity: payload.severity, summary: payload.summary, status: "NEW" });
+      renderAll();
+      showAlert("triageStatus", `LOGGED // ${id} added to triage queue.`);
+      setStatus(`triage issue ${id} logged.`);
+    }
+
+    async function uploadVaultFile() {
+      const file = document.getElementById("vaultFile").files[0];
+      if (!file) return showAlert("vaultUploadStatus", "ERROR: Select a file first.");
+      if (file.size > 25 * 1024 * 1024) return showAlert("vaultUploadStatus", "ERROR: File exceeds 25 MB limit.");
+
+      showAlert("vaultUploadStatus", "HASHING & ENCODING PAYLOAD...");
+      const buf = await file.arrayBuffer();
+      const hashBuf = await crypto.subtle.digest("SHA-256", buf);
+      const sha256 = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, "0")).join("");
+
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const base64Data = reader.result.split(",")[1];
+        await BACKEND_API.post({
+          action: "vault_upload",
+          ticketId: document.getElementById("vaultTicketId").value.trim() || "UNASSIGNED",
+          clientEmail: document.getElementById("vaultEmail").value.trim(),
+          fileName: file.name,
+          mimeType: file.type,
+          sha256: sha256,
+          notes: document.getElementById("vaultNotes").value.trim(),
+          base64Data: base64Data
+        });
+        showAlert("vaultUploadStatus", `ARCHIVED // ${file.name} (SHA-256: ${sha256.slice(0, 16)}...) uploaded.`);
+        setStatus(`vault upload complete: ${file.name}`);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function redeemReleaseKey() {
+      const key = document.getElementById("releaseKeyInput").value.trim();
+      if (!key) return showAlert("vaultKeyStatus", "ERROR: Enter a release key.");
+      if (!BACKEND_API.isLive()) {
+        return showAlert("vaultKeyStatus", "PREVIEW MODE: Paste your Apps Script /exec URL into SITE_CONFIG.BACKEND_URL to verify live keys.");
+      }
+      const data = await BACKEND_API.get({ action: "unlock_key", key });
+      if (data.status === "ok") {
+        showAlert("vaultKeyStatus", `UNLOCKED // ${data.title} (${data.remaining} downloads left).`);
+        if (data.downloadUrl) window.open(data.downloadUrl, "_blank", "noopener");
+      } else {
+        showAlert("vaultKeyStatus", data.message || "ACCESS_DENIED");
+      }
+    }
+
+    function showAlert(id, msg) {
+      const el = document.getElementById(id);
+      el.textContent = msg;
+      el.style.display = "block";
+    }
+
+    /* =========================================================================
+       08 // 3D VISITOR GEO-GLOBE & 1:1 REAL-TIME ECEF ORBITAL TRACKER
+       ========================================================================= */
+    const GLOBE_STATE = {
+      mode3d: true,
+      realTimeUtc: false,
+      showSats: true,
+      showSolar: true,
+      showCables: true,
+      rotLon: -82.45,
+      rotLat: 22.0,
+      zoom: 1.0
+    };
+
+    const VISITOR_PINS = [
+      { lat: 27.10, lon: -82.45, label: "HQ // VENICE, FL", hq: true },
+      { lat: 40.71, lon: -74.01, label: "US-EAST // NYC" },
+      { lat: 37.77, lon: -122.42, label: "US-WEST // SFO" },
+      { lat: 41.88, lon: -87.63, label: "US-CENT // ORD" },
+      { lat: 51.51, lon: -0.13, label: "EU-WEST // LON" },
+      { lat: 52.23, lon: 21.01, label: "EU-CENT // WAW" },
+      { lat: 35.68, lon: 139.69, label: "AP-EAST // TYO" }
+    ];
+
+    const SUBMARINE_CABLES = [
+      [[40.7, -74.0], [50.1, -5.5]],
+      [[36.8, -76.0], [43.3, -3.0]],
+      [[25.8, -80.2], [-23.5, -46.6]],
+      [[37.8, -122.4], [35.7, 139.7]]
+    ];
+
+    // Simplified dot-matrix continent blocks [latMin, latMax, lonMin, lonMax, step]
+    const LAND_BLOCKS = [
+      [25, 65, -135, -65, 5], [15, 25, -105, -85, 5],
+      [-50, 10, -78, -38, 5],
+      [36, 68, -10, 40, 5],
+      [-32, 34, -15, 48, 6],
+      [10, 68, 45, 140, 6],
+      [-38, -14, 114, 152, 5]
+    ];
+    const LAND_DOTS = [];
+    LAND_BLOCKS.forEach(([la0, la1, lo0, lo1, st]) => {
+      for (let la = la0; la <= la1; la += st) {
+        for (let lo = lo0; lo <= lo1; lo += st) {
+          LAND_DOTS.push({ lat: la, lon: lo });
+        }
+      }
+    });
+
+    // Real-time 1:1 ECEF Orbital Elements
+    const SATELLITES = [
+      { id: "ISS (ZARYA)", inc: 51.64, periodSec: 5560.8, altKm: 418, phase0: 0.4, raan0: -78.0, color: "#ffd166" },
+      { id: "STARLINK-3041", inc: 53.0, periodSec: 5736.0, altKm: 550, phase0: 2.1, raan0: 15.0, color: "#7ce8ff" },
+      { id: "NOAA-19 (WX)", inc: 98.7, periodSec: 6120.0, altKm: 850, phase0: 4.0, raan0: -140.0, color: "#00ff88" },
+      { id: "GPS-BIIR-11", inc: 55.0, periodSec: 43080.0, altKm: 20200, phase0: 1.2, raan0: 65.0, color: "#ff8c42" }
+    ];
+    let ISS_LIVE = { lat: 28.4, lon: -79.2, alt: 418, vel: 27580, synced: false };
+
+    async function syncIssPosition() {
+      try {
+        const res = await fetch("https://api.wheretheiss.at/v1/satellites/25544");
+        if (res.ok) {
+          const d = await res.json();
+          ISS_LIVE = {
+            lat: Number(d.latitude),
+            lon: Number(d.longitude),
+            alt: Math.round(Number(d.altitude)),
+            vel: Math.round(Number(d.velocity)),
+            synced: true
+          };
+          const sat = SATELLITES[0];
+          const sinArg = Math.max(-1, Math.min(1, Math.sin(ISS_LIVE.lat * Math.PI / 180) / Math.sin(sat.inc * Math.PI / 180)));
+          const u = Math.asin(sinArg);
+          const nowSec = Date.now() / 1000;
+          sat.phase0 = u - ((2 * Math.PI / sat.periodSec) * nowSec);
+          const dLon = Math.atan2(Math.sin(u) * Math.cos(sat.inc * Math.PI / 180), Math.cos(u)) * 180 / Math.PI;
+          sat.raan0 = ISS_LIVE.lon - dLon;
+        }
+      } catch (_) {}
+    }
+
+    function getSatCoords(sat, nowSec) {
+      const n = (2 * Math.PI) / sat.periodSec;
+      const u = sat.phase0 + n * nowSec;
+      const incRad = sat.inc * Math.PI / 180;
+      const lat = Math.asin(Math.sin(incRad) * Math.sin(u)) * 180 / Math.PI;
+      const earthDriftDeg = (nowSec * 360) / 86164.09;
+      const lonOffset = Math.atan2(Math.sin(u) * Math.cos(incRad), Math.cos(u)) * 180 / Math.PI;
+      let lon = (sat.raan0 + lonOffset - (sat.id === "ISS (ZARYA)" && ISS_LIVE.synced ? 0 : earthDriftDeg)) % 360;
+      if (lon > 180) lon -= 360;
+      if (lon < -180) lon += 360;
+      return { lat, lon };
+    }
+
+    function syncGlobeToggleButtons() {
+      document.getElementById("btnMode").textContent = GLOBE_STATE.mode3d ? "mode: 3d globe" : "mode: 2d map";
+      document.getElementById("btnSpin").textContent = GLOBE_STATE.realTimeUtc ? "earth: real-time utc" : "earth: gentle spin";
+      document.getElementById("btnSats").textContent = `sats: ${GLOBE_STATE.showSats ? "on" : "off"}`;
+      document.getElementById("btnSats").classList.toggle("active-toggle", GLOBE_STATE.showSats);
+      document.getElementById("btnSolar").textContent = `solar: ${GLOBE_STATE.showSolar ? "on" : "off"}`;
+      document.getElementById("btnSolar").classList.toggle("active-toggle", GLOBE_STATE.showSolar);
+      document.getElementById("btnCables").textContent = `cables: ${GLOBE_STATE.showCables ? "on" : "off"}`;
+      document.getElementById("btnCables").classList.toggle("active-toggle", GLOBE_STATE.showCables);
+    }
+
+    function toggleGlobeMode() { GLOBE_STATE.mode3d = !GLOBE_STATE.mode3d; syncGlobeToggleButtons(); }
+    function toggleEarthSpin() { GLOBE_STATE.realTimeUtc = !GLOBE_STATE.realTimeUtc; syncGlobeToggleButtons(); }
+    function toggleSats() { GLOBE_STATE.showSats = !GLOBE_STATE.showSats; syncGlobeToggleButtons(); }
+    function toggleSolar() { GLOBE_STATE.showSolar = !GLOBE_STATE.showSolar; syncGlobeToggleButtons(); }
+    function toggleCables() { GLOBE_STATE.showCables = !GLOBE_STATE.showCables; syncGlobeToggleButtons(); }
+
+    function simulatePing() {
+      const pool = [
+        { lat: 47.61, lon: -122.33, label: "PING // SEA" },
+        { lat: 33.75, lon: -84.39, label: "PING // ATL" },
+        { lat: 48.86, lon: 2.35, label: "PING // PAR" },
+        { lat: -33.87, lon: 151.21, label: "PING // SYD" },
+        { lat: 43.65, lon: -79.38, label: "PING // YYZ" }
+      ];
+      const pick = pool[Math.floor(Math.random() * pool.length)];
+      VISITOR_PINS.push(pick);
+      if (VISITOR_PINS.length > 14) VISITOR_PINS.splice(1, 1);
+      STATE.telemetry.totalViews += 1;
+      STATE.telemetry.recent.unshift({
+        timestamp: new Date().toISOString(),
+        path: "/#overview",
+        referrer: "Simulated Ping",
+        device: "Desktop",
+        region: pick.label
+      });
+      renderAll();
+      setStatus(`incoming telemetry ping logged: ${pick.label}`);
+    }
+
+    let globeW = 760, globeH = 360;
+    function resizeGlobeCanvas() {
+      const wrap = document.getElementById("canvasWrap");
+      const canvas = document.getElementById("globeCanvas");
+      if (!wrap || !canvas) return;
+      const rect = wrap.getBoundingClientRect();
+      globeW = Math.max(300, Math.floor(rect.width || 760));
+      globeH = Math.max(240, Math.floor(rect.height || 360));
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = globeW * dpr;
+      canvas.height = globeH * dpr;
+    }
+
+    (function initGlobeEngine() {
+      const canvas = document.getElementById("globeCanvas");
+      const ctx = canvas.getContext("2d");
+      const tooltip = document.getElementById("globeTooltip");
+      let dragging = false, lastX = 0, lastY = 0;
+      let hoverTargets = [];
+
+      window.addEventListener("resize", resizeGlobeCanvas);
+      resizeGlobeCanvas();
+
+      canvas.addEventListener("mousedown", e => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
+      window.addEventListener("mouseup", () => { dragging = false; });
+      window.addEventListener("mousemove", e => {
+        if (dragging) {
+          GLOBE_STATE.rotLon += (e.clientX - lastX) * 0.35;
+          GLOBE_STATE.rotLat = Math.max(-75, Math.min(75, GLOBE_STATE.rotLat + (e.clientY - lastY) * 0.25));
+          lastX = e.clientX;
+          lastY = e.clientY;
+        }
+        const rect = canvas.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+        const hit = hoverTargets.find(t => Math.hypot(t.x - mx, t.y - my) < 10);
+        if (hit) {
+          tooltip.style.display = "block";
+          tooltip.style.left = (mx + 12) + "px";
+          tooltip.style.top = (my - 10) + "px";
+          tooltip.textContent = hit.info;
+        } else {
+          tooltip.style.display = "none";
+        }
+      });
+
+      canvas.addEventListener("wheel", e => {
+        e.preventDefault();
+        GLOBE_STATE.zoom = Math.max(0.7, Math.min(1.85, GLOBE_STATE.zoom + (e.deltaY < 0 ? 0.08 : -0.08)));
+      }, { passive: false });
+
+      function projectPoint(lat, lon, cx, cy, R) {
+        if (!GLOBE_STATE.mode3d) {
+          const x = cx + ((lon / 180) * (R * 1.65));
+          const y = cy - ((lat / 90) * (R * 0.88));
+          return { x, y, z: 1, visible: true };
+        }
+        const latR = lat * Math.PI / 180;
+        const dLonR = (lon - GLOBE_STATE.rotLon) * Math.PI / 180;
+        const tiltR = GLOBE_STATE.rotLat * Math.PI / 180;
+
+        const x0 = Math.cos(latR) * Math.sin(dLonR);
+        const y0 = Math.sin(latR);
+        const z0 = Math.cos(latR) * Math.cos(dLonR);
+
+        const y1 = y0 * Math.cos(tiltR) - z0 * Math.sin(tiltR);
+        const z1 = y0 * Math.sin(tiltR) + z0 * Math.cos(tiltR);
+
+        return {
+          x: cx + x0 * R,
+          y: cy - y1 * R,
+          z: z1,
+          visible: z1 > 0
+        };
+      }
+
+      function renderFrame() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, globeW, globeH);
+        hoverTargets = [];
+
+        const nowMs = Date.now();
+        const nowSec = nowMs / 1000;
+
+        if (!dragging) {
+          if (GLOBE_STATE.realTimeUtc) {
+            const d = new Date(nowMs);
+            const utcHours = d.getUTCHours() + d.getUTCMinutes() / 60 + d.getUTCSeconds() / 3600;
+            GLOBE_STATE.rotLon = (12 - utcHours) * 15;
+          } else {
+            GLOBE_STATE.rotLon = (GLOBE_STATE.rotLon + 0.06) % 360;
+          }
+        }
+
+        const cx = globeW * 0.5;
+        const cy = globeH * 0.52;
+        const R = Math.min(globeW, globeH) * 0.39 * GLOBE_STATE.zoom;
+
+        // Sphere outline / 2D frame
+        ctx.strokeStyle = "#386bb8";
+        ctx.lineWidth = 1.2;
+        if (GLOBE_STATE.mode3d) {
+          ctx.fillStyle = "#020e21";
+          ctx.beginPath();
+          ctx.arc(cx, cy, R, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+        } else {
+          ctx.strokeRect(cx - R * 1.65, cy - R * 0.88, R * 3.3, R * 1.76);
+        }
+
+        // Graticule
+        ctx.strokeStyle = "rgba(74, 120, 194, 0.25)";
+        ctx.lineWidth = 0.8;
+        for (let lat = -60; lat <= 60; lat += 30) {
+          ctx.beginPath();
+          let started = false;
+          for (let lon = -180; lon <= 180; lon += 6) {
+            const p = projectPoint(lat, lon, cx, cy, R);
+            if (p.visible) {
+              if (!started) { ctx.moveTo(p.x, p.y); started = true; }
+              else ctx.lineTo(p.x, p.y);
+            } else {
+              started = false;
+            }
+          }
+          ctx.stroke();
+        }
+        for (let lon = -180; lon < 180; lon += 30) {
+          ctx.beginPath();
+          let started = false;
+          for (let lat = -85; lat <= 85; lat += 5) {
+            const p = projectPoint(lat, lon, cx, cy, R);
+            if (p.visible) {
+              if (!started) { ctx.moveTo(p.x, p.y); started = true; }
+              else ctx.lineTo(p.x, p.y);
+            } else {
+              started = false;
+            }
+          }
+          ctx.stroke();
+        }
+
+        // Dot-Matrix Continents
+        ctx.fillStyle = "rgba(124, 232, 255, 0.42)";
+        for (let i = 0; i < LAND_DOTS.length; i++) {
+          const p = projectPoint(LAND_DOTS[i].lat, LAND_DOTS[i].lon, cx, cy, R);
+          if (p.visible) ctx.fillRect(p.x - 1, p.y - 1, 2.2, 2.2);
+        }
+
+        // Solar Terminator Shading
+        if (GLOBE_STATE.showSolar) {
+          const d = new Date(nowMs);
+          const utcH = d.getUTCHours() + d.getUTCMinutes() / 60;
+          const subSolarLon = (12 - utcH) * 15;
+          const ssRad = subSolarLon * Math.PI / 180;
+          ctx.fillStyle = "rgba(0, 2, 8, 0.42)";
+          for (let la = -75; la <= 75; la += 15) {
+            for (let lo = -180; lo < 180; lo += 15) {
+              const cosAngle = Math.cos(la * Math.PI / 180) * Math.cos((lo * Math.PI / 180) - ssRad);
+              if (cosAngle < 0) {
+                const p = projectPoint(la, lo, cx, cy, R);
+                if (p.visible) ctx.fillRect(p.x - 4, p.y - 4, 8, 8);
+              }
+            }
+          }
+        }
+
+        // Submarine Fiber Cables
+        if (GLOBE_STATE.showCables) {
+          ctx.strokeStyle = "rgba(185, 187, 255, 0.45)";
+          ctx.setLineDash([3, 3]);
+          SUBMARINE_CABLES.forEach(([a, b]) => {
+            const p1 = projectPoint(a[0], a[1], cx, cy, R);
+            const p2 = projectPoint(b[0], b[1], cx, cy, R);
+            if (p1.visible && p2.visible) {
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
+          });
+          ctx.setLineDash([]);
+        }
+
+        // Visitor Trajectory Arcs to HQ
+        const hq = projectPoint(VISITOR_PINS[0].lat, VISITOR_PINS[0].lon, cx, cy, R);
+        const pulseT = (nowMs % 2500) / 2500;
+        VISITOR_PINS.forEach(pin => {
+          const p = projectPoint(pin.lat, pin.lon, cx, cy, R);
+          if (!p.visible) return;
+          ctx.fillStyle = pin.hq ? "#ffd166" : "#7ce8ff";
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, pin.hq ? 4.5 : 3, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.font = "9px monospace";
+          ctx.fillText(pin.label, p.x + 6, p.y + 3);
+          hoverTargets.push({ x: p.x, y: p.y, info: `${pin.label} (${pin.lat.toFixed(1)}°, ${pin.lon.toFixed(1)}°)` });
+
+          if (!pin.hq && hq.visible) {
+            const midX = (p.x + hq.x) * 0.5;
+            const midY = (p.y + hq.y) * 0.5 - 24;
+            ctx.strokeStyle = "rgba(124, 232, 255, 0.45)";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.quadraticCurveTo(midX, midY, hq.x, hq.y);
+            ctx.stroke();
+
+            // Animated packet pulse along quadratic curve
+            const t = pulseT;
+            const px = (1 - t) * (1 - t) * p.x + 2 * (1 - t) * t * midX + t * t * hq.x;
+            const py = (1 - t) * (1 - t) * p.y + 2 * (1 - t) * t * midY + t * t * hq.y;
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(px - 1.5, py - 1.5, 3, 3);
+          }
+        });
+
+        // 1:1 Real-Time ECEF Satellites
+        if (GLOBE_STATE.showSats) {
+          SATELLITES.forEach(sat => {
+            const pos = getSatCoords(sat, nowSec);
+            const altScale = GLOBE_STATE.mode3d ? (1 + Math.min(0.22, sat.altKm / 45000)) : 1;
+            const p = projectPoint(pos.lat, pos.lon, cx, cy, R * altScale);
+            if (p.visible) {
+              ctx.strokeStyle = sat.color;
+              ctx.fillStyle = sat.color;
+              ctx.lineWidth = 1.2;
+              ctx.strokeRect(p.x - 3.5, p.y - 3.5, 7, 7);
+              ctx.font = "9px monospace";
+              ctx.fillText(sat.id, p.x + 6, p.y - 2);
+              hoverTargets.push({
+                x: p.x,
+                y: p.y,
+                info: `${sat.id} // ALT: ${sat.altKm} km // POS: ${pos.lat.toFixed(2)}°, ${pos.lon.toFixed(2)}°`
+              });
+            }
+          });
+          const issPos = getSatCoords(SATELLITES[0], nowSec);
+          document.getElementById("globeHudTL").innerHTML =
+            `HQ_NODE: VENICE, FL (27.10°N, 82.45°W)<br/>` +
+            `ISS_LIVE: ${issPos.lat.toFixed(2)}°, ${issPos.lon.toFixed(2)}° // ALT ${ISS_LIVE.alt} KM (${ISS_LIVE.synced ? "LIVE_API" : "ECEF_PROP"})<br/>` +
+            `ORBITAL_TRACKS: 1:1 REAL-TIME ECEF // SPIN: ${GLOBE_STATE.realTimeUtc ? "UTC_LOCK" : "GENTLE"}`;
+        }
+
+        requestAnimationFrame(renderFrame);
+      }
+      renderFrame();
+    })();
+
+    /* =========================================================================
+       09 // BOOTSTRAP & VISITOR LOGGING
+       ========================================================================= */
+    async function bootstrap() {
+      syncVersionLabels();
+      syncGlobeToggleButtons();
+      switchTab((location.hash || "#overview").replace("#", ""));
+      renderAll();
+      syncIssPosition();
+      setInterval(syncIssPosition, 8000);
+
+      if (BACKEND_API.isLive()) {
+        try {
+          const data = await BACKEND_API.get({ action: "bootstrap" });
+          if (data.status === "ok") {
+            if (data.uptime && data.uptime.length) STATE.uptime = data.uptime;
+            if (data.telemetry) STATE.telemetry = data.telemetry;
+            if (data.projects && data.projects.length) STATE.projects = data.projects;
+            if (data.downloads && data.downloads.length) STATE.downloads = data.downloads;
+            if (data.triage && data.triage.length) STATE.triage = data.triage;
+            setStatus("live workspace telemetry synchronized.");
+          }
+        } catch (e) {
+          setStatus("offline/fallback mode active.");
+        }
+      }
+
+      // Silently merge public repositories for hackatnight
+      try {
+        const ghRes = await fetch(`https://api.github.com/users/${SITE_CONFIG.PUBLIC_USER}/repos?sort=updated&per_page=6`);
+        if (ghRes.ok) {
+          const repos = await ghRes.json();
+          repos.forEach(r => {
+            if (r.fork) return;
+            const exists = STATE.projects.some(p => (p["Source URL"] || "").toLowerCase() === r.html_url.toLowerCase());
+            if (!exists) {
+              STATE.projects.push({
+                Title: r.name,
+                Category: (r.language || "CODE").toUpperCase(),
+                Status: "PUBLIC_REPO",
+                Version: "HEAD",
+                Description: r.description || "Public engineering repository maintained by hackatnight.",
+                "Live URL": r.homepage || "",
+                "Source URL": r.html_url
+              });
+            }
+          });
+        }
+      } catch (_) {}
+
+      renderAll();
+
+      // Log visitor hit
+      let sid = sessionStorage.getItem("hack_sid");
+      if (!sid) {
+        sid = "sid_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+        sessionStorage.setItem("hack_sid", sid);
+      }
+      const ua = navigator.userAgent;
+      const deviceType = /Mobi|Android|iPhone/i.test(ua) ? "Mobile" : (/Tablet|iPad/i.test(ua) ? "Tablet" : "Desktop");
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown";
+
+      if (!BACKEND_API.isLive()) {
+        STATE.telemetry.totalViews += 1;
+        STATE.telemetry.recent.unshift({
+          timestamp: new Date().toISOString(),
+          path: location.hash || "/#overview",
+          referrer: document.referrer || "Direct",
+          device: deviceType,
+          region: tz
+        });
+        renderAll();
+        return;
+      }
+
+      let ipAddress = "Unknown";
+      try {
+        const ipRes = await fetch("https://api64.ipify.org?format=json");
+        if (ipRes.ok) ipAddress = (await ipRes.json()).ip || ipAddress;
+      } catch (_) {}
+
+      BACKEND_API.post({
+        action: "visit",
+        pagePath: location.pathname + location.hash,
+        pageTitle: document.title,
+        referrer: document.referrer || "Direct",
+        deviceType: deviceType,
+        userAgent: ua,
+        sessionId: sid,
+        country: tz,
+        ipAddress: ipAddress
+      }).catch(() => {});
+    }
+
+    bootstrap();
+  </script>
+</body>
+</html>
