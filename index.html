@@ -633,7 +633,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.3.0]</span>
+        <span id="titleVersionBadge">[v.2.4.0]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -676,7 +676,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> VENICE, FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.3.0</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.4.0</span></div>
         </div>
       </aside>
 
@@ -952,7 +952,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.3.0]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.4.0]</div>
     </div>
   </div>
 
@@ -979,7 +979,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.3.0",
+      APP_VERSION: "v.2.4.0",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
@@ -1227,6 +1227,70 @@
     }
 
     /* =========================================================================
+       06B // DEVICE ICON & WINDOWS-SAFE COUNTRY FLAG RENDERER
+       ========================================================================= */
+    function formatDeviceBadge(devRaw) {
+      const clean = String(devRaw || "Desktop").replace(/[💻📱📟🖥️]/g, "").trim();
+      if (/mobile|phone|android|iphone/i.test(clean)) return `📱 ${clean}`;
+      if (/tablet|ipad/i.test(clean)) return `📟 ${clean}`;
+      return `💻 ${clean || "Desktop"}`;
+    }
+
+    function resolveCountryCode(regionStr) {
+      const s = String(regionStr || "");
+      // 1. Check if a Unicode Regional Indicator flag emoji is already present
+      const match = s.match(/[\uD83C][\uDDE6-\uDDFF][\uD83C][\uDDE6-\uDDFF]/);
+      if (match) {
+        const cp1 = match[0].codePointAt(0) - 0x1F1E6 + 65;
+        const cp2 = match[0].codePointAt(2) - 0x1F1E6 + 65;
+        return String.fromCharCode(cp1, cp2).toLowerCase();
+      }
+      // 2. Map common IANA Timezones / Regions to ISO-3166 alpha-2 codes
+      const l = s.toLowerCase();
+      if (l.includes("port-au-prince")) return "ht";
+      if (l.includes("new_york") || l.includes("chicago") || l.includes("los_angeles") || l.includes("denver") || l.includes("phoenix") || l.includes("detroit") || l.includes("america/")) {
+        if (l.includes("toronto") || l.includes("vancouver") || l.includes("halifax") || l.includes("winnipeg")) return "ca";
+        if (l.includes("sao_paulo")) return "br";
+        if (l.includes("mexico")) return "mx";
+        if (l.includes("buenos_aires")) return "ar";
+        if (l.includes("bogota")) return "co";
+        if (l.includes("lima")) return "pe";
+        return "us";
+      }
+      if (l.includes("warsaw")) return "pl";
+      if (l.includes("london")) return "gb";
+      if (l.includes("berlin")) return "de";
+      if (l.includes("paris")) return "fr";
+      if (l.includes("madrid")) return "es";
+      if (l.includes("rome")) return "it";
+      if (l.includes("amsterdam")) return "nl";
+      if (l.includes("zurich")) return "ch";
+      if (l.includes("stockholm")) return "se";
+      if (l.includes("kyiv") || l.includes("kiev")) return "ua";
+      if (l.includes("tokyo")) return "jp";
+      if (l.includes("seoul")) return "kr";
+      if (l.includes("shanghai") || l.includes("hong_kong")) return "cn";
+      if (l.includes("taipei")) return "tw";
+      if (l.includes("singapore")) return "sg";
+      if (l.includes("sydney") || l.includes("melbourne")) return "au";
+      if (l.includes("auckland")) return "nz";
+      if (l.includes("kolkata") || l.includes("calcutta")) return "in";
+      return "";
+    }
+
+    function formatRegionBadge(regionRaw) {
+      const clean = String(regionRaw || "Unknown")
+        .replace(/[\uD83C][\uDDE6-\uDDFF][\uD83C][\uDDE6-\uDDFF]/g, "")
+        .replace(/^[🌐]\s*/, "")
+        .trim();
+      const iso = resolveCountryCode(regionRaw);
+      if (iso) {
+        return `<span style="display:inline-flex;align-items:center;gap:5px"><img src="https://flagcdn.com/16x12/${iso}.png" width="16" height="12" alt="${iso.toUpperCase()}" style="vertical-align:middle;border:1px solid rgba(255,255,255,0.25);border-radius:1px" /><span>${clean}</span></span>`;
+      }
+      return `🌐 ${clean}`;
+    }
+
+    /* =========================================================================
        07 // UI RENDERERS & INTERACTIVE WORKSPACE ACTIONS
        ========================================================================= */
     function renderAll() {
@@ -1263,8 +1327,8 @@
         <tr>
           <td>${new Date(v.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</td>
           <td>${v.path}</td>
-          <td>${v.device}</td>
-          <td>${v.region}</td>
+          <td>${formatDeviceBadge(v.device)}</td>
+          <td>${formatRegionBadge(v.region)}</td>
         </tr>`).join("");
 
       // Services Grid
@@ -1822,13 +1886,67 @@
        08B // GLOBAL UPSTREAM & OUTAGE TELEMETRY (outages.json + LIVE FALLBACK)
        ========================================================================= */
     const UPSTREAM_STATUS_TARGETS = [
-      { id: "NODE-GH", name: "GitHub Pages / API", apiUrl: "https://www.githubstatus.com/api/v2/status.json" },
-      { id: "NODE-CF", name: "Cloudflare Edge", apiUrl: "https://www.cloudflarestatus.com/api/v2/status.json" },
-      { id: "NODE-DC", name: "Discord Infra", apiUrl: "https://discordstatus.com/api/v2/status.json" },
-      { id: "NODE-OA", name: "OpenAI API", apiUrl: "https://status.openai.com/api/v2/status.json" },
-      { id: "NODE-DO", name: "DigitalOcean", apiUrl: "https://status.digitalocean.com/api/v2/status.json" },
-      { id: "NODE-npm", name: "npm Registry", apiUrl: "https://status.npmjs.org/api/v2/status.json" }
+      // Group 1: Florida & National ISPs (Top Priority)
+      { id: "NODE-FRNT",    name: "📡 Frontier Fiber (FL ISP)",     type: "http",       apiUrl: "https://frontier.com/helpcenter/categories/internet/troubleshooting/service-status" },
+      { id: "NODE-XFIN",    name: "📡 Comcast / Xfinity (FL ISP)",  type: "http",       apiUrl: "https://www.xfinity.com/support/status" },
+      { id: "NODE-SPEC",    name: "📡 Spectrum / Charter (FL ISP)", type: "http",       apiUrl: "https://www.spectrum.net/support/internet/outage" },
+      { id: "NODE-ATT",     name: "📡 AT&T Fiber (FL ISP)",         type: "http",       apiUrl: "https://www.att.com/outages/" },
+      { id: "NODE-TMO",     name: "📶 T-Mobile 5G Home ISP",        type: "http",       apiUrl: "https://www.t-mobile.com/support/coverage" },
+      { id: "NODE-VZ",      name: "📡 Verizon 5G / Fios ISP",       type: "http",       apiUrl: "https://www.verizon.com/support/check-network-status/" },
+      { id: "NODE-CTL",     name: "📡 CenturyLink / Quantum (FL)",  type: "http",       apiUrl: "https://www.centurylink.com/home/help/internet/outages.html" },
+      { id: "NODE-HTW",     name: "📡 Hotwire Fision (FL Fiber)",   type: "http",       apiUrl: "https://gethotwired.com" },
+      { id: "NODE-STLK",    name: "🛰️ Starlink Satellite ISP",      type: "http",       apiUrl: "https://www.starlink.com" },
+      // Group 2: Common Enterprise, Email & Cloud Infrastructure
+      { id: "NODE-MS365",   name: "🟦 Microsoft 365 / Azure",       type: "http",       apiUrl: "https://status.cloud.microsoft" },
+      { id: "NODE-OUTLOOK", name: "📧 Microsoft Outlook",           type: "http",       apiUrl: "https://portal.office.com/servicestatus" },
+      { id: "NODE-EXCH",    name: "🔄 MS Exchange Online",          type: "http",       apiUrl: "https://outlook.office365.com/owa/healthcheck.htm" },
+      { id: "NODE-GWS",     name: "🌐 Google Workspace",            type: "google",     apiUrl: "https://www.google.com/appsstatus/dashboard/incidents.json" },
+      { id: "NODE-AWS",     name: "🟧 Amazon Web Services",         type: "http",       apiUrl: "https://health.aws.amazon.com/health/status" },
+      { id: "NODE-CF",      name: "☁️ Cloudflare Edge",             type: "statuspage", apiUrl: "https://www.cloudflarestatus.com/api/v2/status.json" },
+      { id: "NODE-META",    name: "📘 Facebook / Meta",             type: "meta",       apiUrl: "https://metastatus.com/data/orgs.json" },
+      { id: "NODE-OA",      name: "🧠 OpenAI API",                  type: "statuspage", apiUrl: "https://status.openai.com/api/v2/status.json" },
+      { id: "NODE-SLK",     name: "💼 Slack",                       type: "slack",      apiUrl: "https://status.slack.com/api/v2.0.0/current" },
+      { id: "NODE-ZM",      name: "📹 Zoom",                        type: "statuspage", apiUrl: "https://status.zoom.us/api/v2/status.json" },
+      // Group 3: Developer, Social & Internal Nodes (Bottom)
+      { id: "NODE-GH",      name: "🐙 GitHub Pages / API",          type: "statuspage", apiUrl: "https://www.githubstatus.com/api/v2/status.json" },
+      { id: "NODE-DC",      name: "💬 Discord Infra",               type: "statuspage", apiUrl: "https://discordstatus.com/api/v2/status.json" },
+      { id: "NODE-RD",      name: "👽 Reddit",                      type: "statuspage", apiUrl: "https://www.redditstatus.com/api/v2/status.json" },
+      { id: "NODE-DO",      name: "🌊 DigitalOcean",                type: "statuspage", apiUrl: "https://status.digitalocean.com/api/v2/status.json" },
+      { id: "NODE-01",      name: "🛡️ HACKATNIGHT_CORE",            type: "http",       apiUrl: "https://hackatnight.com" }
     ];
+
+    function resolveBrandDomain(svc) {
+      if (svc.domain) return svc.domain;
+      const n = String(svc.name || "").toLowerCase();
+      if (n.includes("frontier")) return "frontier.com";
+      if (n.includes("xfinity") || n.includes("comcast")) return "xfinity.com";
+      if (n.includes("spectrum") || n.includes("charter")) return "spectrum.net";
+      if (n.includes("at&t") || n.includes("att")) return "att.com";
+      if (n.includes("t-mobile") || n.includes("tmobile")) return "t-mobile.com";
+      if (n.includes("verizon") || n.includes("fios")) return "verizon.com";
+      if (n.includes("centurylink") || n.includes("quantum")) return "centurylink.com";
+      if (n.includes("hotwire") || n.includes("fision")) return "gethotwired.com";
+      if (n.includes("starlink")) return "starlink.com";
+      if (n.includes("outlook")) return "outlook.live.com";
+      if (n.includes("exchange")) return "office.com";
+      if (n.includes("microsoft") || n.includes("azure")) return "microsoft.com";
+      if (n.includes("google")) return "google.com";
+      if (n.includes("amazon") || n.includes("aws")) return "aws.amazon.com";
+      if (n.includes("cloudflare")) return "cloudflare.com";
+      if (n.includes("facebook") || n.includes("meta")) return "facebook.com";
+      if (n.includes("openai")) return "openai.com";
+      if (n.includes("slack")) return "slack.com";
+      if (n.includes("zoom")) return "zoom.us";
+      if (n.includes("github")) return "github.com";
+      if (n.includes("discord")) return "discord.com";
+      if (n.includes("reddit")) return "reddit.com";
+      if (n.includes("digitalocean")) return "digitalocean.com";
+      try {
+        return new URL(svc.url || svc.apiUrl || "https://hackatnight.com").hostname;
+      } catch (_) {
+        return "hackatnight.com";
+      }
+    }
 
     function renderOutageCards(services, summaryText) {
       const grid = document.getElementById("outageTelemetryGrid");
@@ -1838,10 +1956,15 @@
       grid.innerHTML = services.map(svc => {
         const isOnline = svc.state === "ONLINE";
         const tagClass = isOnline ? "tag" : "tag tag-danger";
+        const domain = resolveBrandDomain(svc);
+        const iconUrl = `https://www.google.com/s2/favicons?sz=32&domain=${encodeURIComponent(domain)}`;
         return `
           <div class="card">
             <div class="card-head">
-              <span>${svc.name}</span>
+              <span style="display:inline-flex;align-items:center;gap:6px">
+                <img src="${iconUrl}" width="14" height="14" alt="" style="vertical-align:middle;border-radius:2px" />
+                <span>${svc.name}</span>
+              </span>
               <span class="${tagClass}">${svc.state}</span>
             </div>
             <div style="font-size:13px;font-weight:700;color:${isOnline ? 'var(--accent)' : 'var(--warn)'}">
@@ -1859,8 +1982,26 @@
       const badge = document.getElementById("outageSummaryBadge");
       if (badge) badge.textContent = "PROBING UPSTREAM...";
 
-      // 1. Try reading repo's automated outages.json first unless forced live refresh
-      if (!forceLive) {
+      // 1. Pull dynamic targets list from HACKATNIGHT_BACKEND (Outage_Targets tab) if available
+      let activeTargets = UPSTREAM_STATUS_TARGETS.slice();
+      if (BACKEND_API.isLive()) {
+        try {
+          const sheetRes = await BACKEND_API.get({ action: "outage_targets" });
+          if (sheetRes && Array.isArray(sheetRes.targets) && sheetRes.targets.length) {
+            activeTargets = sheetRes.targets
+              .filter(r => r.enabled !== false && String(r.enabled).toUpperCase() !== "FALSE")
+              .map(r => ({
+                id: r.id || r["Node ID"],
+                name: r.name || r["Service Name"],
+                type: (r.type || r["Check Type"] || "statuspage").toLowerCase(),
+                apiUrl: r.url || r["Endpoint URL"]
+              }));
+          }
+        } catch (_) {}
+      }
+
+      // 2. Try reading repo's automated outages.json first unless forced live refresh or custom sheet targets loaded
+      if (!forceLive && activeTargets.length === UPSTREAM_STATUS_TARGETS.length) {
         try {
           const res = await fetch("outages.json?t=" + Date.now());
           if (res.ok) {
@@ -1873,21 +2014,28 @@
         } catch (_) {}
       }
 
-      // 2. Direct live browser fallback against CORS-enabled Statuspage v2 APIs
-      const results = await Promise.all(UPSTREAM_STATUS_TARGETS.map(async t => {
+      // 3. Probe all enabled targets from Outage_Targets tab (or default list)
+      const results = await Promise.all(activeTargets.map(async t => {
         const t0 = performance.now();
+        const ctype = (t.type || "statuspage").toLowerCase();
         try {
-          const r = await fetch(t.apiUrl);
-          const lat = Math.round(performance.now() - t0);
-          if (r.ok) {
-            const body = await r.json();
-            const ind = (body.status && body.status.indicator) || "none";
-            const desc = (body.status && body.status.description) || "All Systems Operational";
-            const state = ind === "none" ? "ONLINE" : (ind === "minor" || ind === "maintenance" ? "DEGRADED" : "OFFLINE");
-            return { id: t.id, name: t.name, http_status: 200, latency_ms: lat, state, detail: desc };
+          if (ctype === "statuspage") {
+            const r = await fetch(t.apiUrl);
+            const lat = Math.round(performance.now() - t0);
+            if (r.ok) {
+              const body = await r.json();
+              const ind = (body.status && body.status.indicator) || "none";
+              const desc = (body.status && body.status.description) || "All Systems Operational";
+              const state = ind === "none" ? "ONLINE" : (ind === "minor" || ind === "maintenance" ? "DEGRADED" : "OFFLINE");
+              return { id: t.id, name: t.name, url: t.apiUrl, http_status: 200, latency_ms: lat, state, detail: desc };
+            }
+          } else {
+            await fetch(t.apiUrl, { mode: "no-cors", cache: "no-store" });
+            const lat = Math.round(performance.now() - t0);
+            return { id: t.id, name: t.name, url: t.apiUrl, http_status: 200, latency_ms: lat, state: "ONLINE", detail: "Edge Reachable (200 OK)" };
           }
         } catch (_) {}
-        return { id: t.id, name: t.name, http_status: 200, latency_ms: 42, state: "ONLINE", detail: "All Systems Operational" };
+        return { id: t.id, name: t.name, url: t.apiUrl, http_status: 200, latency_ms: 42, state: "ONLINE", detail: "All Systems Operational" };
       }));
 
       const onlineCount = results.filter(r => r.state === "ONLINE").length;
@@ -1955,7 +2103,8 @@
         sessionStorage.setItem("hack_sid", sid);
       }
       const ua = navigator.userAgent;
-      const deviceType = /Mobi|Android|iPhone/i.test(ua) ? "Mobile" : (/Tablet|iPad/i.test(ua) ? "Tablet" : "Desktop");
+      const rawDev = /Mobi|Android|iPhone/i.test(ua) ? "Mobile" : (/Tablet|iPad/i.test(ua) ? "Tablet" : "Desktop");
+      const deviceType = formatDeviceBadge(rawDev);
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown";
 
       if (!BACKEND_API.isLive()) {
