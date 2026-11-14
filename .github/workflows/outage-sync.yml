@@ -6,6 +6,7 @@ on:
       - main
     paths-ignore:
       - 'outages.json'
+      - 'threat_feed.json'
   schedule:
     - cron: '*/30 * * * *'
   workflow_dispatch:
@@ -36,10 +37,15 @@ jobs:
           APPS_SCRIPT_WEBHOOK: ${{ secrets.APPS_SCRIPT_WEBHOOK }}
         run: python scrape_outages.py
 
+      - name: Fetch CISA Threat Intel Feed
+        # Never let a CISA/GitHub hiccup block the outage update; the last good feed is kept
+        continue-on-error: true
+        run: python fetch_threats.py
+
       - name: Commit & Push Updated outages.json
         run: |
           git config --global user.name "hackatnight-bot"
           git config --global user.email "bot@hackatnight.com"
-          git add outages.json
-          git diff --staged --quiet || git commit -m "chore(telemetry): update live outages.json"
+          git add outages.json threat_feed.json
+          git diff --staged --quiet || git commit -m "chore(telemetry): update live outages.json + threat feed"
           git push

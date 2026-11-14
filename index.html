@@ -484,6 +484,46 @@
       white-space: nowrap;
     }
 
+    /* Threat intel box under the globe */
+    .threat-panel {
+      background: #000000;
+      border: 1px solid var(--card-border);
+      margin-top: 10px;
+      font-size: 11px;
+    }
+    .threat-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 5px 8px;
+      border-bottom: 1px solid var(--card-border);
+      background: #05070c;
+    }
+    .threat-filters { display: flex; gap: 4px; flex-wrap: wrap; }
+    .threat-list { max-height: 300px; overflow-y: auto; }
+    .threat-row {
+      padding: 6px 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      cursor: crosshair;
+      outline: none;
+    }
+    .threat-row:hover, .threat-row:focus, .threat-row.pinned { background: rgba(255, 77, 94, 0.12); }
+    .threat-row.pinned { box-shadow: inset 2px 0 0 #ff4d5e; }
+    .threat-line { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+    .threat-date { color: var(--muted); white-space: nowrap; font-size: 10px; }
+    .threat-src { font-size: 9px; padding: 0 4px; border: 1px solid var(--muted); color: var(--muted); white-space: nowrap; }
+    .threat-sev { font-size: 9px; padding: 0 4px; border: 1px solid; white-space: nowrap; font-weight: 700; }
+    .sev-critical, .sev-ransomware { color: #ff4d5e; border-color: #ff4d5e; }
+    .sev-high, .sev-exploited { color: #ff9f43; border-color: #ff9f43; }
+    .sev-medium { color: #ffd166; border-color: #ffd166; }
+    .sev-low, .sev-info { color: var(--muted); border-color: var(--muted); }
+    .threat-row a { color: var(--text); text-decoration: none; font-weight: 700; }
+    .threat-row a:hover { color: var(--accent); text-decoration: underline; }
+    .threat-meta { color: var(--muted); font-size: 10px; margin-top: 2px; }
+    .threat-foot { padding: 4px 8px; color: var(--muted); font-size: 9px; border-top: 1px solid var(--card-border); }
+
     /* Overview: globe left, stats right (stacks on narrower screens) */
     .overview-split {
       display: grid;
@@ -633,7 +673,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.5.12]</span>
+        <span id="titleVersionBadge">[v.2.6.0]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -676,7 +716,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> VENICE, FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.12</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.6.0</span></div>
         </div>
       </aside>
 
@@ -716,6 +756,25 @@
                 </div>
                 <div class="globe-tooltip" id="globeTooltip"></div>
               </div>
+            </div>
+
+            <!-- THREAT INTEL // CISA FEED (hover or tap an item to locate it on the globe) -->
+            <div class="threat-panel" id="threatPanel">
+              <div class="threat-head">
+                <div>
+                  <strong>THREAT INTEL // CISA FEED</strong>
+                  <span class="xray-pill" id="threatUpdated">... LOADING</span>
+                </div>
+                <div class="threat-filters">
+                  <button class="s7-btn active-toggle" data-threat-filter="all" onclick="setThreatFilter('all')">all</button>
+                  <button class="s7-btn" data-threat-filter="KEV" onclick="setThreatFilter('KEV')">exploited (kev)</button>
+                  <button class="s7-btn" data-threat-filter="ICS" onclick="setThreatFilter('ICS')">ics / ot</button>
+                </div>
+              </div>
+              <div class="threat-list" id="threatList">
+                <div class="threat-row"><span class="threat-meta">... LOADING</span></div>
+              </div>
+              <div class="threat-foot">HOVER / TAP: LOCATE ON GLOBE // SOURCES: CISA KEV CATALOG · CISA ICS ADVISORIES</div>
             </div>
             </div><!-- /overview-left -->
 
@@ -973,7 +1032,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.12]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.6.0]</div>
     </div>
   </div>
 
@@ -1000,7 +1059,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.5.12",
+      APP_VERSION: "v.2.6.0",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
@@ -1064,6 +1123,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.6.0", Project: "H@N Threat Intel", Summary: "Threat intel box under the globe: latest CISA Known Exploited Vulnerabilities and ICS advisories, refreshed every 30 minutes; hovering or tapping an item highlights the affected countries, regions or worldwide scope on the globe.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.5.12", Project: "H@N UI / Globe", Summary: "Globe labels: US states shown as US-XX so they never clash with country codes (California vs Canada); hover shows full country names.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.5.11", Project: "H@N UI / Globe", Summary: "Globe shows real visitors: one pin per US state (at the state center) or per country, sized by visit count, replacing the placeholder pins. No city-level locations are shown.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.5.10", Project: "H@N Telemetry", Summary: "Outage feed now follows the Outage_Targets tab instantly: enabling, disabling, adding or deleting a target shows on the next page load; new targets are checked live until the next GitHub sync.", Tag: "🟠 FIX" },
@@ -1780,8 +1840,19 @@
       IN: [20.6, 79.0], PK: [30.4, 69.3], BD: [23.7, 90.4], CN: [35.9, 104.2], JP: [36.2, 138.3],
       KR: [35.9, 127.8], TW: [23.7, 121.0], HK: [22.3, 114.2], SG: [1.35, 103.8], MY: [4.2, 102.0],
       TH: [15.9, 101.0], VN: [14.1, 108.3], PH: [12.9, 121.8], ID: [-0.8, 113.9], AU: [-25.3, 133.8],
-      NZ: [-40.9, 174.9]
+      NZ: [-40.9, 174.9], SV: [13.8, -88.9], GM: [13.4, -15.3], NP: [28.4, 84.1], LU: [49.8, 6.1],
+      SI: [46.2, 14.8], SK: [48.7, 19.7], BG: [42.7, 25.5], CY: [35.1, 33.4], LV: [56.9, 24.6],
+      LT: [55.2, 23.9], EE: [58.6, 25.0]
     };
+    // Continental areas used by threat advisories ("North America", "Europe", ...): [lat, lon, spread]
+    const REGION_CENTERS = {
+      NA: [45, -100, 0.42], SA_CONT: [-15, -60, 0.38], EU: [50, 12, 0.30], AS: [35, 100, 0.45],
+      ME: [27, 45, 0.25], AF: [3, 20, 0.40], OC: [-25, 140, 0.35]
+    };
+    const REGION_LABELS = { NA: "NORTH AMERICA", SA_CONT: "SOUTH AMERICA", EU: "EUROPE", AS: "ASIA", ME: "MIDDLE EAST", AF: "AFRICA", OC: "OCEANIA" };
+
+    // Current globe highlight from the threat panel (null = none)
+    let THREAT_HL = null;
 
     // Rebuild real visitor pins from backend telemetry (state-level geoRegions, or country counts on older backends)
     function buildVisitorPins(tele) {
@@ -2019,7 +2090,15 @@
         const nowMs = Date.now();
         const nowSec = nowMs / 1000;
 
-        if (!dragging) {
+        if (!dragging && THREAT_HL && THREAT_HL.focus) {
+          // Turn the globe to face the highlighted threat area
+          const dLon = ((THREAT_HL.focus[1] - GLOBE_STATE.rotLon + 540) % 360) - 180;
+          GLOBE_STATE.rotLon += dLon * 0.08;
+          if (GLOBE_STATE.mode3d) {
+            const targetTilt = Math.max(-35, Math.min(55, THREAT_HL.focus[0]));
+            GLOBE_STATE.rotLat += (targetTilt - GLOBE_STATE.rotLat) * 0.08;
+          }
+        } else if (!dragging) {
           if (GLOBE_STATE.realTimeUtc) {
             const d = new Date(nowMs);
             const utcHours = d.getUTCHours() + d.getUTCMinutes() / 60 + d.getUTCSeconds() / 3600;
@@ -2182,6 +2261,67 @@
             `ORBITAL_TRACKS: 1:1 REAL-TIME ECEF // SPIN: ${GLOBE_STATE.realTimeUtc ? "UTC_LOCK" : "GENTLE"}`;
         }
 
+        // Threat intel highlight (from hovering/tapping an item in the threat panel)
+        if (THREAT_HL) {
+          const pulse = 0.5 + 0.5 * Math.sin(nowMs / 260);
+          ctx.save();
+          if (THREAT_HL.worldwide) {
+            ctx.strokeStyle = `rgba(255, 77, 94, ${0.35 + 0.45 * pulse})`;
+            ctx.lineWidth = 2 + 2 * pulse;
+            ctx.beginPath();
+            if (GLOBE_STATE.mode3d) {
+              ctx.arc(cx, cy, R + 4 + 4 * pulse, 0, Math.PI * 2);
+            } else {
+              ctx.rect(cx - R * 1.65 - 4, cy - R * 0.88 - 4, R * 3.3 + 8, R * 1.76 + 8);
+            }
+            ctx.stroke();
+            ctx.fillStyle = "#ff4d5e";
+            ctx.font = "bold 10px monospace";
+            ctx.fillText(THREAT_HL.worldwideLabel, cx - ctx.measureText(THREAT_HL.worldwideLabel).width / 2, cy - R - 12);
+          }
+          THREAT_HL.regions.forEach(rg => {
+            const p = projectPoint(rg.lat, rg.lon, cx, cy, R);
+            if (!p.visible) return;
+            const rad = R * rg.spread;
+            const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, rad);
+            g.addColorStop(0, `rgba(255, 77, 94, ${0.30 + 0.15 * pulse})`);
+            g.addColorStop(1, "rgba(255, 77, 94, 0)");
+            ctx.fillStyle = g;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, rad, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = "#ff4d5e";
+            ctx.font = "bold 9px monospace";
+            ctx.fillText(rg.label, p.x + 6, p.y - 6);
+            hoverTargets.push({ x: p.x, y: p.y, info: `${THREAT_HL.id} // ${rg.label}` });
+          });
+          THREAT_HL.points.forEach(pt => {
+            const p = projectPoint(pt.lat, pt.lon, cx, cy, R);
+            if (!p.visible) return;
+            const color = pt.hq ? "255, 209, 102" : "255, 77, 94";
+            ctx.strokeStyle = `rgba(${color}, ${0.4 + 0.5 * (1 - pulse)})`;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 5 + 9 * pulse, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.fillStyle = `rgb(${color})`;
+            if (pt.hq) {
+              ctx.beginPath();
+              ctx.moveTo(p.x, p.y - 5); ctx.lineTo(p.x + 5, p.y); ctx.lineTo(p.x, p.y + 5); ctx.lineTo(p.x - 5, p.y);
+              ctx.closePath();
+              ctx.fill();
+            } else {
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            ctx.font = "bold 9px monospace";
+            ctx.fillText(pt.label, p.x + 8, p.y + 3);
+            hoverTargets.push({ x: p.x, y: p.y, info: `${THREAT_HL.id} // ${pt.label}` });
+          });
+          ctx.restore();
+        }
+
         requestAnimationFrame(renderFrame);
       }
       renderFrame();
@@ -2281,6 +2421,149 @@
             </div>
           </div>`;
       }).join("");
+    }
+
+    /* =========================================================================
+       THREAT INTEL // CISA FEED
+       threat_feed.json is rebuilt every ~30 min by the GitHub workflow (fetch_threats.py)
+       from CISA's KEV catalog and ICS advisories.
+       ========================================================================= */
+    const THREAT_STATE = { items: [], filter: "all", pinned: null, updated: "" };
+
+    function threatGeo(item) {
+      const geo = item.geo || {};
+      const points = [];
+      const seen = {};
+      const addPoint = (code, hq) => {
+        const c = COUNTRY_CENTERS[code];
+        if (!c || seen[code + (hq ? "hq" : "")]) return;
+        seen[code + (hq ? "hq" : "")] = true;
+        let name = code;
+        try { name = new Intl.DisplayNames(["en"], { type: "region" }).of(code) || code; } catch (_) {}
+        points.push({ lat: c[0], lon: c[1], hq, label: hq ? `VENDOR HQ: ${name.toUpperCase()}` : name.toUpperCase() });
+      };
+      (geo.countries || []).forEach(code => addPoint(String(code).toUpperCase(), item.source === "KEV"));
+      (geo.hq || []).forEach(code => addPoint(String(code).toUpperCase(), true));
+      const regions = (geo.regions || []).map(k => REGION_CENTERS[k] ? {
+        lat: REGION_CENTERS[k][0], lon: REGION_CENTERS[k][1], spread: REGION_CENTERS[k][2], label: REGION_LABELS[k] || k
+      } : null).filter(Boolean);
+      const firstAffected = points.find(p => !p.hq) || regions[0] || points[0] || null;
+      return {
+        id: item.id,
+        worldwide: !!geo.worldwide,
+        worldwideLabel: item.source === "KEV" ? "EXPLOITED IN THE WILD // WORLDWIDE" : "DEPLOYED WORLDWIDE",
+        points,
+        regions,
+        focus: firstAffected ? [firstAffected.lat, firstAffected.lon] : null
+      };
+    }
+
+    function setThreatHighlight(idx) {
+      const item = THREAT_STATE.items[idx];
+      THREAT_HL = item ? threatGeo(item) : null;
+    }
+
+    function clearThreatHighlight() {
+      if (THREAT_STATE.pinned != null) {
+        setThreatHighlight(THREAT_STATE.pinned);
+      } else {
+        THREAT_HL = null;
+      }
+    }
+
+    function setThreatFilter(f) {
+      THREAT_STATE.filter = f;
+      document.querySelectorAll("[data-threat-filter]").forEach(b => {
+        b.classList.toggle("active-toggle", b.dataset.threatFilter === f);
+      });
+      renderThreatFeed();
+    }
+
+    function renderThreatFeed() {
+      const list = document.getElementById("threatList");
+      if (!list) return;
+      const shown = THREAT_STATE.items
+        .map((item, idx) => ({ item, idx }))
+        .filter(({ item }) => THREAT_STATE.filter === "all" ||
+          (THREAT_STATE.filter === "KEV" ? item.source === "KEV" : String(item.source).startsWith("ICS")));
+      if (!shown.length) {
+        list.innerHTML = `<div class="threat-row"><span class="threat-meta">${THREAT_STATE.items.length ? "No items for this filter." : "FAILED TO FETCH"}</span></div>`;
+        return;
+      }
+      list.innerHTML = shown.map(({ item, idx }) => {
+        const sev = String(item.severity || "INFO").toLowerCase().replace(/[^a-z]/g, "");
+        const sevText = item.cvss ? `${esc(item.severity)} ${esc(Number(item.cvss).toFixed(1))}` : esc(item.severity || "INFO");
+        const src = item.source === "KEV" ? "KEV" : item.source === "ICS-MED" ? "ICS-MED" : "ICS";
+        const geo = item.geo || {};
+        const where = geo.worldwide ? "worldwide" :
+          [].concat(geo.countries || [], (geo.regions || []).map(r => REGION_LABELS[r] || r)).join(", ") || "location n/a";
+        const meta = [
+          esc(item.id),
+          item.vendor ? esc(item.vendor) : "",
+          item.source === "KEV" && item.due ? `patch due ${esc(item.due)}` : "",
+          item.sectors ? esc(item.sectors) : "",
+          `scope: ${esc(where)}`
+        ].filter(Boolean).join(" // ");
+        const url = safeUrl(item.url);
+        const title = url
+          ? `<a href="${url}" target="_blank" rel="noopener noreferrer">${esc(item.title)}</a>`
+          : `<strong>${esc(item.title)}</strong>`;
+        return `
+          <div class="threat-row${THREAT_STATE.pinned === idx ? " pinned" : ""}" tabindex="0" data-threat-idx="${idx}">
+            <div class="threat-line">
+              <span class="threat-date">${esc(String(item.date || "").slice(5))}</span>
+              <span class="threat-src">${src}</span>
+              <span class="threat-sev sev-${sev}">${sevText}</span>
+              ${title}
+            </div>
+            <div class="threat-meta">${meta}</div>
+          </div>`;
+      }).join("");
+    }
+
+    function wireThreatPanel() {
+      const list = document.getElementById("threatList");
+      if (!list || list.dataset.wired) return;
+      list.dataset.wired = "1";
+      const rowIdx = e => {
+        const row = e.target.closest("[data-threat-idx]");
+        return row ? Number(row.dataset.threatIdx) : null;
+      };
+      list.addEventListener("mouseover", e => { const i = rowIdx(e); if (i != null) setThreatHighlight(i); });
+      list.addEventListener("focusin", e => { const i = rowIdx(e); if (i != null) setThreatHighlight(i); });
+      list.addEventListener("mouseleave", clearThreatHighlight);
+      list.addEventListener("focusout", e => { if (!list.contains(e.relatedTarget)) clearThreatHighlight(); });
+      // Tap/click on a row (not its link) pins the highlight, which is how it works on phones
+      list.addEventListener("click", e => {
+        if (e.target.closest("a")) return;
+        const i = rowIdx(e);
+        if (i == null) return;
+        THREAT_STATE.pinned = THREAT_STATE.pinned === i ? null : i;
+        clearThreatHighlight();
+        renderThreatFeed();
+        if (THREAT_STATE.pinned != null) document.getElementById("canvasWrap").scrollIntoView({ behavior: "smooth", block: "nearest" });
+      });
+    }
+
+    async function loadThreatFeed() {
+      wireThreatPanel();
+      const stamp = document.getElementById("threatUpdated");
+      try {
+        const res = await fetch("threat_feed.json?t=" + Date.now());
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        THREAT_STATE.items = Array.isArray(data.items) ? data.items.slice(0, 40) : [];
+        THREAT_STATE.updated = String(data.updated || "");
+        if (stamp) {
+          const d = new Date(THREAT_STATE.updated);
+          stamp.textContent = isNaN(d) ? "SYNCED" : `SYNCED ${d.toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}`;
+        }
+      } catch (_) {
+        THREAT_STATE.items = [];
+        if (stamp) stamp.textContent = "FAILED TO FETCH";
+      }
+      THREAT_STATE.pinned = null;
+      renderThreatFeed();
     }
 
     // Live browser-side probe for outage targets (used for targets outages.json doesn't cover yet,
@@ -2412,6 +2695,8 @@
       syncIssPosition();
       setInterval(syncIssPosition, 8000);
       loadOutageTelemetry();
+      loadThreatFeed();
+      setInterval(loadThreatFeed, 15 * 60 * 1000); // pick up new CISA items without a reload
 
       if (BACKEND_API.isLive()) {
         setStatus("loading telemetry from HACKATNIGHT_BACKEND...", "... loading");
