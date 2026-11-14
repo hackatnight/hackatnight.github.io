@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Content Security Policy (balanced): scripts/styles only from this page, images from the site and the
+       flag/favicon CDNs, no plugins, no <base> or form hijacking. connect-src stays open to https: so the live
+       outage probes keep working for any Outage_Targets URL. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://flagcdn.com https://www.google.com https://*.gstatic.com; font-src 'self' data:; connect-src 'self' https:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests" />
   <title>H@N</title>
   <style>
     /* =========================================================================
@@ -697,7 +701,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.8.0]</span>
+        <span id="titleVersionBadge">[v.2.8.1]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -740,7 +744,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.8.0</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.8.1</span></div>
         </div>
       </aside>
 
@@ -884,7 +888,7 @@
                 <label>YOUR EMAIL</label>
                 <input id="vaultEmail" type="email" placeholder="client@domain.com" />
                 <label>SELECT FILE</label>
-                <input id="vaultFile" type="file" />
+                <input id="vaultFile" type="file" accept=".zip,.bin,.log,.txt,.pdf,.png,.jpg,.jpeg" />
                 <label>NOTES</label>
                 <input id="vaultNotes" placeholder="Brief context for this diagnostic archive" />
                 <div style="margin-top:10px">
@@ -894,7 +898,7 @@
               </div>
 
               <div class="card">
-                <div class="card-head"><span>TOKEN-GATED RELEASE UNLOCK</span><span class="xray-pill">GET ?action=unlock_key</span></div>
+                <div class="card-head"><span>TOKEN-GATED RELEASE UNLOCK</span><span class="xray-pill">POST action=unlock_key</span></div>
                 <p style="font-size:11px;color:var(--muted);margin-top:0">Enter a single-use or expiring access key issued by <strong>gr33n</strong> to unlock private firmware builds or recovery images.</p>
                 <label>RELEASE ACCESS KEY</label>
                 <input id="releaseKeyInput" placeholder="XXXX-XXXX" />
@@ -1056,7 +1060,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.8.0]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.8.1]</div>
     </div>
   </div>
 
@@ -1083,7 +1087,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.8.0",
+      APP_VERSION: "v.2.8.1",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1147,6 +1151,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.8.1", Project: "H@N Security", Summary: "Security hardening: formula-injection guard on every sheet write, vault files served privately through the backend, wrong-key lockout and strong vault keys, upload type/size/daily caps, generic backend errors, and a Content Security Policy.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.8.0", Project: "H@N UI / Globe", Summary: "Globe map rebuilt with real country borders (Natural Earth), country names, and hover/tap to identify any country; HQ renamed H@N_HQ_FL with no city or exact coordinates shown.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.7.1", Project: "H@N UI / Globe", Summary: "Attack map: Cloudflare Radar arcs live; ~60 more country positions so no attack pair is dropped; same-country (domestic) attacks shown as looping rings.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.7.0", Project: "H@N UI / Globe", Summary: "Attack map layer on the globe: animated origin-to-target arcs from Cloudflare Radar (DDoS L3 and web L7, last 24h) and top scanning sources from SANS ISC DShield, with an attacks toggle and source credits.", Tag: "🟢 FEAT" },
@@ -1756,6 +1761,9 @@
       const file = document.getElementById("vaultFile").files[0];
       if (!file) return showAlert("vaultUploadStatus", "ERROR: Select a file first.");
       if (file.size > 25 * 1024 * 1024) return showAlert("vaultUploadStatus", "ERROR: File exceeds 25 MB limit.");
+      if (!/\.(zip|bin|log|txt|pdf|png|jpe?g)$/i.test(file.name)) {
+        return showAlert("vaultUploadStatus", "ERROR: Allowed file types are .zip .bin .log .txt .pdf .png .jpg");
+      }
 
       showAlert("vaultUploadStatus", "HASHING & ENCODING PAYLOAD...");
       const buf = await file.arrayBuffer();
@@ -1794,13 +1802,26 @@
       }
       let data;
       try {
-        data = await BACKEND_API.get({ action: "unlock_key", key });
+        data = await BACKEND_API.post({ action: "unlock_key", key });
       } catch (_) {
         return showAlert("vaultKeyStatus", "ERROR: Could not reach the key server. Please try again.");
       }
       if (data.status === "ok") {
         showAlert("vaultKeyStatus", `UNLOCKED // ${data.title} (${data.remaining} downloads left).`);
-        if (data.downloadUrl) window.open(data.downloadUrl, "_blank", "noopener");
+        if (data.base64Data) {
+          // The file arrives from the backend itself; Drive files stay private
+          const bin = atob(data.base64Data);
+          const bytes = new Uint8Array(bin.length);
+          for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+          const url = URL.createObjectURL(new Blob([bytes], { type: data.mimeType || "application/octet-stream" }));
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = String(data.fileName || "release.bin").replace(/[\\/:*?"<>|]/g, "_");
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 60000);
+        }
       } else {
         showAlert("vaultKeyStatus", data.message || "ACCESS_DENIED");
       }
