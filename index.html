@@ -471,6 +471,22 @@
       border: 1px solid var(--card-border);
       padding: 4px 8px;
     }
+    .attack-legend {
+      position: absolute;
+      bottom: 8px;
+      left: 10px;
+      max-width: 60%;
+      pointer-events: none;
+      font-size: 9px;
+      line-height: 1.45;
+      color: var(--muted);
+      background: rgba(1, 8, 20, 0.78);
+      border: 1px solid var(--card-border);
+      padding: 4px 8px;
+      display: none;
+    }
+    .attack-legend .lg-arc { color: #ff4d5e; font-weight: 700; }
+    .attack-legend .lg-src { color: #e05cff; font-weight: 700; }
     .globe-tooltip {
       position: absolute;
       display: none;
@@ -681,7 +697,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.6.1]</span>
+        <span id="titleVersionBadge">[v.2.7.0]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -724,7 +740,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> VENICE, FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.6.1</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.7.0</span></div>
         </div>
       </aside>
 
@@ -749,6 +765,7 @@
                   <button class="s7-btn active-toggle" id="btnSats" onclick="toggleSats()">sats: on</button>
                   <button class="s7-btn active-toggle" id="btnSolar" onclick="toggleSolar()">solar: on</button>
                   <button class="s7-btn active-toggle" id="btnCables" onclick="toggleCables()">cables: on</button>
+                  <button class="s7-btn active-toggle" id="btnAttacks" onclick="cycleAttackLayer()">attacks: on</button>
                   <button class="s7-btn" onclick="simulatePing()">+ ping node</button>
                 </div>
               </div>
@@ -762,6 +779,7 @@
                 <div class="globe-overlay-br">
                   DRAG: ROTATE // SCROLL: ZOOM // HOVER: INSPECT NODE
                 </div>
+                <div class="attack-legend" id="attackLegend"></div>
                 <div class="globe-tooltip" id="globeTooltip"></div>
               </div>
             </div>
@@ -1038,7 +1056,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.6.1]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.7.0]</div>
     </div>
   </div>
 
@@ -1065,7 +1083,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.6.1",
+      APP_VERSION: "v.2.7.0",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
@@ -1129,6 +1147,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.7.0", Project: "H@N UI / Globe", Summary: "Attack map layer on the globe: animated origin-to-target arcs from Cloudflare Radar (DDoS L3 and web L7, last 24h) and top scanning sources from SANS ISC DShield, with an attacks toggle and source credits.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.6.1", Project: "H@N Threat Intel", Summary: "Threat feed adds UK NCSC, Canadian Cyber Centre, Australian ACSC, Microsoft MSRC and Cisco PSIRT, each with its own icon, color and filter chip; national advisories highlight their country on the globe.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.6.0", Project: "H@N Threat Intel", Summary: "Threat intel box under the globe: latest CISA Known Exploited Vulnerabilities and ICS advisories, refreshed every 30 minutes; hovering or tapping an item highlights the affected countries, regions or worldwide scope on the globe.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.5.12", Project: "H@N UI / Globe", Summary: "Globe labels: US states shown as US-XX so they never clash with country codes (California vs Canada); hover shows full country names.", Tag: "🟠 FIX" },
@@ -1800,6 +1819,7 @@
       showSats: true,
       showSolar: true,
       showCables: true,
+      attackLayer: "layer3",   // "layer3" (DDoS) | "layer7" (web) | "off"
       rotLon: -82.45,
       rotLat: 22.0,
       zoom: 1.0
@@ -1849,7 +1869,16 @@
       TH: [15.9, 101.0], VN: [14.1, 108.3], PH: [12.9, 121.8], ID: [-0.8, 113.9], AU: [-25.3, 133.8],
       NZ: [-40.9, 174.9], SV: [13.8, -88.9], GM: [13.4, -15.3], NP: [28.4, 84.1], LU: [49.8, 6.1],
       SI: [46.2, 14.8], SK: [48.7, 19.7], BG: [42.7, 25.5], CY: [35.1, 33.4], LV: [56.9, 24.6],
-      LT: [55.2, 23.9], EE: [58.6, 25.0]
+      LT: [55.2, 23.9], EE: [58.6, 25.0],
+      BY: [53.7, 27.9], KZ: [48.0, 66.9], IR: [32.4, 53.7], IQ: [33.2, 43.7], LK: [7.9, 80.8],
+      MM: [21.9, 95.9], KH: [12.6, 105.0], MN: [46.9, 103.8], UZ: [41.4, 64.6], AZ: [40.1, 47.6],
+      GE: [42.3, 43.4], AM: [40.1, 45.0], MD: [47.4, 28.4], RS: [44.0, 21.0], HR: [45.1, 15.2],
+      BA: [43.9, 17.7], AL: [41.2, 20.2], IS: [64.9, -19.0], QA: [25.4, 51.2], KW: [29.3, 47.5],
+      JO: [30.6, 36.2], LB: [33.9, 35.9], TN: [33.9, 9.5], DZ: [28.0, 1.7], ET: [9.1, 40.5],
+      GH: [7.9, -1.0], TZ: [-6.4, 34.9], UG: [1.4, 32.3], AO: [-11.2, 17.9], BO: [-16.3, -63.6],
+      PY: [-23.4, -58.4], UY: [-32.5, -55.8], EC: [-1.8, -78.2], CR: [9.7, -83.8], PA: [8.5, -80.8],
+      GT: [15.8, -90.2], BZ: [17.2, -88.5], KN: [17.3, -62.7], VG: [18.4, -64.6], SC: [-4.7, 55.5],
+      MT: [35.9, 14.4], BS: [25.0, -77.4], TT: [10.7, -61.2], LA: [19.9, 102.5]
     };
     // Continental areas used by threat advisories ("North America", "Europe", ...): [lat, lon, spread]
     const REGION_CENTERS = {
@@ -1980,6 +2009,15 @@
       document.getElementById("btnSolar").classList.toggle("active-toggle", GLOBE_STATE.showSolar);
       document.getElementById("btnCables").textContent = `cables: ${GLOBE_STATE.showCables ? "on" : "off"}`;
       document.getElementById("btnCables").classList.toggle("active-toggle", GLOBE_STATE.showCables);
+      const btnA = document.getElementById("btnAttacks");
+      if (btnA) {
+        const cfOn = typeof attackLayersAvailable === "function" && attackLayersAvailable();
+        btnA.textContent = GLOBE_STATE.attackLayer === "off" ? "attacks: off"
+          : !cfOn ? "attacks: on"
+          : GLOBE_STATE.attackLayer === "layer7" ? "attacks: web (l7)" : "attacks: ddos (l3)";
+        btnA.classList.toggle("active-toggle", GLOBE_STATE.attackLayer !== "off");
+      }
+      if (typeof updateAttackLegend === "function") updateAttackLegend();
     }
 
     function toggleGlobeMode() { GLOBE_STATE.mode3d = !GLOBE_STATE.mode3d; syncGlobeToggleButtons(); }
@@ -1987,6 +2025,56 @@
     function toggleSats() { GLOBE_STATE.showSats = !GLOBE_STATE.showSats; syncGlobeToggleButtons(); }
     function toggleSolar() { GLOBE_STATE.showSolar = !GLOBE_STATE.showSolar; syncGlobeToggleButtons(); }
     function toggleCables() { GLOBE_STATE.showCables = !GLOBE_STATE.showCables; syncGlobeToggleButtons(); }
+
+    /* =========================================================================
+       ATTACK MAP LAYER
+       attack_map.json is rebuilt by the GitHub workflow (fetch_attacks.py):
+       Cloudflare Radar origin -> target pairs (24h) + SANS ISC DShield top scanning sources.
+       ========================================================================= */
+    const ATTACK_STATE = { cf: null, dshield: null, loaded: false };
+
+    function attackLayersAvailable() {
+      const cf = ATTACK_STATE.cf;
+      return cf && cf.enabled && ((cf.layer3 || []).length || (cf.layer7 || []).length);
+    }
+
+    function cycleAttackLayer() {
+      const order = attackLayersAvailable() ? ["layer3", "layer7", "off"] : ["layer3", "off"];
+      const i = order.indexOf(GLOBE_STATE.attackLayer);
+      GLOBE_STATE.attackLayer = order[(i + 1) % order.length];
+      syncGlobeToggleButtons();
+    }
+
+    function updateAttackLegend() {
+      const el = document.getElementById("attackLegend");
+      if (!el) return;
+      const on = GLOBE_STATE.attackLayer !== "off" && ATTACK_STATE.loaded;
+      el.style.display = on ? "block" : "none";
+      if (!on) return;
+      const cfOn = attackLayersAvailable();
+      const layerName = GLOBE_STATE.attackLayer === "layer7" ? "web / L7" : "DDoS / L3";
+      const parts = [];
+      if (cfOn) parts.push(`<span class="lg-arc">━▶ origin → target (${layerName}, last 24h)</span> // source: Cloudflare Radar`);
+      if (ATTACK_STATE.dshield && (ATTACK_STATE.dshield.networks || []).length) {
+        parts.push(`<span class="lg-src">◆ top scanning sources</span> // source: SANS ISC DShield (isc.sans.edu)`);
+      }
+      el.innerHTML = parts.length ? "ATTACK MAP<br/>" + parts.join("<br/>") : "ATTACK MAP // no data yet";
+    }
+
+    async function loadAttackMap() {
+      try {
+        const res = await fetch("attack_map.json?t=" + Date.now());
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        ATTACK_STATE.cf = data && data.cloudflare ? data.cloudflare : null;
+        ATTACK_STATE.dshield = data && data.dshield ? data.dshield : null;
+        ATTACK_STATE.loaded = true;
+      } catch (_) {
+        ATTACK_STATE.loaded = false;
+      }
+      if (GLOBE_STATE.attackLayer === "layer7" && !attackLayersAvailable()) GLOBE_STATE.attackLayer = "layer3";
+      syncGlobeToggleButtons();
+    }
 
     function simulatePing() {
       const pool = [
@@ -2266,6 +2354,94 @@
             `HQ_NODE: VENICE, FL (27.10°N, 82.45°W)<br/>` +
             `ISS_LIVE: ${issPos.lat.toFixed(2)}°, ${issPos.lon.toFixed(2)}° // ALT ${ISS_LIVE.alt} KM (${ISS_LIVE.synced ? "LIVE_API" : "ECEF_PROP"})<br/>` +
             `ORBITAL_TRACKS: 1:1 REAL-TIME ECEF // SPIN: ${GLOBE_STATE.realTimeUtc ? "UTC_LOCK" : "GENTLE"}`;
+        }
+
+        // Attack map layer: Cloudflare Radar origin -> target arcs + DShield top scanning sources
+        if (GLOBE_STATE.attackLayer !== "off" && ATTACK_STATE.loaded) {
+          ctx.save();
+          // DShield: one marker per country, sized by targets scanned
+          const ds = (ATTACK_STATE.dshield && ATTACK_STATE.dshield.networks) || [];
+          const byCc = {};
+          ds.forEach(n => {
+            const cc = String(n.country || "").toUpperCase();
+            if (!COUNTRY_CENTERS[cc]) return;
+            if (!byCc[cc]) byCc[cc] = { total: 0, names: [] };
+            byCc[cc].total += Number(n.targets) || 0;
+            byCc[cc].names.push(`${String(n.name || "?").slice(0, 28)} (${n.network})`);
+          });
+          const dsMax = Math.max(1, ...Object.values(byCc).map(v => v.total));
+          Object.keys(byCc).forEach(cc => {
+            const c = COUNTRY_CENTERS[cc];
+            const p = projectPoint(c[0] + 1.5, c[1] + 2.5, cx, cy, R);  // nudged so it doesn't sit on top of visitor pins
+            if (!p.visible) return;
+            const size = 3 + 5 * Math.sqrt(byCc[cc].total / dsMax);
+            const pulse = 0.5 + 0.5 * Math.sin(nowMs / 420 + c[1]);
+            ctx.fillStyle = `rgba(224, 92, 255, ${0.55 + 0.35 * pulse})`;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y - size); ctx.lineTo(p.x + size, p.y); ctx.lineTo(p.x, p.y + size); ctx.lineTo(p.x - size, p.y);
+            ctx.closePath();
+            ctx.fill();
+            hoverTargets.push({
+              x: p.x, y: p.y,
+              info: `TOP SCANNING SOURCE // ${cc} // ${byCc[cc].total.toLocaleString()} targets scanned // ${byCc[cc].names.slice(0, 2).join(", ")} (SANS ISC DShield)`
+            });
+          });
+
+          // Cloudflare Radar arcs for the selected layer
+          const pairs = (ATTACK_STATE.cf && ATTACK_STATE.cf.enabled && ATTACK_STATE.cf[GLOBE_STATE.attackLayer]) || [];
+          const vMax = Math.max(0.01, ...pairs.map(pr => Number(pr.value) || 0));
+          const layerLabel = GLOBE_STATE.attackLayer === "layer7" ? "web (L7)" : "DDoS (L3)";
+          pairs.forEach((pr, i) => {
+            const o = COUNTRY_CENTERS[pr.origin], t = COUNTRY_CENTERS[pr.target];
+            if (!o || !t) return;
+            const po = projectPoint(o[0], o[1], cx, cy, R);
+            const pt = projectPoint(t[0], t[1], cx, cy, R);
+            const share = (Number(pr.value) || 0) / vMax;
+            if (po.visible && pt.visible) {
+              // Bow the arc away from the globe center so it reads as a trajectory
+              const mx = (po.x + pt.x) / 2, my = (po.y + pt.y) / 2;
+              const dist = Math.hypot(pt.x - po.x, pt.y - po.y);
+              let ox = mx - cx, oy = my - cy;
+              const ol = Math.hypot(ox, oy) || 1;
+              ox /= ol; oy /= ol;
+              const lift = 18 + dist * 0.35;
+              const qx = mx + ox * lift, qy = my + oy * lift;
+              const grad = ctx.createLinearGradient(po.x, po.y, pt.x, pt.y);
+              grad.addColorStop(0, "rgba(255, 77, 94, 0.95)");
+              grad.addColorStop(1, "rgba(255, 159, 67, 0.55)");
+              ctx.strokeStyle = grad;
+              ctx.lineWidth = 0.8 + 3.2 * share;
+              ctx.beginPath();
+              ctx.moveTo(po.x, po.y);
+              ctx.quadraticCurveTo(qx, qy, pt.x, pt.y);
+              ctx.stroke();
+              // Packets travelling origin -> target
+              for (let k = 0; k < 2; k++) {
+                const tt = ((nowMs / (1400 + 500 * (1 - share))) + i * 0.17 + k * 0.5) % 1;
+                const px = (1 - tt) * (1 - tt) * po.x + 2 * (1 - tt) * tt * qx + tt * tt * pt.x;
+                const py = (1 - tt) * (1 - tt) * po.y + 2 * (1 - tt) * tt * qy + tt * tt * pt.y;
+                ctx.fillStyle = "#ffe3e6";
+                ctx.fillRect(px - 1.5, py - 1.5, 3, 3);
+              }
+            }
+            const info = `${pr.originName} → ${pr.targetName} // ${Number(pr.value).toFixed(2)}% of ${layerLabel} attacks, last 24h (Cloudflare Radar)`;
+            if (po.visible) {
+              ctx.fillStyle = "#ff4d5e";
+              ctx.beginPath();
+              ctx.arc(po.x, po.y, 2.5 + 2 * share, 0, Math.PI * 2);
+              ctx.fill();
+              hoverTargets.push({ x: po.x, y: po.y, info: "ORIGIN // " + info });
+            }
+            if (pt.visible) {
+              ctx.strokeStyle = "rgba(255, 159, 67, 0.9)";
+              ctx.lineWidth = 1.2;
+              ctx.beginPath();
+              ctx.arc(pt.x, pt.y, 4 + 3 * share, 0, Math.PI * 2);
+              ctx.stroke();
+              hoverTargets.push({ x: pt.x, y: pt.y, info: "TARGET // " + info });
+            }
+          });
+          ctx.restore();
         }
 
         // Threat intel highlight (from hovering/tapping an item in the threat panel)
@@ -2755,6 +2931,8 @@
       loadOutageTelemetry();
       loadThreatFeed();
       setInterval(loadThreatFeed, 15 * 60 * 1000); // pick up new CISA items without a reload
+      loadAttackMap();
+      setInterval(loadAttackMap, 30 * 60 * 1000);
 
       if (BACKEND_API.isLive()) {
         setStatus("loading telemetry from HACKATNIGHT_BACKEND...", "... loading");

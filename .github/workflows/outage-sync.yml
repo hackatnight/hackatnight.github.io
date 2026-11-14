@@ -7,6 +7,7 @@ on:
     paths-ignore:
       - 'outages.json'
       - 'threat_feed.json'
+      - 'attack_map.json'
   schedule:
     - cron: '*/30 * * * *'
   workflow_dispatch:
@@ -42,10 +43,16 @@ jobs:
         continue-on-error: true
         run: python fetch_threats.py
 
+      - name: Fetch Attack Map Data (Cloudflare Radar + SANS DShield)
+        continue-on-error: true
+        env:
+          CLOUDFLARE_RADAR_TOKEN: ${{ secrets.CLOUDFLARE_RADAR_TOKEN }}
+        run: python fetch_attacks.py
+
       - name: Commit & Push Updated outages.json
         run: |
           git config --global user.name "hackatnight-bot"
           git config --global user.email "bot@hackatnight.com"
-          git add outages.json threat_feed.json
+          git add outages.json threat_feed.json attack_map.json
           git diff --staged --quiet || git commit -m "chore(telemetry): update live outages.json + threat feed"
           git push
