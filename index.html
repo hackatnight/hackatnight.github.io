@@ -701,7 +701,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.8.1]</span>
+        <span id="titleVersionBadge">[v.2.8.2]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -744,7 +744,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.8.1</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.8.2</span></div>
         </div>
       </aside>
 
@@ -1060,7 +1060,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.8.1]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.8.2]</div>
     </div>
   </div>
 
@@ -1087,7 +1087,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.8.1",
+      APP_VERSION: "v.2.8.2",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1151,6 +1151,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.8.2", Project: "H@N UI / Globe", Summary: "Globe arcs now fly as raised 3D great-circle paths that roll smoothly over the horizon while the globe rotates, instead of vanishing.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.8.1", Project: "H@N Security", Summary: "Security hardening: formula-injection guard on every sheet write, vault files served privately through the backend, wrong-key lockout and strong vault keys, upload type/size/daily caps, generic backend errors, and a Content Security Policy.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.8.0", Project: "H@N UI / Globe", Summary: "Globe map rebuilt with real country borders (Natural Earth), country names, and hover/tap to identify any country; HQ renamed H@N_HQ_FL with no city or exact coordinates shown.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.7.1", Project: "H@N UI / Globe", Summary: "Attack map: Cloudflare Radar arcs live; ~60 more country positions so no attack pair is dropped; same-country (domestic) attacks shown as looping rings.", Tag: "🟠 FIX" },
@@ -2293,6 +2294,63 @@
         };
       }
 
+      // Samples an arc between two places. In 3D it follows the great circle, lifted above the surface,
+      // so it rolls over the horizon smoothly as the globe turns (hidden parts are skipped, not popped).
+      function arcSamples(lat1, lon1, lat2, lon2, cx, cy, R, n = 40) {
+        const d2r = Math.PI / 180;
+        if (!GLOBE_STATE.mode3d) {
+          const a = projectPoint(lat1, lon1, cx, cy, R), b = projectPoint(lat2, lon2, cx, cy, R);
+          const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2 - 18 - Math.hypot(b.x - a.x, b.y - a.y) * 0.18;
+          const out = [];
+          for (let k = 0; k <= n; k++) {
+            const t = k / n;
+            out.push({ x: (1 - t) * (1 - t) * a.x + 2 * (1 - t) * t * mx + t * t * b.x,
+                       y: (1 - t) * (1 - t) * a.y + 2 * (1 - t) * t * my + t * t * b.y, vis: true });
+          }
+          return out;
+        }
+        const vec = (la, lo) => [Math.cos(la * d2r) * Math.cos(lo * d2r), Math.cos(la * d2r) * Math.sin(lo * d2r), Math.sin(la * d2r)];
+        const A = vec(lat1, lon1), B = vec(lat2, lon2);
+        const dot = Math.max(-1, Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2]));
+        const om = Math.acos(dot), so = Math.sin(om) || 1e-6;
+        const peak = 0.06 + 0.22 * (om / Math.PI);          // longer routes fly higher
+        const out = [];
+        for (let k = 0; k <= n; k++) {
+          const t = k / n;
+          const wa = Math.sin((1 - t) * om) / so, wb = Math.sin(t * om) / so;
+          const v = om < 1e-4 ? A : [wa * A[0] + wb * B[0], wa * A[1] + wb * B[1], wa * A[2] + wb * B[2]];
+          const la = Math.asin(Math.max(-1, Math.min(1, v[2]))) / d2r;
+          const lo = Math.atan2(v[1], v[0]) / d2r;
+          const h = 1 + peak * Math.sin(Math.PI * t);
+          const p = projectPoint(la, lo, cx, cy, R * h);
+          // Raised points behind the globe still show once they clear its silhouette
+          out.push({ x: p.x, y: p.y, vis: p.z > 0 || Math.hypot(p.x - cx, p.y - cy) > R + 0.5 });
+        }
+        return out;
+      }
+
+      // Strokes the visible stretches of an arc; color(t) gives the stroke color along it
+      function strokeArc(ctx, pts, color, width) {
+        ctx.lineWidth = width;
+        ctx.lineCap = "round";
+        for (let k = 1; k < pts.length; k++) {
+          if (!pts[k - 1].vis || !pts[k].vis) continue;
+          ctx.strokeStyle = color(k / (pts.length - 1));
+          ctx.beginPath();
+          ctx.moveTo(pts[k - 1].x, pts[k - 1].y);
+          ctx.lineTo(pts[k].x, pts[k].y);
+          ctx.stroke();
+        }
+      }
+
+      // Point at fraction t along an arc (null when that spot is behind the globe)
+      function pointOnArc(pts, t) {
+        const f = t * (pts.length - 1), k = Math.min(pts.length - 2, Math.floor(f)), r = f - k;
+        const a = pts[k], b = pts[k + 1];
+        if (!a.vis || !b.vis) return null;
+        return { x: a.x + (b.x - a.x) * r, y: a.y + (b.y - a.y) * r };
+      }
+
       function renderFrame() {
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -2471,10 +2529,16 @@
         }
 
         // Visitor Trajectory Arcs to HQ
-        const hq = projectPoint(VISITOR_PINS[0].lat, VISITOR_PINS[0].lon, cx, cy, R);
         const pulseT = (nowMs % 2500) / 2500;
         VISITOR_PINS.concat(SIM_PINS).forEach(pin => {
           const p = projectPoint(pin.lat, pin.lon, cx, cy, R);
+          // Arc to HQ first, so it keeps showing while either end is over the horizon
+          if (!pin.hq) {
+            const pts = arcSamples(pin.lat, pin.lon, VISITOR_PINS[0].lat, VISITOR_PINS[0].lon, cx, cy, R, 32);
+            strokeArc(ctx, pts, () => "rgba(124, 232, 255, 0.45)", 1);
+            const pk = pointOnArc(pts, pulseT);
+            if (pk) { ctx.fillStyle = "#ffffff"; ctx.fillRect(pk.x - 1.5, pk.y - 1.5, 3, 3); }
+          }
           if (!p.visible) return;
           // Real pins grow with visit count; simulated pings are dimmer
           const radius = pin.hq ? 4.5 : pin.sim ? 2.5 : 3 + Math.min(4, Math.log2(Math.max(1, pin.visits || 1)));
@@ -2485,24 +2549,6 @@
           ctx.font = "9px monospace";
           ctx.fillText(pin.label, p.x + radius + 3, p.y + 3);
           hoverTargets.push({ x: p.x, y: p.y, info: pin.info || `${pin.label} (${pin.lat.toFixed(1)}°, ${pin.lon.toFixed(1)}°)` });
-
-          if (!pin.hq && hq.visible) {
-            const midX = (p.x + hq.x) * 0.5;
-            const midY = (p.y + hq.y) * 0.5 - 24;
-            ctx.strokeStyle = "rgba(124, 232, 255, 0.45)";
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.quadraticCurveTo(midX, midY, hq.x, hq.y);
-            ctx.stroke();
-
-            // Animated packet pulse along quadratic curve
-            const t = pulseT;
-            const px = (1 - t) * (1 - t) * p.x + 2 * (1 - t) * t * midX + t * t * hq.x;
-            const py = (1 - t) * (1 - t) * p.y + 2 * (1 - t) * t * midY + t * t * hq.y;
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(px - 1.5, py - 1.5, 3, 3);
-          }
         });
 
         // 1:1 Real-Time ECEF Satellites
@@ -2589,31 +2635,17 @@
               }
               return;
             }
-            if (po.visible && pt.visible) {
-              // Bow the arc away from the globe center so it reads as a trajectory
-              const mx = (po.x + pt.x) / 2, my = (po.y + pt.y) / 2;
-              const dist = Math.hypot(pt.x - po.x, pt.y - po.y);
-              let ox = mx - cx, oy = my - cy;
-              const ol = Math.hypot(ox, oy) || 1;
-              ox /= ol; oy /= ol;
-              const lift = 18 + dist * 0.35;
-              const qx = mx + ox * lift, qy = my + oy * lift;
-              const grad = ctx.createLinearGradient(po.x, po.y, pt.x, pt.y);
-              grad.addColorStop(0, "rgba(255, 77, 94, 0.95)");
-              grad.addColorStop(1, "rgba(255, 159, 67, 0.55)");
-              ctx.strokeStyle = grad;
-              ctx.lineWidth = 0.8 + 3.2 * share;
-              ctx.beginPath();
-              ctx.moveTo(po.x, po.y);
-              ctx.quadraticCurveTo(qx, qy, pt.x, pt.y);
-              ctx.stroke();
+            {
+              // Great-circle arc lifted off the surface; fades from red (origin) to orange (target)
+              const pts = arcSamples(o[0], o[1], t[0], t[1], cx, cy, R, 44);
+              strokeArc(ctx, pts, f => `rgba(255, ${Math.round(77 + 82 * f)}, ${Math.round(94 - 27 * f)}, ${(0.95 - 0.4 * f).toFixed(2)})`, 0.8 + 3.2 * share);
               // Packets travelling origin -> target
               for (let k = 0; k < 2; k++) {
                 const tt = ((nowMs / (1400 + 500 * (1 - share))) + i * 0.17 + k * 0.5) % 1;
-                const px = (1 - tt) * (1 - tt) * po.x + 2 * (1 - tt) * tt * qx + tt * tt * pt.x;
-                const py = (1 - tt) * (1 - tt) * po.y + 2 * (1 - tt) * tt * qy + tt * tt * pt.y;
+                const pk = pointOnArc(pts, tt);
+                if (!pk) continue;
                 ctx.fillStyle = "#ffe3e6";
-                ctx.fillRect(px - 1.5, py - 1.5, 3, 3);
+                ctx.fillRect(pk.x - 1.5, pk.y - 1.5, 3, 3);
               }
             }
             const info = `${pr.originName} → ${pr.targetName} // ${Number(pr.value).toFixed(2)}% of ${layerLabel} attacks, last 24h (Cloudflare Radar)`;
