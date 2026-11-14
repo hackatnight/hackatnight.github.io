@@ -513,12 +513,20 @@
     .threat-row.pinned { box-shadow: inset 2px 0 0 #ff4d5e; }
     .threat-line { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
     .threat-date { color: var(--muted); white-space: nowrap; font-size: 10px; }
-    .threat-src { font-size: 9px; padding: 0 4px; border: 1px solid var(--muted); color: var(--muted); white-space: nowrap; }
+    .threat-src {
+      display: inline-flex; align-items: center; gap: 3px;
+      font-size: 9px; padding: 0 4px; border: 1px solid var(--muted); color: var(--muted);
+      white-space: nowrap; font-weight: 700;
+    }
+    .threat-src img { width: 12px; height: 9px; object-fit: contain; }
+    .threat-chip { display: inline-flex; align-items: center; gap: 4px; }
+    .threat-chip img { width: 12px; height: 9px; object-fit: contain; }
+    .threat-chip .chip-count { opacity: 0.7; }
     .threat-sev { font-size: 9px; padding: 0 4px; border: 1px solid; white-space: nowrap; font-weight: 700; }
     .sev-critical, .sev-ransomware { color: #ff4d5e; border-color: #ff4d5e; }
-    .sev-high, .sev-exploited { color: #ff9f43; border-color: #ff9f43; }
+    .sev-high, .sev-exploited, .sev-alert { color: #ff9f43; border-color: #ff9f43; }
     .sev-medium { color: #ffd166; border-color: #ffd166; }
-    .sev-low, .sev-info { color: var(--muted); border-color: var(--muted); }
+    .sev-low, .sev-info, .sev-advisory, .sev-cve, .sev-news, .sev-report, .sev-blog, .sev-guidance { color: var(--muted); border-color: var(--muted); }
     .threat-row a { color: var(--text); text-decoration: none; font-weight: 700; }
     .threat-row a:hover { color: var(--accent); text-decoration: underline; }
     .threat-meta { color: var(--muted); font-size: 10px; margin-top: 2px; }
@@ -673,7 +681,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.6.0]</span>
+        <span id="titleVersionBadge">[v.2.6.1]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -716,7 +724,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> VENICE, FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.6.0</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.6.1</span></div>
         </div>
       </aside>
 
@@ -765,16 +773,14 @@
                   <strong>THREAT INTEL // CISA FEED</strong>
                   <span class="xray-pill" id="threatUpdated">... LOADING</span>
                 </div>
-                <div class="threat-filters">
-                  <button class="s7-btn active-toggle" data-threat-filter="all" onclick="setThreatFilter('all')">all</button>
-                  <button class="s7-btn" data-threat-filter="KEV" onclick="setThreatFilter('KEV')">exploited (kev)</button>
-                  <button class="s7-btn" data-threat-filter="ICS" onclick="setThreatFilter('ICS')">ics / ot</button>
+                <div class="threat-filters" id="threatFilters">
+                  <button class="s7-btn active-toggle" data-threat-filter="all">all</button>
                 </div>
               </div>
               <div class="threat-list" id="threatList">
                 <div class="threat-row"><span class="threat-meta">... LOADING</span></div>
               </div>
-              <div class="threat-foot">HOVER / TAP: LOCATE ON GLOBE // SOURCES: CISA KEV CATALOG · CISA ICS ADVISORIES</div>
+              <div class="threat-foot" id="threatFoot">HOVER / TAP: LOCATE ON GLOBE</div>
             </div>
             </div><!-- /overview-left -->
 
@@ -1032,7 +1038,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.6.0]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.6.1]</div>
     </div>
   </div>
 
@@ -1059,7 +1065,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.6.0",
+      APP_VERSION: "v.2.6.1",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
@@ -1123,6 +1129,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.6.1", Project: "H@N Threat Intel", Summary: "Threat feed adds UK NCSC, Canadian Cyber Centre, Australian ACSC, Microsoft MSRC and Cisco PSIRT, each with its own icon, color and filter chip; national advisories highlight their country on the globe.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.6.0", Project: "H@N Threat Intel", Summary: "Threat intel box under the globe: latest CISA Known Exploited Vulnerabilities and ICS advisories, refreshed every 30 minutes; hovering or tapping an item highlights the affected countries, regions or worldwide scope on the globe.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.5.12", Project: "H@N UI / Globe", Summary: "Globe labels: US states shown as US-XX so they never clash with country codes (California vs Canada); hover shows full country names.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.5.11", Project: "H@N UI / Globe", Summary: "Globe shows real visitors: one pin per US state (at the state center) or per country, sized by visit count, replacing the placeholder pins. No city-level locations are shown.", Tag: "🟢 FEAT" },
@@ -2428,21 +2435,57 @@
        threat_feed.json is rebuilt every ~30 min by the GitHub workflow (fetch_threats.py)
        from CISA's KEV catalog and ICS advisories.
        ========================================================================= */
-    const THREAT_STATE = { items: [], filter: "all", pinned: null, updated: "" };
+    const THREAT_STATE = { items: [], sources: {}, sourceOrder: [], filter: "all", pinned: null, updated: "" };
+
+    // Icon + id badge for a source (icon/color come from threat_feed.json; only https icons, only #hex colors)
+    function threatSourceBadge(id, cls) {
+      const src = THREAT_STATE.sources[id] || {};
+      const color = /^#[0-9a-f]{3,8}$/i.test(src.color || "") ? src.color : "var(--muted)";
+      const icon = safeUrl(src.icon);
+      return `<span class="${cls}" style="color:${color};border-color:${color}" title="${esc(src.name || id)}">` +
+        (icon ? `<img src="${icon}" alt="" loading="lazy" referrerpolicy="no-referrer" />` : "") +
+        `${esc(id)}</span>`;
+    }
+
+    function renderThreatFilters() {
+      const box = document.getElementById("threatFilters");
+      if (!box) return;
+      const counts = {};
+      THREAT_STATE.items.forEach(i => { counts[i.source] = (counts[i.source] || 0) + 1; });
+      const chip = (id, label) => {
+        const active = THREAT_STATE.filter === id ? " active-toggle" : "";
+        return `<button class="s7-btn threat-chip${active}" data-threat-filter="${esc(id)}">${label}</button>`;
+      };
+      box.innerHTML = chip("all", `all <span class="chip-count">${THREAT_STATE.items.length}</span>`) +
+        THREAT_STATE.sourceOrder.filter(id => counts[id]).map(id => {
+          const src = THREAT_STATE.sources[id] || {};
+          const icon = safeUrl(src.icon);
+          return chip(id, (icon ? `<img src="${icon}" alt="" loading="lazy" referrerpolicy="no-referrer" />` : "") +
+            `${esc(id)} <span class="chip-count">${counts[id]}</span>`);
+        }).join("");
+      const foot = document.getElementById("threatFoot");
+      if (foot) {
+        foot.textContent = "HOVER / TAP: LOCATE ON GLOBE // SOURCES: " +
+          THREAT_STATE.sourceOrder.map(id => (THREAT_STATE.sources[id] || {}).name || id).join(" · ");
+      }
+    }
 
     function threatGeo(item) {
       const geo = item.geo || {};
       const points = [];
       const seen = {};
-      const addPoint = (code, hq) => {
+      const addPoint = (code, hq, agency) => {
         const c = COUNTRY_CENTERS[code];
         if (!c || seen[code + (hq ? "hq" : "")]) return;
         seen[code + (hq ? "hq" : "")] = true;
         let name = code;
         try { name = new Intl.DisplayNames(["en"], { type: "region" }).of(code) || code; } catch (_) {}
-        points.push({ lat: c[0], lon: c[1], hq, label: hq ? `VENDOR HQ: ${name.toUpperCase()}` : name.toUpperCase() });
+        const label = hq ? `VENDOR HQ: ${name.toUpperCase()}` : agency ? `${name.toUpperCase()} // ADVISORY AREA` : name.toUpperCase();
+        points.push({ lat: c[0], lon: c[1], hq, label });
       };
-      (geo.countries || []).forEach(code => addPoint(String(code).toUpperCase(), item.source === "KEV"));
+      const isVendorHq = item.source === "KEV" || /^vendor hq/i.test(String(geo.basis || ""));
+      const isAgency = /issuing agency/i.test(String(geo.basis || ""));
+      (geo.countries || []).forEach(code => addPoint(String(code).toUpperCase(), isVendorHq, isAgency));
       (geo.hq || []).forEach(code => addPoint(String(code).toUpperCase(), true));
       const regions = (geo.regions || []).map(k => REGION_CENTERS[k] ? {
         lat: REGION_CENTERS[k][0], lon: REGION_CENTERS[k][1], spread: REGION_CENTERS[k][2], label: REGION_LABELS[k] || k
@@ -2451,7 +2494,8 @@
       return {
         id: item.id,
         worldwide: !!geo.worldwide,
-        worldwideLabel: item.source === "KEV" ? "EXPLOITED IN THE WILD // WORLDWIDE" : "DEPLOYED WORLDWIDE",
+        worldwideLabel: item.source === "KEV" ? "EXPLOITED IN THE WILD // WORLDWIDE"
+          : (item.source === "MSRC" || item.source === "CISCO") ? "PRODUCTS DEPLOYED WORLDWIDE" : "DEPLOYED WORLDWIDE",
         points,
         regions,
         focus: firstAffected ? [firstAffected.lat, firstAffected.lon] : null
@@ -2473,9 +2517,7 @@
 
     function setThreatFilter(f) {
       THREAT_STATE.filter = f;
-      document.querySelectorAll("[data-threat-filter]").forEach(b => {
-        b.classList.toggle("active-toggle", b.dataset.threatFilter === f);
-      });
+      renderThreatFilters();
       renderThreatFeed();
     }
 
@@ -2484,8 +2526,7 @@
       if (!list) return;
       const shown = THREAT_STATE.items
         .map((item, idx) => ({ item, idx }))
-        .filter(({ item }) => THREAT_STATE.filter === "all" ||
-          (THREAT_STATE.filter === "KEV" ? item.source === "KEV" : String(item.source).startsWith("ICS")));
+        .filter(({ item }) => THREAT_STATE.filter === "all" || item.source === THREAT_STATE.filter);
       if (!shown.length) {
         list.innerHTML = `<div class="threat-row"><span class="threat-meta">${THREAT_STATE.items.length ? "No items for this filter." : "FAILED TO FETCH"}</span></div>`;
         return;
@@ -2493,7 +2534,7 @@
       list.innerHTML = shown.map(({ item, idx }) => {
         const sev = String(item.severity || "INFO").toLowerCase().replace(/[^a-z]/g, "");
         const sevText = item.cvss ? `${esc(item.severity)} ${esc(Number(item.cvss).toFixed(1))}` : esc(item.severity || "INFO");
-        const src = item.source === "KEV" ? "KEV" : item.source === "ICS-MED" ? "ICS-MED" : "ICS";
+        const src = threatSourceBadge(String(item.source || "?"), "threat-src");
         const geo = item.geo || {};
         const where = geo.worldwide ? "worldwide" :
           [].concat(geo.countries || [], (geo.regions || []).map(r => REGION_LABELS[r] || r)).join(", ") || "location n/a";
@@ -2512,7 +2553,7 @@
           <div class="threat-row${THREAT_STATE.pinned === idx ? " pinned" : ""}" tabindex="0" data-threat-idx="${idx}">
             <div class="threat-line">
               <span class="threat-date">${esc(String(item.date || "").slice(5))}</span>
-              <span class="threat-src">${src}</span>
+              ${src}
               <span class="threat-sev sev-${sev}">${sevText}</span>
               ${title}
             </div>
@@ -2522,6 +2563,14 @@
     }
 
     function wireThreatPanel() {
+      const filters = document.getElementById("threatFilters");
+      if (filters && !filters.dataset.wired) {
+        filters.dataset.wired = "1";
+        filters.addEventListener("click", e => {
+          const b = e.target.closest("[data-threat-filter]");
+          if (b) setThreatFilter(b.dataset.threatFilter);
+        });
+      }
       const list = document.getElementById("threatList");
       if (!list || list.dataset.wired) return;
       list.dataset.wired = "1";
@@ -2552,7 +2601,15 @@
         const res = await fetch("threat_feed.json?t=" + Date.now());
         if (!res.ok) throw new Error("HTTP " + res.status);
         const data = await res.json();
-        THREAT_STATE.items = Array.isArray(data.items) ? data.items.slice(0, 40) : [];
+        THREAT_STATE.items = Array.isArray(data.items) ? data.items.slice(0, 100) : [];
+        THREAT_STATE.sources = {};
+        THREAT_STATE.sourceOrder = [];
+        (Array.isArray(data.sources) ? data.sources : []).forEach(src => {
+          if (!src || !/^[A-Z][A-Z0-9-]{1,11}$/.test(String(src.id || ""))) return;
+          THREAT_STATE.sources[src.id] = src;
+          THREAT_STATE.sourceOrder.push(src.id);
+        });
+        if (!THREAT_STATE.sources[THREAT_STATE.filter]) THREAT_STATE.filter = "all";
         THREAT_STATE.updated = String(data.updated || "");
         if (stamp) {
           const d = new Date(THREAT_STATE.updated);
@@ -2563,6 +2620,7 @@
         if (stamp) stamp.textContent = "FAILED TO FETCH";
       }
       THREAT_STATE.pinned = null;
+      renderThreatFilters();
       renderThreatFeed();
     }
 
