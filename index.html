@@ -633,7 +633,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.4.0]</span>
+        <span id="titleVersionBadge">[v.2.5.0]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -676,7 +676,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> VENICE, FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.4.0</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.0</span></div>
         </div>
       </aside>
 
@@ -830,6 +830,27 @@
               <span>OPERATOR: hackatnight</span>
             </div>
             <div class="grid-2" id="projectsGrid"></div>
+
+            <div class="sec-bar">
+              <span>SYSTEM &amp; FIRMWARE RELEASE CHANGELOG <span class="xray-pill">TAB: Changelog</span></span>
+              <span id="changelogCountBadge" class="tag">LIVE FEED</span>
+            </div>
+            <div class="card">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="width:95px">Date</th>
+                      <th style="width:80px">Version</th>
+                      <th style="width:140px">Project</th>
+                      <th>Release Summary</th>
+                      <th style="width:110px">Tag</th>
+                    </tr>
+                  </thead>
+                  <tbody id="changelogTableBody"></tbody>
+                </table>
+              </div>
+            </div>
           </section>
 
           <!-- 05 // DOWNLOADS -->
@@ -952,7 +973,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.4.0]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.0]</div>
     </div>
   </div>
 
@@ -979,7 +1000,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.4.0",
+      APP_VERSION: "v.2.5.0",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
@@ -1053,6 +1074,16 @@
         { "File ID": "DL-01", Title: "CYD-GB-Emulator-Firmware.bin", Version: "v1.4.2", Platform: "ESP32-2432S024C", Size: "1.42 MB", "SHA-256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "Download URL": "https://github.com/hackatnight/TestingRepo", Count: 148 },
         { "File ID": "DL-02", Title: "FireOS8-Debloat-ADB-Kit.zip", Version: "v1.0.8", Platform: "Windows / Linux ADB", Size: "312 KB", "SHA-256": "8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4", "Download URL": "https://github.com/hackatnight", Count: 94 },
         { "File ID": "DL-03", Title: "ELM327-OBD2-PID-Scanner.ino", Version: "v1.1.0", Platform: "PlatformIO / Arduino", Size: "64 KB", "SHA-256": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae", "Download URL": "https://github.com/hackatnight", Count: 73 }
+      ],
+      changelog: [
+        { Date: "2026-11-13", Version: "v.2.5.0", Project: "H@N Core", Summary: "Added live Release Changelog feed under Projects tab and repaired backend Changelog schema.", Tag: "🟢 RELEASE" },
+        { Date: "2026-11-13", Version: "v.2.4.0", Project: "H@N Telemetry", Summary: "Added 24 prioritized Florida/National ISP & enterprise outage targets with live company favicons.", Tag: "🟢 FEAT" },
+        { Date: "2026-11-13", Version: "v.2.3.0", Project: "H@N Core", Summary: "Rebranded window header to H@N, added Windows-safe ISO flag icons, and wired Outage_Targets sheet.", Tag: "🔵 UPDATE" },
+        { Date: "2026-11-13", Version: "v.2.2.0", Project: "H@N UI / Globe", Summary: "Launched Sub7 Legends dark chassis with 1:1 real-time ECEF orbital satellite & ISS telemetry globe.", Tag: "🟢 RELEASE" },
+        { Date: "2026-11-12", Version: "v.2.1.5", Project: "Workspace Router", Summary: "Deployed unified Google Apps Script backend for Visits Log, Client Vault, Triage, and Uptime probes.", Tag: "🟣 INFRA" },
+        { Date: "2026-10-24", Version: "v.1.4.2", Project: "CYD GB Emulator", Summary: "Optimized C++ Peanut-GB core on ESP32-2432S024C with CST816S capacitive touch & SD ROM paging.", Tag: "🟠 FIRMWARE" },
+        { Date: "2026-10-18", Version: "v.1.1.0", Project: "OBD-II Gauge", Summary: "Added real-time ELM327 Bluetooth CAN-bus PID telemetry cluster for ESP32 CYD display.", Tag: "🟠 FIRMWARE" },
+        { Date: "2026-10-12", Version: "v.2.0.3", Project: "9211B Head Unit", Summary: "Released debloated Android 8 MT82/9211B head unit firmware with custom steering wheel bindings.", Tag: "🟠 FIRMWARE" }
       ],
       triage: [
         { id: "BUG-104", project: "CYD Emulator", severity: "LOW", summary: "Add palette cycle shortcut on touch bezel", status: "IN_PROGRESS" },
@@ -1361,6 +1392,30 @@
           <div style="font-size:9px;color:var(--muted);word-break:break-all;margin-bottom:8px">SHA256: ${d["SHA-256"]}</div>
           <button class="s7-btn active-toggle" onclick="triggerDownload('${d["File ID"]}', '${d["Download URL"]}')">[download package]</button>
         </div>`).join("");
+
+      // Changelog Table
+      const clRows = STATE.changelog || [];
+      const clBadge = document.getElementById("changelogCountBadge");
+      if (clBadge) clBadge.textContent = `${clRows.length} RELEASES`;
+      const clBody = document.getElementById("changelogTableBody");
+      if (clBody) {
+        clBody.innerHTML = clRows.map(c => {
+          const rawDate = c.Date || c.date || "";
+          const fmtDate = String(rawDate).slice(0, 10);
+          const ver = c.Version || c.version || "--";
+          const proj = c.Project || c.project || "H@N";
+          const sum = c.Summary || c.summary || "";
+          const tag = c.Tag || c.tag || "UPDATE";
+          return `
+            <tr>
+              <td style="color:var(--muted);white-space:nowrap">${fmtDate}</td>
+              <td style="color:var(--accent);font-weight:700;white-space:nowrap">${ver}</td>
+              <td style="font-weight:700;white-space:nowrap">${proj}</td>
+              <td>${sum}</td>
+              <td><span class="tag">${tag}</span></td>
+            </tr>`;
+        }).join("");
+      }
 
       // Triage Table
       document.getElementById("triageTableBody").innerHTML = STATE.triage.map(t => `
@@ -2062,6 +2117,7 @@
             if (data.uptime && data.uptime.length) STATE.uptime = data.uptime;
             if (data.telemetry) STATE.telemetry = data.telemetry;
             if (data.projects && data.projects.length) STATE.projects = data.projects;
+            if (data.changelog && data.changelog.length) STATE.changelog = data.changelog;
             if (data.downloads && data.downloads.length) STATE.downloads = data.downloads;
             if (data.triage && data.triage.length) STATE.triage = data.triage;
             setStatus("live workspace telemetry synchronized.");
