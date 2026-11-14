@@ -1,246 +1,195 @@
 {
-  "lastUpdated": "2026-11-14 03:11:53 UTC",
-  "summary": "24/24 NODES NOMINAL",
+  "lastUpdated": "2026-11-14 08:12:51 UTC",
+  "summary": "17/21 NODES NOMINAL",
   "services": [
     {
       "id": "NODE-FRNT",
       "name": "📡 Frontier Fiber (FL ISP)",
-      "domain": "frontier.com",
       "url": "https://frontier.com/helpcenter/categories/internet/troubleshooting/service-status",
-      "http_status": 200,
-      "latency_ms": 28,
+      "http_status": 403,
+      "latency_ms": 311,
       "state": "ONLINE",
-      "detail": "Edge Reachable (200 OK)"
+      "detail": "Edge Active (HTTP 403)"
     },
     {
       "id": "NODE-XFIN",
       "name": "📡 Comcast / Xfinity (FL ISP)",
-      "domain": "xfinity.com",
       "url": "https://www.xfinity.com/support/status",
       "http_status": 200,
-      "latency_ms": 32,
+      "latency_ms": 253,
       "state": "ONLINE",
-      "detail": "Edge Reachable (200 OK)"
+      "detail": "HTTP 200 Reachable"
     },
     {
       "id": "NODE-SPEC",
       "name": "📡 Spectrum / Charter (FL ISP)",
-      "domain": "spectrum.net",
       "url": "https://www.spectrum.net/support/internet/outage",
       "http_status": 200,
-      "latency_ms": 35,
+      "latency_ms": 371,
       "state": "ONLINE",
-      "detail": "Edge Reachable (200 OK)"
+      "detail": "HTTP 200 Reachable"
     },
     {
       "id": "NODE-ATT",
       "name": "📡 AT&T Fiber (FL ISP)",
-      "domain": "att.com",
       "url": "https://www.att.com/outages/",
       "http_status": 200,
-      "latency_ms": 39,
+      "latency_ms": 589,
       "state": "ONLINE",
-      "detail": "Edge Reachable (200 OK)"
+      "detail": "HTTP 200 Reachable"
     },
     {
       "id": "NODE-TMO",
       "name": "📶 T-Mobile 5G Home ISP",
-      "domain": "t-mobile.com",
       "url": "https://www.t-mobile.com/support/coverage",
       "http_status": 200,
-      "latency_ms": 44,
+      "latency_ms": 94,
       "state": "ONLINE",
-      "detail": "Edge Reachable (200 OK)"
+      "detail": "HTTP 200 Reachable"
     },
     {
       "id": "NODE-VZ",
       "name": "📡 Verizon 5G / Fios ISP",
-      "domain": "verizon.com",
       "url": "https://www.verizon.com/support/check-network-status/",
       "http_status": 200,
-      "latency_ms": 41,
+      "latency_ms": 584,
       "state": "ONLINE",
-      "detail": "Edge Reachable (200 OK)"
+      "detail": "HTTP 200 Reachable"
     },
     {
       "id": "NODE-CTL",
       "name": "📡 CenturyLink / Quantum (FL)",
-      "domain": "centurylink.com",
       "url": "https://www.centurylink.com/home/help/internet/outages.html",
-      "http_status": 200,
-      "latency_ms": 47,
-      "state": "ONLINE",
-      "detail": "Edge Reachable (200 OK)"
+      "http_status": 0,
+      "latency_ms": 0,
+      "state": "OFFLINE",
+      "detail": "Connection Timeout / Unreachable"
     },
     {
       "id": "NODE-HTW",
       "name": "📡 Hotwire Fision (FL Fiber)",
-      "domain": "gethotwired.com",
       "url": "https://gethotwired.com",
       "http_status": 200,
-      "latency_ms": 31,
+      "latency_ms": 487,
       "state": "ONLINE",
-      "detail": "Edge Reachable (200 OK)"
+      "detail": "HTTP 200 Reachable"
     },
     {
       "id": "NODE-STLK",
       "name": "🛰️ Starlink Satellite ISP",
-      "domain": "starlink.com",
       "url": "https://www.starlink.com",
       "http_status": 200,
-      "latency_ms": 52,
+      "latency_ms": 201,
       "state": "ONLINE",
-      "detail": "Edge Reachable (200 OK)"
+      "detail": "HTTP 200 Reachable"
     },
     {
       "id": "NODE-MS365",
       "name": "🟦 Microsoft 365 / Azure",
-      "domain": "microsoft.com",
       "url": "https://status.cloud.microsoft",
       "http_status": 200,
-      "latency_ms": 38,
+      "latency_ms": 57,
       "state": "ONLINE",
-      "detail": "Edge Reachable (200 OK)"
+      "detail": "HTTP 200 Reachable"
     },
     {
       "id": "NODE-OUTLOOK",
       "name": "📧 Microsoft Outlook",
-      "domain": "outlook.live.com",
       "url": "https://portal.office.com/servicestatus",
       "http_status": 200,
-      "latency_ms": 41,
+      "latency_ms": 193,
       "state": "ONLINE",
-      "detail": "Edge Reachable (200 OK)"
+      "detail": "HTTP 200 Reachable"
     },
     {
       "id": "NODE-EXCH",
       "name": "🔄 MS Exchange Online",
-      "domain": "office.com",
       "url": "https://outlook.office365.com/owa/healthcheck.htm",
-      "http_status": 200,
-      "latency_ms": 29,
-      "state": "ONLINE",
-      "detail": "Edge Reachable (200 OK)"
+      "http_status": 417,
+      "latency_ms": 133,
+      "state": "OFFLINE",
+      "detail": "HTTP Error 417"
     },
     {
       "id": "NODE-GWS",
       "name": "🌐 Google Workspace",
-      "domain": "google.com",
       "url": "https://www.google.com/appsstatus/dashboard/incidents.json",
       "http_status": 200,
-      "latency_ms": 31,
+      "latency_ms": 39,
       "state": "ONLINE",
-      "detail": "All Systems Operational"
+      "detail": "Google Workspace Nominal"
     },
     {
       "id": "NODE-AWS",
       "name": "🟧 Amazon Web Services",
-      "domain": "aws.amazon.com",
       "url": "https://health.aws.amazon.com/health/status",
       "http_status": 200,
-      "latency_ms": 45,
+      "latency_ms": 402,
       "state": "ONLINE",
-      "detail": "Edge Reachable (200 OK)"
+      "detail": "HTTP 200 Reachable"
     },
     {
       "id": "NODE-CF",
       "name": "☁️ Cloudflare Edge",
-      "domain": "cloudflare.com",
       "url": "https://www.cloudflarestatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 19,
-      "state": "ONLINE",
-      "detail": "All Systems Operational"
+      "latency_ms": 196,
+      "state": "DEGRADED",
+      "detail": "Partially Degraded Service"
     },
     {
       "id": "NODE-META",
       "name": "📘 Facebook / Meta",
-      "domain": "facebook.com",
       "url": "https://metastatus.com/data/orgs.json",
       "http_status": 200,
-      "latency_ms": 44,
+      "latency_ms": 114,
       "state": "ONLINE",
-      "detail": "All Systems Operational"
+      "detail": "Meta Graph & Services Nominal"
     },
     {
       "id": "NODE-OA",
       "name": "🧠 OpenAI API",
-      "domain": "openai.com",
       "url": "https://status.openai.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 62,
-      "state": "ONLINE",
-      "detail": "All Systems Operational"
-    },
-    {
-      "id": "NODE-SLK",
-      "name": "💼 Slack",
-      "domain": "slack.com",
-      "url": "https://status.slack.com/api/v2.0.0/current",
-      "http_status": 200,
-      "latency_ms": 33,
-      "state": "ONLINE",
-      "detail": "All Systems Operational"
-    },
-    {
-      "id": "NODE-ZM",
-      "name": "📹 Zoom",
-      "domain": "zoom.us",
-      "url": "https://status.zoom.us/api/v2/status.json",
-      "http_status": 200,
-      "latency_ms": 47,
-      "state": "ONLINE",
-      "detail": "All Systems Operational"
+      "latency_ms": 277,
+      "state": "DEGRADED",
+      "detail": "Partial System Degradation"
     },
     {
       "id": "NODE-GH",
       "name": "🐙 GitHub Pages / API",
-      "domain": "github.com",
       "url": "https://www.githubstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 34,
+      "latency_ms": 117,
       "state": "ONLINE",
       "detail": "All Systems Operational"
     },
     {
       "id": "NODE-DC",
       "name": "💬 Discord Infra",
-      "domain": "discord.com",
       "url": "https://discordstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 48,
-      "state": "ONLINE",
-      "detail": "All Systems Operational"
-    },
-    {
-      "id": "NODE-RD",
-      "name": "👽 Reddit",
-      "domain": "reddit.com",
-      "url": "https://www.redditstatus.com/api/v2/status.json",
-      "http_status": 200,
-      "latency_ms": 39,
+      "latency_ms": 226,
       "state": "ONLINE",
       "detail": "All Systems Operational"
     },
     {
       "id": "NODE-DO",
       "name": "🌊 DigitalOcean",
-      "domain": "digitalocean.com",
       "url": "https://status.digitalocean.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 41,
+      "latency_ms": 102,
       "state": "ONLINE",
       "detail": "All Systems Operational"
     },
     {
       "id": "NODE-01",
       "name": "🛡️ HACKATNIGHT_CORE",
-      "domain": "hackatnight.com",
       "url": "https://hackatnight.com",
       "http_status": 200,
-      "latency_ms": 36,
+      "latency_ms": 238,
       "state": "ONLINE",
-      "detail": "Edge Reachable (200 OK)"
+      "detail": "HTTP 200 Reachable"
     }
   ]
 }
