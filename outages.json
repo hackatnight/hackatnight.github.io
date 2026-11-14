@@ -1,15 +1,23 @@
 {
-  "lastUpdated": "2026-11-14 20:00:35 UTC",
-  "summary": "22/24 NODES NOMINAL",
+  "lastUpdated": "2026-11-14 20:07:14 UTC",
+  "summary": "21/24 NODES NOMINAL",
   "services": [
     {
       "id": "NODE-FRNT",
       "name": "📡 Frontier Fiber (FL ISP)",
       "url": "https://frontier.com/helpcenter/categories/internet/troubleshooting/service-status",
       "http_status": 403,
-      "latency_ms": 334,
-      "state": "ONLINE",
-      "detail": "Edge Active (HTTP 403)",
+      "latency_ms": 327,
+      "state": "UNVERIFIED",
+      "detail": "Blocked by site (HTTP 403) // can't verify",
+      "sources": [
+        {
+          "source": "Page check",
+          "state": "UNVERIFIED",
+          "detail": "Blocked by site (HTTP 403) // can't verify"
+        }
+      ],
+      "agree": "1 source",
       "type": "http",
       "geo": {
         "host": "frontier.com",
@@ -31,9 +39,17 @@
       "name": "📡 Comcast / Xfinity (FL ISP)",
       "url": "https://www.xfinity.com/support/status",
       "http_status": 200,
-      "latency_ms": 387,
+      "latency_ms": 304,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable",
+      "detail": "Page reachable (HTTP 200) // no status feed",
+      "sources": [
+        {
+          "source": "Page check",
+          "state": "ONLINE",
+          "detail": "Page reachable (HTTP 200) // no status feed"
+        }
+      ],
+      "agree": "1 source",
       "type": "http",
       "geo": {
         "host": "www.xfinity.com",
@@ -55,9 +71,17 @@
       "name": "📡 Spectrum / Charter (FL ISP)",
       "url": "https://www.spectrum.net/support/internet/outage",
       "http_status": 200,
-      "latency_ms": 227,
+      "latency_ms": 505,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable",
+      "detail": "Page reachable (HTTP 200) // no status feed",
+      "sources": [
+        {
+          "source": "Page check",
+          "state": "ONLINE",
+          "detail": "Page reachable (HTTP 200) // no status feed"
+        }
+      ],
+      "agree": "1 source",
       "type": "http",
       "geo": {
         "host": "www.spectrum.net",
@@ -79,9 +103,17 @@
       "name": "📡 AT&T Fiber (FL ISP)",
       "url": "https://www.att.com/outages/",
       "http_status": 200,
-      "latency_ms": 219,
+      "latency_ms": 226,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable",
+      "detail": "Page reachable (HTTP 200) // no status feed",
+      "sources": [
+        {
+          "source": "Page check",
+          "state": "ONLINE",
+          "detail": "Page reachable (HTTP 200) // no status feed"
+        }
+      ],
+      "agree": "1 source",
       "type": "http",
       "geo": {
         "host": "www.att.com",
@@ -103,9 +135,17 @@
       "name": "📶 T-Mobile 5G Home ISP",
       "url": "https://www.t-mobile.com/support/coverage",
       "http_status": 200,
-      "latency_ms": 355,
+      "latency_ms": 427,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable",
+      "detail": "Page reachable (HTTP 200) // no status feed",
+      "sources": [
+        {
+          "source": "Page check",
+          "state": "ONLINE",
+          "detail": "Page reachable (HTTP 200) // no status feed"
+        }
+      ],
+      "agree": "1 source",
       "type": "http",
       "geo": {
         "host": "www.t-mobile.com",
@@ -127,9 +167,17 @@
       "name": "📡 Verizon 5G / Fios ISP",
       "url": "https://www.verizon.com/support/check-network-status/",
       "http_status": 200,
-      "latency_ms": 265,
+      "latency_ms": 230,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable",
+      "detail": "Page reachable (HTTP 200) // no status feed",
+      "sources": [
+        {
+          "source": "Page check",
+          "state": "ONLINE",
+          "detail": "Page reachable (HTTP 200) // no status feed"
+        }
+      ],
+      "agree": "1 source",
       "type": "http",
       "geo": {
         "host": "www.verizon.com",
@@ -151,9 +199,17 @@
       "name": "📡 CenturyLink / Quantum (FL)",
       "url": "https://www.quantumfiber.com",
       "http_status": 200,
-      "latency_ms": 415,
+      "latency_ms": 447,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable",
+      "detail": "Page reachable (HTTP 200) // no status feed",
+      "sources": [
+        {
+          "source": "Page check",
+          "state": "ONLINE",
+          "detail": "Page reachable (HTTP 200) // no status feed"
+        }
+      ],
+      "agree": "1 source",
       "type": "http",
       "geo": {
         "host": "www.quantumfiber.com",
@@ -175,9 +231,17 @@
       "name": "📡 Hotwire Fision (FL Fiber)",
       "url": "https://gethotwired.com",
       "http_status": 200,
-      "latency_ms": 215,
+      "latency_ms": 505,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable",
+      "detail": "Page reachable (HTTP 200) // no status feed",
+      "sources": [
+        {
+          "source": "Page check",
+          "state": "ONLINE",
+          "detail": "Page reachable (HTTP 200) // no status feed"
+        }
+      ],
+      "agree": "1 source",
       "type": "http",
       "geo": {
         "host": "gethotwired.com",
@@ -199,9 +263,17 @@
       "name": "🛰️ Starlink Satellite ISP",
       "url": "https://www.starlink.com",
       "http_status": 200,
-      "latency_ms": 114,
+      "latency_ms": 218,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable",
+      "detail": "Page reachable (HTTP 200) // no status feed",
+      "sources": [
+        {
+          "source": "Page check",
+          "state": "ONLINE",
+          "detail": "Page reachable (HTTP 200) // no status feed"
+        }
+      ],
+      "agree": "1 source",
       "type": "http",
       "geo": {
         "host": "www.starlink.com",
@@ -223,9 +295,22 @@
       "name": "🟦 Microsoft 365 / Azure",
       "url": "https://status.cloud.microsoft",
       "http_status": 200,
-      "latency_ms": 75,
+      "latency_ms": 416,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable",
+      "detail": "Page reachable (HTTP 200) // no status feed",
+      "sources": [
+        {
+          "source": "Page check",
+          "state": "ONLINE",
+          "detail": "Page reachable (HTTP 200) // no status feed"
+        },
+        {
+          "source": "Azure management API",
+          "state": "ONLINE",
+          "detail": "HTTP 400 in 83 ms"
+        }
+      ],
+      "agree": "2/2 agree",
       "type": "http",
       "geo": {
         "host": "status.cloud.microsoft",
@@ -247,9 +332,22 @@
       "name": "📧 Microsoft Outlook",
       "url": "https://portal.office.com/servicestatus",
       "http_status": 200,
-      "latency_ms": 130,
+      "latency_ms": 318,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable",
+      "detail": "Page reachable (HTTP 200) // no status feed",
+      "sources": [
+        {
+          "source": "Page check",
+          "state": "ONLINE",
+          "detail": "Page reachable (HTTP 200) // no status feed"
+        },
+        {
+          "source": "Microsoft sign-in",
+          "state": "ONLINE",
+          "detail": "HTTP 200 in 72 ms"
+        }
+      ],
+      "agree": "2/2 agree",
       "type": "http",
       "geo": {
         "host": "portal.office.com",
@@ -271,9 +369,22 @@
       "name": "🔄 MS Exchange Online",
       "url": "https://outlook.office365.com/owa/healthcheck.htm",
       "http_status": 417,
-      "latency_ms": 160,
+      "latency_ms": 66,
       "state": "ONLINE",
-      "detail": "Edge Active (HTTP 417)",
+      "detail": "Microsoft sign-in reachable // Blocked by site (HTTP 417) // can't verify",
+      "sources": [
+        {
+          "source": "Page check",
+          "state": "UNVERIFIED",
+          "detail": "Blocked by site (HTTP 417) // can't verify"
+        },
+        {
+          "source": "Microsoft sign-in",
+          "state": "ONLINE",
+          "detail": "HTTP 200 in 73 ms"
+        }
+      ],
+      "agree": "1/2 (primary blocked)",
       "type": "http",
       "geo": {
         "host": "outlook.office365.com",
@@ -295,9 +406,22 @@
       "name": "🌐 Google Workspace",
       "url": "https://www.google.com/appsstatus/dashboard/incidents.json",
       "http_status": 200,
-      "latency_ms": 30,
+      "latency_ms": 57,
       "state": "ONLINE",
-      "detail": "Google Workspace Nominal",
+      "detail": "No active Google Workspace incidents",
+      "sources": [
+        {
+          "source": "Official incident feed",
+          "state": "ONLINE",
+          "detail": "No active Google Workspace incidents"
+        },
+        {
+          "source": "Gmail",
+          "state": "ONLINE",
+          "detail": "HTTP 200 in 348 ms"
+        }
+      ],
+      "agree": "2/2 agree",
       "type": "google",
       "geo": {
         "host": "www.google.com",
@@ -319,9 +443,22 @@
       "name": "🟧 Amazon Web Services",
       "url": "https://health.aws.amazon.com/health/status",
       "http_status": 200,
-      "latency_ms": 180,
+      "latency_ms": 235,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable",
+      "detail": "Page reachable (HTTP 200) // no status feed",
+      "sources": [
+        {
+          "source": "Page check",
+          "state": "ONLINE",
+          "detail": "Page reachable (HTTP 200) // no status feed"
+        },
+        {
+          "source": "AWS S3 endpoint",
+          "state": "ONLINE",
+          "detail": "HTTP 200 in 321 ms"
+        }
+      ],
+      "agree": "2/2 agree",
       "type": "http",
       "geo": {
         "host": "health.aws.amazon.com",
@@ -343,9 +480,22 @@
       "name": "☁️ Cloudflare Edge",
       "url": "https://www.cloudflarestatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 57,
+      "latency_ms": 198,
       "state": "DEGRADED",
       "detail": "Partially Degraded Service",
+      "sources": [
+        {
+          "source": "Official status page",
+          "state": "DEGRADED",
+          "detail": "Partially Degraded Service"
+        },
+        {
+          "source": "Cloudflare edge",
+          "state": "ONLINE",
+          "detail": "HTTP 200 in 51 ms"
+        }
+      ],
+      "agree": "sources disagree",
       "type": "statuspage",
       "geo": {
         "host": "www.cloudflarestatus.com",
@@ -367,9 +517,22 @@
       "name": "📘 Facebook / Meta",
       "url": "https://metastatus.com/data/orgs.json",
       "http_status": 200,
-      "latency_ms": 95,
+      "latency_ms": 210,
       "state": "ONLINE",
-      "detail": "Meta Graph & Services Nominal",
+      "detail": "No known issues across Meta products",
+      "sources": [
+        {
+          "source": "Official status feed",
+          "state": "ONLINE",
+          "detail": "No known issues across Meta products"
+        },
+        {
+          "source": "Meta Graph API",
+          "state": "ONLINE",
+          "detail": "HTTP 400 in 119 ms"
+        }
+      ],
+      "agree": "2/2 agree",
       "type": "meta",
       "geo": {
         "host": "metastatus.com",
@@ -391,9 +554,22 @@
       "name": "🧠 OpenAI API",
       "url": "https://status.openai.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 160,
+      "latency_ms": 294,
       "state": "DEGRADED",
       "detail": "Partial System Degradation",
+      "sources": [
+        {
+          "source": "Official status page",
+          "state": "DEGRADED",
+          "detail": "Partial System Degradation"
+        },
+        {
+          "source": "OpenAI API",
+          "state": "ONLINE",
+          "detail": "HTTP 401 in 95 ms"
+        }
+      ],
+      "agree": "sources disagree",
       "type": "statuspage",
       "geo": {
         "host": "status.openai.com",
@@ -415,9 +591,22 @@
       "name": "💼 Slack",
       "url": "https://status.slack.com/api/v2.0.0/current",
       "http_status": 200,
-      "latency_ms": 197,
+      "latency_ms": 250,
       "state": "ONLINE",
       "detail": "All Systems Operational",
+      "sources": [
+        {
+          "source": "Official status API",
+          "state": "ONLINE",
+          "detail": "All Systems Operational"
+        },
+        {
+          "source": "Slack API",
+          "state": "ONLINE",
+          "detail": "HTTP 200 in 197 ms"
+        }
+      ],
+      "agree": "2/2 agree",
       "type": "slack",
       "geo": {
         "host": "status.slack.com",
@@ -439,9 +628,22 @@
       "name": "📹 Zoom",
       "url": "https://status.zoom.us/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 557,
+      "latency_ms": 410,
       "state": "ONLINE",
       "detail": "All Systems Operational",
+      "sources": [
+        {
+          "source": "Official status page",
+          "state": "ONLINE",
+          "detail": "All Systems Operational"
+        },
+        {
+          "source": "Zoom.us",
+          "state": "ONLINE",
+          "detail": "HTTP 200 in 161 ms"
+        }
+      ],
+      "agree": "2/2 agree",
       "type": "statuspage",
       "geo": {
         "host": "status.zoom.us",
@@ -463,9 +665,22 @@
       "name": "🐙 GitHub Pages / API",
       "url": "https://www.githubstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 233,
+      "latency_ms": 234,
       "state": "ONLINE",
       "detail": "All Systems Operational",
+      "sources": [
+        {
+          "source": "Official status page",
+          "state": "ONLINE",
+          "detail": "All Systems Operational"
+        },
+        {
+          "source": "GitHub.com",
+          "state": "ONLINE",
+          "detail": "HTTP 200 in 215 ms"
+        }
+      ],
+      "agree": "2/2 agree",
       "type": "statuspage",
       "geo": {
         "host": "www.githubstatus.com",
@@ -487,9 +702,22 @@
       "name": "💬 Discord Infra",
       "url": "https://discordstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 178,
+      "latency_ms": 272,
       "state": "ONLINE",
       "detail": "All Systems Operational",
+      "sources": [
+        {
+          "source": "Official status page",
+          "state": "ONLINE",
+          "detail": "All Systems Operational"
+        },
+        {
+          "source": "Discord API",
+          "state": "ONLINE",
+          "detail": "HTTP 200 in 114 ms"
+        }
+      ],
+      "agree": "2/2 agree",
       "type": "statuspage",
       "geo": {
         "host": "discordstatus.com",
@@ -511,9 +739,22 @@
       "name": "👽 Reddit",
       "url": "https://www.redditstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 287,
+      "latency_ms": 226,
       "state": "ONLINE",
       "detail": "All Systems Operational",
+      "sources": [
+        {
+          "source": "Official status page",
+          "state": "ONLINE",
+          "detail": "All Systems Operational"
+        },
+        {
+          "source": "Reddit.com",
+          "state": "ONLINE",
+          "detail": "HTTP 200 in 41 ms"
+        }
+      ],
+      "agree": "2/2 agree",
       "type": "statuspage",
       "geo": {
         "host": "www.redditstatus.com",
@@ -535,9 +776,22 @@
       "name": "🌊 DigitalOcean",
       "url": "https://status.digitalocean.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 111,
+      "latency_ms": 97,
       "state": "ONLINE",
       "detail": "All Systems Operational",
+      "sources": [
+        {
+          "source": "Official status page",
+          "state": "ONLINE",
+          "detail": "All Systems Operational"
+        },
+        {
+          "source": "DigitalOcean API",
+          "state": "ONLINE",
+          "detail": "HTTP 404 in 162 ms"
+        }
+      ],
+      "agree": "2/2 agree",
       "type": "statuspage",
       "geo": {
         "host": "status.digitalocean.com",
@@ -559,9 +813,17 @@
       "name": "🛡️ HACKATNIGHT_CORE",
       "url": "https://hackatnight.com",
       "http_status": 200,
-      "latency_ms": 137,
+      "latency_ms": 398,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable",
+      "detail": "Page reachable (HTTP 200) // no status feed",
+      "sources": [
+        {
+          "source": "Page check",
+          "state": "ONLINE",
+          "detail": "Page reachable (HTTP 200) // no status feed"
+        }
+      ],
+      "agree": "1 source",
       "type": "http",
       "geo": {
         "host": "hackatnight.com",
