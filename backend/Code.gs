@@ -908,6 +908,8 @@ function getSanitizedTelemetry() {
   // Geo columns (J-O). Exact header match so they never collide with the original "Country / Region" column.
   const cCountry = headers.indexOf("country");
   const cCode = headers.indexOf("country code");
+  const cGeoRegion = headers.indexOf("region");   // exact match = column K (state/province), not "Country / Region"
+  const geoRegions = {};                          // "US|Florida" -> visits (state level only, never city)
   const countries = {};
   const countryName = {};
   // Column C should hold a browser timezone like "America/New_York". Older rows from the v.2.5.5
@@ -927,6 +929,9 @@ function getSanitizedTelemetry() {
     if (/^[A-Z]{2}$/.test(code)) {
       countries[code] = (countries[code] || 0) + 1;
       countryName[code] = String(rows[i][cCountry] || code);
+      const stateName = cGeoRegion !== -1 ? String(rows[i][cGeoRegion] || "").trim().slice(0, 60) : "";
+      const key = code + "|" + stateName;
+      geoRegions[key] = (geoRegions[key] || 0) + 1;
     }
   }
 
@@ -970,6 +975,11 @@ function getSanitizedTelemetry() {
     topRegion: topRegion,
     topCountry: topCountryCode ? { code: topCountryCode, name: countryName[topCountryCode], visits: maxCountry } : null,
     countries: countries,
+    // State/province-level visit counts for the globe (no city, IP or coordinates)
+    geoRegions: Object.keys(geoRegions).map(k => {
+      const parts = k.split("|");
+      return { country: parts[0], region: parts[1], visits: geoRegions[k] };
+    }).sort((a, b) => b.visits - a.visits).slice(0, 80),
     devices: devices,
     regions: regions,
     recent: recent

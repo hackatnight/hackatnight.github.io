@@ -633,7 +633,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.5.10]</span>
+        <span id="titleVersionBadge">[v.2.5.11]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -676,7 +676,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> VENICE, FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.10</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.11</span></div>
         </div>
       </aside>
 
@@ -973,7 +973,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.10]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.11]</div>
     </div>
   </div>
 
@@ -1000,7 +1000,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.5.10",
+      APP_VERSION: "v.2.5.11",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
@@ -1064,6 +1064,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.5.11", Project: "H@N UI / Globe", Summary: "Globe shows real visitors: one pin per US state (at the state center) or per country, sized by visit count, replacing the placeholder pins. No city-level locations are shown.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.5.10", Project: "H@N Telemetry", Summary: "Outage feed now follows the Outage_Targets tab instantly: enabling, disabling, adding or deleting a target shows on the next page load; new targets are checked live until the next GitHub sync.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.5.9", Project: "H@N Core", Summary: "Visitor location: backend IP geolocation (cached, with fallback provider and kill switch) adds City/Region/Country columns to the Visits Log; site shows country flag + timezone only.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.5.8", Project: "H@N Core", Summary: "Security fix: all sheet and visitor-supplied data is now HTML-escaped before display, and project/download links only allow http(s) URLs.", Tag: "🟠 FIX" },
@@ -1736,15 +1737,87 @@
       zoom: 1.0
     };
 
+    // Index 0 is always HQ. Real visitor pins are rebuilt from backend telemetry by buildVisitorPins():
+    // one pin per US state (at the state's center) or per country (at the country's center).
+    // Pins never use a visitor's own coordinates, so no city is ever revealed.
     const VISITOR_PINS = [
-      { lat: 27.10, lon: -82.45, label: "HQ // VENICE, FL", hq: true },
-      { lat: 40.71, lon: -74.01, label: "US-EAST // NYC" },
-      { lat: 37.77, lon: -122.42, label: "US-WEST // SFO" },
-      { lat: 41.88, lon: -87.63, label: "US-CENT // ORD" },
-      { lat: 51.51, lon: -0.13, label: "EU-WEST // LON" },
-      { lat: 52.23, lon: 21.01, label: "EU-CENT // WAW" },
-      { lat: 35.68, lon: 139.69, label: "AP-EAST // TYO" }
+      { lat: 27.10, lon: -82.45, label: "HQ // VENICE, FL", hq: true }
     ];
+    const SIM_PINS = []; // "simulate ping" demo pins, kept separate from real visitor data
+
+    // Approximate geographic centers: [abbreviation, lat, lon]
+    const US_STATE_CENTERS = {
+      "Alabama": ["AL", 32.8, -86.8], "Alaska": ["AK", 64.7, -152.0], "Arizona": ["AZ", 34.3, -111.7],
+      "Arkansas": ["AR", 34.9, -92.4], "California": ["CA", 37.2, -119.5], "Colorado": ["CO", 39.0, -105.5],
+      "Connecticut": ["CT", 41.6, -72.7], "Delaware": ["DE", 39.0, -75.5], "District of Columbia": ["DC", 38.9, -77.0],
+      "Florida": ["FL", 28.6, -82.4], "Georgia": ["GA", 32.7, -83.4], "Hawaii": ["HI", 20.3, -156.4],
+      "Idaho": ["ID", 44.4, -114.6], "Illinois": ["IL", 40.0, -89.2], "Indiana": ["IN", 39.9, -86.3],
+      "Iowa": ["IA", 42.1, -93.5], "Kansas": ["KS", 38.5, -98.4], "Kentucky": ["KY", 37.5, -85.3],
+      "Louisiana": ["LA", 31.1, -92.0], "Maine": ["ME", 45.4, -69.2], "Maryland": ["MD", 39.0, -76.8],
+      "Massachusetts": ["MA", 42.3, -71.8], "Michigan": ["MI", 44.3, -85.4], "Minnesota": ["MN", 46.3, -94.3],
+      "Mississippi": ["MS", 32.7, -89.7], "Missouri": ["MO", 38.4, -92.5], "Montana": ["MT", 47.0, -109.6],
+      "Nebraska": ["NE", 41.5, -99.8], "Nevada": ["NV", 39.3, -116.6], "New Hampshire": ["NH", 43.7, -71.6],
+      "New Jersey": ["NJ", 40.2, -74.7], "New Mexico": ["NM", 34.4, -106.1], "New York": ["NY", 42.9, -75.5],
+      "North Carolina": ["NC", 35.6, -79.4], "North Dakota": ["ND", 47.5, -100.5], "Ohio": ["OH", 40.3, -82.8],
+      "Oklahoma": ["OK", 35.6, -97.5], "Oregon": ["OR", 43.9, -120.6], "Pennsylvania": ["PA", 40.9, -77.8],
+      "Rhode Island": ["RI", 41.7, -71.5], "South Carolina": ["SC", 33.9, -80.9], "South Dakota": ["SD", 44.4, -100.2],
+      "Tennessee": ["TN", 35.9, -86.4], "Texas": ["TX", 31.5, -99.3], "Utah": ["UT", 39.3, -111.7],
+      "Vermont": ["VT", 44.1, -72.7], "Virginia": ["VA", 37.5, -78.9], "Washington": ["WA", 47.4, -120.5],
+      "West Virginia": ["WV", 38.6, -80.6], "Wisconsin": ["WI", 44.6, -89.9], "Wyoming": ["WY", 43.0, -107.6],
+      "Puerto Rico": ["PR", 18.2, -66.5]
+    };
+    const COUNTRY_CENTERS = {
+      US: [39.8, -98.6], CA: [56.1, -106.3], MX: [23.6, -102.6], BR: [-14.2, -51.9], AR: [-38.4, -63.6],
+      CO: [4.6, -74.3], CL: [-35.7, -71.5], PE: [-9.2, -75.0], VE: [6.4, -66.6], HT: [19.0, -72.3],
+      DO: [18.7, -70.2], JM: [18.1, -77.3], CU: [21.5, -77.8], PR: [18.2, -66.5], GB: [54.0, -2.0],
+      IE: [53.4, -8.2], FR: [46.2, 2.2], DE: [51.2, 10.4], ES: [40.5, -3.7], PT: [39.4, -8.2],
+      IT: [41.9, 12.6], NL: [52.1, 5.3], BE: [50.5, 4.5], CH: [46.8, 8.2], AT: [47.5, 14.6],
+      PL: [51.9, 19.1], SE: [60.1, 18.6], NO: [60.5, 8.5], FI: [61.9, 25.7], DK: [56.3, 9.5],
+      CZ: [49.8, 15.5], HU: [47.2, 19.5], RO: [45.9, 25.0], GR: [39.1, 21.8], UA: [48.4, 31.2],
+      RU: [61.5, 105.3], TR: [39.0, 35.2], IL: [31.0, 34.9], SA: [23.9, 45.1], AE: [23.4, 53.8],
+      EG: [26.8, 30.8], ZA: [-30.6, 22.9], NG: [9.1, 8.7], KE: [0.0, 37.9], MA: [31.8, -7.1],
+      IN: [20.6, 79.0], PK: [30.4, 69.3], BD: [23.7, 90.4], CN: [35.9, 104.2], JP: [36.2, 138.3],
+      KR: [35.9, 127.8], TW: [23.7, 121.0], HK: [22.3, 114.2], SG: [1.35, 103.8], MY: [4.2, 102.0],
+      TH: [15.9, 101.0], VN: [14.1, 108.3], PH: [12.9, 121.8], ID: [-0.8, 113.9], AU: [-25.3, 133.8],
+      NZ: [-40.9, 174.9]
+    };
+
+    // Rebuild real visitor pins from backend telemetry (state-level geoRegions, or country counts on older backends)
+    function buildVisitorPins(tele) {
+      VISITOR_PINS.length = 1;
+      if (!tele) return;
+      const pins = {};
+      const add = (key, lat, lon, label, info, visits) => {
+        if (!pins[key]) pins[key] = { lat, lon, label, info, visits: 0 };
+        pins[key].visits += visits;
+      };
+      const countryPin = (code, visits) => {
+        const c = COUNTRY_CENTERS[code];
+        if (c) add("C:" + code, c[0], c[1], code, code, visits);
+      };
+      if (Array.isArray(tele.geoRegions) && tele.geoRegions.length) {
+        tele.geoRegions.forEach(g => {
+          const code = String(g.country || "").toUpperCase();
+          const visits = Number(g.visits) || 0;
+          if (!/^[A-Z]{2}$/.test(code) || !visits) return;
+          const st = code === "US" ? US_STATE_CENTERS[String(g.region || "").trim()] : null;
+          if (st) add("S:" + st[0], st[1], st[2], st[0], `${String(g.region).trim()}, US`, visits);
+          else countryPin(code, visits);
+        });
+      } else if (tele.countries && typeof tele.countries === "object") {
+        Object.keys(tele.countries).forEach(code => countryPin(String(code).toUpperCase(), Number(tele.countries[code]) || 0));
+      }
+      Object.values(pins)
+        .sort((a, b) => b.visits - a.visits)
+        .slice(0, 60)
+        .forEach(p => VISITOR_PINS.push({
+          lat: p.lat,
+          lon: p.lon,
+          label: `${p.label} // ${p.visits}`,
+          info: `${p.info} // ${p.visits} visit${p.visits === 1 ? "" : "s"}`,
+          visits: p.visits
+        }));
+    }
 
     const SUBMARINE_CABLES = [
       [[40.7, -74.0], [50.1, -5.5]],
@@ -1842,8 +1915,8 @@
         { lat: 43.65, lon: -79.38, label: "PING // YYZ" }
       ];
       const pick = pool[Math.floor(Math.random() * pool.length)];
-      VISITOR_PINS.push(pick);
-      if (VISITOR_PINS.length > 14) VISITOR_PINS.splice(1, 1);
+      SIM_PINS.push(Object.assign({ sim: true }, pick));
+      if (SIM_PINS.length > 8) SIM_PINS.shift();
       STATE.telemetry.totalViews += 1;
       STATE.telemetry.recent.unshift({
         timestamp: new Date().toISOString(),
@@ -2046,16 +2119,18 @@
         // Visitor Trajectory Arcs to HQ
         const hq = projectPoint(VISITOR_PINS[0].lat, VISITOR_PINS[0].lon, cx, cy, R);
         const pulseT = (nowMs % 2500) / 2500;
-        VISITOR_PINS.forEach(pin => {
+        VISITOR_PINS.concat(SIM_PINS).forEach(pin => {
           const p = projectPoint(pin.lat, pin.lon, cx, cy, R);
           if (!p.visible) return;
-          ctx.fillStyle = pin.hq ? "#ffd166" : "#7ce8ff";
+          // Real pins grow with visit count; simulated pings are dimmer
+          const radius = pin.hq ? 4.5 : pin.sim ? 2.5 : 3 + Math.min(4, Math.log2(Math.max(1, pin.visits || 1)));
+          ctx.fillStyle = pin.hq ? "#ffd166" : pin.sim ? "rgba(124, 232, 255, 0.55)" : "#7ce8ff";
           ctx.beginPath();
-          ctx.arc(p.x, p.y, pin.hq ? 4.5 : 3, 0, Math.PI * 2);
+          ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
           ctx.fill();
           ctx.font = "9px monospace";
-          ctx.fillText(pin.label, p.x + 6, p.y + 3);
-          hoverTargets.push({ x: p.x, y: p.y, info: `${pin.label} (${pin.lat.toFixed(1)}°, ${pin.lon.toFixed(1)}°)` });
+          ctx.fillText(pin.label, p.x + radius + 3, p.y + 3);
+          hoverTargets.push({ x: p.x, y: p.y, info: pin.info || `${pin.label} (${pin.lat.toFixed(1)}°, ${pin.lon.toFixed(1)}°)` });
 
           if (!pin.hq && hq.visible) {
             const midX = (p.x + hq.x) * 0.5;
@@ -2340,7 +2415,10 @@
           const data = await BACKEND_API.get({ action: "bootstrap" });
           if (data && data.status === "ok") {
             STATE.uptime = Array.isArray(data.uptime) ? data.uptime : [];
-            if (data.telemetry) STATE.telemetry = data.telemetry;
+            if (data.telemetry) {
+              STATE.telemetry = data.telemetry;
+              buildVisitorPins(data.telemetry);
+            }
             STATE.projects = Array.isArray(data.projects) ? data.projects : [];
             if (Array.isArray(data.changelog)) {
               const sheetVers = new Set(data.changelog.map(r => String(r.Version || r.version || "").trim()));
