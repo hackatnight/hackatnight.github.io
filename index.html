@@ -722,7 +722,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.8.3]</span>
+        <span id="titleVersionBadge">[v.2.8.4]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -765,7 +765,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.8.3</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.8.4</span></div>
         </div>
       </aside>
 
@@ -791,6 +791,7 @@
                   <button class="s7-btn active-toggle" id="btnSolar" onclick="toggleSolar()">solar: on</button>
                   <button class="s7-btn active-toggle" id="btnCables" onclick="toggleCables()">cables: on</button>
                   <button class="s7-btn active-toggle" id="btnAttacks" onclick="cycleAttackLayer()">attacks: on</button>
+                  <button class="s7-btn active-toggle" id="btnArcs" onclick="cycleArcs()" title="Cycle which arcs are drawn: all, visitor arcs only, attack arcs only, none">arcs: all</button>
                   <button class="s7-btn" onclick="simulatePing()">+ ping node</button>
                 </div>
               </div>
@@ -1082,7 +1083,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.8.3]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.8.4]</div>
     </div>
   </div>
 
@@ -1109,7 +1110,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.8.3",
+      APP_VERSION: "v.2.8.4",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1173,6 +1174,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.8.4", Project: "H@N UI / Globe", Summary: "New arcs toggle on the globe toolbar: show all arcs, visitor arcs only, attack arcs only, or none (remembered per browser).", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.8.3", Project: "H@N UI / Globe", Summary: "Threat feed now fills the left column down to the bottom of the page; the globe box can be resized by dragging its bottom edge; globe zoom goes much deeper (up to 8x) and the flat map can be panned.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.8.2", Project: "H@N UI / Globe", Summary: "Globe arcs now fly as raised 3D great-circle paths that roll smoothly over the horizon while the globe rotates, instead of vanishing.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.8.1", Project: "H@N Security", Summary: "Security hardening: formula-injection guard on every sheet write, vault files served privately through the backend, wrong-key lockout and strong vault keys, upload type/size/daily caps, generic backend errors, and a Content Security Policy.", Tag: "🟠 FIX" },
@@ -1866,6 +1868,7 @@
       showSats: true,
       showSolar: true,
       showCables: true,
+      arcs: "all",          // all | visitors | attacks | off
       attackLayer: "layer3",   // "layer3" (DDoS) | "layer7" (web) | "off"
       rotLon: -81.7,
       rotLat: 22.0,
@@ -2125,6 +2128,11 @@
       document.getElementById("btnSolar").classList.toggle("active-toggle", GLOBE_STATE.showSolar);
       document.getElementById("btnCables").textContent = `cables: ${GLOBE_STATE.showCables ? "on" : "off"}`;
       document.getElementById("btnCables").classList.toggle("active-toggle", GLOBE_STATE.showCables);
+      const btnArcs = document.getElementById("btnArcs");
+      if (btnArcs) {
+        btnArcs.textContent = `arcs: ${GLOBE_STATE.arcs}`;
+        btnArcs.classList.toggle("active-toggle", GLOBE_STATE.arcs !== "off");
+      }
       const btnA = document.getElementById("btnAttacks");
       if (btnA) {
         const cfOn = typeof attackLayersAvailable === "function" && attackLayersAvailable();
@@ -2141,6 +2149,17 @@
     function toggleSats() { GLOBE_STATE.showSats = !GLOBE_STATE.showSats; syncGlobeToggleButtons(); }
     function toggleSolar() { GLOBE_STATE.showSolar = !GLOBE_STATE.showSolar; syncGlobeToggleButtons(); }
     function toggleCables() { GLOBE_STATE.showCables = !GLOBE_STATE.showCables; syncGlobeToggleButtons(); }
+    // Arcs: all -> visitor arcs only -> attack arcs only -> off (remembered per browser)
+    function cycleArcs() {
+      const order = ["all", "visitors", "attacks", "off"];
+      GLOBE_STATE.arcs = order[(order.indexOf(GLOBE_STATE.arcs) + 1) % order.length];
+      try { localStorage.setItem("han_globe_arcs", GLOBE_STATE.arcs); } catch (_) {}
+      syncGlobeToggleButtons();
+    }
+    try {
+      const savedArcs = localStorage.getItem("han_globe_arcs");
+      if (["all", "visitors", "attacks", "off"].includes(savedArcs)) GLOBE_STATE.arcs = savedArcs;
+    } catch (_) {}
 
     /* =========================================================================
        ATTACK MAP LAYER
@@ -2635,7 +2654,7 @@
         VISITOR_PINS.concat(SIM_PINS).forEach(pin => {
           const p = projectPoint(pin.lat, pin.lon, cx, cy, R);
           // Arc to HQ first, so it keeps showing while either end is over the horizon
-          if (!pin.hq) {
+          if (!pin.hq && (GLOBE_STATE.arcs === "all" || GLOBE_STATE.arcs === "visitors")) {
             const pts = arcSamples(pin.lat, pin.lon, VISITOR_PINS[0].lat, VISITOR_PINS[0].lon, cx, cy, R, 32);
             strokeArc(ctx, pts, () => "rgba(124, 232, 255, 0.45)", 1);
             const pk = pointOnArc(pts, pulseT);
@@ -2737,7 +2756,7 @@
               }
               return;
             }
-            {
+            if (GLOBE_STATE.arcs === "all" || GLOBE_STATE.arcs === "attacks") {
               // Great-circle arc lifted off the surface; fades from red (origin) to orange (target)
               const pts = arcSamples(o[0], o[1], t[0], t[1], cx, cy, R, 44);
               strokeArc(ctx, pts, f => `rgba(255, ${Math.round(77 + 82 * f)}, ${Math.round(94 - 27 * f)}, ${(0.95 - 0.4 * f).toFixed(2)})`, 0.8 + 3.2 * share);
