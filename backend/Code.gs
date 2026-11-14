@@ -560,7 +560,7 @@ function syncOutageStatus(d) {
   // Only accept nodes that exist in Outage_Targets (blocks junk rows from random POSTs)
   const knownIds = {};
   for (let i = 1; i < targetRows.length; i++) knownIds[String(targetRows[i][0])] = true;
-  const validStates = { ONLINE: true, DEGRADED: true, OFFLINE: true };
+  const validStates = { ONLINE: true, DEGRADED: true, OFFLINE: true, UNVERIFIED: true };
   const nodes = d.nodes
     .filter(n => n && knownIds[String(n.id)] && validStates[n.state])
     .slice(0, Math.max(0, targetRows.length - 1));
@@ -568,7 +568,8 @@ function syncOutageStatus(d) {
 
   nodes.forEach(node => {
     const badge = node.state === "ONLINE" ? "🟢 ONLINE" :
-                  node.state === "DEGRADED" ? "🟡 DEGRADED" : "🔴 OFFLINE";
+                  node.state === "DEGRADED" ? "🟡 DEGRADED" :
+                  node.state === "UNVERIFIED" ? "⚪ UNVERIFIED" : "🔴 OFFLINE";
 
     // Update Last State & Last Latency inside Outage_Targets
     if (targetSheet && targetRows.length > 1) {

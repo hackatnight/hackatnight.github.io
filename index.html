@@ -552,6 +552,9 @@
     .threat-meta { color: var(--muted); font-size: 10px; margin-top: 2px; }
     .outage-card { cursor: pointer; }
     .outage-card:hover, .outage-card:focus { outline: 1px solid var(--accent); outline-offset: -1px; }
+    .outage-agree { font-size: 9px; color: var(--accent); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .outage-agree.warn { color: var(--warn); }
+    .tag-muted { color: var(--muted) !important; border-color: var(--muted) !important; }
     .outage-loc { font-size: 9px; color: var(--muted); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .threat-foot { padding: 4px 8px; color: var(--muted); font-size: 9px; border-top: 1px solid var(--card-border); }
 
@@ -725,7 +728,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.9.1]</span>
+        <span id="titleVersionBadge">[v.2.10.0]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -768,7 +771,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.9.1</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.10.0</span></div>
         </div>
       </aside>
 
@@ -1086,7 +1089,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.9.1]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.10.0]</div>
     </div>
   </div>
 
@@ -1113,7 +1116,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.9.1",
+      APP_VERSION: "v.2.10.0",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1177,6 +1180,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.10.0", Project: "H@N Outages", Summary: "Outage checks rebuilt on real sources (Cloudflare Radar + IODA for ISPs, AWS Health, Azure, Google and Meta feeds actually parsed), a second independent check per target with an agreement indicator, and blocked pages now show UNVERIFIED instead of ONLINE.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.9.1", Project: "H@N UI / Outages", Summary: "Outage target hover now shows both the provider HQ / main region (gold) and the CDN edge or server the probe reached (red), linked on the globe.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.9.0", Project: "H@N UI / Outages", Summary: "Outage targets now show where their servers are: hovering a card pins the server location on the globe (CDN edges flagged), and clicking opens its status page.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.8.5", Project: "H@N UI / Globe", Summary: "Globe shrinks to fit short windows so the threat feed always keeps room at the bottom.", Tag: "🟠 FIX" },
@@ -2971,6 +2975,7 @@
       ["gethotwired.com",      "Hotwire HQ, Fort Lauderdale FL",    26.12, -80.14],
       ["starlink.com",         "SpaceX / Starlink HQ, Hawthorne CA", 33.92, -118.33],
       ["cloud.microsoft",      "Microsoft HQ, Redmond WA",          47.64, -122.13],
+      ["status.microsoft",     "Microsoft HQ, Redmond WA",          47.64, -122.13],
       ["office.com",           "Microsoft HQ, Redmond WA",          47.64, -122.13],
       ["office365.com",        "Microsoft HQ, Redmond WA",          47.64, -122.13],
       ["google.com",           "Google HQ, Mountain View CA",       37.42, -122.08],
@@ -3027,7 +3032,13 @@
       OUTAGE_SERVICES = services;
       grid.innerHTML = services.map((svc, idx) => {
         const isOnline = svc.state === "ONLINE";
-        const tagClass = isOnline ? "tag" : "tag tag-danger";
+        const unverified = svc.state === "UNVERIFIED";
+        const tagClass = isOnline ? "tag" : unverified ? "tag tag-muted" : "tag tag-danger";
+        // Redundancy: how many independent sources agree (per-source detail in the hover title)
+        const srcs = Array.isArray(svc.sources) ? svc.sources : [];
+        const agree = String(svc.agree || "");
+        const agreeIcon = /disagree/.test(agree) ? "⚠" : /2\/2/.test(agree) ? "✔" : "•";
+        const srcTitle = srcs.map(x => `${x.source}: ${x.state} (${x.detail})`).join("\n");
         const domain = resolveBrandDomain(svc);
         const iconUrl = `https://www.google.com/s2/favicons?sz=32&domain=${encodeURIComponent(domain)}`;
         const homeLoc = outageHome(svc);
@@ -3046,13 +3057,14 @@
               </span>
               <span class="${tagClass}">${esc(svc.state)}</span>
             </div>
-            <div style="font-size:13px;font-weight:700;color:${isOnline ? 'var(--accent)' : 'var(--warn)'}">
+            <div style="font-size:13px;font-weight:700;color:${isOnline ? 'var(--accent)' : unverified ? 'var(--muted)' : 'var(--warn)'}">
               ${esc(svc.detail || "All Systems Operational")}
             </div>
             <div style="font-size:10px;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between">
               <span>ID: ${esc(svc.id)}</span>
               <span>PING: ${esc(svc.latency_ms || "--")} ms</span>
             </div>
+            ${agree ? `<div class="outage-agree ${/disagree/.test(agree) ? "warn" : ""}" title="${esc(srcTitle)}">${agreeIcon} ${esc(agree.toUpperCase())}${srcs.length ? " // " + esc(srcs.map(x => x.source).join(" + ")) : ""}</div>` : ""}
             ${loc ? `<div class="outage-loc">📍 ${esc(loc)}</div>` : ""}
           </div>`;
       }).join("");

@@ -36,6 +36,7 @@ jobs:
       - name: Execute Telemetry Scraper
         env:
           APPS_SCRIPT_WEBHOOK: ${{ secrets.APPS_SCRIPT_WEBHOOK }}
+          CLOUDFLARE_RADAR_TOKEN: ${{ secrets.CLOUDFLARE_RADAR_TOKEN }}
         run: python scrape_outages.py
 
       - name: Fetch CISA Threat Intel Feed
