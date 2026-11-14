@@ -2264,24 +2264,43 @@
         setStatus("FAILED TO FETCH // backend URL not configured.", "- offline -");
       }
 
-      // Silently merge public repositories for hackatnight once backend projects have loaded
+      // Two-way sync between HACKATNIGHT_BACKEND (Projects tab) and GitHub public repositories
       if (SHEET_SYNC_STATUS === "READY") try {
-        const ghRes = await fetch(`https://api.github.com/users/${SITE_CONFIG.PUBLIC_USER}/repos?sort=updated&per_page=6`);
+        const ghRes = await fetch(`https://api.github.com/users/${SITE_CONFIG.PUBLIC_USER}/repos?sort=updated&per_page=10`);
         if (ghRes.ok) {
           const repos = await ghRes.json();
           repos.forEach(r => {
             if (r.fork) return;
-            const exists = STATE.projects.some(p => (p["Source URL"] || "").toLowerCase() === r.html_url.toLowerCase());
+            const repoUrl = (r.html_url || "").toLowerCase();
+            const repoName = (r.name || "").toLowerCase();
+            const exists = STATE.projects.some(p =>
+              String(p["Source URL"] || "").trim().toLowerCase() === repoUrl ||
+              String(p.Title || "").trim().toLowerCase() === repoName
+            );
             if (!exists) {
-              STATE.projects.push({
+              const newProj = {
                 Title: r.name,
                 Category: (r.language || "CODE").toUpperCase(),
                 Status: "PUBLIC_REPO",
                 Version: "HEAD",
                 Description: r.description || "Public engineering repository maintained by hackatnight.",
                 "Live URL": r.homepage || "",
-                "Source URL": r.html_url
-              });
+                "Source URL": r.html_url,
+                "Updated Date": (r.pushed_at || new Date().toISOString()).slice(0, 10)
+              };
+              STATE.projects.push(newProj);
+              // Auto-sync newly discovered GitHub repository back into the Google Sheet Projects tab
+              BACKEND_API.post({
+                action: "project_sync",
+                title: newProj.Title,
+                category: newProj.Category,
+                status: newProj.Status,
+                version: newProj.Version,
+                description: newProj.Description,
+                liveUrl: newProj["Live URL"],
+                sourceUrl: newProj["Source URL"],
+                updatedDate: newProj["Updated Date"]
+              }).catch(() => {});
             }
           });
         }
