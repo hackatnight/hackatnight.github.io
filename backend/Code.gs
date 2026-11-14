@@ -1301,8 +1301,9 @@ function chatSend(d) {
   try {
     const now = new Date();
     const ip = String(d.ipAddress || "Unknown").replace(/[^0-9a-fA-F:.]/g, "").slice(0, 45) || "Unknown";
-    chatSheet().appendRow([now, sheetSafe(name), ip, sheetSafe(msg)]);
+    // Read the recent list before writing, so a cold cache rebuilt from the sheet can't include this row twice
     const list = chatRecent();
+    chatSheet().appendRow([now, sheetSafe(name), ip, sheetSafe(msg)]);
     list.push({ ts: now.getTime(), name: name, msg: msg });
     cache.put(CHAT_CACHE_KEY, JSON.stringify(list.slice(-CHAT_KEEP)), 21600);
     return { status: "ok", ts: now.getTime() };
