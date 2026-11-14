@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-14 19:39:37 UTC",
+  "lastUpdated": "2026-11-14 19:44:39 UTC",
   "summary": "22/24 NODES NOMINAL",
   "services": [
     {
@@ -7,7 +7,7 @@
       "name": "📡 Frontier Fiber (FL ISP)",
       "url": "https://frontier.com/helpcenter/categories/internet/troubleshooting/service-status",
       "http_status": 403,
-      "latency_ms": 264,
+      "latency_ms": 250,
       "state": "ONLINE",
       "detail": "Edge Active (HTTP 403)"
     },
@@ -16,7 +16,7 @@
       "name": "📡 Comcast / Xfinity (FL ISP)",
       "url": "https://www.xfinity.com/support/status",
       "http_status": 200,
-      "latency_ms": 257,
+      "latency_ms": 247,
       "state": "ONLINE",
       "detail": "HTTP 200 Reachable"
     },
@@ -25,7 +25,7 @@
       "name": "📡 Spectrum / Charter (FL ISP)",
       "url": "https://www.spectrum.net/support/internet/outage",
       "http_status": 200,
-      "latency_ms": 437,
+      "latency_ms": 324,
       "state": "ONLINE",
       "detail": "HTTP 200 Reachable"
     },
@@ -34,7 +34,7 @@
       "name": "📡 AT&T Fiber (FL ISP)",
       "url": "https://www.att.com/outages/",
       "http_status": 200,
-      "latency_ms": 111,
+      "latency_ms": 187,
       "state": "ONLINE",
       "detail": "HTTP 200 Reachable"
     },
@@ -43,7 +43,7 @@
       "name": "📶 T-Mobile 5G Home ISP",
       "url": "https://www.t-mobile.com/support/coverage",
       "http_status": 200,
-      "latency_ms": 617,
+      "latency_ms": 166,
       "state": "ONLINE",
       "detail": "HTTP 200 Reachable"
     },
@@ -52,7 +52,7 @@
       "name": "📡 Verizon 5G / Fios ISP",
       "url": "https://www.verizon.com/support/check-network-status/",
       "http_status": 200,
-      "latency_ms": 299,
+      "latency_ms": 113,
       "state": "ONLINE",
       "detail": "HTTP 200 Reachable"
     },
@@ -61,7 +61,7 @@
       "name": "📡 CenturyLink / Quantum (FL)",
       "url": "https://www.quantumfiber.com",
       "http_status": 200,
-      "latency_ms": 375,
+      "latency_ms": 306,
       "state": "ONLINE",
       "detail": "HTTP 200 Reachable"
     },
@@ -70,7 +70,7 @@
       "name": "📡 Hotwire Fision (FL Fiber)",
       "url": "https://gethotwired.com",
       "http_status": 200,
-      "latency_ms": 580,
+      "latency_ms": 190,
       "state": "ONLINE",
       "detail": "HTTP 200 Reachable"
     },
@@ -79,7 +79,7 @@
       "name": "🛰️ Starlink Satellite ISP",
       "url": "https://www.starlink.com",
       "http_status": 200,
-      "latency_ms": 283,
+      "latency_ms": 232,
       "state": "ONLINE",
       "detail": "HTTP 200 Reachable"
     },
@@ -88,7 +88,7 @@
       "name": "🟦 Microsoft 365 / Azure",
       "url": "https://status.cloud.microsoft",
       "http_status": 200,
-      "latency_ms": 122,
+      "latency_ms": 169,
       "state": "ONLINE",
       "detail": "HTTP 200 Reachable"
     },
@@ -97,7 +97,7 @@
       "name": "📧 Microsoft Outlook",
       "url": "https://portal.office.com/servicestatus",
       "http_status": 200,
-      "latency_ms": 187,
+      "latency_ms": 392,
       "state": "ONLINE",
       "detail": "HTTP 200 Reachable"
     },
@@ -106,7 +106,7 @@
       "name": "🔄 MS Exchange Online",
       "url": "https://outlook.office365.com/owa/healthcheck.htm",
       "http_status": 417,
-      "latency_ms": 150,
+      "latency_ms": 551,
       "state": "ONLINE",
       "detail": "Edge Active (HTTP 417)"
     },
@@ -115,7 +115,7 @@
       "name": "🌐 Google Workspace",
       "url": "https://www.google.com/appsstatus/dashboard/incidents.json",
       "http_status": 200,
-      "latency_ms": 41,
+      "latency_ms": 95,
       "state": "ONLINE",
       "detail": "Google Workspace Nominal"
     },
@@ -124,7 +124,7 @@
       "name": "🟧 Amazon Web Services",
       "url": "https://health.aws.amazon.com/health/status",
       "http_status": 200,
-      "latency_ms": 222,
+      "latency_ms": 13,
       "state": "ONLINE",
       "detail": "HTTP 200 Reachable"
     },
@@ -133,7 +133,7 @@
       "name": "☁️ Cloudflare Edge",
       "url": "https://www.cloudflarestatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 173,
+      "latency_ms": 124,
       "state": "DEGRADED",
       "detail": "Partially Degraded Service"
     },
@@ -142,7 +142,7 @@
       "name": "📘 Facebook / Meta",
       "url": "https://metastatus.com/data/orgs.json",
       "http_status": 200,
-      "latency_ms": 105,
+      "latency_ms": 38,
       "state": "ONLINE",
       "detail": "Meta Graph & Services Nominal"
     },
@@ -151,7 +151,7 @@
       "name": "🧠 OpenAI API",
       "url": "https://status.openai.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 275,
+      "latency_ms": 371,
       "state": "DEGRADED",
       "detail": "Partial System Degradation"
     },
@@ -160,7 +160,7 @@
       "name": "💼 Slack",
       "url": "https://status.slack.com/api/v2.0.0/current",
       "http_status": 200,
-      "latency_ms": 455,
+      "latency_ms": 356,
       "state": "ONLINE",
       "detail": "All Systems Operational"
     },
@@ -169,7 +169,7 @@
       "name": "📹 Zoom",
       "url": "https://status.zoom.us/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 517,
+      "latency_ms": 1608,
       "state": "ONLINE",
       "detail": "All Systems Operational"
     },
@@ -178,7 +178,7 @@
       "name": "🐙 GitHub Pages / API",
       "url": "https://www.githubstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 345,
+      "latency_ms": 156,
       "state": "ONLINE",
       "detail": "All Systems Operational"
     },
@@ -187,7 +187,7 @@
       "name": "💬 Discord Infra",
       "url": "https://discordstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 274,
+      "latency_ms": 192,
       "state": "ONLINE",
       "detail": "All Systems Operational"
     },
@@ -196,7 +196,7 @@
       "name": "👽 Reddit",
       "url": "https://www.redditstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 277,
+      "latency_ms": 392,
       "state": "ONLINE",
       "detail": "All Systems Operational"
     },
@@ -205,7 +205,7 @@
       "name": "🌊 DigitalOcean",
       "url": "https://status.digitalocean.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 61,
+      "latency_ms": 53,
       "state": "ONLINE",
       "detail": "All Systems Operational"
     },
@@ -214,7 +214,7 @@
       "name": "🛡️ HACKATNIGHT_CORE",
       "url": "https://hackatnight.com",
       "http_status": 200,
-      "latency_ms": 274,
+      "latency_ms": 279,
       "state": "ONLINE",
       "detail": "HTTP 200 Reachable"
     }
