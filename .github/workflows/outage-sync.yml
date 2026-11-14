@@ -1,6 +1,11 @@
 name: Telemetry & Outage Sync
 
 on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'outages.json'
   schedule:
     - cron: '*/30 * * * *'
   workflow_dispatch:
@@ -20,6 +25,12 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Auto-Log Git Push to Changelog Tab
+        if: github.event_name == 'push'
+        env:
+          APPS_SCRIPT_WEBHOOK: ${{ secrets.APPS_SCRIPT_WEBHOOK }}
+        run: python log_changelog.py
+
       - name: Execute Telemetry Scraper
         env:
           APPS_SCRIPT_WEBHOOK: ${{ secrets.APPS_SCRIPT_WEBHOOK }}
@@ -30,5 +41,5 @@ jobs:
           git config --global user.name "hackatnight-bot"
           git config --global user.email "bot@hackatnight.com"
           git add outages.json
-          git diff --staged --quiet || git commit -m "chore(telemetry): update live outages.json [v.2.4.0]"
+          git diff --staged --quiet || git commit -m "chore(telemetry): update live outages.json [v.2.5.1]"
           git push
