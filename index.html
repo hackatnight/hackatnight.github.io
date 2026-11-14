@@ -4002,7 +4002,7 @@
       CHAT.busy = true;
       const status = document.getElementById("chatStatus");
       try {
-        const data = await BACKEND_API.get({ action: "chat_poll", since: CHAT.since, name: CHAT.name, sid: sessionStorage.getItem("hack_sid") || "" });
+        const data = await BACKEND_API.get({ action: "chat_poll", since: CHAT.since, name: CHAT.name, cs: sessionStorage.getItem("hack_sid") || "" });
         if (data && data.status === "ok") {
           chatRender(data.messages || []);
           chatRenderUsers(Array.isArray(data.users) ? data.users : []);

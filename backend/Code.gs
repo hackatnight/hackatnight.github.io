@@ -346,7 +346,8 @@ function doGet(e) {
       });
     }
     if (action === "chat_poll") {
-      return jsonOut(chatPoll(Number(e.parameter.since) || 0, e.parameter.name, e.parameter.sid));
+      // "cs" = chat session id ("sid" is reserved by script.google.com and breaks the request)
+      return jsonOut(chatPoll(Number(e.parameter.since) || 0, e.parameter.name, e.parameter.cs));
     }
     if (action === "unlock_key") {
       // Keys are only accepted by POST so they never land in URLs or browser history
