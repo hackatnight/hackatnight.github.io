@@ -728,7 +728,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.11.0]</span>
+        <span id="titleVersionBadge">[v.2.11.1]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -771,7 +771,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.11.0</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.11.1</span></div>
         </div>
       </aside>
 
@@ -1087,7 +1087,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.11.0]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.11.1]</div>
     </div>
   </div>
 
@@ -1114,7 +1114,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.11.0",
+      APP_VERSION: "v.2.11.1",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1177,6 +1177,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.11.1", Project: "H@N UI / Globe", Summary: "US state borders on the globe and flat map: hover names the state, postal codes appear when zoomed in.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.11.0", Project: "H@N Telemetry", Summary: "FEAT-107: each visit now records client diagnostics in the private Visits Log (browser/OS, screen, cores/memory, connection, page timings, download speed from the map file, backend round-trip). Passive only, no extra downloads; skipped when Do Not Track / GPC is on.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.10.1", Project: "H@N UI", Summary: "IT support ticket form moved into the IT Services tab (old tab removed; all ticket buttons and #support links now land on the form). AWS regional events show DEGRADED instead of OFFLINE.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.10.0", Project: "H@N Outages", Summary: "Outage checks rebuilt on real sources (Cloudflare Radar + IODA for ISPs, AWS Health, Azure, Google and Meta feeds actually parsed), a second independent check per target with an agreement indicator, and blocked pages now show UNVERIFIED instead of ONLINE.", Tag: "🟢 FEAT" },
@@ -2054,14 +2055,26 @@
 
     // Country outlines (world.json: Natural Earth 1:50m, public domain, simplified).
     // Each point is stored as [lonRad, cosLat, sinLat] so the globe can project ~15k points per frame cheaply.
-    const WORLD = { countries: null, hover: -1 };
+    const WORLD = { countries: null, hover: -1, states: null, hoverState: -1 };
     async function loadWorldMap() {
+      // US state borders (us_states.json, Natural Earth admin-1, public domain); drawn inside the US outline
+      fetch("us_states.json").then(r => (r.ok ? r.json() : null)).then(d => {
+        if (d && Array.isArray(d.states)) WORLD.states = d.states.map(prepRegion);
+      }).catch(() => {});
       try {
         const res = await fetch("world.json");
         if (!res.ok) throw new Error("HTTP " + res.status);
         const data = await res.json();
+        WORLD.countries = (data.countries || []).map(prepRegion);
+      } catch (_) {
+        WORLD.countries = null; // keep the dot-matrix fallback
+      }
+    }
+
+    // Each point is stored as [lonRad, cosLat, sinLat] for fast projection; label = middle of the largest ring
+    function prepRegion(c) {
         const toRad = Math.PI / 180;
-        WORLD.countries = (data.countries || []).map(c => {
+        {
           let best = null, bestLen = -1;
           const rings = c.p.map(ring => {
             const arr = new Float64Array(ring.length * 3);
@@ -2078,10 +2091,7 @@
           const name = String(c.n || "").replace(/^United States of America$/, "United States");
           const [bx0, by0, bx1, by1] = c.b;
           return { name, code: c.c || "", bbox: c.b, area: (bx1 - bx0) * (by1 - by0), label: [lab[1], lab[0]], rings };
-        });
-      } catch (_) {
-        WORLD.countries = null; // keep the dot-matrix fallback
-      }
+        }
     }
 
     function pointInRing(lon, lat, ring) {
@@ -2093,10 +2103,10 @@
       return inside;
     }
 
-    function countryAt(lat, lon) {
-      if (!WORLD.countries) return -1;
-      for (let i = 0; i < WORLD.countries.length; i++) {
-        const c = WORLD.countries[i];
+    function countryAt(lat, lon, list = WORLD.countries) {
+      if (!list) return -1;
+      for (let i = 0; i < list.length; i++) {
+        const c = list[i];
         const [x0, y0, x1, y1] = c.bbox;
         if (lon < x0 || lon > x1 || lat < y0 || lat > y1) continue;
         if (c.rings.some(r => pointInRing(lon, lat, r.raw))) return i;
@@ -2389,7 +2399,10 @@
         // Country under the cursor (highlighted on the globe; named in the tooltip when no marker is hit)
         const ll = (mx >= 0 && my >= 0 && mx <= rect.width && my <= rect.height) ? unproject(mx, my) : null;
         WORLD.hover = ll ? countryAt(ll.lat, ll.lon) : -1;
-        const countryName = WORLD.hover >= 0 ? WORLD.countries[WORLD.hover].name : "";
+        const inUS = WORLD.hover >= 0 && WORLD.countries[WORLD.hover].code === "US";
+        WORLD.hoverState = inUS && WORLD.states ? countryAt(ll.lat, ll.lon, WORLD.states) : -1;
+        const countryName = WORLD.hover < 0 ? "" :
+          WORLD.hoverState >= 0 ? `${WORLD.states[WORLD.hoverState].name}, United States` : WORLD.countries[WORLD.hover].name;
         if (hit || countryName) {
           tooltip.style.display = "block";
           tooltip.style.left = (mx + 12) + "px";
@@ -2591,7 +2604,7 @@
           const tl = GLOBE_STATE.rotLat * Math.PI / 180;
           const cT = Math.cos(tl), sT = Math.sin(tl);
           const labels = [];
-          WORLD.countries.forEach((c, ci) => {
+          const traceRegion = c => {
             let anyVisible = false;
             ctx.beginPath();
             c.rings.forEach(({ arr }) => {
@@ -2621,8 +2634,12 @@
               }
               ctx.closePath();
             });
-            if (!anyVisible) return;
-            const hovered = ci === WORLD.hover;
+            return anyVisible;
+          };
+          WORLD.countries.forEach((c, ci) => {
+            if (!traceRegion(c)) return;
+            // When a US state is hovered, that state lights up instead of the whole country
+            const hovered = ci === WORLD.hover && WORLD.hoverState < 0;
             ctx.fillStyle = hovered ? "rgba(124, 232, 255, 0.30)" : "rgba(124, 232, 255, 0.07)";
             ctx.fill();
             ctx.strokeStyle = hovered ? "rgba(200, 245, 255, 0.95)" : "rgba(124, 232, 255, 0.50)";
@@ -2634,11 +2651,29 @@
               if (lp.visible && (!GLOBE_STATE.mode3d || lp.z > 0.25)) labels.push({ lp, c, hovered });
             }
           });
+          // US state borders (thinner, dimmer) + postal codes once zoomed in
+          if (WORLD.states) {
+            WORLD.states.forEach((st, si) => {
+              if (!traceRegion(st)) return;
+              const hovered = si === WORLD.hoverState;
+              if (hovered) {
+                ctx.fillStyle = "rgba(124, 232, 255, 0.30)";
+                ctx.fill();
+              }
+              ctx.strokeStyle = hovered ? "rgba(200, 245, 255, 0.95)" : "rgba(124, 232, 255, 0.28)";
+              ctx.lineWidth = hovered ? 1.1 : 0.4;
+              ctx.stroke();
+              if (hovered || (GLOBE_STATE.zoom >= 2 && st.area > 6 / (GLOBE_STATE.zoom * GLOBE_STATE.zoom))) {
+                const lp = projectPoint(st.label[0], st.label[1], cx, cy, R);
+                if (lp.visible && (!GLOBE_STATE.mode3d || lp.z > 0.25)) labels.push({ lp, c: st, hovered, text: hovered ? st.name : st.code });
+              }
+            });
+          }
           ctx.textAlign = "center";
-          labels.forEach(({ lp, c, hovered }) => {
+          labels.forEach(({ lp, c, hovered, text }) => {
             ctx.font = hovered ? "bold 10px monospace" : "8px monospace";
             ctx.fillStyle = hovered ? "#ffffff" : "rgba(160, 225, 255, 0.55)";
-            ctx.fillText(c.name.toUpperCase(), lp.x, lp.y);
+            ctx.fillText(String(text || c.name).toUpperCase(), lp.x, lp.y);
           });
           ctx.textAlign = "start";
         } else {
