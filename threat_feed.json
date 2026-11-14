@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14T18:32:39Z",
+  "updated": "2026-11-14T18:36:00Z",
   "sources": [
     {
       "id": "KEV",
@@ -695,7 +695,7 @@
       "vendor": "",
       "product": "",
       "date": "2026-11-11",
-      "severity": "CRITICAL",
+      "severity": "NEWS",
       "summary": "New NCSC Cyber Adversary Simulation scheme will help critical organisations strengthen their resilience through rigorous, real-world testing by trusted providers.",
       "url": "https://www.ncsc.gov.uk/news/ncsc-scheme-help-critical-organisations-test-their-cyber-defences",
       "geo": {
@@ -1121,7 +1121,7 @@
       "vendor": "",
       "product": "",
       "date": "2026-11-03",
-      "severity": "CRITICAL",
+      "severity": "NEWS",
       "summary": "The NCSC warns that ‘tech on the cheap’ has left UK organisations exposed to AI uncovering and exploiting longstanding cyber security weaknesses and calls for urgent investment in resilience.",
       "url": "https://www.ncsc.gov.uk/news/cyber-chief-uk-facing-ai-powered-attacks-on-critical-infrastructure-in-two-years",
       "geo": {
