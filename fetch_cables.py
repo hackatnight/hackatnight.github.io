@@ -20,7 +20,7 @@ MAX_AGE = timedelta(hours=23)
 ENDPOINTS = ["https://overpass-api.de/api/interpreter", "https://overpass.private.coffee/api/interpreter",
              "https://overpass.kumi.systems/api/interpreter"]
 QUERY = """
-[out:json][timeout:240];
+[out:json][timeout:110];
 (
   way["communication"="line"]["submarine"="yes"];
   way["communication"="line"]["location"~"^(underwater|submarine)$"];
@@ -32,7 +32,7 @@ out tags geom;
 """
 # US fiber on land (not underwater), only runs of 20 km or more; lower 48 bounding box
 LAND_QUERY = """
-[out:json][timeout:240];
+[out:json][timeout:110];
 (
   way["communication"="line"]["location"!~"^(underwater|submarine)$"]["submarine"!="yes"](if: length() > 20000)(24.3,-125.0,49.5,-66.8);
   way["telecom"="line"]["location"!~"^(underwater|submarine)$"]["submarine"!="yes"](if: length() > 20000)(24.3,-125.0,49.5,-66.8);
@@ -80,7 +80,7 @@ def overpass(query, label):
         try:
             req = urllib.request.Request(url, data=urllib.parse.urlencode({"data": query}).encode(),
                                          headers={"User-Agent": UA})
-            with urllib.request.urlopen(req, timeout=300) as res:
+            with urllib.request.urlopen(req, timeout=120) as res:
                 data = json.loads(res.read().decode("utf-8"))
             print(f"[cables] {label} via {url}: {len(data.get('elements', []))} ways")
             return data

@@ -58,13 +58,21 @@ jobs:
 
       - name: Fetch Submarine Cables (OpenStreetMap, once a day)
         continue-on-error: true
+        timeout-minutes: 8
         run: python fetch_cables.py
 
       - name: Commit & Push Updated outages.json
         run: |
           git config --global user.name "hackatnight-bot"
           git config --global user.email "bot@hackatnight.com"
+          # The data files are generated, so this run's copies always win: put them on top of the latest main
+          # instead of rebasing (rebasing generated JSON made runs fail with merge conflicts).
+          mkdir -p /tmp/telemetry
+          for f in outages.json threat_feed.json attack_map.json cables.json; do [ -f "$f" ] && cp "$f" /tmp/telemetry/; done
+          git fetch origin main
+          git reset --hard origin/main
+          cp /tmp/telemetry/*.json .
           git add outages.json threat_feed.json attack_map.json cables.json
-          git diff --staged --quiet || git commit -m "chore(telemetry): update live outages.json + threat feed"
-          git pull --rebase --autostash origin main || true
-          git push
+          git diff --staged --quiet && exit 0
+          git commit -m "chore(telemetry): update live outages.json + threat feed"
+          git push origin HEAD:main
