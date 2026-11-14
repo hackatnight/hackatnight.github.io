@@ -92,8 +92,16 @@ VENDOR_HQ = {
 }
 
 
-def http_get(url, timeout=25):
-    req = urllib.request.Request(url, headers=HEADERS)
+# Some government sites (e.g. cyber.gov.au) stall requests that don't look like a browser
+BROWSER_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36",
+    "Accept": "application/rss+xml,application/atom+xml,application/xml;q=0.9,text/xml;q=0.8,*/*;q=0.5",
+    "Accept-Language": "en-US,en;q=0.9",
+}
+
+
+def http_get(url, timeout=25, headers=None):
+    req = urllib.request.Request(url, headers=headers or HEADERS)
     with urllib.request.urlopen(req, timeout=timeout) as res:
         return res.read()
 
@@ -367,10 +375,14 @@ def feed_severity(src_id, title, desc, link):
 
 
 def feed_items(src):
-    try:
-        entries = parse_feed(http_get(src["url"], timeout=40))
-    except Exception as e:
-        print(f"[threat] {src['id']} failed: {e}")
+    entries = None
+    for attempt in (1, 2):
+        try:
+            entries = parse_feed(http_get(src["url"], timeout=30, headers=BROWSER_HEADERS))
+            break
+        except Exception as e:
+            print(f"[threat] {src['id']} attempt {attempt} failed: {e}")
+    if entries is None:
         return None
     items = []
     for en in entries:
