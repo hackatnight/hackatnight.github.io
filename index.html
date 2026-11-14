@@ -728,7 +728,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.12.0]</span>
+        <span id="titleVersionBadge">[v.2.13.0]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -771,7 +771,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.12.0</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.13.0</span></div>
         </div>
       </aside>
 
@@ -811,6 +811,7 @@
                 </div>
                 <div class="globe-overlay-br">
                   DRAG: ROTATE // SCROLL: ZOOM // DBL-CLICK: RESET VIEW // HOVER: INSPECT
+                  <span id="cableAttr" style="display:none"><br/>CABLES © OPENSTREETMAP CONTRIBUTORS (ODbL)</span>
                 </div>
                 <div class="attack-legend" id="attackLegend"></div>
                 <div class="globe-tooltip" id="globeTooltip"></div>
@@ -1088,7 +1089,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.12.0]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.13.0]</div>
     </div>
   </div>
 
@@ -1115,7 +1116,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.12.0",
+      APP_VERSION: "v.2.13.0",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1178,6 +1179,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.13.0", Project: "H@N UI / Globe", Summary: "Real submarine cable map: 269 cables from OpenStreetMap (refreshed daily), drawn flat on the globe surface so they stay visible while it rotates, brighter lines, and hover shows the cable name, operator and mapped length.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.12.0", Project: "H@N UI / Attack map", Summary: "Attack map goes below country level: DShield scanning networks are pinned at their city/state with the company name, and the legend lists the companies behind the most web attacks (Cloudflare Radar top origin networks).", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.11.2", Project: "H@N UI / Globe", Summary: "Pause/play button for the globe rotation; dragging the globe now moves the surface with the cursor (horizontal drag was reversed).", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.11.1", Project: "H@N UI / Globe", Summary: "US state borders on the globe and flat map: hover names the state, postal codes appear when zoomed in.", Tag: "🟢 FEAT" },
@@ -2032,12 +2034,47 @@
         }));
     }
 
-    const SUBMARINE_CABLES = [
-      [[40.7, -74.0], [50.1, -5.5]],
-      [[36.8, -76.0], [43.3, -3.0]],
-      [[25.8, -80.2], [-23.5, -46.6]],
-      [[37.8, -122.4], [35.7, 139.7]]
-    ];
+    // Submarine telecom cables (cables.json, built daily from OpenStreetMap by fetch_cables.py).
+    // Each line is stored as [lonRad, cosLat, sinLat] points, densified so long hops follow the globe's curve.
+    const CABLES = { list: null, hover: -1, count: 0 };
+    async function loadCables() {
+      try {
+        const res = await fetch("cables.json?t=" + Math.floor(Date.now() / 3600000));
+        if (!res.ok) return;
+        const data = await res.json();
+        const d2r = Math.PI / 180;
+        CABLES.list = (data.cables || []).map(c => ({
+          name: String(c.n || "Submarine cable"),
+          op: String(c.op || ""),
+          km: Number(c.km) || 0,
+          lines: (c.p || []).map(line => {
+            const out = [];
+            for (let i = 0; i < line.length; i++) {
+              const [lon, lat] = line[i];
+              if (i > 0) {
+                // Densify: add points along the great circle when two vertices are far apart
+                const [plon, plat] = line[i - 1];
+                const steps = Math.min(40, Math.floor(Math.max(Math.abs(lon - plon), Math.abs(lat - plat)) / 2));
+                for (let k = 1; k < steps; k++) {
+                  const t = k / steps;
+                  const A = [Math.cos(plat * d2r) * Math.cos(plon * d2r), Math.cos(plat * d2r) * Math.sin(plon * d2r), Math.sin(plat * d2r)];
+                  const B = [Math.cos(lat * d2r) * Math.cos(lon * d2r), Math.cos(lat * d2r) * Math.sin(lon * d2r), Math.sin(lat * d2r)];
+                  const om = Math.acos(Math.max(-1, Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2]))) || 1e-9;
+                  const wa = Math.sin((1 - t) * om) / Math.sin(om), wb = Math.sin(t * om) / Math.sin(om);
+                  const v = [wa * A[0] + wb * B[0], wa * A[1] + wb * B[1], wa * A[2] + wb * B[2]];
+                  const la = Math.asin(Math.max(-1, Math.min(1, v[2])));
+                  out.push(Math.atan2(v[1], v[0]), Math.cos(la), Math.sin(la));
+                }
+              }
+              out.push(lon * d2r, Math.cos(lat * d2r), Math.sin(lat * d2r));
+            }
+            return new Float64Array(out);
+          }),
+          screen: null
+        }));
+        CABLES.count = CABLES.list.length;
+      } catch (_) {}
+    }
 
     // Simplified dot-matrix continent blocks [latMin, latMax, lonMin, lonMax, step]
     const LAND_BLOCKS = [
@@ -2177,6 +2214,8 @@
       document.getElementById("btnSolar").classList.toggle("active-toggle", GLOBE_STATE.showSolar);
       document.getElementById("btnCables").textContent = `cables: ${GLOBE_STATE.showCables ? "on" : "off"}`;
       document.getElementById("btnCables").classList.toggle("active-toggle", GLOBE_STATE.showCables);
+      const cableAttr = document.getElementById("cableAttr");
+      if (cableAttr) cableAttr.style.display = GLOBE_STATE.showCables ? "inline" : "none";
       const btnArcs = document.getElementById("btnArcs");
       if (btnArcs) {
         btnArcs.textContent = `arcs: ${GLOBE_STATE.arcs}`;
@@ -2416,6 +2455,25 @@
         const mx = e.clientX - rect.left;
         const my = e.clientY - rect.top;
         const hit = hoverTargets.find(t => Math.hypot(t.x - mx, t.y - my) < 10);
+        // Cable under the cursor (within 5 px of a drawn segment)
+        CABLES.hover = -1;
+        if (!hit && GLOBE_STATE.showCables && CABLES.list) {
+          let best = 5;
+          CABLES.list.forEach((cab, ci) => {
+            (cab.screen || []).forEach(scr => {
+              for (let i = 2; i < scr.length; i += 2) {
+                const x1 = scr[i - 2], y1 = scr[i - 1], x2 = scr[i], y2 = scr[i + 1];
+                if (x1 !== x1 || x2 !== x2) continue;
+                if (Math.min(x1, x2) - best > mx || Math.max(x1, x2) + best < mx || Math.min(y1, y2) - best > my || Math.max(y1, y2) + best < my) continue;
+                const dx = x2 - x1, dy = y2 - y1, L = dx * dx + dy * dy || 1;
+                const t = Math.max(0, Math.min(1, ((mx - x1) * dx + (my - y1) * dy) / L));
+                const d = Math.hypot(mx - (x1 + t * dx), my - (y1 + t * dy));
+                if (d < best) { best = d; CABLES.hover = ci; }
+              }
+            });
+          });
+        }
+        const cableHit = CABLES.hover >= 0 ? CABLES.list[CABLES.hover] : null;
         // Country under the cursor (highlighted on the globe; named in the tooltip when no marker is hit)
         const ll = (mx >= 0 && my >= 0 && mx <= rect.width && my <= rect.height) ? unproject(mx, my) : null;
         WORLD.hover = ll ? countryAt(ll.lat, ll.lon) : -1;
@@ -2423,11 +2481,13 @@
         WORLD.hoverState = inUS && WORLD.states ? countryAt(ll.lat, ll.lon, WORLD.states) : -1;
         const countryName = WORLD.hover < 0 ? "" :
           WORLD.hoverState >= 0 ? `${WORLD.states[WORLD.hoverState].name}, United States` : WORLD.countries[WORLD.hover].name;
-        if (hit || countryName) {
+        if (hit || cableHit || countryName) {
           tooltip.style.display = "block";
           tooltip.style.left = (mx + 12) + "px";
           tooltip.style.top = (my - 10) + "px";
-          tooltip.textContent = hit ? hit.info : countryName.toUpperCase();
+          tooltip.textContent = hit ? hit.info :
+            cableHit ? `SUBMARINE CABLE // ${cableHit.name}${cableHit.op ? " // " + cableHit.op : ""}${cableHit.km ? " // ~" + cableHit.km.toLocaleString() + " km mapped" : ""} (© OpenStreetMap contributors)` :
+            countryName.toUpperCase();
         } else {
           tooltip.style.display = "none";
         }
@@ -2724,20 +2784,56 @@
         }
 
         // Submarine Fiber Cables
-        if (GLOBE_STATE.showCables) {
-          ctx.strokeStyle = "rgba(185, 187, 255, 0.45)";
-          ctx.setLineDash([3, 3]);
-          SUBMARINE_CABLES.forEach(([a, b]) => {
-            const p1 = projectPoint(a[0], a[1], cx, cy, R);
-            const p2 = projectPoint(b[0], b[1], cx, cy, R);
-            if (p1.visible && p2.visible) {
-              ctx.beginPath();
-              ctx.moveTo(p1.x, p1.y);
-              ctx.lineTo(p2.x, p2.y);
-              ctx.stroke();
-            }
-          });
-          ctx.setLineDash([]);
+        // Submarine cables: drawn on the surface; only the part on the visible side is shown, so they
+        // stay put as the globe turns. Screen points are kept for hover hit-testing.
+        if (GLOBE_STATE.showCables && CABLES.list) {
+          const rl = GLOBE_STATE.rotLon * Math.PI / 180;
+          const tl = GLOBE_STATE.rotLat * Math.PI / 180;
+          const cT = Math.cos(tl), sT = Math.sin(tl);
+          ctx.save();
+          ctx.lineCap = "round";
+          ctx.lineJoin = "round";
+          const drawCable = (cab, ci) => {
+            const hovered = ci === CABLES.hover;
+            cab.screen = cab.lines.map(arr => {
+              const n = arr.length / 3;
+              const scr = new Float32Array(n * 2);
+              for (let i = 0; i < n; i++) {
+                let x = NaN, y = NaN;
+                if (GLOBE_STATE.mode3d) {
+                  const dl = arr[i * 3] - rl, cl = arr[i * 3 + 1], sl = arr[i * 3 + 2];
+                  const x0 = cl * Math.sin(dl), z0 = cl * Math.cos(dl);
+                  const y1 = sl * cT - z0 * sT, z1 = sl * sT + z0 * cT;
+                  if (z1 > 0) { x = cx + x0 * R; y = cy - y1 * R; }
+                } else {
+                  let lon = arr[i * 3] * 180 / Math.PI;
+                  const lat = Math.asin(arr[i * 3 + 2]) * 180 / Math.PI;
+                  x = cx + (lon / 180) * (R * 1.65); y = cy - (lat / 90) * (R * 0.88);
+                }
+                scr[i * 2] = x; scr[i * 2 + 1] = y;
+              }
+              return scr;
+            });
+            ctx.beginPath();
+            cab.screen.forEach(scr => {
+              let pen = false;
+              for (let i = 0; i < scr.length; i += 2) {
+                const x = scr[i], y = scr[i + 1];
+                if (x !== x) { pen = false; continue; }  // NaN = behind the globe
+                // Flat map: don't draw the wrap-around jump across the date line
+                if (pen && !GLOBE_STATE.mode3d && Math.abs(x - scr[i - 2]) > R * 1.65) pen = false;
+                if (pen) ctx.lineTo(x, y); else { ctx.moveTo(x, y); pen = true; }
+              }
+            });
+            ctx.strokeStyle = hovered ? "rgba(190, 255, 220, 1)" : "rgba(64, 240, 160, 0.62)";
+            ctx.lineWidth = hovered ? 2.6 : 1.15;
+            ctx.shadowColor = "rgba(64, 240, 160, 0.8)";
+            ctx.shadowBlur = hovered ? 8 : 0;
+            ctx.stroke();
+          };
+          CABLES.list.forEach((cab, ci) => { if (ci !== CABLES.hover) drawCable(cab, ci); });
+          if (CABLES.hover >= 0 && CABLES.list[CABLES.hover]) drawCable(CABLES.list[CABLES.hover], CABLES.hover);
+          ctx.restore();
         }
 
         // Visitor Trajectory Arcs to HQ
@@ -3494,6 +3590,7 @@
       loadAttackMap();
       setInterval(loadAttackMap, 30 * 60 * 1000);
       loadWorldMap();
+      loadCables();
 
       if (BACKEND_API.isLive()) {
         setStatus("loading telemetry from HACKATNIGHT_BACKEND...", "... loading");

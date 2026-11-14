@@ -16,6 +16,11 @@ on:
 permissions:
   contents: write
 
+# One run at a time: overlapping runs (push + schedule + manual) used to collide when committing
+concurrency:
+  group: telemetry-sync
+  cancel-in-progress: false
+
 jobs:
   sync-telemetry:
     runs-on: ubuntu-latest
@@ -61,4 +66,5 @@ jobs:
           git config --global user.email "bot@hackatnight.com"
           git add outages.json threat_feed.json attack_map.json cables.json
           git diff --staged --quiet || git commit -m "chore(telemetry): update live outages.json + threat feed"
+          git pull --rebase --autostash origin main || true
           git push
