@@ -725,7 +725,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.9.0]</span>
+        <span id="titleVersionBadge">[v.2.9.1]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -768,7 +768,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.9.0</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.9.1</span></div>
         </div>
       </aside>
 
@@ -1086,7 +1086,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.9.0]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.9.1]</div>
     </div>
   </div>
 
@@ -1113,7 +1113,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.9.0",
+      APP_VERSION: "v.2.9.1",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1177,6 +1177,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.9.1", Project: "H@N UI / Outages", Summary: "Outage target hover now shows both the provider HQ / main region (gold) and the CDN edge or server the probe reached (red), linked on the globe.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.9.0", Project: "H@N UI / Outages", Summary: "Outage targets now show where their servers are: hovering a card pins the server location on the globe (CDN edges flagged), and clicking opens its status page.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.8.5", Project: "H@N UI / Globe", Summary: "Globe shrinks to fit short windows so the threat feed always keeps room at the bottom.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.8.4", Project: "H@N UI / Globe", Summary: "New arcs toggle on the globe toolbar: show all arcs, visitor arcs only, attack arcs only, or none (remembered per browser).", Tag: "🟢 FEAT" },
@@ -2804,6 +2805,13 @@
         if (THREAT_HL) {
           const pulse = 0.5 + 0.5 * Math.sin(nowMs / 260);
           ctx.save();
+          // Optional dashed link between two points (outage target: HQ / main region -> CDN edge)
+          if (THREAT_HL.link) {
+            const [a, b] = THREAT_HL.link;
+            ctx.setLineDash([4, 4]);
+            strokeArc(ctx, arcSamples(a[0], a[1], b[0], b[1], cx, cy, R, 32), () => "rgba(255, 209, 102, 0.75)", 1.2);
+            ctx.setLineDash([]);
+          }
           if (THREAT_HL.worldwide) {
             ctx.strokeStyle = `rgba(255, 77, 94, ${0.35 + 0.45 * pulse})`;
             ctx.lineWidth = 2 + 2 * pulse;
@@ -2949,17 +2957,61 @@
       return place + (geo.network ? ` // ${geo.network}` : "") + (geo.cdn ? " (CDN edge)" : "");
     }
 
-    // Hovering a card pins that server on the globe (reuses the threat highlight layer)
+    // Known home location (company HQ, or main cloud region) per provider domain. Most status pages sit
+    // behind CDNs, so the IP lookup only finds the CDN edge; this gives the pin a meaningful anchor.
+    const OUTAGE_HOMES = [
+      ["frontier.com",         "Frontier HQ, Dallas TX",            32.78, -96.80],
+      ["xfinity.com",          "Comcast HQ, Philadelphia PA",       39.95, -75.17],
+      ["comcast.com",          "Comcast HQ, Philadelphia PA",       39.95, -75.17],
+      ["spectrum.net",         "Charter HQ, Stamford CT",           41.05, -73.54],
+      ["att.com",              "AT&T HQ, Dallas TX",                32.78, -96.80],
+      ["t-mobile.com",         "T-Mobile HQ, Bellevue WA",          47.61, -122.20],
+      ["verizon.com",          "Verizon HQ, New York NY",           40.76, -73.98],
+      ["centurylink.com",      "Lumen HQ, Monroe LA",               32.51, -92.12],
+      ["gethotwired.com",      "Hotwire HQ, Fort Lauderdale FL",    26.12, -80.14],
+      ["starlink.com",         "SpaceX / Starlink HQ, Hawthorne CA", 33.92, -118.33],
+      ["cloud.microsoft",      "Microsoft HQ, Redmond WA",          47.64, -122.13],
+      ["office.com",           "Microsoft HQ, Redmond WA",          47.64, -122.13],
+      ["office365.com",        "Microsoft HQ, Redmond WA",          47.64, -122.13],
+      ["google.com",           "Google HQ, Mountain View CA",       37.42, -122.08],
+      ["aws.amazon.com",       "AWS us-east-1, N. Virginia",        39.04, -77.49],
+      ["cloudflarestatus.com", "Cloudflare HQ, San Francisco CA",   37.78, -122.39],
+      ["metastatus.com",       "Meta HQ, Menlo Park CA",            37.48, -122.15],
+      ["openai.com",           "OpenAI HQ, San Francisco CA",       37.76, -122.41],
+      ["slack.com",            "Slack HQ, San Francisco CA",        37.79, -122.40],
+      ["zoom.us",              "Zoom HQ, San Jose CA",              37.33, -121.89],
+      ["githubstatus.com",     "GitHub HQ, San Francisco CA",       37.78, -122.39],
+      ["discordstatus.com",    "Discord HQ, San Francisco CA",      37.77, -122.40],
+      ["redditstatus.com",     "Reddit HQ, San Francisco CA",       37.78, -122.40],
+      ["digitalocean.com",     "DigitalOcean HQ, New York NY",      40.74, -73.99],
+      ["hackatnight.com",      "H@N_HQ_FL",                         27.8, -81.7]
+    ];
+    function outageHome(svc) {
+      let host = "";
+      try { host = new URL(svc.url || svc.apiUrl || "").hostname.toLowerCase(); } catch (_) { return null; }
+      const hit = OUTAGE_HOMES.find(([d]) => host === d || host.endsWith("." + d));
+      return hit ? { label: hit[1], lat: hit[2], lon: hit[3] } : null;
+    }
+
+    // Hovering a card pins that server on the globe (reuses the threat highlight layer):
+    // gold diamond = company HQ / main region, red dot = CDN edge / server the probe reached, dashed link between
     let OUTAGE_SERVICES = [];
     function showOutageLocation(idx) {
       const svc = OUTAGE_SERVICES[idx];
-      const g = svc && svc.geo;
-      if (!g || (!g.lat && !g.lon)) return;
+      if (!svc) return;
+      const g = svc.geo && (svc.geo.lat || svc.geo.lon) ? svc.geo : null;
+      const home = outageHome(svc);
+      if (!g && !home) return;
+      const points = [];
+      if (home) points.push({ lat: home.lat, lon: home.lon, label: home.label, hq: true });
+      if (g) points.push({ lat: g.lat, lon: g.lon, label: `${g.cdn ? "CDN EDGE" : "SERVER"} // ${outageLocationText(g)}` });
+      const anchor = home || g;
       THREAT_HL = {
-        id: String(svc.id),
-        focus: [g.lat, g.lon],
+        id: String(svc.name || svc.id).replace(/^[^A-Za-z0-9@]+/, ""),
+        focus: [anchor.lat, anchor.lon],
         regions: [],
-        points: [{ lat: g.lat, lon: g.lon, label: `${String(svc.name || svc.id).replace(/^[^A-Za-z0-9]+/, "")} // ${outageLocationText(g)}` }]
+        points,
+        link: home && g && Math.hypot(home.lat - g.lat, home.lon - g.lon) > 0.5 ? [[home.lat, home.lon], [g.lat, g.lon]] : null
       };
     }
     function openOutageStatusPage(idx) {
@@ -2978,7 +3030,9 @@
         const tagClass = isOnline ? "tag" : "tag tag-danger";
         const domain = resolveBrandDomain(svc);
         const iconUrl = `https://www.google.com/s2/favicons?sz=32&domain=${encodeURIComponent(domain)}`;
-        const loc = outageLocationText(svc.geo);
+        const homeLoc = outageHome(svc);
+        const edgeLoc = outageLocationText(svc.geo);
+        const loc = [homeLoc ? homeLoc.label : "", edgeLoc ? `${svc.geo.cdn ? "edge" : "server"}: ${edgeLoc}` : ""].filter(Boolean).join(" // ");
         return `
           <div class="card outage-card" tabindex="0" role="link"
                title="Hover: show server location on the globe // Click: open status page"
