@@ -1,18 +1,235 @@
 {
-  "updated": "2026-11-14T18:19:33Z",
+  "updated": "2026-11-14T18:29:36Z",
   "sources": [
     {
       "id": "KEV",
       "name": "CISA Known Exploited Vulnerabilities",
-      "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+      "home": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+      "icon": "https://flagcdn.com/16x12/us.png",
+      "color": "#ff4d5e"
     },
     {
       "id": "ICS",
       "name": "CISA ICS Advisories",
-      "url": "https://www.cisa.gov/news-events/ics-advisories"
+      "home": "https://www.cisa.gov/news-events/ics-advisories",
+      "icon": "https://flagcdn.com/16x12/us.png",
+      "color": "#ff9f43"
+    },
+    {
+      "id": "ICS-MED",
+      "name": "CISA ICS Medical Advisories",
+      "home": "https://www.cisa.gov/news-events/ics-medical-advisories",
+      "icon": "https://flagcdn.com/16x12/us.png",
+      "color": "#ffd166"
+    },
+    {
+      "id": "NCSC",
+      "name": "UK National Cyber Security Centre",
+      "home": "https://www.ncsc.gov.uk",
+      "icon": "https://flagcdn.com/16x12/gb.png",
+      "color": "#b388ff"
+    },
+    {
+      "id": "CCCS",
+      "name": "Canadian Centre for Cyber Security",
+      "home": "https://www.cyber.gc.ca/en/alerts-advisories",
+      "icon": "https://flagcdn.com/16x12/ca.png",
+      "color": "#ff6b6b"
+    },
+    {
+      "id": "ACSC",
+      "name": "Australian Cyber Security Centre",
+      "home": "https://www.cyber.gov.au",
+      "icon": "https://flagcdn.com/16x12/au.png",
+      "color": "#4cd964"
+    },
+    {
+      "id": "MSRC",
+      "name": "Microsoft Security Response Center",
+      "home": "https://msrc.microsoft.com/update-guide",
+      "icon": "https://www.google.com/s2/favicons?sz=32&domain=microsoft.com",
+      "color": "#00a4ef"
+    },
+    {
+      "id": "CISCO",
+      "name": "Cisco PSIRT Security Advisories",
+      "home": "https://sec.cloudapps.cisco.com/security/center/publicationListing.x",
+      "icon": "https://www.google.com/s2/favicons?sz=32&domain=cisco.com",
+      "color": "#1ba0d7"
     }
   ],
   "items": [
+    {
+      "id": "CVE-2026-96150",
+      "source": "MSRC",
+      "title": "Microsoft Windows Codecs Library Information Disclosure Vulnerability",
+      "vendor": "Microsoft",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "CVE",
+      "summary": "Added Microsoft Office software to the Security Updates table. Customers that are running supported version of Microsoft Office are encouraged to update to the indicated version to be protected from this vulnerability.",
+      "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96150",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CVE-2026-96144",
+      "source": "MSRC",
+      "title": "Windows Graphics Kernel Information Disclosure Vulnerability",
+      "vendor": "Microsoft",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "CVE",
+      "summary": "Added Microsoft Office software to the Security Updates table. Customers that are running supported version of Microsoft Office are encouraged to update to the indicated version to be protected from this vulnerability.",
+      "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96144",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CVE-2026-96126",
+      "source": "MSRC",
+      "title": "Windows Graphics Kernel Elevation of Privilege Vulnerability",
+      "vendor": "Microsoft",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "CVE",
+      "summary": "Added Microsoft Office software to the Security Updates table. Customers that are running supported version of Microsoft Office are encouraged to update to the indicated version to be protected from this vulnerability.",
+      "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-96126",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CVE-2026-95953",
+      "source": "MSRC",
+      "title": "Windows Graphics Kernel Elevation of Privilege Vulnerability",
+      "vendor": "Microsoft",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "CVE",
+      "summary": "Added Microsoft Office software to the Security Updates table. Customers that are running supported version of Microsoft Office are encouraged to update to the indicated version to be protected from this vulnerability.",
+      "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-95953",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CVE-2026-95948",
+      "source": "MSRC",
+      "title": "Windows Graphics Kernel Elevation of Privilege Vulnerability",
+      "vendor": "Microsoft",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "CVE",
+      "summary": "Added Microsoft Office software to the Security Updates table. Customers that are running supported version of Microsoft Office are encouraged to update to the indicated version to be protected from this vulnerability.",
+      "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-95948",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CVE-2026-95942",
+      "source": "MSRC",
+      "title": "Windows Graphics Kernel Elevation of Privilege Vulnerability",
+      "vendor": "Microsoft",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "CVE",
+      "summary": "Added Microsoft Office software to the Security Updates table. Customers that are running supported version of Microsoft Office are encouraged to update to the indicated version to be protected from this vulnerability.",
+      "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-95942",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CVE-2026-95932",
+      "source": "MSRC",
+      "title": "Windows Graphics Kernel Elevation of Privilege Vulnerability",
+      "vendor": "Microsoft",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "CVE",
+      "summary": "Added Microsoft Office software to the Security Updates table. Customers that are running supported version of Microsoft Office are encouraged to update to the indicated version to be protected from this vulnerability.",
+      "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-95932",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CVE-2026-95922",
+      "source": "MSRC",
+      "title": "Windows Graphics Kernel Elevation of Privilege Vulnerability",
+      "vendor": "Microsoft",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "CVE",
+      "summary": "Added Microsoft Office software to the Security Updates table. Customers that are running supported version of Microsoft Office are encouraged to update to the indicated version to be protected from this vulnerability.",
+      "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-95922",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CVE-2026-88217",
+      "source": "MSRC",
+      "title": "Windows Graphics Kernel Information Disclosure Vulnerability",
+      "vendor": "Microsoft",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "CVE",
+      "summary": "Added Microsoft Office software to the Security Updates table. Customers that are running supported version of Microsoft Office are encouraged to update to the indicated version to be protected from this vulnerability.",
+      "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-88217",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
     {
       "id": "CVE-2026-123039",
       "source": "KEV",
@@ -49,6 +266,158 @@
         "countries": [],
         "regions": [],
         "basis": "Global (vendor HQ unknown)"
+      }
+    },
+    {
+      "id": "CVE-2026-113749",
+      "source": "MSRC",
+      "title": "Microsoft Windows Codecs Library Remote Code Execution Vulnerability",
+      "vendor": "Microsoft",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "CVE",
+      "summary": "Added Microsoft Office software to the Security Updates table. Customers that are running supported version of Microsoft Office are encouraged to update to the indicated version to be protected from this vulnerability.",
+      "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-113749",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Vulnerabilities in Node.js and Brotli Affecting Cisco Products: October 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "HIGH",
+      "summary": "On October 21, 2026, Node.js announced the availability of fixes for multiple vulnerabilities across the following supported release lines: 22.x, 24.x, and 26.x.&nbsp; These vulnerabilities impact critical operations such as the Brotli decoder, DNS resolution, and TLS certificate",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-oct2026-node-js-Jj3SQ19u",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Cisco Informational for Emergency Distrust of eMudhra Root and Intermediate Certificate Authorities",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "INFO",
+      "summary": "Between October 17 and October 20, 2026, a critical security compromise involving Certificate Authorities that are managed by&nbsp; eMudhra was uncovered. A security researcher demonstrated that the private keys for eight eMudhra intermediate certificates were fundamentally broke",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-emudhra-info-ScS22A1r",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Cisco BroadWorks Out-of-Band Blind XML External Entity Injection Vulnerability",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "HIGH",
+      "summary": "A vulnerability in the Open Client Interface (OCI) XML Parser of Cisco BroadWorks could allow an unauthenticated, remote attacker to read sensitive configuration information on an affected system.&nbsp; This vulnerability exists because XML entries are improperly parsed due to ex",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-bworks-xxe-uwUd7CEt",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "AV26-1160",
+      "source": "CCCS",
+      "title": "n8n security advisory (AV26-1160)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1160 Date: November 13, 2026 As of November 13, 2026, n8n is affected by vulnerabilities in the following product: n8n Prior to 2.45.5 Prior to 2.46.1 Prior to 3.0.1 The Cyber Centre encourages users and administrators to review the provided web links and appl",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/n8n-security-advisory-av26-1160",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1159",
+      "source": "CCCS",
+      "title": "Apache security advisory (AV26-1159)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1159 Date: November 13, 2026 As of November 11, 2026, Apache is affected by vulnerabilities in the following product: Apache HTTP Server Prior to 2.4.71 The Cyber Centre encourages users and administrators to review the provided web links and apply any necessa",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/apache-security-advisory-av26-1159",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1158",
+      "source": "CCCS",
+      "title": "[Control systems] Johnson Controls security advisory (AV26-1158)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1158 Date: November 13, 2026 As of November 12, 2026, Johnson Controls is affected by a vulnerability in the following product: EasyIO FW Prior to or equal to V3.0b25 The Cyber Centre encourages users and administrators to review the provided web links and app",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/control-systems-johnson-controls-security-advisory-av26-1158",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1154",
+      "source": "CCCS",
+      "title": "Check Point security advisory (AV26-1154) – Update 1",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-13",
+      "severity": "EXPLOITED",
+      "summary": "Serial number: AV26-1154 Date: November 12, 2026 Updated: November 13, 2026 As of November 12, 2026, Check Point is affected by vulnerabilities in the following products: Check Point Force Firewalls Multiple versions Check Point Management and Log Servers Multiple versions Multi-",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/check-point-security-advisory-av26-1154",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
       }
     },
     {
@@ -213,6 +582,139 @@
       }
     },
     {
+      "id": "AV26-1157",
+      "source": "CCCS",
+      "title": "Google security advisory (AV26-1157)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-12",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1157 Date: November 12, 2026 As of November 11, 2026, Google is affected by vulnerabilities in the following product: Stable Channel Chrome for Desktop Versions prior to 157.0.8103.78/.79 (Windows/Mac), and 157.0.8103.78 (Linux) The Cyber Centre encourages use",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/google-security-advisory-av26-1157",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1156",
+      "source": "CCCS",
+      "title": "Nodejs security advisory (AV26-1156)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-12",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1156 Date: November 12, 2026 As of November 11, 2026, Nodejs is affected by a vulnerability in the following product: node.js Prior to v24.22.3 Prior to v26.13.1 Prior to v22.23.5 The Cyber Centre encourages users and administrators to review the provided web ",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/nodejs-security-advisory-av26-1156",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1155",
+      "source": "CCCS",
+      "title": "AMD security advisory (AV26-1155)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-12",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1155 Date: November 12, 2026 As of November 11, 2026, AMD is affected by vulnerabilities in the following products: AMD Athlon™ 3000 Series Mobile Processors with Radeon™ Graphics ALL except PicassoPI-FP5_1.0.1.2c AMD EPYC™ 4004 Series Processors ALL except Co",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/amd-security-advisory-av26-1155",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1153",
+      "source": "CCCS",
+      "title": "Docker security advisory (AV26-1153)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-12",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1153 Date: November 12, 2026 As of November 10, 2026, Docker is affected by vulnerabilities in the following products: Docker Engine Prior to 23.0.0 Moby Prior to 2.0.0-beta.28 SwarmKit Prior to v1.12.1-0.20220307221335-616e8db4c3b0 Prior to 2.1.3 The Cyber Ce",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/docker-security-advisory-av26-1153",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1152",
+      "source": "CCCS",
+      "title": "React security advisory (AV26-1152)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-12",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1152 Date: November 12, 2026 As of November 10, 2026, React is affected by a vulnerability in the following product: react Prior to 19.0.9 Prior to 19.1.10 Prior to 19.2.9 Prior to 19.3.1 The Cyber Centre encourages users and administrators to review the provi",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/react-security-advisory-av26-1152",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1142",
+      "source": "CCCS",
+      "title": "Microsoft security advisory – November 2026 monthly rollup (AV26-1142) – Update 1",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-12",
+      "severity": "EXPLOITED",
+      "summary": "Serial number: AV26-1142 Date: November 10, 2026 Updated: November 12, 2026 As of November 10, 2026, Microsoft is affected by vulnerabilities in the following products: .NET 10.0 .NET 11.0 .NET 8.0 .NET 9.0 Aspire Dashboard Aspire Cli Aspire Dashboard Sdk Aspire Hosting Aspire Ho",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/microsoft-security-advisory-november-2026-monthly-rollup-av26-1142",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "NCSC",
+      "source": "NCSC",
+      "title": "NCSC scheme will help critical organisations test their cyber defences",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-11",
+      "severity": "CRITICAL",
+      "summary": "New NCSC Cyber Adversary Simulation scheme will help critical organisations strengthen their resilience through rigorous, real-world testing by trusted providers.",
+      "url": "https://www.ncsc.gov.uk/news/ncsc-scheme-help-critical-organisations-test-their-cyber-defences",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "GB"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
       "id": "CVE-2026-20320",
       "source": "KEV",
       "title": "Cisco BroadWorks Improper Restriction of XML External Entity Reference Vulnerability",
@@ -331,6 +833,25 @@
       }
     },
     {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Cisco Identity Services Engine Authorization Bypass Vulnerabilities",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-10",
+      "severity": "MEDIUM",
+      "summary": "Multiple vulnerabilities in the web-based management interface of Cisco Identity Services Engine (ISE) and Cisco ISE Passive Identity Connector (ISE-PIC) could allow an authenticated, remote attacker to modify parts of the configuration on an affected device. These vulnerabilitie",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-ise-auth-bypass-1-MxcTNgwx",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
       "id": "CVE-2026-123218",
       "source": "KEV",
       "title": "IBM Aspera Faspex Incorrect Authorization Vulnerability",
@@ -405,6 +926,25 @@
       }
     },
     {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Cisco Meraki Security Hardening Release: October 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-09",
+      "severity": "CRITICAL",
+      "summary": "As part of Cisco's ongoing commitment to proactive security and product quality, engineering teams conducted a comprehensive internal security review. This review resulted in software hardening releases that address multiple internally discovered vulnerabilities. These vulnerabil",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-hardening-meraki-os-drbEX9GH",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
       "id": "CVE-2026-19868",
       "source": "KEV",
       "title": "SonicWall SonicOS SSLVPN Use of Single-factor Authentication Vulnerability",
@@ -422,6 +962,25 @@
         ],
         "regions": [],
         "basis": "Vendor HQ"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Vulnerabilities in PHP Affecting Cisco Products: October 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-06",
+      "severity": "CRITICAL",
+      "summary": "On October 21, the PHP Foundation announced the availability of a Critical PHP Security release addressing two critical vulnerabilities:&nbsp; CVE-2026-109618 - RCE via OOM corruption CVE-2026-109619 - RCE via stale global state For information about these vulnerabilities, see th",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-php-october26-Jj384Daq",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
       }
     },
     {
@@ -465,6 +1024,120 @@
         ],
         "regions": [],
         "basis": "Vendor HQ"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Cisco Identity Services Engine Authorization Bypass Vulnerability",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-04",
+      "severity": "MEDIUM",
+      "summary": "A vulnerability in the authorization mechanism of Cisco Identity Services Engine (ISE) and Cisco ISE Passive Identity Connector (ISE-PIC) could allow an unauthenticated, remote attacker to obtain an endpoint identity certificate. This vulnerability is due to improper authorizatio",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-ise-cert-mE9BD5GO",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Cisco Advance Notification for Publication of November 4, 2026, Security Advisories",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-04",
+      "severity": "INFO",
+      "summary": "On November 4, 2026, the Cisco Product Security Incident Response Team (PSIRT) published the following advisories: Cisco Security Advisory CVE ID Security Impact Rating CVSS Base Score Cisco UCS Central Software Remote Code Execution Vulnerability CVE-2026-76506 High 7.6 Cisco Un",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-notice-I8z3n6lK",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Cisco Unified Communications Manager Cross-Site Scripting Vulnerability",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-04",
+      "severity": "MEDIUM",
+      "summary": "A vulnerability in the web-based management interface of Cisco Unified Communications Manager (Unified CM) and Cisco Unified Communications Manager Session Management Edition (Unified CM SME) could allow an unauthenticated, remote attacker to conduct a cross-site scripting (XSS) ",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-cucm-xss-5mQn2U5z",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Cisco UCS Central Software Remote Code Execution Vulnerability",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-04",
+      "severity": "HIGH",
+      "summary": "A vulnerability in the web-based management interface of Cisco UCS Central Software could allow an authenticated, remote attacker to achieve remote code execution or conduct information disclosure attacks on an affected device. This vulnerability is due to insufficient validation",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-cucs-rce-LzHSFRDQ",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "NCSC",
+      "source": "NCSC",
+      "title": "Artificial intelligence and cyber intrusion",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-03",
+      "severity": "REPORT",
+      "summary": "An NCSC assessment that examines current AI-enabled threat trends and projections of the threat landscape to 2028.",
+      "url": "https://www.ncsc.gov.uk/report/artificial-intelligence-and-cyber-intrusion",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "GB"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "NCSC",
+      "source": "NCSC",
+      "title": "Cyber chief: UK facing AI-powered attacks on critical infrastructure within two years",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-03",
+      "severity": "CRITICAL",
+      "summary": "The NCSC warns that ‘tech on the cheap’ has left UK organisations exposed to AI uncovering and exploiting longstanding cyber security weaknesses and calls for urgent investment in resilience.",
+      "url": "https://www.ncsc.gov.uk/news/cyber-chief-uk-facing-ai-powered-attacks-on-critical-infrastructure-in-two-years",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "GB"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
       }
     },
     {
@@ -624,6 +1297,25 @@
       }
     },
     {
+      "id": "NCSC",
+      "source": "NCSC",
+      "title": "From industry concern to practical action: the value of working with regulators",
+      "vendor": "",
+      "product": "",
+      "date": "2026-10-27",
+      "severity": "BLOG",
+      "summary": "How industry, the NCSC and the FCA worked together to help organisations share information while protecting market integrity",
+      "url": "https://www.ncsc.gov.uk/blogs/industry-concern-practical-action-value-working-regulators",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "GB"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
       "id": "ICSA-26-300-02",
       "source": "ICS",
       "title": "Mitsubishi Electric GENESIS, GENESIS64, ICONICS Suite, Hyper Historian, AnalytiX, MobileHMI, IoTWorX, MC Works64, GENESIS32 and BizViz",
@@ -644,6 +1336,120 @@
           "US"
         ],
         "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "NCSC",
+      "source": "NCSC",
+      "title": "Critical security issue affecting PHP",
+      "vendor": "",
+      "product": "",
+      "date": "2026-10-21",
+      "severity": "CRITICAL",
+      "summary": "Updated: The NCSC is encouraging UK organisations to take immediate action to mitigate a security issue affecting PHP (CVE-2026-109618 and CVE-2026-109619).",
+      "url": "https://www.ncsc.gov.uk/news/critical-security-issue-affecting-php",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "GB"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "NCSC",
+      "source": "NCSC",
+      "title": "Introducing a new AI chapter in the NCSC research problem book",
+      "vendor": "",
+      "product": "",
+      "date": "2026-10-20",
+      "severity": "BLOG",
+      "summary": "A revolution is underway at the intersection of AI and cyber security.",
+      "url": "https://www.ncsc.gov.uk/blogs/introducing-new-ai-chapter-ncsc-research-problem-book",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "GB"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "NCSC",
+      "source": "NCSC",
+      "title": "Using TLS to protect data",
+      "vendor": "",
+      "product": "",
+      "date": "2026-10-15",
+      "severity": "GUIDANCE",
+      "summary": "Recommended profiles to securely configure TLS for the most common versions and scenarios, with additional guidance for managing older versions.",
+      "url": "https://www.ncsc.gov.uk/guidance/using-tls-to-protect-data",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "GB"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "NCSC",
+      "source": "NCSC",
+      "title": "Post-quantum updates to our TLS guidance",
+      "vendor": "",
+      "product": "",
+      "date": "2026-10-15",
+      "severity": "BLOG",
+      "summary": "The NCSC publishes its recommendations for configuring post-quantum cryptography in TLS. Now is time to migrate.",
+      "url": "https://www.ncsc.gov.uk/blogs/post-quantum-updates-to-our-tls-guidance",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "GB"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "NCSC",
+      "source": "NCSC",
+      "title": "Help the NCSC understand how organisations approach external attack surface risk",
+      "vendor": "",
+      "product": "",
+      "date": "2026-10-12",
+      "severity": "BLOG",
+      "summary": "We're looking to hear from people involved in evaluating, selecting or adopting EASM.",
+      "url": "https://www.ncsc.gov.uk/blogs/help-ncsc-understand-how-organisations-approach-external-attack-surface-risk",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "GB"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "NCSC",
+      "source": "NCSC",
+      "title": "China-linked malicious actors called out by UK and international partners for targeting sensitive data globally",
+      "vendor": "",
+      "product": "",
+      "date": "2026-10-08",
+      "severity": "NEWS",
+      "summary": "Joint advisory with international partners highlights malicious targeting of organisations from a range of sectors across the globe.",
+      "url": "https://www.ncsc.gov.uk/news/china-linked-actors-called-out-by-uk-and-international-partners-for-targeting-sensitive-data",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "GB"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
       }
     }
   ]
