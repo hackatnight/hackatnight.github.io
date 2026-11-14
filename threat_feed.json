@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-14T18:31:40Z",
+  "updated": "2026-11-14T18:32:39Z",
   "sources": [
     {
       "id": "KEV",
@@ -35,13 +35,6 @@
       "home": "https://www.cyber.gc.ca/en/alerts-advisories",
       "icon": "https://flagcdn.com/16x12/ca.png",
       "color": "#ff6b6b"
-    },
-    {
-      "id": "ACSC",
-      "name": "Australian Cyber Security Centre",
-      "home": "https://www.cyber.gov.au",
-      "icon": "https://flagcdn.com/16x12/au.png",
-      "color": "#4cd964"
     },
     {
       "id": "MSRC",
