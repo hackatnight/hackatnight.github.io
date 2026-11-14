@@ -585,9 +585,38 @@
     @media (max-width: 760px) { .chat-users { width: 74px; font-size: 8px; } }
     .chat-msg .t { color: var(--muted); font-size: 9px; margin-right: 6px; }
     .chat-msg .n { color: var(--accent); font-weight: 700; margin-right: 6px; }
-    .chat-msg.me .n { color: #ffd166; }
+    .chat-msg.sys { color: var(--muted); font-style: italic; font-size: 10px; }
+    .chat-msg.pending { opacity: 0.55; }
+    .chat-colors { display: inline-flex; gap: 3px; align-items: center; }
+    .chat-colors button { width: 12px; height: 12px; padding: 0; border: 1px solid #000; cursor: pointer; }
+    .chat-colors button.on { outline: 1px solid #fff; outline-offset: 1px; }
+    .chat-emoji-btn { font-size: 13px; padding: 0 6px; }
+    .chat-emoji-panel { display: grid; grid-template-columns: repeat(auto-fill, minmax(26px, 1fr)); gap: 2px; background: #000; border: 1px solid var(--card-border); margin-top: 6px; padding: 4px; max-height: 120px; overflow-y: auto; }
+    .chat-emoji-panel[hidden] { display: none; }
+    .chat-emoji-panel button { background: none; border: none; font-size: 17px; cursor: pointer; padding: 2px; line-height: 1; }
+    .chat-emoji-panel button:hover { background: rgba(124, 232, 255, 0.15); }
     .clock-box { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--accent); }
     #refreshCountdown { cursor: pointer; }
+    .visits-mini { background: #000; border: 1px solid var(--card-border); margin-top: 6px; font-size: 10px; flex: 0 0 auto; }
+    .vm-head { display: flex; justify-content: space-between; padding: 3px 8px; border-bottom: 1px solid var(--card-border); color: var(--accent); font-weight: 700; font-size: 10px; }
+    .vm-live { color: #40f0a0; font-size: 9px; }
+    .vm-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .vm-row { display: flex; align-items: center; gap: 6px; padding: 2px 8px; white-space: nowrap; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .vm-t { color: var(--muted); font-variant-numeric: tabular-nums; }
+    .vm-loc img { vertical-align: -1px; }
+    .vm-tz { color: var(--muted); }
+    .triage-table { width: 100%; table-layout: fixed; }
+    .triage-table th:nth-child(1) { width: 78px; }
+    .triage-table th:nth-child(2) { width: 120px; }
+    .triage-table th:nth-child(3) { width: 74px; }
+    .triage-table th:nth-child(5) { width: 130px; }
+    .triage-table .tt-id { font-weight: 700; color: var(--accent); white-space: nowrap; }
+    .triage-table .tt-proj { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .triage-table .tt-sum { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted); }
+    .tt-sev { font-size: 9px; font-weight: 700; padding: 1px 5px; border: 1px solid currentColor; }
+    .tt-sev.sev-high { color: #ff4d5e; }
+    .tt-sev.sev-medium { color: #ffb84d; }
+    .tt-sev.sev-low { color: #7ce8ff; }
     .outage-card { cursor: pointer; }
     .oc-toggle { background: none; border: 1px solid var(--card-border); color: var(--muted); font-size: 9px; line-height: 1; padding: 1px 4px; cursor: pointer; transition: transform .15s; }
     .outage-card.expanded .oc-toggle { transform: rotate(90deg); color: var(--accent); }
@@ -824,7 +853,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.15.0]</span>
+        <span id="titleVersionBadge">[v.2.15.1]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -869,7 +898,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.15.0</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.15.1</span></div>
         </div>
       </aside>
 
@@ -926,6 +955,12 @@
               </div>
               <div class="threat-foot" id="threatFoot">HOVER / TAP: LOCATE ON GLOBE</div>
             </div>
+
+            <!-- RECENT VISITORS (compact widget) -->
+            <div class="visits-mini" id="visitsMini">
+              <div class="vm-head"><span>RECENT VISITORS <span class="xray-pill">TAB: Visits Log (Sanitized)</span></span><span class="vm-live">● LIVE</span></div>
+              <div id="visitsTableBody" class="vm-list"></div>
+            </div>
             </div><!-- /overview-left -->
 
             <!-- RIGHT COLUMN: INTRO, KPIs, HEALTH & SESSIONS -->
@@ -971,19 +1006,6 @@
             </div>
             <div class="grid-3" id="outageTelemetryGrid"></div>
 
-            <!-- RECENT SESSIONS TABLE -->
-            <div class="sec-bar">
-              <span>RECENT INCOMING VISITOR SESSIONS <span class="xray-pill">TAB: Visits Log (Sanitized)</span></span>
-              <span>LIVE FEED</span>
-            </div>
-            <div class="card">
-              <div class="table-wrap">
-                <table>
-                  <thead><tr><th>Time</th><th>Route</th><th>Device</th><th>Location</th></tr></thead>
-                  <tbody id="visitsTableBody"></tbody>
-                </table>
-              </div>
-            </div>
             </div><!-- /overview-right -->
             </div><!-- /overview-split -->
           </section>
@@ -1131,6 +1153,7 @@
               <div id="chatRoom" class="chat-room" style="display:none">
                 <div class="chat-bar">
                   <span>LOGGED IN AS <strong id="chatWho"></strong></span>
+                  <span class="chat-colors" id="chatColors" title="Name color"></span>
                   <button class="s7-btn" onclick="chatLeave()">leave</button>
                 </div>
                 <div class="chat-main">
@@ -1140,7 +1163,9 @@
                     <div id="chatUsers"></div>
                   </div>
                 </div>
+                <div class="chat-emoji-panel" id="chatEmojiPanel" hidden></div>
                 <div class="chat-row">
+                  <button class="s7-btn chat-emoji-btn" type="button" onclick="chatToggleEmoji()" title="Emoji">😀</button>
                   <input id="chatInput" maxlength="500" placeholder="type a message, Enter to send" autocomplete="off" />
                   <button class="s7-btn" onclick="chatSendMsg()">send</button>
                 </div>
@@ -1169,7 +1194,7 @@
               </div>
 
               <div class="card">
-                <div class="card-head"><span>BUG &amp; FEATURE TRIAGE BOARD</span><span class="xray-pill">TAB: Bug_Triage</span></div>
+                <div class="card-head"><span>REPORT A BUG / REQUEST A FEATURE</span><span class="xray-pill">POST triage -&gt; Bug_Triage</span></div>
                 <div class="grid-2" style="margin-bottom:0">
                   <div>
                     <label>PROJECT</label>
@@ -1187,17 +1212,21 @@
                 <label>ENVIRONMENT</label>
                 <input id="triageEnv" placeholder="Board revision, OS, or browser" />
                 <label>SUMMARY</label>
-                <textarea id="triageSummary" rows="2" placeholder="Steps to reproduce or feature details..."></textarea>
-                <div style="margin-top:8px">
+                <textarea id="triageSummary" rows="4" placeholder="Steps to reproduce or feature details..."></textarea>
+                <div style="margin-top:10px">
                   <button class="s7-btn active-toggle" onclick="submitTriage()">log triage issue</button>
                 </div>
                 <div id="triageStatus" class="alert-box"></div>
-                <div class="table-wrap" style="margin-top:10px">
-                  <table>
-                    <thead><tr><th>ID</th><th>Project</th><th>Severity</th><th>Status</th></tr></thead>
-                    <tbody id="triageTableBody"></tbody>
-                  </table>
-                </div>
+              </div>
+            </div>
+
+            <div class="card" style="margin-top:10px">
+              <div class="card-head"><span>BUG &amp; FEATURE TRIAGE BOARD</span><span class="xray-pill">TAB: Bug_Triage</span></div>
+              <div class="table-wrap">
+                <table class="triage-table">
+                  <thead><tr><th>ID</th><th>Project</th><th>Severity</th><th>Summary</th><th>Status</th></tr></thead>
+                  <tbody id="triageTableBody"></tbody>
+                </table>
               </div>
             </div>
           </section>
@@ -1214,7 +1243,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.15.0]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.15.1]</div>
     </div>
     <!-- DATA CREDITS (smallest text, very bottom of the page) -->
     <div class="data-credits">
@@ -1247,7 +1276,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.15.0",
+      APP_VERSION: "v.2.15.1",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1311,6 +1340,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.15.1", Project: "H@N Core", Summary: "Chat: emoji picker, name colors, enter/leave notices and instant sends. Compact recent-visitors widget under the news box (no route column); news box scrolls slowly and continuously; triage board restyled as a table; globe always opens at the largest size that fits, including after switching tabs.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.15.0", Project: "H@N Core", Summary: "Live clock with milliseconds (visitor time zone) and a 5-minute refresh countdown for all page data; globe overlays replaced by a compact legend; credits moved to a tiny footer; resizable globe width; interleaved auto-scrolling news; compact outage view; mobile layout; live chat tab (FEAT-109); vault SHA-256 verification (FEAT-110).", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.14.0", Project: "H@N UI / Globe", Summary: "USA fiber layer from free data: mapped fiber lines (OpenStreetMap), approximate long-haul corridors along 36 interstates and the rail network (Natural Earth, per InterTubes research), and 20 interconnection hubs. Cables button cycles all / undersea / USA / off.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.13.0", Project: "H@N UI / Globe", Summary: "Real submarine cable map: 269 cables from OpenStreetMap (refreshed daily), drawn flat on the globe surface so they stay visible while it rotates, brighter lines, and hover shows the cable name, operator and mapped length.", Tag: "🟢 FEAT" },
@@ -1444,7 +1474,11 @@
       renderSidebar();
       if (location.hash !== "#" + ACTIVE_TAB) history.replaceState(null, "", "#" + ACTIVE_TAB);
       setStatus(`module active: ${targetMod.label}`);
-      if (ACTIVE_TAB === "overview") resizeGlobeCanvas();
+      if (ACTIVE_TAB === "overview") {
+        // Re-fit now that the overview has real height again
+        window.dispatchEvent(new Event("han:layout"));
+        resizeGlobeCanvas();
+      }
     }
 
     function openSupportTicket() {
@@ -1737,19 +1771,23 @@
       // Visits Table
       const recentVisits = (STATE.telemetry && STATE.telemetry.recent) ? STATE.telemetry.recent : [];
       if (!recentVisits.length) {
-        document.getElementById("visitsTableBody").innerHTML = `
-          <tr>
-            <td colspan="4" style="text-align:center;font-weight:700;color:${stateColor};padding:10px">${stateText}</td>
-          </tr>`;
+        document.getElementById("visitsTableBody").innerHTML = `<div class="vm-row" style="color:${stateColor};font-weight:700">${stateText}</div>`;
       } else {
-        document.getElementById("visitsTableBody").innerHTML = recentVisits.slice(0, 8).map(v => `
-          <tr>
-            <td>${new Date(v.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</td>
-            <td>${esc(v.path)}</td>
-            <td>${formatDeviceBadge(v.device)}</td>
-            <td>${formatVisitLocation(v)}</td>
-          </tr>`).join("");
+        // One line per visit: time · device · country · time zone city
+        document.getElementById("visitsTableBody").innerHTML = recentVisits.slice(0, 6).map(v => {
+          const dev = String(v.device || "");
+          const devIcon = /mobile/i.test(dev) ? "📱" : /tablet/i.test(dev) ? "📟" : "💻";
+          const cc = /^[A-Za-z]{2}$/.test(v.countryCode || "") ? String(v.countryCode).toUpperCase() : "";
+          const flag = cc ? `<img src="https://flagcdn.com/16x12/${cc.toLowerCase()}.png" width="16" height="12" alt="" loading="lazy" />` : "🌐";
+          const tz = String(v.timezone || v.region || "").split("/").pop().replace(/_/g, " ");
+          return `<div class="vm-row">
+            <span class="vm-t">${new Date(v.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
+            <span title="${esc(dev)}">${devIcon}</span>
+            <span class="vm-loc">${flag} ${esc(cc || "??")}${tz && tz !== "Unknown" ? ` <span class="vm-tz">${esc(tz)}</span>` : ""}</span>
+          </div>`;
+        }).join("");
       }
+      setTimeout(() => window.dispatchEvent(new Event("han:layout")), 0);
 
       // Services Grid (Static Practice Offerings)
       document.getElementById("servicesGrid").innerHTML = SERVICES_DATA.map(s => `
@@ -1845,15 +1883,20 @@
       if (!triageList.length) {
         document.getElementById("triageTableBody").innerHTML = `
           <tr>
-            <td colspan="4" style="text-align:center;font-weight:700;color:${stateColor};padding:10px">${stateText}</td>
+            <td colspan="5" style="text-align:center;font-weight:700;color:${stateColor};padding:10px">${stateText}</td>
           </tr>`;
       } else {
-        document.getElementById("triageTableBody").innerHTML = triageList.map(t => `
+        // Newest first (highest issue number), short status tag with the full text on hover
+        const num = id => Number(String(id || "").replace(/\D/g, "")) || 0;
+        const sevClass = sv => ({ HIGH: "sev-high", MEDIUM: "sev-medium", LOW: "sev-low" })[String(sv || "").toUpperCase()] || "sev-low";
+        const shortStatus = st => String(st || "NEW").replace(/\s*\(.*$/, "").trim();
+        document.getElementById("triageTableBody").innerHTML = triageList.slice().sort((a, b) => num(b.id) - num(a.id)).map(t => `
           <tr>
-            <td>${esc(t.id)}</td>
-            <td>${esc(t.project)}</td>
-            <td>${esc(t.severity)}</td>
-            <td><span class="tag">${esc(t.status)}</span></td>
+            <td class="tt-id">${esc(t.id)}</td>
+            <td class="tt-proj">${esc(t.project)}</td>
+            <td><span class="tt-sev ${sevClass(t.severity)}">${esc(t.severity)}</span></td>
+            <td class="tt-sum" title="${esc(t.summary || "")}">${esc(String(t.summary || "").replace(/^Feature request:\s*/i, ""))}</td>
+            <td><span class="tag" title="${esc(t.status)}">${esc(shortStatus(t.status))}</span></td>
           </tr>`).join("");
       }
     }
@@ -2602,25 +2645,26 @@
       // Drag the bar under the globe to resize it; the size is remembered per browser
       const resizer = document.getElementById("globeResizer");
       const wrapEl = document.getElementById("canvasWrap");
+      // A size dragged by hand lasts until the page reloads; every load starts at the largest fit
+      let globeUserH = 0;
+      try { localStorage.removeItem("han_globe_h"); } catch (_) {}
       const setGlobeH = h => {
+        // Skip while the overview tab is hidden: its height reads as 0 and would shrink the globe
+        if (!leftCol.offsetParent || leftCol.clientHeight < 50) return 0;
         const stacked = getComputedStyle(leftCol).display !== "flex";
         const tp = document.getElementById("threatPanel");
-        const max = stacked ? 900 : leftCol.clientHeight - wrapEl.parentElement.querySelector(".globe-hud-bar").offsetHeight - 8 - (tp ? tp.offsetHeight + 12 : 160);
+        const vm = document.getElementById("visitsMini");
+        const max = stacked ? 900 : leftCol.clientHeight - wrapEl.parentElement.querySelector(".globe-hud-bar").offsetHeight - 8 - (tp ? tp.offsetHeight + 12 : 160) - (vm ? vm.offsetHeight + 6 : 0);
         const v = Math.round(Math.max(220, Math.min(max, h)));
         leftCol.style.setProperty("--globe-h", v + "px");
         return v;
       };
-      try {
-        const saved = Number(localStorage.getItem("han_globe_h"));
-        // No saved size: the globe takes all the height the small news box leaves free
-        setGlobeH(saved || 99999);
-      } catch (_) { setGlobeH(99999); }
+      // The globe takes all the height the news box and visitors widget leave free
+      setGlobeH(99999);
       // On short windows, shrink the globe so the threat feed keeps at least ~130px
       const clampGlobe = () => {
         if (getComputedStyle(leftCol).display !== "flex") return;
-        let saved = 0;
-        try { saved = Number(localStorage.getItem("han_globe_h")) || 0; } catch (_) {}
-        setGlobeH(saved ? wrapEl.offsetHeight : 99999);
+        setGlobeH(globeUserH || 99999);
       };
       // Re-fit once the news box has its final size
       window.addEventListener("han:layout", () => requestAnimationFrame(clampGlobe));
@@ -2633,7 +2677,7 @@
           resizer.classList.remove("dragging");
           window.removeEventListener("pointermove", move);
           window.removeEventListener("pointerup", up);
-          try { localStorage.setItem("han_globe_h", String(wrapEl.offsetHeight)); } catch (_) {}
+          globeUserH = wrapEl.offsetHeight;
         };
         resizer.addEventListener("pointerdown", e => {
           e.preventDefault();
@@ -2644,8 +2688,8 @@
           window.addEventListener("pointerup", up);
         });
         resizer.addEventListener("dblclick", () => {
-          leftCol.style.removeProperty("--globe-h");
-          try { localStorage.removeItem("han_globe_h"); } catch (_) {}
+          globeUserH = 0;
+          setGlobeH(99999);
         });
       }
 
@@ -2678,7 +2722,7 @@
             window.removeEventListener("pointerup", up);
             try {
               if (doW) localStorage.setItem("han_globe_w", String(leftCol.offsetWidth));
-              if (doH) localStorage.setItem("han_globe_h", String(wrapEl.offsetHeight));
+              if (doH) globeUserH = wrapEl.offsetHeight;
             } catch (_) {}
           };
           window.addEventListener("pointermove", move);
@@ -2686,7 +2730,7 @@
         });
         handle.addEventListener("dblclick", () => {
           if (doW) { split && split.style.removeProperty("--overview-left-w"); try { localStorage.removeItem("han_globe_w"); } catch (_) {} }
-          if (doH) { leftCol.style.removeProperty("--globe-h"); try { localStorage.removeItem("han_globe_h"); } catch (_) {} }
+          if (doH) { globeUserH = 0; setGlobeH(99999); }
         });
       };
       dragResize(document.getElementById("globeResizerX"), true, false);
@@ -3695,24 +3739,42 @@
       return out;
     }
 
-    // Ticker: the news box steps one item every few seconds, pausing while the pointer or focus is inside
+    // Ticker: the news box scrolls slowly and continuously (about 14 px per second), pausing while the pointer,
+    // focus or a finger is on it; at the bottom it waits a moment and starts again from the top
     function startThreatTicker() {
       const list = document.getElementById("threatList");
       if (!list || list.dataset.ticker) return;
       list.dataset.ticker = "1";
-      let paused = false;
+      let paused = false, holdUntil = performance.now() + 2500, pos = 0, last = performance.now(), resetting = false;
+      const hold = ms => { holdUntil = performance.now() + ms; };
       list.addEventListener("mouseenter", () => { paused = true; });
-      list.addEventListener("mouseleave", () => { paused = false; });
+      list.addEventListener("mouseleave", () => { paused = false; pos = list.scrollTop; hold(800); });
       list.addEventListener("focusin", () => { paused = true; });
-      list.addEventListener("focusout", () => { paused = false; });
-      list.addEventListener("touchstart", () => { paused = true; setTimeout(() => { paused = false; }, 8000); }, { passive: true });
-      setInterval(() => {
-        if (paused || document.hidden || !list.firstElementChild) return;
-        const rows = [...list.children];
-        const next = rows.find(r => r.offsetTop > list.scrollTop + 2);
-        if (!next || list.scrollTop + list.clientHeight >= list.scrollHeight - 2) list.scrollTo({ top: 0, behavior: "smooth" });
-        else list.scrollTo({ top: next.offsetTop - list.offsetTop, behavior: "smooth" });
-      }, 4000);
+      list.addEventListener("focusout", () => { paused = false; pos = list.scrollTop; });
+      list.addEventListener("touchstart", () => { paused = true; }, { passive: true });
+      list.addEventListener("touchend", () => { paused = false; pos = list.scrollTop; hold(4000); }, { passive: true });
+      list.addEventListener("wheel", () => { pos = list.scrollTop; hold(4000); }, { passive: true });
+      const SPEED = 14; // px per second
+      const step = now => {
+        const dt = Math.min(0.1, (now - last) / 1000);
+        last = now;
+        if (!paused && !resetting && !document.hidden && now > holdUntil && list.scrollHeight > list.clientHeight) {
+          if (list.scrollTop + list.clientHeight >= list.scrollHeight - 1) {
+            resetting = true;
+            setTimeout(() => {
+              list.scrollTo({ top: 0, behavior: "smooth" });
+              pos = 0;
+              hold(2500);
+              resetting = false;
+            }, 2500);
+          } else {
+            pos += SPEED * dt;
+            list.scrollTop = pos;
+          }
+        }
+        requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
     }
 
     function renderThreatFeed() {
@@ -3942,7 +4004,9 @@
        08a // LIVE CHAT (FEAT-109): pick a name, read + post in one public room.
        Polls the backend every 4 s only while the chat tab is open.
        ========================================================================= */
-    const CHAT = { name: "", since: 0, timer: null, seen: new Set(), busy: false };
+    const CHAT = { name: "", since: 0, timer: null, seen: new Set(), busy: false, color: "#7ce8ff" };
+    const CHAT_COLORS = ["#7ce8ff", "#ffd166", "#40f0a0", "#ff8c46", "#ff4d5e", "#c4aaff", "#ff7ad9", "#ffffff"];
+    const CHAT_EMOJI = "😀 😂 🤣 😊 😍 😎 🤔 😮 😢 😡 👍 👎 👏 🙏 💪 🔥 💯 ✅ ❌ ⚠️ 🚀 💻 🖥️ 📡 🛰️ 🌐 🔒 🔓 🛡️ 🐛 ⚡ 💾 📶 🎉 ❤️ 💀 👀 🤖 👾 🍕 ☕".split(" ");
     let VISITOR_IP = "Unknown";
 
     function chatJoin() {
@@ -3954,6 +4018,7 @@
       chatShowRoom();
     }
     function chatLeave() {
+      chatSendLeave();
       CHAT.name = "";
       try { localStorage.removeItem("han_chat_name"); } catch (_) {}
       document.getElementById("chatRoom").style.display = "none";
@@ -3967,29 +4032,82 @@
       chatStart();
       setTimeout(() => document.getElementById("chatInput").focus(), 50);
     }
+    function chatMakeRow(m, pending) {
+      const row = document.createElement("div");
+      row.className = "chat-msg" + (m.sys ? " sys" : "") + (m.name === CHAT.name ? " me" : "") + (pending ? " pending" : "");
+      const t = document.createElement("span");
+      t.className = "t";
+      t.textContent = new Date(m.ts).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      const body = document.createElement("span");
+      body.textContent = m.sys ? "— " + m.msg : m.msg;
+      if (m.sys) {
+        row.append(t, body);
+      } else {
+        const n = document.createElement("span");
+        n.className = "n";
+        n.textContent = m.name;
+        if (CHAT_COLORS.includes(m.c)) n.style.color = m.c;
+        row.append(t, n, body);
+      }
+      return row;
+    }
     function chatRender(messages) {
       const box = document.getElementById("chatMessages");
       if (!box) return;
       const atBottom = box.scrollTop + box.clientHeight >= box.scrollHeight - 30;
       messages.forEach(m => {
         const key = m.ts + "|" + m.name + "|" + m.msg;
+        CHAT.since = Math.max(CHAT.since, m.ts);
         if (CHAT.seen.has(key)) return;
         CHAT.seen.add(key);
-        const row = document.createElement("div");
-        row.className = "chat-msg" + (m.name === CHAT.name ? " me" : "");
-        const t = document.createElement("span");
-        t.className = "t";
-        t.textContent = new Date(m.ts).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
-        const n = document.createElement("span");
-        n.className = "n";
-        n.textContent = m.name;
-        const body = document.createElement("span");
-        body.textContent = m.msg;
-        row.append(t, n, body);
-        box.appendChild(row);
-        CHAT.since = Math.max(CHAT.since, m.ts);
+        box.appendChild(chatMakeRow(m, false));
       });
       if (atBottom) box.scrollTop = box.scrollHeight;
+    }
+    function chatRenderColors() {
+      const box = document.getElementById("chatColors");
+      if (!box) return;
+      box.innerHTML = "";
+      CHAT_COLORS.forEach(c => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.style.background = c;
+        b.title = "Use this name color";
+        if (c === CHAT.color) b.className = "on";
+        b.onclick = () => {
+          CHAT.color = c;
+          try { localStorage.setItem("han_chat_color", c); } catch (_) {}
+          document.getElementById("chatWho").style.color = c;
+          chatRenderColors();
+        };
+        box.appendChild(b);
+      });
+      document.getElementById("chatWho").style.color = CHAT.color;
+    }
+    function chatToggleEmoji() {
+      const panel = document.getElementById("chatEmojiPanel");
+      if (!panel.childElementCount) {
+        CHAT_EMOJI.forEach(e => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.textContent = e;
+          b.onclick = () => {
+            const input = document.getElementById("chatInput");
+            const a = input.selectionStart ?? input.value.length, z = input.selectionEnd ?? input.value.length;
+            input.value = input.value.slice(0, a) + e + input.value.slice(z);
+            input.focus();
+            input.selectionStart = input.selectionEnd = a + e.length;
+          };
+          panel.appendChild(b);
+        });
+      }
+      panel.hidden = !panel.hidden;
+    }
+    // Tell the room we left (also when the tab closes); fire-and-forget
+    function chatSendLeave() {
+      if (!CHAT.name || !BACKEND_API.isLive()) return;
+      const body = JSON.stringify({ action: "chat_leave", name: CHAT.name, cs: sessionStorage.getItem("hack_sid") || "" });
+      try { navigator.sendBeacon(SITE_CONFIG.BACKEND_URL, new Blob([body], { type: "text/plain" })); } catch (_) {}
     }
     function chatRenderUsers(users) {
       const box = document.getElementById("chatUsers");
@@ -4035,19 +4153,41 @@
       if (!msg || !CHAT.name) return;
       input.value = "";
       const status = document.getElementById("chatStatus");
+      // Show it right away (dimmed) while the backend saves it
+      const box = document.getElementById("chatMessages");
+      const local = { ts: Date.now(), name: CHAT.name, msg, c: CHAT.color };
+      const row = chatMakeRow(local, true);
+      box.appendChild(row);
+      box.scrollTop = box.scrollHeight;
+      document.getElementById("chatEmojiPanel").hidden = true;
       try {
         const res = await BACKEND_API.post({
-          action: "chat_send", name: CHAT.name, message: msg,
+          action: "chat_send", name: CHAT.name, message: msg, color: CHAT.color,
           sessionId: sessionStorage.getItem("hack_sid") || "", ipAddress: VISITOR_IP
         });
-        if (res && res.status === "ok") { status.textContent = ""; chatPoll(); }
-        else { status.textContent = (res && res.message) || "message not sent"; input.value = msg; }
+        if (res && res.status === "ok") {
+          status.textContent = "";
+          CHAT.seen.add(res.ts + "|" + CHAT.name + "|" + msg);
+          row.classList.remove("pending");
+          row.querySelector(".t").textContent = new Date(res.ts).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+        } else {
+          row.remove();
+          status.textContent = (res && res.message) || "message not sent";
+          input.value = msg;
+        }
       } catch (_) {
+        row.remove();
         status.textContent = "message not sent, try again";
         input.value = msg;
       }
     }
     function initChat() {
+      try {
+        const c = localStorage.getItem("han_chat_color");
+        if (CHAT_COLORS.includes(c)) CHAT.color = c;
+      } catch (_) {}
+      chatRenderColors();
+      window.addEventListener("pagehide", chatSendLeave);
       const input = document.getElementById("chatInput");
       if (input) input.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); chatSendMsg(); } });
       const nameInput = document.getElementById("chatNameInput");

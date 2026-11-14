@@ -37,7 +37,8 @@ const CONFIG = {
     project_sync: [10, 3600],
     unlock_key: [20, 300],
     visit_diag: [60, 60],
-    chat_send: [40, 60]
+    chat_send: [40, 60],
+    chat_leave: [60, 60]
   },
   CHANGELOG_TAGS: ["🟢 FEAT", "🟢 RELEASE", "🟠 FIX", "🟣 INFRA", "🔵 UPDATE", "🟠 FIRMWARE"],
   // IP geolocation for the Visits Log. Set to false to switch it off instantly; visits still log normally.
@@ -385,6 +386,8 @@ function doPost(e) {
         return jsonOut(logVisitDiagnostics(body));
       case "chat_send":
         return jsonOut(chatSend(body));
+      case "chat_leave":
+        return jsonOut(chatLeave(body));
       case "unlock_key":
         return jsonOut(validateAndRedeemKey(String(body.key || "").trim()));
       case "probe_now": {
@@ -1241,24 +1244,32 @@ function escHtml(str) {
 }
 
 /* ---------- Live chat (FEAT-109) ----------
- * One public room. Every message is logged to the Chat_Log tab (Timestamp, Username, IP, Message).
- * The newest 60 messages are kept in the script cache so polling is fast; IPs are never sent to browsers.
+ * One public room. Every message is logged to the Chat_Log tab (Timestamp, Username, IP, Message, Color);
+ * joins and leaves are logged as SYSTEM lines. The newest 60 entries are kept in the script cache so polling
+ * is fast; IPs are never sent to browsers.
  */
-const CHAT_CACHE_KEY = "chat_recent_v2";
-const CHAT_PRESENCE_KEY = "chat_presence_v1";
+const CHAT_CACHE_KEY = "chat_recent_v3";
+const CHAT_PRESENCE_KEY = "chat_presence_v2";
 const CHAT_ONLINE_MS = 25000;   // a user counts as online if they polled in the last 25 s
 const CHAT_KEEP = 60;
+const CHAT_COLORS = ["#7ce8ff", "#ffd166", "#40f0a0", "#ff8c46", "#ff4d5e", "#c4aaff", "#ff7ad9", "#ffffff"];
 
 function chatSheet() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sh = ss.getSheetByName("Chat_Log");
   if (!sh) {
     sh = ss.insertSheet("Chat_Log");
-    sh.getRange(1, 1, 1, 4).setValues([["Timestamp", "Username", "IP Address", "Message"]]).setFontWeight("bold");
     sh.setFrozenRows(1);
     sh.setColumnWidth(4, 520);
   }
+  if (sh.getRange(1, 5).getValue() !== "Color") {
+    sh.getRange(1, 1, 1, 5).setValues([["Timestamp", "Username", "IP Address", "Message", "Color"]]).setFontWeight("bold");
+  }
   return sh;
+}
+
+function chatCleanName(n) {
+  return String(n || "").replace(/[^A-Za-z0-9 _.\-@]/g, "").trim().slice(0, 24);
 }
 
 function chatRecent() {
@@ -1271,66 +1282,107 @@ function chatRecent() {
   const last = sh.getLastRow();
   if (last < 2) return [];
   const n = Math.min(CHAT_KEEP, last - 1);
-  const rows = sh.getRange(last - n + 1, 1, n, 4).getValues();
-  const list = rows.filter(r => r[0] && r[1]).map(r => ({
-    ts: new Date(r[0]).getTime() || 0,
-    name: String(r[1] || "").replace(/^'/, ""),
-    msg: String(r[3] || "").replace(/^'/, "")
-  }));
+  const rows = sh.getRange(last - n + 1, 1, n, 5).getValues();
+  const list = rows.filter(r => r[0] && r[1]).map(r => {
+    const name = String(r[1] || "").replace(/^'/, "");
+    const m = { ts: new Date(r[0]).getTime() || 0, name: name, msg: String(r[3] || "").replace(/^'/, "") };
+    if (name === "SYSTEM") m.sys = 1;
+    if (CHAT_COLORS.indexOf(String(r[4])) >= 0) m.c = String(r[4]);
+    return m;
+  });
   cache.put(CHAT_CACHE_KEY, JSON.stringify(list), 21600);
   return list;
 }
 
-// Each poll also marks that browser as present; returns who is in the room (names only)
-function chatPresence(name, sid) {
+// Adds entries to the sheet log and the recent-list cache (call while holding the script lock)
+function chatAppend(entries) {
+  if (!entries.length) return;
+  const list = chatRecent();
+  const sh = chatSheet();
+  entries.forEach(e => {
+    sh.appendRow([new Date(e.ts), e.sys ? "SYSTEM" : sheetSafe(e.name), e.ip || "", sheetSafe(e.msg), e.c || ""]);
+    const item = { ts: e.ts, name: e.sys ? "SYSTEM" : e.name, msg: e.msg };
+    if (e.sys) item.sys = 1;
+    if (e.c) item.c = e.c;
+    list.push(item);
+  });
+  CacheService.getScriptCache().put(CHAT_CACHE_KEY, JSON.stringify(list.slice(-CHAT_KEEP)), 21600);
+}
+
+// Presence: every poll marks that browser as here; names that appear or time out become join/leave notices
+function chatPresence(name, sid, leaving) {
   const cache = CacheService.getScriptCache();
-  let map = {};
-  try { map = JSON.parse(cache.get(CHAT_PRESENCE_KEY) || "{}"); } catch (_) {}
-  const now = Date.now();
-  const cleanName = String(name || "").replace(/[^A-Za-z0-9 _.\-@]/g, "").trim().slice(0, 24);
-  const cleanSid = String(sid || "").replace(/[^A-Za-z0-9_]/g, "").slice(0, 60);
-  Object.keys(map).forEach(k => { if (now - map[k].t > CHAT_ONLINE_MS) delete map[k]; });
-  if (cleanName.length >= 2 && cleanSid) map[cleanSid] = { n: cleanName, t: now };
-  const keys = Object.keys(map);
-  if (keys.length > 200) keys.slice(0, keys.length - 200).forEach(k => delete map[k]);
-  cache.put(CHAT_PRESENCE_KEY, JSON.stringify(map), 600);
-  return Array.from(new Set(Object.keys(map).map(k => map[k].n))).sort((a, b) => a.localeCompare(b));
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(3000)) {
+    let map = {};
+    try { map = JSON.parse(cache.get(CHAT_PRESENCE_KEY) || "{}"); } catch (_) {}
+    return Array.from(new Set(Object.keys(map).map(k => map[k].n))).sort((a, b) => a.localeCompare(b));
+  }
+  try {
+    let map = {};
+    try { map = JSON.parse(cache.get(CHAT_PRESENCE_KEY) || "{}"); } catch (_) {}
+    const now = Date.now();
+    const namesOf = m => new Set(Object.keys(m).map(k => m[k].n));
+    const before = namesOf(map);
+    Object.keys(map).forEach(k => { if (now - map[k].t > CHAT_ONLINE_MS) delete map[k]; });
+    const cleanName = chatCleanName(name);
+    const cleanSid = String(sid || "").replace(/[^A-Za-z0-9_]/g, "").slice(0, 60);
+    if (cleanSid) {
+      if (leaving) delete map[cleanSid];
+      else if (cleanName.length >= 2) map[cleanSid] = { n: cleanName, t: now };
+    }
+    const keys = Object.keys(map);
+    if (keys.length > 200) keys.slice(0, keys.length - 200).forEach(k => delete map[k]);
+    cache.put(CHAT_PRESENCE_KEY, JSON.stringify(map), 600);
+    const after = namesOf(map);
+    const events = [];
+    after.forEach(n => { if (!before.has(n)) events.push({ ts: now, sys: 1, msg: n + " entered the room" }); });
+    before.forEach(n => { if (!after.has(n)) events.push({ ts: now, sys: 1, msg: n + " left the room" }); });
+    chatAppend(events);
+    return Array.from(after).sort((a, b) => a.localeCompare(b));
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function chatPoll(since, name, sid) {
+  const users = chatPresence(name, sid, false);
   const list = chatRecent();
   return {
     status: "ok",
     now: Date.now(),
-    users: chatPresence(name, sid),
+    users: users,
     messages: since ? list.filter(m => m.ts > since) : list
   };
 }
 
+function chatLeave(d) {
+  chatPresence(d.name, d.cs || d.sessionId, true);
+  return { status: "ok" };
+}
+
 function chatSend(d) {
-  const name = String(d.name || "").replace(/[^A-Za-z0-9 _.\-@]/g, "").trim().slice(0, 24);
+  const name = chatCleanName(d.name);
   const msg = String(d.message || "").replace(/[\u0000-\u0008\u000b-\u001f]/g, "").trim().slice(0, 500);
   const sid = String(d.sessionId || "").slice(0, 60);
+  const color = CHAT_COLORS.indexOf(String(d.color || "").toLowerCase()) >= 0 ? String(d.color).toLowerCase() : "";
   if (name.length < 2) return { status: "error", message: "Pick a name of at least 2 letters or numbers" };
+  if (name.toUpperCase() === "SYSTEM") return { status: "error", message: "That name is reserved" };
   if (!msg) return { status: "error", message: "Empty message" };
-  // Per-session flood guard: one message per 1.5 s
+  // Per-session flood guard: one message per second or so
   const cache = CacheService.getScriptCache();
   if (sid) {
     const k = "chat_sid_" + sid;
     if (cache.get(k)) return { status: "error", message: "Slow down a little" };
-    cache.put(k, "1", 2);
+    cache.put(k, "1", 1);
   }
   const lock = LockService.getScriptLock();
   if (!lock.tryLock(8000)) return { status: "error", message: "Chat busy, try again" };
   try {
-    const now = new Date();
+    const ts = Date.now();
     const ip = String(d.ipAddress || "Unknown").replace(/[^0-9a-fA-F:.]/g, "").slice(0, 45) || "Unknown";
-    // Read the recent list before writing, so a cold cache rebuilt from the sheet can't include this row twice
-    const list = chatRecent();
-    chatSheet().appendRow([now, sheetSafe(name), ip, sheetSafe(msg)]);
-    list.push({ ts: now.getTime(), name: name, msg: msg });
-    cache.put(CHAT_CACHE_KEY, JSON.stringify(list.slice(-CHAT_KEEP)), 21600);
-    return { status: "ok", ts: now.getTime() };
+    chatAppend([{ ts: ts, name: name, msg: msg, ip: ip, c: color }]);
+    return { status: "ok", ts: ts };
   } finally {
     lock.releaseLock();
   }
