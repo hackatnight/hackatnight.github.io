@@ -913,7 +913,7 @@ function getSanitizedTelemetry() {
   const countries = {};
   const countryName = {};
   // Column C should hold a browser timezone like "America/New_York". Older rows from the v.2.5.5
-  // GeoIP attempt hold text like "United States // Venice", which must never reach the public site.
+  // GeoIP attempt hold text like "United States // <city>", which must never reach the public site.
   const tzOnly = v => /^[A-Za-z]+(\/[A-Za-z0-9_+\-]+)+$/.test(String(v || "").trim()) ? String(v).trim() : "Unknown";
 
   for (let i = 1; i < rows.length; i++) {

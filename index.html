@@ -697,7 +697,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.7.1]</span>
+        <span id="titleVersionBadge">[v.2.8.0]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -738,9 +738,9 @@
         <div id="sidebarNav" style="display:flex;flex-direction:column;gap:4px;width:100%"></div>
         <div class="sidebar-telemetry-box" id="sidebarBox">
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
-          <div><strong>LOC:</strong> VENICE, FL</div>
+          <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.7.1</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.8.0</span></div>
         </div>
       </aside>
 
@@ -772,7 +772,7 @@
               <div class="canvas-wrap" id="canvasWrap">
                 <canvas id="globeCanvas"></canvas>
                 <div class="globe-overlay-tl" id="globeHudTL">
-                  HQ_NODE: VENICE, FL (27.10°N, 82.45°W)<br/>
+                  HQ_NODE: H@N_HQ_FL<br/>
                   ISS_LIVE: SYNCING ORBITAL TELEMETRY...<br/>
                   ACTIVE_TRACKS: ISS, STARLINK-3041, NOAA-19, GPS-BIIR-11
                 </div>
@@ -1056,7 +1056,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.7.1]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.8.0]</div>
     </div>
   </div>
 
@@ -1083,10 +1083,10 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.7.1",
+      APP_VERSION: "v.2.8.0",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
-      HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
+      HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
     };
 
     /* =========================================================================
@@ -1147,6 +1147,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.8.0", Project: "H@N UI / Globe", Summary: "Globe map rebuilt with real country borders (Natural Earth), country names, and hover/tap to identify any country; HQ renamed H@N_HQ_FL with no city or exact coordinates shown.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.7.1", Project: "H@N UI / Globe", Summary: "Attack map: Cloudflare Radar arcs live; ~60 more country positions so no attack pair is dropped; same-country (domestic) attacks shown as looping rings.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.7.0", Project: "H@N UI / Globe", Summary: "Attack map layer on the globe: animated origin-to-target arcs from Cloudflare Radar (DDoS L3 and web L7, last 24h) and top scanning sources from SANS ISC DShield, with an attacks toggle and source credits.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.6.1", Project: "H@N Threat Intel", Summary: "Threat feed adds UK NCSC, Canadian Cyber Centre, Australian ACSC, Microsoft MSRC and Cisco PSIRT, each with its own icon, color and filter chip; national advisories highlight their country on the globe.", Tag: "🟢 FEAT" },
@@ -1821,7 +1822,7 @@
       showSolar: true,
       showCables: true,
       attackLayer: "layer3",   // "layer3" (DDoS) | "layer7" (web) | "off"
-      rotLon: -82.45,
+      rotLon: -81.7,
       rotLat: 22.0,
       zoom: 1.0
     };
@@ -1830,7 +1831,7 @@
     // one pin per US state (at the state's center) or per country (at the country's center).
     // Pins never use a visitor's own coordinates, so no city is ever revealed.
     const VISITOR_PINS = [
-      { lat: 27.10, lon: -82.45, label: "HQ // VENICE, FL", hq: true }
+      { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL", hq: true }
     ];
     const SIM_PINS = []; // "simulate ping" demo pins, kept separate from real visitor data
 
@@ -1971,6 +1972,58 @@
         }
       }
     });
+
+    // Country outlines (world.json: Natural Earth 1:50m, public domain, simplified).
+    // Each point is stored as [lonRad, cosLat, sinLat] so the globe can project ~15k points per frame cheaply.
+    const WORLD = { countries: null, hover: -1 };
+    async function loadWorldMap() {
+      try {
+        const res = await fetch("world.json");
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        const toRad = Math.PI / 180;
+        WORLD.countries = (data.countries || []).map(c => {
+          let best = null, bestLen = -1;
+          const rings = c.p.map(ring => {
+            const arr = new Float64Array(ring.length * 3);
+            ring.forEach(([lon, lat], i) => {
+              arr[i * 3] = lon * toRad;
+              arr[i * 3 + 1] = Math.cos(lat * toRad);
+              arr[i * 3 + 2] = Math.sin(lat * toRad);
+            });
+            if (ring.length > bestLen) { bestLen = ring.length; best = ring; }
+            return { arr, raw: ring };
+          });
+          // Label point: average of the largest ring's points (keeps the US label off Alaska/Hawaii)
+          const lab = best.reduce((a, [lon, lat]) => [a[0] + lon / best.length, a[1] + lat / best.length], [0, 0]);
+          const name = String(c.n || "").replace(/^United States of America$/, "United States");
+          const [bx0, by0, bx1, by1] = c.b;
+          return { name, code: c.c || "", bbox: c.b, area: (bx1 - bx0) * (by1 - by0), label: [lab[1], lab[0]], rings };
+        });
+      } catch (_) {
+        WORLD.countries = null; // keep the dot-matrix fallback
+      }
+    }
+
+    function pointInRing(lon, lat, ring) {
+      let inside = false;
+      for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+        const [xi, yi] = ring[i], [xj, yj] = ring[j];
+        if ((yi > lat) !== (yj > lat) && lon < (xj - xi) * (lat - yi) / (yj - yi) + xi) inside = !inside;
+      }
+      return inside;
+    }
+
+    function countryAt(lat, lon) {
+      if (!WORLD.countries) return -1;
+      for (let i = 0; i < WORLD.countries.length; i++) {
+        const c = WORLD.countries[i];
+        const [x0, y0, x1, y1] = c.bbox;
+        if (lon < x0 || lon > x1 || lat < y0 || lat > y1) continue;
+        if (c.rings.some(r => pointInRing(lon, lat, r.raw))) return i;
+      }
+      return -1;
+    }
 
     // Real-time 1:1 ECEF Orbital Elements
     const SATELLITES = [
@@ -2135,6 +2188,28 @@
       const tooltip = document.getElementById("globeTooltip");
       let dragging = false, lastX = 0, lastY = 0;
       let hoverTargets = [];
+      let frameGeom = { cx: 0, cy: 0, R: 1 };
+
+      // Screen point -> {lat, lon} on the globe (null when off the globe)
+      function unproject(mx, my) {
+        const { cx, cy, R } = frameGeom;
+        if (!GLOBE_STATE.mode3d) {
+          const lon = ((mx - cx) / (R * 1.65)) * 180;
+          const lat = ((cy - my) / (R * 0.88)) * 90;
+          return Math.abs(lon) <= 180 && Math.abs(lat) <= 90 ? { lat, lon } : null;
+        }
+        const x0 = (mx - cx) / R, y1 = (cy - my) / R;
+        const rr = x0 * x0 + y1 * y1;
+        if (rr > 1) return null;
+        const z1 = Math.sqrt(1 - rr);
+        const t = GLOBE_STATE.rotLat * Math.PI / 180;
+        const y0 = y1 * Math.cos(t) + z1 * Math.sin(t);
+        const z0 = -y1 * Math.sin(t) + z1 * Math.cos(t);
+        const lat = Math.asin(Math.max(-1, Math.min(1, y0))) * 180 / Math.PI;
+        let lon = GLOBE_STATE.rotLon + Math.atan2(x0, z0) * 180 / Math.PI;
+        lon = ((lon + 540) % 360) - 180;
+        return { lat, lon };
+      }
 
       window.addEventListener("resize", resizeGlobeCanvas);
       if (window.ResizeObserver) new ResizeObserver(resizeGlobeCanvas).observe(document.getElementById("canvasWrap"));
@@ -2153,11 +2228,15 @@
         const mx = e.clientX - rect.left;
         const my = e.clientY - rect.top;
         const hit = hoverTargets.find(t => Math.hypot(t.x - mx, t.y - my) < 10);
-        if (hit) {
+        // Country under the cursor (highlighted on the globe; named in the tooltip when no marker is hit)
+        const ll = (mx >= 0 && my >= 0 && mx <= rect.width && my <= rect.height) ? unproject(mx, my) : null;
+        WORLD.hover = ll ? countryAt(ll.lat, ll.lon) : -1;
+        const countryName = WORLD.hover >= 0 ? WORLD.countries[WORLD.hover].name : "";
+        if (hit || countryName) {
           tooltip.style.display = "block";
           tooltip.style.left = (mx + 12) + "px";
           tooltip.style.top = (my - 10) + "px";
-          tooltip.textContent = hit.info;
+          tooltip.textContent = hit ? hit.info : countryName.toUpperCase();
         } else {
           tooltip.style.display = "none";
         }
@@ -2269,11 +2348,70 @@
           ctx.stroke();
         }
 
-        // Dot-Matrix Continents
-        ctx.fillStyle = "rgba(124, 232, 255, 0.42)";
-        for (let i = 0; i < LAND_DOTS.length; i++) {
-          const p = projectPoint(LAND_DOTS[i].lat, LAND_DOTS[i].lon, cx, cy, R);
-          if (p.visible) ctx.fillRect(p.x - 1, p.y - 1, 2.2, 2.2);
+        frameGeom = { cx, cy, R };
+        if (WORLD.countries) {
+          // Country outlines: points on the far side are pinned to the globe's edge so fills stay clean
+          const rl = GLOBE_STATE.rotLon * Math.PI / 180;
+          const tl = GLOBE_STATE.rotLat * Math.PI / 180;
+          const cT = Math.cos(tl), sT = Math.sin(tl);
+          const labels = [];
+          WORLD.countries.forEach((c, ci) => {
+            let anyVisible = false;
+            ctx.beginPath();
+            c.rings.forEach(({ arr }) => {
+              const n = arr.length / 3;
+              for (let i = 0; i < n; i++) {
+                let x, y;
+                if (GLOBE_STATE.mode3d) {
+                  const d = arr[i * 3] - rl, cl = arr[i * 3 + 1], sl = arr[i * 3 + 2];
+                  const x0 = cl * Math.sin(d);
+                  const z0 = cl * Math.cos(d);
+                  const y1 = sl * cT - z0 * sT;
+                  const z1 = sl * sT + z0 * cT;
+                  if (z1 > 0) {
+                    anyVisible = true;
+                    x = cx + x0 * R; y = cy - y1 * R;
+                  } else {
+                    const m = Math.hypot(x0, y1) || 1;
+                    x = cx + (x0 / m) * R; y = cy - (y1 / m) * R;
+                  }
+                } else {
+                  anyVisible = true;
+                  const lon = arr[i * 3] * 180 / Math.PI;
+                  const lat = Math.asin(arr[i * 3 + 2]) * 180 / Math.PI;
+                  x = cx + (lon / 180) * (R * 1.65); y = cy - (lat / 90) * (R * 0.88);
+                }
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+              }
+              ctx.closePath();
+            });
+            if (!anyVisible) return;
+            const hovered = ci === WORLD.hover;
+            ctx.fillStyle = hovered ? "rgba(124, 232, 255, 0.30)" : "rgba(124, 232, 255, 0.07)";
+            ctx.fill();
+            ctx.strokeStyle = hovered ? "rgba(200, 245, 255, 0.95)" : "rgba(124, 232, 255, 0.50)";
+            ctx.lineWidth = hovered ? 1.2 : 0.6;
+            ctx.stroke();
+            // Names on larger countries (more appear when zoomed in), plus the hovered one
+            if (hovered || c.area > 900 / (GLOBE_STATE.zoom * GLOBE_STATE.zoom)) {
+              const lp = projectPoint(c.label[0], c.label[1], cx, cy, R);
+              if (lp.visible && (!GLOBE_STATE.mode3d || lp.z > 0.25)) labels.push({ lp, c, hovered });
+            }
+          });
+          ctx.textAlign = "center";
+          labels.forEach(({ lp, c, hovered }) => {
+            ctx.font = hovered ? "bold 10px monospace" : "8px monospace";
+            ctx.fillStyle = hovered ? "#ffffff" : "rgba(160, 225, 255, 0.55)";
+            ctx.fillText(c.name.toUpperCase(), lp.x, lp.y);
+          });
+          ctx.textAlign = "start";
+        } else {
+          // Fallback while world.json loads (or if it fails): dot-matrix continents
+          ctx.fillStyle = "rgba(124, 232, 255, 0.42)";
+          for (let i = 0; i < LAND_DOTS.length; i++) {
+            const p = projectPoint(LAND_DOTS[i].lat, LAND_DOTS[i].lon, cx, cy, R);
+            if (p.visible) ctx.fillRect(p.x - 1, p.y - 1, 2.2, 2.2);
+          }
         }
 
         // Solar Terminator Shading
@@ -2368,7 +2506,7 @@
           });
           const issPos = getSatCoords(SATELLITES[0], nowSec);
           document.getElementById("globeHudTL").innerHTML =
-            `HQ_NODE: VENICE, FL (27.10°N, 82.45°W)<br/>` +
+            `HQ_NODE: H@N_HQ_FL<br/>` +
             `ISS_LIVE: ${issPos.lat.toFixed(2)}°, ${issPos.lon.toFixed(2)}° // ALT ${ISS_LIVE.alt} KM (${ISS_LIVE.synced ? "LIVE_API" : "ECEF_PROP"})<br/>` +
             `ORBITAL_TRACKS: 1:1 REAL-TIME ECEF // SPIN: ${GLOBE_STATE.realTimeUtc ? "UTC_LOCK" : "GENTLE"}`;
         }
@@ -2966,6 +3104,7 @@
       setInterval(loadThreatFeed, 15 * 60 * 1000); // pick up new CISA items without a reload
       loadAttackMap();
       setInterval(loadAttackMap, 30 * 60 * 1000);
+      loadWorldMap();
 
       if (BACKEND_API.isLive()) {
         setStatus("loading telemetry from HACKATNIGHT_BACKEND...", "... loading");
