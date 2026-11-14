@@ -728,7 +728,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.13.0]</span>
+        <span id="titleVersionBadge">[v.2.14.0]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -771,7 +771,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.13.0</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.14.0</span></div>
         </div>
       </aside>
 
@@ -796,7 +796,7 @@
                   <button class="s7-btn" id="btnSpin" onclick="toggleEarthSpin()">earth: gentle spin</button>
                   <button class="s7-btn active-toggle" id="btnSats" onclick="toggleSats()">sats: on</button>
                   <button class="s7-btn active-toggle" id="btnSolar" onclick="toggleSolar()">solar: on</button>
-                  <button class="s7-btn active-toggle" id="btnCables" onclick="toggleCables()">cables: on</button>
+                  <button class="s7-btn active-toggle" id="btnCables" onclick="toggleCables()" title="Cycle cable layers: all, undersea only, USA fiber only, off">cables: all</button>
                   <button class="s7-btn active-toggle" id="btnAttacks" onclick="cycleAttackLayer()">attacks: on</button>
                   <button class="s7-btn active-toggle" id="btnArcs" onclick="cycleArcs()" title="Cycle which arcs are drawn: all, visitor arcs only, attack arcs only, none">arcs: all</button>
                   <button class="s7-btn" onclick="simulatePing()">+ ping node</button>
@@ -812,6 +812,7 @@
                 <div class="globe-overlay-br">
                   DRAG: ROTATE // SCROLL: ZOOM // DBL-CLICK: RESET VIEW // HOVER: INSPECT
                   <span id="cableAttr" style="display:none"><br/>CABLES © OPENSTREETMAP CONTRIBUTORS (ODbL)</span>
+                  <span id="cableLegendUS" style="display:none"><br/><span style="color:#ffc440">━ mapped fiber</span> · <span style="color:#ff8c46">╍ long-haul corridor (approx.)</span> · <span style="color:#c4aaff">┈ rail</span> · <span style="color:#ffd666">■ hub</span></span>
                 </div>
                 <div class="attack-legend" id="attackLegend"></div>
                 <div class="globe-tooltip" id="globeTooltip"></div>
@@ -1089,7 +1090,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.13.0]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.14.0]</div>
     </div>
   </div>
 
@@ -1116,7 +1117,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.13.0",
+      APP_VERSION: "v.2.14.0",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1179,6 +1180,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.14.0", Project: "H@N UI / Globe", Summary: "USA fiber layer from free data: mapped fiber lines (OpenStreetMap), approximate long-haul corridors along 36 interstates and the rail network (Natural Earth, per InterTubes research), and 20 interconnection hubs. Cables button cycles all / undersea / USA / off.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.13.0", Project: "H@N UI / Globe", Summary: "Real submarine cable map: 269 cables from OpenStreetMap (refreshed daily), drawn flat on the globe surface so they stay visible while it rotates, brighter lines, and hover shows the cable name, operator and mapped length.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.12.0", Project: "H@N UI / Attack map", Summary: "Attack map goes below country level: DShield scanning networks are pinned at their city/state with the company name, and the legend lists the companies behind the most web attacks (Cloudflare Radar top origin networks).", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.11.2", Project: "H@N UI / Globe", Summary: "Pause/play button for the globe rotation; dragging the globe now moves the surface with the cursor (horizontal drag was reversed).", Tag: "🟠 FIX" },
@@ -1905,6 +1907,7 @@
       showSats: true,
       showSolar: true,
       showCables: true,
+      cableMode: "all",     // all | sea | us | off
       arcs: "all",          // all | visitors | attacks | off
       attackLayer: "layer3",   // "layer3" (DDoS) | "layer7" (web) | "off"
       rotLon: -81.7,
@@ -2036,44 +2039,80 @@
 
     // Submarine telecom cables (cables.json, built daily from OpenStreetMap by fetch_cables.py).
     // Each line is stored as [lonRad, cosLat, sinLat] points, densified so long hops follow the globe's curve.
-    const CABLES = { list: null, hover: -1, count: 0 };
+    // Cable layers: undersea cables + US land fiber (OpenStreetMap), US long-haul corridors along interstates and
+    // railroads (Natural Earth, approximate), and US interconnection hubs. All drawn flat on the surface.
+    const CABLES = { list: null, hover: -1, count: 0, hubs: [], usCount: 0 };
+    const CABLE_STYLES = {
+      sea:      { color: "rgba(64, 240, 160, 0.62)",  hover: "rgba(190, 255, 220, 1)", width: 1.15, dash: null },
+      land:     { color: "rgba(255, 196, 64, 0.9)",   hover: "rgba(255, 236, 170, 1)", width: 1.4,  dash: null },
+      corridor: { color: "rgba(255, 140, 70, 0.55)",  hover: "rgba(255, 210, 160, 1)", width: 1.2,  dash: [6, 4] },
+      rail:     { color: "rgba(196, 170, 255, 0.28)", hover: "rgba(225, 210, 255, 1)", width: 0.8,  dash: [2, 3] }
+    };
+    function densifyLine(line) {
+      const d2r = Math.PI / 180;
+      const out = [];
+      for (let i = 0; i < line.length; i++) {
+        const [lon, lat] = line[i];
+        if (i > 0) {
+          // Add points along the great circle when two vertices are far apart, so lines hug the globe
+          const [plon, plat] = line[i - 1];
+          const steps = Math.min(40, Math.floor(Math.max(Math.abs(lon - plon), Math.abs(lat - plat)) / 2));
+          for (let k = 1; k < steps; k++) {
+            const t = k / steps;
+            const A = [Math.cos(plat * d2r) * Math.cos(plon * d2r), Math.cos(plat * d2r) * Math.sin(plon * d2r), Math.sin(plat * d2r)];
+            const B = [Math.cos(lat * d2r) * Math.cos(lon * d2r), Math.cos(lat * d2r) * Math.sin(lon * d2r), Math.sin(lat * d2r)];
+            const om = Math.acos(Math.max(-1, Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2]))) || 1e-9;
+            const wa = Math.sin((1 - t) * om) / Math.sin(om), wb = Math.sin(t * om) / Math.sin(om);
+            const v = [wa * A[0] + wb * B[0], wa * A[1] + wb * B[1], wa * A[2] + wb * B[2]];
+            const la = Math.asin(Math.max(-1, Math.min(1, v[2])));
+            out.push(Math.atan2(v[1], v[0]), Math.cos(la), Math.sin(la));
+          }
+        }
+        out.push(lon * d2r, Math.cos(lat * d2r), Math.sin(lat * d2r));
+      }
+      return new Float64Array(out);
+    }
+    function cableItem(kind, name, op, km, lines) {
+      return { kind, name: String(name || ""), op: String(op || ""), km: Number(km) || 0, lines: (lines || []).map(densifyLine), screen: null };
+    }
+    function cableTooltip(c) {
+      const km = c.km ? ` // ~${c.km.toLocaleString()} km mapped` : "";
+      const op = c.op ? ` // ${c.op}` : "";
+      if (c.kind === "sea") return `SUBMARINE CABLE // ${c.name}${op}${km} (© OpenStreetMap contributors)`;
+      if (c.kind === "land") return `US FIBER LINE (mapped) // ${c.name || "Unnamed fiber route"}${op}${km} (© OpenStreetMap contributors)`;
+      if (c.kind === "corridor") return `LONG-HAUL FIBER CORRIDOR (approx.) // along ${c.name} // long-haul fiber typically follows interstate rights-of-way (InterTubes, SIGCOMM 2015)`;
+      return "RAIL CORRIDOR (approx.) // long-haul fiber often shares railroad rights-of-way";
+    }
+
     async function loadCables() {
+      const items = [];
       try {
         const res = await fetch("cables.json?t=" + Math.floor(Date.now() / 3600000));
-        if (!res.ok) return;
-        const data = await res.json();
-        const d2r = Math.PI / 180;
-        CABLES.list = (data.cables || []).map(c => ({
-          name: String(c.n || "Submarine cable"),
-          op: String(c.op || ""),
-          km: Number(c.km) || 0,
-          lines: (c.p || []).map(line => {
-            const out = [];
-            for (let i = 0; i < line.length; i++) {
-              const [lon, lat] = line[i];
-              if (i > 0) {
-                // Densify: add points along the great circle when two vertices are far apart
-                const [plon, plat] = line[i - 1];
-                const steps = Math.min(40, Math.floor(Math.max(Math.abs(lon - plon), Math.abs(lat - plat)) / 2));
-                for (let k = 1; k < steps; k++) {
-                  const t = k / steps;
-                  const A = [Math.cos(plat * d2r) * Math.cos(plon * d2r), Math.cos(plat * d2r) * Math.sin(plon * d2r), Math.sin(plat * d2r)];
-                  const B = [Math.cos(lat * d2r) * Math.cos(lon * d2r), Math.cos(lat * d2r) * Math.sin(lon * d2r), Math.sin(lat * d2r)];
-                  const om = Math.acos(Math.max(-1, Math.min(1, A[0] * B[0] + A[1] * B[1] + A[2] * B[2]))) || 1e-9;
-                  const wa = Math.sin((1 - t) * om) / Math.sin(om), wb = Math.sin(t * om) / Math.sin(om);
-                  const v = [wa * A[0] + wb * B[0], wa * A[1] + wb * B[1], wa * A[2] + wb * B[2]];
-                  const la = Math.asin(Math.max(-1, Math.min(1, v[2])));
-                  out.push(Math.atan2(v[1], v[0]), Math.cos(la), Math.sin(la));
-                }
-              }
-              out.push(lon * d2r, Math.cos(lat * d2r), Math.sin(lat * d2r));
-            }
-            return new Float64Array(out);
-          }),
-          screen: null
-        }));
-        CABLES.count = CABLES.list.length;
+        if (res.ok) {
+          const data = await res.json();
+          (data.cables || []).forEach(c => items.push(cableItem("sea", c.n || "Submarine cable", c.op, c.km, c.p)));
+          (data.land || []).forEach(c => items.push(cableItem("land", c.n || "Fiber line", c.op, c.km, [c.p])));
+          CABLES.count = (data.cables || []).length;
+          CABLES.landCount = (data.land || []).length;
+        }
       } catch (_) {}
+      try {
+        const res = await fetch("us_backbone.json");
+        if (res.ok) {
+          const bb = await res.json();
+          (bb.rail || []).forEach(l => items.push(cableItem("rail", "Railroad corridor", "", 0, [l])));
+          (bb.corridors || []).forEach(c => items.push(cableItem("corridor", c.n, "", 0, c.p)));
+          CABLES.hubs = (bb.hubs || []).map(h => ({ name: String(h[0]), lat: Number(h[1]), lon: Number(h[2]), note: String(h[3] || "") }));
+        }
+      } catch (_) {}
+      // Draw order: rail (faint) -> corridors -> real land fiber -> undersea
+      const order = { rail: 0, corridor: 1, land: 2, sea: 3 };
+      items.sort((x, y) => order[x.kind] - order[y.kind]);
+      CABLES.list = items;
+    }
+    function cableKindOn(kind) {
+      const m = GLOBE_STATE.cableMode;
+      return m === "all" || (m === "sea" && kind === "sea") || (m === "us" && kind !== "sea");
     }
 
     // Simplified dot-matrix continent blocks [latMin, latMax, lonMin, lonMax, step]
@@ -2212,10 +2251,13 @@
       document.getElementById("btnSats").classList.toggle("active-toggle", GLOBE_STATE.showSats);
       document.getElementById("btnSolar").textContent = `solar: ${GLOBE_STATE.showSolar ? "on" : "off"}`;
       document.getElementById("btnSolar").classList.toggle("active-toggle", GLOBE_STATE.showSolar);
-      document.getElementById("btnCables").textContent = `cables: ${GLOBE_STATE.showCables ? "on" : "off"}`;
+      GLOBE_STATE.showCables = GLOBE_STATE.cableMode !== "off";
+      document.getElementById("btnCables").textContent = `cables: ${{ all: "all", sea: "undersea", us: "usa", off: "off" }[GLOBE_STATE.cableMode] || "all"}`;
       document.getElementById("btnCables").classList.toggle("active-toggle", GLOBE_STATE.showCables);
       const cableAttr = document.getElementById("cableAttr");
       if (cableAttr) cableAttr.style.display = GLOBE_STATE.showCables ? "inline" : "none";
+      const cableLegendUS = document.getElementById("cableLegendUS");
+      if (cableLegendUS) cableLegendUS.style.display = (GLOBE_STATE.cableMode === "all" || GLOBE_STATE.cableMode === "us") ? "inline" : "none";
       const btnArcs = document.getElementById("btnArcs");
       if (btnArcs) {
         btnArcs.textContent = `arcs: ${GLOBE_STATE.arcs}`;
@@ -2241,7 +2283,17 @@
     }
     function toggleSats() { GLOBE_STATE.showSats = !GLOBE_STATE.showSats; syncGlobeToggleButtons(); }
     function toggleSolar() { GLOBE_STATE.showSolar = !GLOBE_STATE.showSolar; syncGlobeToggleButtons(); }
-    function toggleCables() { GLOBE_STATE.showCables = !GLOBE_STATE.showCables; syncGlobeToggleButtons(); }
+    // Cables: all -> undersea only -> USA fiber only -> off (remembered per browser)
+    function toggleCables() {
+      const order = ["all", "sea", "us", "off"];
+      GLOBE_STATE.cableMode = order[(order.indexOf(GLOBE_STATE.cableMode) + 1) % order.length];
+      try { localStorage.setItem("han_globe_cables", GLOBE_STATE.cableMode); } catch (_) {}
+      syncGlobeToggleButtons();
+    }
+    try {
+      const savedCables = localStorage.getItem("han_globe_cables");
+      if (["all", "sea", "us", "off"].includes(savedCables)) GLOBE_STATE.cableMode = savedCables;
+    } catch (_) {}
     // Arcs: all -> visitor arcs only -> attack arcs only -> off (remembered per browser)
     function cycleArcs() {
       const order = ["all", "visitors", "attacks", "off"];
@@ -2467,7 +2519,8 @@
                 if (Math.min(x1, x2) - best > mx || Math.max(x1, x2) + best < mx || Math.min(y1, y2) - best > my || Math.max(y1, y2) + best < my) continue;
                 const dx = x2 - x1, dy = y2 - y1, L = dx * dx + dy * dy || 1;
                 const t = Math.max(0, Math.min(1, ((mx - x1) * dx + (my - y1) * dy) / L));
-                const d = Math.hypot(mx - (x1 + t * dx), my - (y1 + t * dy));
+                // Faint rail lines lose ties to real cables and corridors
+                const d = Math.hypot(mx - (x1 + t * dx), my - (y1 + t * dy)) + (cab.kind === "rail" ? 2.5 : 0);
                 if (d < best) { best = d; CABLES.hover = ci; }
               }
             });
@@ -2486,7 +2539,7 @@
           tooltip.style.left = (mx + 12) + "px";
           tooltip.style.top = (my - 10) + "px";
           tooltip.textContent = hit ? hit.info :
-            cableHit ? `SUBMARINE CABLE // ${cableHit.name}${cableHit.op ? " // " + cableHit.op : ""}${cableHit.km ? " // ~" + cableHit.km.toLocaleString() + " km mapped" : ""} (© OpenStreetMap contributors)` :
+            cableHit ? cableTooltip(cableHit) :
             countryName.toUpperCase();
         } else {
           tooltip.style.display = "none";
@@ -2794,7 +2847,9 @@
           ctx.lineCap = "round";
           ctx.lineJoin = "round";
           const drawCable = (cab, ci) => {
+            if (!cableKindOn(cab.kind)) { cab.screen = null; return; }
             const hovered = ci === CABLES.hover;
+            const st = CABLE_STYLES[cab.kind] || CABLE_STYLES.sea;
             cab.screen = cab.lines.map(arr => {
               const n = arr.length / 3;
               const scr = new Float32Array(n * 2);
@@ -2825,14 +2880,34 @@
                 if (pen) ctx.lineTo(x, y); else { ctx.moveTo(x, y); pen = true; }
               }
             });
-            ctx.strokeStyle = hovered ? "rgba(190, 255, 220, 1)" : "rgba(64, 240, 160, 0.62)";
-            ctx.lineWidth = hovered ? 2.6 : 1.15;
-            ctx.shadowColor = "rgba(64, 240, 160, 0.8)";
+            ctx.strokeStyle = hovered ? st.hover : st.color;
+            ctx.lineWidth = hovered ? st.width + 1.5 : st.width;
+            ctx.setLineDash(hovered || !st.dash ? [] : st.dash);
+            ctx.shadowColor = st.hover;
             ctx.shadowBlur = hovered ? 8 : 0;
             ctx.stroke();
+            ctx.setLineDash([]);
           };
           CABLES.list.forEach((cab, ci) => { if (ci !== CABLES.hover) drawCable(cab, ci); });
           if (CABLES.hover >= 0 && CABLES.list[CABLES.hover]) drawCable(CABLES.list[CABLES.hover], CABLES.hover);
+          // US interconnection hubs (where long-haul routes meet)
+          if (GLOBE_STATE.cableMode === "all" || GLOBE_STATE.cableMode === "us") {
+            CABLES.hubs.forEach(h => {
+              const p = projectPoint(h.lat, h.lon, cx, cy, R);
+              if (!p.visible) return;
+              ctx.fillStyle = "rgba(255, 214, 102, 0.95)";
+              ctx.strokeStyle = "rgba(0, 0, 0, 0.6)";
+              ctx.lineWidth = 1;
+              ctx.fillRect(p.x - 3, p.y - 3, 6, 6);
+              ctx.strokeRect(p.x - 3, p.y - 3, 6, 6);
+              if (GLOBE_STATE.zoom >= 1.8) {
+                ctx.font = "8px monospace";
+                ctx.fillStyle = "rgba(255, 224, 150, 0.9)";
+                ctx.fillText(h.name.split(",")[0].toUpperCase(), p.x + 6, p.y - 4);
+              }
+              hoverTargets.push({ x: p.x, y: p.y, info: `FIBER INTERCONNECTION HUB // ${h.name} // ${h.note}` });
+            });
+          }
           ctx.restore();
         }
 

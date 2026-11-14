@@ -17,7 +17,8 @@ from datetime import datetime, timedelta, timezone
 
 OUTPUT = "cables.json"
 MAX_AGE = timedelta(hours=23)
-ENDPOINTS = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"]
+ENDPOINTS = ["https://overpass-api.de/api/interpreter", "https://overpass.private.coffee/api/interpreter",
+             "https://overpass.kumi.systems/api/interpreter"]
 QUERY = """
 [out:json][timeout:240];
 (
@@ -116,10 +117,19 @@ def main():
             pass
 
     data = overpass(QUERY, "submarine")
-    if not data:
-        print("[cables] all endpoints failed; keeping previous file")
-        return 0
     land_data = overpass(LAND_QUERY, "US land")
+    if not data and not land_data:
+        print("[cables] all endpoints failed; keeping previous file (retries next run)")
+        return 0
+    if not data:
+        # Undersea query failed but the land one worked: keep the previous undersea set, update land only
+        if not previous or not previous.get("cables"):
+            return 0
+        previous["land"] = land_lines(land_data)
+        with open(OUTPUT, "w", encoding="utf-8") as f:
+            json.dump(previous, f, separators=(",", ":"), ensure_ascii=False)
+        print(f"[cables] undersea fetch failed; updated US land only ({len(previous['land'])} lines)")
+        return 0
 
     # Group segments by cable name; unnamed bits are kept only if they are long (real cable spans)
     groups = {}
