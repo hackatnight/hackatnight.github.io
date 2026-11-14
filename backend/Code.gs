@@ -36,7 +36,8 @@ const CONFIG = {
     changelog_sync: [20, 3600],
     project_sync: [10, 3600],
     unlock_key: [20, 300],
-    visit_diag: [60, 60]
+    visit_diag: [60, 60],
+    chat_send: [40, 60]
   },
   CHANGELOG_TAGS: ["🟢 FEAT", "🟢 RELEASE", "🟠 FIX", "🟣 INFRA", "🔵 UPDATE", "🟠 FIRMWARE"],
   // IP geolocation for the Visits Log. Set to false to switch it off instantly; visits still log normally.
@@ -344,6 +345,9 @@ function doGet(e) {
         targets: getOutageTargets()
       });
     }
+    if (action === "chat_poll") {
+      return jsonOut(chatPoll(Number(e.parameter.since) || 0));
+    }
     if (action === "unlock_key") {
       // Keys are only accepted by POST so they never land in URLs or browser history
       return jsonOut({ status: "error", message: "unlock_key must be sent as POST" });
@@ -378,6 +382,8 @@ function doPost(e) {
         return jsonOut(handleVaultUpload(body));
       case "visit_diag":
         return jsonOut(logVisitDiagnostics(body));
+      case "chat_send":
+        return jsonOut(chatSend(body));
       case "unlock_key":
         return jsonOut(validateAndRedeemKey(String(body.key || "").trim()));
       case "probe_now": {
@@ -946,7 +952,11 @@ function validateAndRedeemKey(key) {
       }
 
       sheet.getRange(i + 1, 6).setValue(remaining - 1);
+      // FEAT-110: SHA-256 of the original file so the browser can verify what it received
+      const sha256 = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, blob.getBytes())
+        .map(b => ((b + 256) % 256).toString(16).padStart(2, "0")).join("");
       return {
+        sha256: sha256,
         status: "ok",
         title: title,
         fileName: fileName,
@@ -1227,6 +1237,78 @@ function escHtml(str) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+/* ---------- Live chat (FEAT-109) ----------
+ * One public room. Every message is logged to the Chat_Log tab (Timestamp, Username, IP, Message).
+ * The newest 60 messages are kept in the script cache so polling is fast; IPs are never sent to browsers.
+ */
+const CHAT_CACHE_KEY = "chat_recent_v1";
+const CHAT_KEEP = 60;
+
+function chatSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sh = ss.getSheetByName("Chat_Log");
+  if (!sh) {
+    sh = ss.insertSheet("Chat_Log");
+    sh.getRange(1, 1, 1, 4).setValues([["Timestamp", "Username", "IP Address", "Message"]]).setFontWeight("bold");
+    sh.setFrozenRows(1);
+    sh.setColumnWidth(4, 520);
+  }
+  return sh;
+}
+
+function chatRecent() {
+  const cache = CacheService.getScriptCache();
+  const hit = cache.get(CHAT_CACHE_KEY);
+  if (hit) {
+    try { return JSON.parse(hit); } catch (_) {}
+  }
+  const sh = chatSheet();
+  const last = sh.getLastRow();
+  if (last < 2) return [];
+  const n = Math.min(CHAT_KEEP, last - 1);
+  const rows = sh.getRange(last - n + 1, 1, n, 4).getValues();
+  const list = rows.map(r => ({
+    ts: new Date(r[0]).getTime() || 0,
+    name: String(r[1] || "").replace(/^'/, ""),
+    msg: String(r[3] || "").replace(/^'/, "")
+  }));
+  cache.put(CHAT_CACHE_KEY, JSON.stringify(list), 21600);
+  return list;
+}
+
+function chatPoll(since) {
+  const list = chatRecent();
+  return { status: "ok", now: Date.now(), messages: since ? list.filter(m => m.ts > since) : list };
+}
+
+function chatSend(d) {
+  const name = String(d.name || "").replace(/[^A-Za-z0-9 _.\-@]/g, "").trim().slice(0, 24);
+  const msg = String(d.message || "").replace(/[\u0000-\u0008\u000b-\u001f]/g, "").trim().slice(0, 500);
+  const sid = String(d.sessionId || "").slice(0, 60);
+  if (name.length < 2) return { status: "error", message: "Pick a name of at least 2 letters or numbers" };
+  if (!msg) return { status: "error", message: "Empty message" };
+  // Per-session flood guard: one message per 1.5 s
+  const cache = CacheService.getScriptCache();
+  if (sid) {
+    const k = "chat_sid_" + sid;
+    if (cache.get(k)) return { status: "error", message: "Slow down a little" };
+    cache.put(k, "1", 2);
+  }
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(8000)) return { status: "error", message: "Chat busy, try again" };
+  try {
+    const now = new Date();
+    const ip = String(d.ipAddress || "Unknown").replace(/[^0-9a-fA-F:.]/g, "").slice(0, 45) || "Unknown";
+    chatSheet().appendRow([now, sheetSafe(name), ip, sheetSafe(msg)]);
+    const list = chatRecent();
+    list.push({ ts: now.getTime(), name: name, msg: msg });
+    cache.put(CHAT_CACHE_KEY, JSON.stringify(list.slice(-CHAT_KEEP)), 21600);
+    return { status: "ok", ts: now.getTime() };
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function jsonOut(obj) {
