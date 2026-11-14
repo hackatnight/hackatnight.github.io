@@ -8,6 +8,7 @@ on:
       - 'outages.json'
       - 'threat_feed.json'
       - 'attack_map.json'
+      - 'cables.json'
   schedule:
     - cron: '*/30 * * * *'
   workflow_dispatch:
@@ -50,10 +51,14 @@ jobs:
           CLOUDFLARE_RADAR_TOKEN: ${{ secrets.CLOUDFLARE_RADAR_TOKEN }}
         run: python fetch_attacks.py
 
+      - name: Fetch Submarine Cables (OpenStreetMap, once a day)
+        continue-on-error: true
+        run: python fetch_cables.py
+
       - name: Commit & Push Updated outages.json
         run: |
           git config --global user.name "hackatnight-bot"
           git config --global user.email "bot@hackatnight.com"
-          git add outages.json threat_feed.json attack_map.json
+          git add outages.json threat_feed.json attack_map.json cables.json
           git diff --staged --quiet || git commit -m "chore(telemetry): update live outages.json + threat feed"
           git push
