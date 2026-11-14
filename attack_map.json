@@ -1,6 +1,90 @@
 {
-  "dshield": null,
+  "dshield": {
+    "fetched": "2026-11-14T18:52:03Z",
+    "networks": [
+      {
+        "network": "198.235.24.0/24",
+        "name": "GOOGLE-CLOUD-PLATFORM",
+        "country": "US",
+        "targets": 348
+      },
+      {
+        "network": "205.210.31.0/24",
+        "name": "GOOGLE-CLOUD-PLATFORM",
+        "country": "US",
+        "targets": 346
+      },
+      {
+        "network": "193.163.125.0/24",
+        "name": "INTERNET-MEASUREMENT",
+        "country": "GB",
+        "targets": 345
+      },
+      {
+        "network": "151.243.11.0/24",
+        "name": "RASANA",
+        "country": "IR",
+        "targets": 344
+      },
+      {
+        "network": "65.49.1.0/24",
+        "name": "HURRICANE",
+        "country": "US",
+        "targets": 341
+      },
+      {
+        "network": "156.225.1.0/24",
+        "name": "OCTL-AS-AP OceanBlue Cloud Technology Limited",
+        "country": "HK",
+        "targets": 341
+      },
+      {
+        "network": "195.182.16.0/24",
+        "name": "OT2-AS",
+        "country": "UA",
+        "targets": 337
+      },
+      {
+        "network": "185.242.226.0/24",
+        "name": "AS49870-BV",
+        "country": "NL",
+        "targets": 336
+      },
+      {
+        "network": "194.165.16.0/24",
+        "name": "FLYSERVERS-ENDCLIENTS",
+        "country": "PA",
+        "targets": 334
+      },
+      {
+        "network": "195.184.76.0/24",
+        "name": "EAJ-GLOBAL",
+        "country": "GB",
+        "targets": 333
+      },
+      {
+        "network": "45.148.10.0/24",
+        "name": "PPTECHNOLOGY",
+        "country": "GB",
+        "targets": 330
+      },
+      {
+        "network": "167.94.145.0/24",
+        "name": "CENSYS-ARIN-02",
+        "country": "US",
+        "targets": 330
+      },
+      {
+        "network": "147.185.133.0/24",
+        "name": "GOOGLE-CLOUD-PLATFORM",
+        "country": "US",
+        "targets": 329
+      }
+    ],
+    "attribution": "SANS Technology Institute, Internet Storm Center (DShield), https://isc.sans.edu"
+  },
   "cloudflare": {
     "enabled": false
-  }
+  },
+  "updated": "2026-11-14T18:52:03Z"
 }
