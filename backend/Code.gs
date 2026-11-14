@@ -33,8 +33,110 @@ const CONFIG = {
     changelog_sync: [20, 3600],
     project_sync: [10, 3600]
   },
-  CHANGELOG_TAGS: ["🟢 FEAT", "🟢 RELEASE", "🟠 FIX", "🟣 INFRA", "🔵 UPDATE", "🟠 FIRMWARE"]
+  CHANGELOG_TAGS: ["🟢 FEAT", "🟢 RELEASE", "🟠 FIX", "🟣 INFRA", "🔵 UPDATE", "🟠 FIRMWARE"],
+  // IP geolocation for the Visits Log. Set to false to switch it off instantly; visits still log normally.
+  GEO_LOOKUP: true,
+  GEO_CACHE_SEC: 21600,        // cache each IP's location for 6 hours (CacheService maximum)
+  GEO_BACKFILL_PER_RUN: 15,    // old rows filled in per 15-minute health-check run
+  // Extra Visits Log columns, always placed AFTER the original 9 (A-I) so nothing existing moves
+  GEO_HEADERS: ["City", "Region", "Country", "Country Code", "Latitude", "Longitude"]
 };
+
+/* ---------- IP geolocation (server-side, cached, never blocks visit logging) ---------- */
+function isPublicIp(ip) {
+  const s = String(ip || "").trim();
+  const v4 = s.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+  if (v4) {
+    const a = Number(v4[1]), b = Number(v4[2]);
+    if ([a, b, Number(v4[3]), Number(v4[4])].some(n => n > 255)) return false;
+    if (a === 10 || a === 127 || a === 0 || a >= 224) return false;
+    if (a === 172 && b >= 16 && b <= 31) return false;
+    if (a === 192 && b === 168) return false;
+    if (a === 169 && b === 254) return false;
+    if (a === 100 && b >= 64 && b <= 127) return false;
+    return true;
+  }
+  // IPv6: accept global unicast-looking addresses only
+  return /^[0-9a-f:]+$/i.test(s) && s.indexOf(":") !== -1 && !/^(::1$|fe80:|fc|fd)/i.test(s);
+}
+
+// Returns { city, region, country, countryCode, lat, lon } or null if the lookup failed.
+// Returns { unknown: true } for private/invalid IPs so they are not retried forever.
+function geoLookup(ip) {
+  const s = String(ip || "").trim();
+  if (!isPublicIp(s)) return { unknown: true };
+  const cache = CacheService.getScriptCache();
+  const cached = cache.get("geo_" + s);
+  if (cached) return JSON.parse(cached);
+
+  const providers = [
+    {
+      url: "https://ipwho.is/" + encodeURIComponent(s) + "?fields=success,city,region,country,country_code,latitude,longitude",
+      parse: j => j && j.success ? { city: j.city, region: j.region, country: j.country, countryCode: j.country_code, lat: j.latitude, lon: j.longitude } : null
+    },
+    {
+      url: "https://free.freeipapi.com/api/json/" + encodeURIComponent(s),
+      parse: j => j && j.countryCode ? { city: j.cityName, region: j.regionName, country: j.countryName, countryCode: j.countryCode, lat: j.latitude, lon: j.longitude } : null
+    }
+  ];
+  for (let i = 0; i < providers.length; i++) {
+    try {
+      const res = UrlFetchApp.fetch(providers[i].url, { muteHttpExceptions: true, headers: { "User-Agent": "HACKATNIGHT-Router" } });
+      if (res.getResponseCode() !== 200) continue;
+      const geo = providers[i].parse(JSON.parse(res.getContentText()));
+      if (geo && /^[A-Za-z]{2}$/.test(String(geo.countryCode || ""))) {
+        const clean = {
+          city: String(geo.city || "").slice(0, 80),
+          region: String(geo.region || "").slice(0, 80),
+          country: String(geo.country || "").slice(0, 80),
+          countryCode: String(geo.countryCode).toUpperCase(),
+          lat: Number(geo.lat) || "",
+          lon: Number(geo.lon) || ""
+        };
+        cache.put("geo_" + s, JSON.stringify(clean), CONFIG.GEO_CACHE_SEC);
+        return clean;
+      }
+    } catch (e) {
+      // try the next provider
+    }
+  }
+  return null;
+}
+
+function geoRow(geo) {
+  if (!geo) return ["", "", "", "", "", ""];                              // lookup failed: leave blank, backfill retries later
+  if (geo.unknown) return ["", "", "Unknown", "--", "", ""];              // private/invalid IP: mark so it isn't retried
+  return [geo.city, geo.region, geo.country, geo.countryCode, geo.lat, geo.lon];
+}
+
+// Adds the geo headers to J1:O1 of a log sheet if they are missing. Never touches columns A-I.
+function ensureGeoHeaders(sheet) {
+  const n = CONFIG.GEO_HEADERS.length;
+  const current = sheet.getRange(1, 10, 1, n).getValues()[0];
+  if (current.join("") === CONFIG.GEO_HEADERS.join("")) return;
+  if (current.some(v => v !== "" && CONFIG.GEO_HEADERS.indexOf(String(v)) === -1)) return; // something else lives there; don't overwrite
+  sheet.getRange(1, 10, 1, n).setValues([CONFIG.GEO_HEADERS]).setFontWeight("bold");
+}
+
+// Fills in location for older visits a few at a time (called from the 15-minute health check).
+function backfillVisitGeo() {
+  if (!CONFIG.GEO_LOOKUP) return 0;
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Visits Log");
+  if (!sheet || sheet.getLastRow() < 2) return 0;
+  ensureGeoHeaders(sheet);
+  const n = sheet.getLastRow() - 1;
+  const ips = sheet.getRange(2, 2, n, 1).getValues();
+  const codes = sheet.getRange(2, 13, n, 1).getValues();
+  let done = 0;
+  for (let i = 0; i < n && done < CONFIG.GEO_BACKFILL_PER_RUN; i++) {
+    if (codes[i][0] !== "") continue;
+    const geo = geoLookup(ips[i][0]);
+    if (!geo) continue;
+    sheet.getRange(i + 2, 10, 1, 6).setValues([geoRow(geo)]);
+    done++;
+  }
+  return done;
+}
 
 /* ---------- Abuse protection helpers ---------- */
 function isRateLimited(action) {
@@ -77,6 +179,7 @@ function trimVisitsLog() {
     const cols = sheet.getLastColumn();
     const values = sheet.getRange(firstExcessRow, 1, n, cols).getValues();
     const archive = getArchiveSheet(ss, "Visits_Archive", sheet);
+    if (cols > 9) ensureGeoHeaders(archive);
     archive.getRange(archive.getLastRow() + 1, 1, n, cols).setValues(values);
     sheet.deleteRows(firstExcessRow, n);
     return n;
@@ -476,21 +579,37 @@ function logVisit(d) {
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Visits Log");
   if (!sheet) return { status: "error", message: "Visits Log tab missing" };
 
+  // Location lookup happens first and can never stop the visit from being logged
+  let geo = null;
+  if (CONFIG.GEO_LOOKUP) {
+    try {
+      ensureGeoHeaders(sheet);
+      geo = geoLookup(d.ipAddress);
+    } catch (e) {
+      geo = null;
+    }
+  }
+
   // Insert at Row 2 so newest visits always appear at the top of the sheet
-  // Column order: Timestamp, IP Address, Country / Region, Page Path, Device Type, Referrer, Page Title, Session ID, Browser / User Agent
+  // Columns A-I (unchanged): Timestamp, IP Address, Country / Region (browser timezone), Page Path, Device Type,
+  //   Referrer, Page Title, Session ID, Browser / User Agent
+  // Columns J-O (geo): City, Region, Country, Country Code, Latitude, Longitude
+  const s = v => String(v || "").slice(0, 500);
   sheet.insertRowBefore(2);
-  const rowRange = sheet.getRange(2, 1, 1, 9);
-  rowRange.setValues([[
+  const width = CONFIG.GEO_LOOKUP ? 15 : 9;
+  const row = [
     new Date(),
-    d.ipAddress || "Unknown",
-    d.country || "Unknown",
-    d.pagePath || "/",
-    d.deviceType || "Unknown",
-    d.referrer || "Direct",
-    d.pageTitle || "H@N",
-    d.sessionId || "",
-    d.userAgent || ""
-  ]]);
+    s(d.ipAddress) || "Unknown",
+    s(d.country) || "Unknown",
+    s(d.pagePath) || "/",
+    s(d.deviceType) || "Unknown",
+    s(d.referrer) || "Direct",
+    s(d.pageTitle) || "H@N",
+    s(d.sessionId),
+    s(d.userAgent)
+  ];
+  const rowRange = sheet.getRange(2, 1, 1, width);
+  rowRange.setValues([CONFIG.GEO_LOOKUP ? row.concat(geoRow(geo)) : row]);
 
   // Preserve the dark terminal styling on newly inserted Row 2
   rowRange
@@ -753,6 +872,7 @@ function runHealthChecks() {
   }
   trimStatusLog();
   trimVisitsLog();
+  try { backfillVisitGeo(); } catch (e) { /* never let backfill break health checks */ }
 }
 
 function getSanitizedTelemetry() {
@@ -784,6 +904,11 @@ function getSanitizedTelemetry() {
   const cDev = idxDev !== -1 ? idxDev : 4;
   const cRef = idxRef !== -1 ? idxRef : 5;
   const cSid = idxSid !== -1 ? idxSid : 7;
+  // Geo columns (J-O). Exact header match so they never collide with the original "Country / Region" column.
+  const cCountry = headers.indexOf("country");
+  const cCode = headers.indexOf("country code");
+  const countries = {};
+  const countryName = {};
 
   for (let i = 1; i < rows.length; i++) {
     const sid = rows[i][cSid];
@@ -794,6 +919,11 @@ function getSanitizedTelemetry() {
     regions[reg] = (regions[reg] || 0) + 1;
     const cleanDev = String(dev || "").replace(/[💻📱📟🖥️]/g, "").trim();
     if (devices[cleanDev] !== undefined) devices[cleanDev]++;
+    const code = cCode !== -1 ? String(rows[i][cCode] || "") : "";
+    if (/^[A-Z]{2}$/.test(code)) {
+      countries[code] = (countries[code] || 0) + 1;
+      countryName[code] = String(rows[i][cCountry] || code);
+    }
   }
 
   // Read top 12 rows directly (newest visits on top at Row 2)
@@ -804,7 +934,11 @@ function getSanitizedTelemetry() {
       path: rows[i][cPth] || "/",
       referrer: rows[i][cRef] || "Direct",
       device: rows[i][cDev] || "Desktop",
-      region: rows[i][cReg] || "Unknown"
+      region: rows[i][cReg] || "Unknown",          // browser timezone (kept for older site versions)
+      timezone: rows[i][cReg] || "",
+      // Public output is country-level only: city, region, coordinates and IP are never sent to the site
+      country: cCountry !== -1 ? String(rows[i][cCountry] || "") : "",
+      countryCode: (cCode !== -1 && /^[A-Z]{2}$/.test(String(rows[i][cCode] || ""))) ? String(rows[i][cCode]) : ""
     });
   }
 
@@ -817,10 +951,21 @@ function getSanitizedTelemetry() {
     }
   });
 
+  let topCountryCode = "";
+  let maxCountry = 0;
+  Object.keys(countries).forEach(c => {
+    if (countries[c] > maxCountry) {
+      maxCountry = countries[c];
+      topCountryCode = c;
+    }
+  });
+
   return {
     totalViews: totalViews,
     uniqueSessions: Object.keys(sessions).length,
     topRegion: topRegion,
+    topCountry: topCountryCode ? { code: topCountryCode, name: countryName[topCountryCode], visits: maxCountry } : null,
+    countries: countries,
     devices: devices,
     regions: regions,
     recent: recent

@@ -633,7 +633,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.5.8]</span>
+        <span id="titleVersionBadge">[v.2.5.9]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -676,7 +676,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> VENICE, FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.8</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.9</span></div>
         </div>
       </aside>
 
@@ -741,7 +741,7 @@
               <div class="card"><div class="card-head"><span>ACTIVE NODES</span><span class="xray-pill">Monitored_Nodes</span></div><div class="kpi-num" id="kpiNodes" style="font-size:13px">... LOADING</div><div class="kpi-sub">Monitored endpoints</div></div>
               <div class="card"><div class="card-head"><span>TOTAL VIEWS</span><span class="xray-pill">Visits Log</span></div><div class="kpi-num" id="kpiViews" style="font-size:13px">... LOADING</div><div class="kpi-sub">Logged page hits</div></div>
               <div class="card"><div class="card-head"><span>SESSIONS</span></div><div class="kpi-num" id="kpiSessions" style="font-size:13px">... LOADING</div><div class="kpi-sub">Unique visitors</div></div>
-              <div class="card"><div class="card-head"><span>TOP REGION</span></div><div class="kpi-num" style="font-size:13px" id="kpiRegion">... LOADING</div><div class="kpi-sub">Primary timezone</div></div>
+              <div class="card"><div class="card-head"><span>TOP REGION</span></div><div class="kpi-num" style="font-size:13px" id="kpiRegion">... LOADING</div><div class="kpi-sub" id="kpiRegionSub">Primary timezone</div></div>
             </div>
 
             <!-- INFRASTRUCTURE HEALTH -->
@@ -769,7 +769,7 @@
             <div class="card">
               <div class="table-wrap">
                 <table>
-                  <thead><tr><th>Time</th><th>Route</th><th>Device</th><th>Region</th></tr></thead>
+                  <thead><tr><th>Time</th><th>Route</th><th>Device</th><th>Location</th></tr></thead>
                   <tbody id="visitsTableBody"></tbody>
                 </table>
               </div>
@@ -973,7 +973,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.8]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.9]</div>
     </div>
   </div>
 
@@ -1000,7 +1000,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.5.8",
+      APP_VERSION: "v.2.5.9",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
@@ -1064,6 +1064,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.5.9", Project: "H@N Core", Summary: "Visitor location: backend IP geolocation (cached, with fallback provider and kill switch) adds City/Region/Country columns to the Visits Log; site shows country flag + timezone only.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.5.8", Project: "H@N Core", Summary: "Security fix: all sheet and visitor-supplied data is now HTML-escaped before display, and project/download links only allow http(s) URLs.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.5.7", Project: "H@N Core", Summary: "Bug fixes from full-site audit: forms now report real backend errors, backend log trimming with archive tabs, 24h uptime window, rate limits & validation on backend writes, alert emails only on state changes, fewer false OFFLINE outage readings.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.5.6", Project: "H@N CI/CD", Summary: "Bug fixes: Telemetry & Outage Sync workflow no longer crashes when the webhook secret is empty (falls back to the built-in Apps Script URL), web requests moved inside error handling, and actions bumped to Node 24 (checkout v5, setup-python v6).", Tag: "🟠 FIX" },
@@ -1326,6 +1327,24 @@
       return "";
     }
 
+    // Country flag + name from IP geolocation (country-level only; city/IP are never shown publicly)
+    function formatCountryBadge(code, name) {
+      const iso = String(code || "").toLowerCase();
+      if (!/^[a-z]{2}$/.test(iso)) return esc(name || "Unknown");
+      return `<span style="display:inline-flex;align-items:center;gap:5px"><img src="https://flagcdn.com/16x12/${iso}.png" width="16" height="12" alt="${iso.toUpperCase()}" style="vertical-align:middle;border:1px solid rgba(255,255,255,0.25);border-radius:1px" /><span>${esc(name || iso.toUpperCase())}</span></span>`;
+    }
+
+    // Visits table location cell: real country when the backend has it, plus the visitor's timezone.
+    // Older rows without geo data fall back to the timezone-based badge.
+    function formatVisitLocation(v) {
+      const tz = String(v.timezone || v.region || "").trim();
+      if (v.countryCode && /^[A-Za-z]{2}$/.test(v.countryCode)) {
+        const tzLine = tz && tz !== "Unknown" ? `<div style="font-size:9px;color:var(--muted);margin-top:1px">${esc(tz)}</div>` : "";
+        return formatCountryBadge(v.countryCode, v.country) + tzLine;
+      }
+      return formatRegionBadge(tz);
+    }
+
     function formatRegionBadge(regionRaw) {
       const clean = esc(String(regionRaw || "Unknown")
         .replace(/[\uD83C][\uDDE6-\uDDFF][\uD83C][\uDDE6-\uDDFF]/g, "")
@@ -1385,7 +1404,16 @@
         document.getElementById("kpiNodes").textContent = nodes.length;
         document.getElementById("kpiViews").textContent = STATE.telemetry.totalViews ?? 0;
         document.getElementById("kpiSessions").textContent = STATE.telemetry.uniqueSessions ?? 0;
-        document.getElementById("kpiRegion").textContent = STATE.telemetry.topRegion || "Unknown";
+        // Prefer the real top country (from IP geolocation); fall back to the most common timezone
+        const topC = STATE.telemetry.topCountry;
+        const regionSub = document.getElementById("kpiRegionSub");
+        if (topC && /^[A-Za-z]{2}$/.test(topC.code || "")) {
+          document.getElementById("kpiRegion").innerHTML = formatCountryBadge(topC.code, topC.name);
+          if (regionSub) regionSub.textContent = "Top visitor country";
+        } else {
+          document.getElementById("kpiRegion").textContent = STATE.telemetry.topRegion || "Unknown";
+          if (regionSub) regionSub.textContent = "Primary timezone";
+        }
       }
 
       // Uptime Cards
@@ -1426,7 +1454,7 @@
             <td>${new Date(v.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</td>
             <td>${esc(v.path)}</td>
             <td>${formatDeviceBadge(v.device)}</td>
-            <td>${formatRegionBadge(v.region)}</td>
+            <td>${formatVisitLocation(v)}</td>
           </tr>`).join("");
       }
 
