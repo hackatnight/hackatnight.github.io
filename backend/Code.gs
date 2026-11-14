@@ -910,13 +910,16 @@ function getSanitizedTelemetry() {
   const cCode = headers.indexOf("country code");
   const countries = {};
   const countryName = {};
+  // Column C should hold a browser timezone like "America/New_York". Older rows from the v.2.5.5
+  // GeoIP attempt hold text like "United States // Venice", which must never reach the public site.
+  const tzOnly = v => /^[A-Za-z]+(\/[A-Za-z0-9_+\-]+)+$/.test(String(v || "").trim()) ? String(v).trim() : "Unknown";
 
   for (let i = 1; i < rows.length; i++) {
     const sid = rows[i][cSid];
     const region = rows[i][cReg];
     const dev = rows[i][cDev];
     if (sid) sessions[sid] = true;
-    const reg = String(region || "Unknown");
+    const reg = tzOnly(region);
     regions[reg] = (regions[reg] || 0) + 1;
     const cleanDev = String(dev || "").replace(/[💻📱📟🖥️]/g, "").trim();
     if (devices[cleanDev] !== undefined) devices[cleanDev]++;
@@ -935,8 +938,8 @@ function getSanitizedTelemetry() {
       path: rows[i][cPth] || "/",
       referrer: rows[i][cRef] || "Direct",
       device: rows[i][cDev] || "Desktop",
-      region: rows[i][cReg] || "Unknown",          // browser timezone (kept for older site versions)
-      timezone: rows[i][cReg] || "",
+      region: tzOnly(rows[i][cReg]),               // browser timezone (kept for older site versions)
+      timezone: tzOnly(rows[i][cReg]),
       // Public output is country-level only: city, region, coordinates and IP are never sent to the site
       country: cCountry !== -1 ? String(rows[i][cCountry] || "") : "",
       countryCode: (cCode !== -1 && /^[A-Z]{2}$/.test(String(rows[i][cCode] || ""))) ? String(rows[i][cCode]) : ""
