@@ -281,7 +281,9 @@ FEED_SOURCES = [
     {"id": "CCCS", "name": "Canadian Centre for Cyber Security", "url": "https://www.cyber.gc.ca/api/cccs/atom/v1/get?feed=alerts_advisories&lang=en",
      "home": "https://www.cyber.gc.ca/en/alerts-advisories", "icon": "https://flagcdn.com/16x12/ca.png", "color": "#ff6b6b", "country": "CA"},
     {"id": "ACSC", "name": "Australian Cyber Security Centre", "url": "https://www.cyber.gov.au/rss/alerts",
-     "home": "https://www.cyber.gov.au", "icon": "https://flagcdn.com/16x12/au.png", "color": "#4cd964", "country": "AU"},
+     "home": "https://www.cyber.gov.au", "icon": "https://flagcdn.com/16x12/au.png", "color": "#4cd964", "country": "AU",
+     # Disabled: cyber.gov.au times out from GitHub Actions servers (blocks cloud IPs). Set True to retry.
+     "enabled": False},
     {"id": "MSRC", "name": "Microsoft Security Response Center", "url": "https://api.msrc.microsoft.com/update-guide/rss",
      "home": "https://msrc.microsoft.com/update-guide", "icon": "https://www.google.com/s2/favicons?sz=32&domain=microsoft.com", "color": "#00a4ef", "vendor_hq": "US"},
     {"id": "CISCO", "name": "Cisco PSIRT Security Advisories", "url": "https://sec.cloudapps.cisco.com/security/center/psirtrss20/CiscoSecurityAdvisory.xml",
@@ -420,7 +422,7 @@ def feed_items(src):
 def main():
     kev = kev_items()
     ics = ics_items()
-    feeds = {src["id"]: feed_items(src) for src in FEED_SOURCES}
+    feeds = {src["id"]: feed_items(src) for src in FEED_SOURCES if src.get("enabled", True)}
     if kev is None and ics is None and all(v is None for v in feeds.values()):
         print("[threat] every source failed; keeping the existing threat_feed.json")
         return 0
@@ -451,7 +453,8 @@ def main():
     out = {
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "sources": [
-            {k: src[k] for k in ("id", "name", "home", "icon", "color")} for src in CISA_SOURCES + FEED_SOURCES
+            {k: src[k] for k in ("id", "name", "home", "icon", "color")}
+            for src in CISA_SOURCES + FEED_SOURCES if src.get("enabled", True)
         ],
         "items": items,
     }
