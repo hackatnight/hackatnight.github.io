@@ -633,7 +633,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.5.9]</span>
+        <span id="titleVersionBadge">[v.2.5.10]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -676,7 +676,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> VENICE, FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.9</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.10</span></div>
         </div>
       </aside>
 
@@ -973,7 +973,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.9]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.10]</div>
     </div>
   </div>
 
@@ -1000,7 +1000,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.5.9",
+      APP_VERSION: "v.2.5.10",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
@@ -1064,6 +1064,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.5.10", Project: "H@N Telemetry", Summary: "Outage feed now follows the Outage_Targets tab instantly: enabling, disabling, adding or deleting a target shows on the next page load; new targets are checked live until the next GitHub sync.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.5.9", Project: "H@N Core", Summary: "Visitor location: backend IP geolocation (cached, with fallback provider and kill switch) adds City/Region/Country columns to the Visits Log; site shows country flag + timezone only.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.5.8", Project: "H@N Core", Summary: "Security fix: all sheet and visitor-supplied data is now HTML-escaped before display, and project/download links only allow http(s) URLs.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.5.7", Project: "H@N Core", Summary: "Bug fixes from full-site audit: forms now report real backend errors, backend log trimming with archive tabs, 24h uptime window, rate limits & validation on backend writes, alert emails only on state changes, fewer false OFFLINE outage readings.", Tag: "🟠 FIX" },
@@ -2203,70 +2204,10 @@
       }).join("");
     }
 
-    async function loadOutageTelemetry(forceLive = false) {
-      const grid = document.getElementById("outageTelemetryGrid");
-      const badge = document.getElementById("outageSummaryBadge");
-      if (badge) {
-        badge.textContent = "... LOADING";
-        badge.className = "tag";
-      }
-      if (grid) {
-        grid.innerHTML = `
-          <div class="card" style="grid-column: 1 / -1">
-            <div class="card-head"><span>OUTAGE_TARGETS</span><span class="tag">... LOADING</span></div>
-            <div style="font-size:13px;font-weight:700;color:var(--accent)">... LOADING</div>
-          </div>`;
-      }
-
-      // 1. Try reading repo's automated outages.json first unless forced live refresh
-      if (!forceLive) {
-        try {
-          const res = await fetch("outages.json?t=" + Date.now());
-          if (res.ok) {
-            const data = await res.json();
-            if (data.services && data.services.length) {
-              renderOutageCards(data.services, data.summary || "SYNCED");
-              return;
-            }
-          }
-        } catch (_) {}
-      }
-
-      // 2. Pull dynamic targets list from HACKATNIGHT_BACKEND (Outage_Targets tab)
-      let activeTargets = [];
-      if (BACKEND_API.isLive()) {
-        try {
-          const sheetRes = await BACKEND_API.get({ action: "outage_targets" });
-          if (sheetRes && Array.isArray(sheetRes.targets) && sheetRes.targets.length) {
-            activeTargets = sheetRes.targets
-              .filter(r => r.enabled !== false && String(r.enabled).toUpperCase() !== "FALSE")
-              .map(r => ({
-                id: r.id || r["Node ID"],
-                name: r.name || r["Service Name"],
-                type: (r.type || r["Check Type"] || "statuspage").toLowerCase(),
-                apiUrl: r.url || r["Endpoint URL"]
-              }));
-          }
-        } catch (_) {}
-      }
-
-      if (!activeTargets.length) {
-        if (badge) {
-          badge.textContent = "FAILED TO FETCH";
-          badge.className = "tag tag-danger";
-        }
-        if (grid) {
-          grid.innerHTML = `
-            <div class="card" style="grid-column: 1 / -1">
-              <div class="card-head"><span>OUTAGE_TARGETS</span><span class="tag tag-danger">FAILED TO FETCH</span></div>
-              <div style="font-size:13px;font-weight:700;color:var(--danger)">FAILED TO FETCH</div>
-            </div>`;
-        }
-        return;
-      }
-
-      // 3. Probe all enabled targets from Outage_Targets tab
-      const results = await Promise.all(activeTargets.map(async t => {
+    // Live browser-side probe for outage targets (used for targets outages.json doesn't cover yet,
+    // and for the "refresh feed" button)
+    async function probeOutageTargets(targets) {
+      return Promise.all((targets || []).map(async t => {
         const t0 = performance.now();
         const ctype = (t.type || "statuspage").toLowerCase();
         try {
@@ -2283,11 +2224,98 @@
           } else {
             await fetch(t.apiUrl, { mode: "no-cors", cache: "no-store" });
             const lat = Math.round(performance.now() - t0);
-            return { id: t.id, name: t.name, url: t.apiUrl, http_status: 200, latency_ms: lat, state: "ONLINE", detail: "Edge Reachable (200 OK)" };
+            return { id: t.id, name: t.name, url: t.apiUrl, http_status: 200, latency_ms: lat, state: "ONLINE", detail: "Edge Reachable (live check)" };
           }
         } catch (_) {}
         return { id: t.id, name: t.name, url: t.apiUrl, http_status: 0, latency_ms: "--", state: "OFFLINE", detail: "FAILED TO FETCH" };
       }));
+    }
+
+    async function loadOutageTelemetry(forceLive = false) {
+      const grid = document.getElementById("outageTelemetryGrid");
+      const badge = document.getElementById("outageSummaryBadge");
+      if (badge) {
+        badge.textContent = "... LOADING";
+        badge.className = "tag";
+      }
+      if (grid) {
+        grid.innerHTML = `
+          <div class="card" style="grid-column: 1 / -1">
+            <div class="card-head"><span>OUTAGE_TARGETS</span><span class="tag">... LOADING</span></div>
+            <div style="font-size:13px;font-weight:700;color:var(--accent)">... LOADING</div>
+          </div>`;
+      }
+
+      // 1. Load the Outage_Targets tab (source of truth for which targets exist and are enabled)
+      //    and the GitHub-generated outages.json (latest server-side results) in parallel.
+      const sheetPromise = BACKEND_API.isLive()
+        ? BACKEND_API.get({ action: "outage_targets" }).catch(() => null)
+        : Promise.resolve(null);
+      const jsonPromise = forceLive
+        ? Promise.resolve(null)
+        : fetch("outages.json?t=" + Date.now()).then(r => (r.ok ? r.json() : null)).catch(() => null);
+      const [sheetRes, outageJson] = await Promise.all([sheetPromise, jsonPromise]);
+
+      const isEnabled = v => v !== false && String(v).toUpperCase() !== "FALSE";
+      const sheetTargets = (sheetRes && Array.isArray(sheetRes.targets)) ? sheetRes.targets : null;
+      const activeTargets = (sheetTargets || [])
+        .filter(r => isEnabled(r.enabled))
+        .map(r => ({
+          id: String(r.id || r["Node ID"] || ""),
+          name: r.name || r["Service Name"],
+          type: (r.type || r["Check Type"] || "statuspage").toLowerCase(),
+          apiUrl: r.url || r["Endpoint URL"]
+        }))
+        .filter(t => t.id && t.apiUrl);
+      const jsonServices = (outageJson && Array.isArray(outageJson.services)) ? outageJson.services : [];
+
+      // 2. Sheet unreachable: fall back to outages.json exactly as published
+      if (!sheetTargets) {
+        if (jsonServices.length) {
+          renderOutageCards(jsonServices, outageJson.summary || "SYNCED");
+          return;
+        }
+        if (badge) {
+          badge.textContent = "FAILED TO FETCH";
+          badge.className = "tag tag-danger";
+        }
+        if (grid) {
+          grid.innerHTML = `
+            <div class="card" style="grid-column: 1 / -1">
+              <div class="card-head"><span>OUTAGE_TARGETS</span><span class="tag tag-danger">FAILED TO FETCH</span></div>
+              <div style="font-size:13px;font-weight:700;color:var(--danger)">FAILED TO FETCH</div>
+            </div>`;
+        }
+        return;
+      }
+
+      // 3. Sheet is the source of truth: show only enabled targets, in sheet order.
+      //    Use the server-side result from outages.json when it has one; probe anything
+      //    newly added or re-enabled live in the browser until the next GitHub sync covers it.
+      const byId = {};
+      jsonServices.forEach(svc => { byId[String(svc.id)] = svc; });
+      const missing = activeTargets.filter(t => !byId[t.id]);
+      const probed = await probeOutageTargets(missing);
+      const probedById = {};
+      probed.forEach(r => { probedById[r.id] = r; });
+
+      const results = activeTargets.map(t => {
+        const srv = byId[t.id];
+        if (srv) return Object.assign({}, srv, { name: t.name || srv.name, url: t.apiUrl });
+        return probedById[t.id];
+      }).filter(Boolean);
+
+      if (!results.length) {
+        renderOutageCards([], "0 TARGETS ENABLED");
+        if (grid) {
+          grid.innerHTML = `
+            <div class="card" style="grid-column: 1 / -1">
+              <div class="card-head"><span>OUTAGE_TARGETS</span><span class="tag">NONE ENABLED</span></div>
+              <div style="font-size:13px;font-weight:700;color:var(--muted)">No targets are enabled in the Outage_Targets tab.</div>
+            </div>`;
+        }
+        return;
+      }
 
       const onlineCount = results.filter(r => r.state === "ONLINE").length;
       renderOutageCards(results, `${onlineCount}/${results.length} NOMINAL`);
