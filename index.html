@@ -633,7 +633,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.5.11]</span>
+        <span id="titleVersionBadge">[v.2.5.12]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -676,7 +676,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> VENICE, FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.11</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.12</span></div>
         </div>
       </aside>
 
@@ -973,7 +973,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.11]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.12]</div>
     </div>
   </div>
 
@@ -1000,7 +1000,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.5.11",
+      APP_VERSION: "v.2.5.12",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
@@ -1064,6 +1064,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.5.12", Project: "H@N UI / Globe", Summary: "Globe labels: US states shown as US-XX so they never clash with country codes (California vs Canada); hover shows full country names.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.5.11", Project: "H@N UI / Globe", Summary: "Globe shows real visitors: one pin per US state (at the state center) or per country, sized by visit count, replacing the placeholder pins. No city-level locations are shown.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.5.10", Project: "H@N Telemetry", Summary: "Outage feed now follows the Outage_Targets tab instantly: enabling, disabling, adding or deleting a target shows on the next page load; new targets are checked live until the next GitHub sync.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.5.9", Project: "H@N Core", Summary: "Visitor location: backend IP geolocation (cached, with fallback provider and kill switch) adds City/Region/Country columns to the Visits Log; site shows country flag + timezone only.", Tag: "🟢 FEAT" },
@@ -1791,9 +1792,12 @@
         if (!pins[key]) pins[key] = { lat, lon, label, info, visits: 0 };
         pins[key].visits += visits;
       };
+      let regionNames = null;
+      try { regionNames = new Intl.DisplayNames(["en"], { type: "region" }); } catch (_) {}
+      const countryName = code => { try { return (regionNames && regionNames.of(code)) || code; } catch (_) { return code; } };
       const countryPin = (code, visits) => {
         const c = COUNTRY_CENTERS[code];
-        if (c) add("C:" + code, c[0], c[1], code, code, visits);
+        if (c) add("C:" + code, c[0], c[1], code, countryName(code), visits);
       };
       if (Array.isArray(tele.geoRegions) && tele.geoRegions.length) {
         tele.geoRegions.forEach(g => {
@@ -1801,7 +1805,7 @@
           const visits = Number(g.visits) || 0;
           if (!/^[A-Z]{2}$/.test(code) || !visits) return;
           const st = code === "US" ? US_STATE_CENTERS[String(g.region || "").trim()] : null;
-          if (st) add("S:" + st[0], st[1], st[2], st[0], `${String(g.region).trim()}, US`, visits);
+          if (st) add("S:" + st[0], st[1], st[2], "US-" + st[0], `${String(g.region).trim()}, United States`, visits);
           else countryPin(code, visits);
         });
       } else if (tele.countries && typeof tele.countries === "object") {
