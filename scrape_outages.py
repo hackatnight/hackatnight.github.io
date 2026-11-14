@@ -117,6 +117,62 @@ def check_target(target):
             "detail": "Probe Timed Out (may block GitHub runners)" if is_timeout else "Connection Failed / Unreachable"
         }
 
+# ---------- Server location lookup ----------
+# Each target's hostname is resolved from the GitHub runner and the IP is geolocated (ipwho.is, no key needed).
+# Big providers sit behind CDNs/anycast, so for them this is the edge or network location, not a single
+# data center; those are flagged with "cdn" so the site can say so. Results are cached for a day in outages.json.
+GEO_TTL_SEC = 24 * 3600
+CDN_HINTS = ["cloudflare", "akamai", "fastly", "cloudfront", "amazon", "google", "microsoft", "azure",
+             "edgecast", "edgio", "incapsula", "imperva", "stackpath", "bunny", "verizon digital"]
+
+def load_geo_cache():
+    try:
+        with open("outages.json", encoding="utf-8") as f:
+            old = json.load(f)
+        return {s.get("geo", {}).get("host"): s["geo"] for s in old.get("services", []) if isinstance(s.get("geo"), dict)}
+    except Exception:
+        return {}
+
+def locate_host(url, cache):
+    try:
+        host = urllib.parse.urlparse(url).hostname or ""
+    except Exception:
+        return None
+    if not host:
+        return None
+    cached = cache.get(host)
+    if cached and time.time() - cached.get("checked", 0) < GEO_TTL_SEC:
+        return cached
+    try:
+        ip = socket.getaddrinfo(host, 443, socket.AF_INET)[0][4][0]
+        fields = "success,city,region,country,country_code,latitude,longitude,connection"
+        req = urllib.request.Request(f"https://ipwho.is/{ip}?fields={fields}", headers={"User-Agent": "H@N-Telemetry-Monitor/2.8"})
+        with urllib.request.urlopen(req, timeout=8) as res:
+            j = json.loads(res.read().decode("utf-8"))
+        if not j.get("success"):
+            return cached
+        conn = j.get("connection") or {}
+        network = str(conn.get("org") or conn.get("isp") or "").strip()
+        low = network.lower()
+        cdn = next((h for h in CDN_HINTS if h in low), "")
+        return {
+            "host": host,
+            "ip": ip,
+            "city": j.get("city") or "",
+            "region": j.get("region") or "",
+            "country": j.get("country") or "",
+            "countryCode": j.get("country_code") or "",
+            "lat": round(float(j.get("latitude") or 0), 3),
+            "lon": round(float(j.get("longitude") or 0), 3),
+            "network": network[:60],
+            "asn": conn.get("asn") or "",
+            "cdn": bool(cdn),
+            "checked": int(time.time()),
+        }
+    except Exception as e:
+        print(f"Geo lookup skipped for {host}: {e}")
+        return cached
+
 def push_to_backend(results, timestamp):
     if not APPS_SCRIPT_WEBHOOK:
         return
@@ -165,6 +221,13 @@ def main():
     now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     active_targets = fetch_sheet_targets()
     results = [check_target(t) for t in active_targets]
+    geo_cache = load_geo_cache()
+    for t, r in zip(active_targets, results):
+        r["type"] = t.get("type", "http")
+        geo = locate_host(t["url"], geo_cache)
+        if geo:
+            r["geo"] = geo
+            geo_cache[geo["host"]] = geo
 
     online_count = sum(1 for r in results if r["state"] == "ONLINE")
     outage_data = {

@@ -550,6 +550,9 @@
     .threat-row a { color: var(--text); text-decoration: none; font-weight: 700; }
     .threat-row a:hover { color: var(--accent); text-decoration: underline; }
     .threat-meta { color: var(--muted); font-size: 10px; margin-top: 2px; }
+    .outage-card { cursor: pointer; }
+    .outage-card:hover, .outage-card:focus { outline: 1px solid var(--accent); outline-offset: -1px; }
+    .outage-loc { font-size: 9px; color: var(--muted); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .threat-foot { padding: 4px 8px; color: var(--muted); font-size: 9px; border-top: 1px solid var(--card-border); }
 
     /* Overview: globe left, stats right (stacks on narrower screens) */
@@ -722,7 +725,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.8.5]</span>
+        <span id="titleVersionBadge">[v.2.9.0]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -765,7 +768,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.8.5</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.9.0</span></div>
         </div>
       </aside>
 
@@ -1083,7 +1086,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.8.5]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.9.0]</div>
     </div>
   </div>
 
@@ -1110,7 +1113,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.8.5",
+      APP_VERSION: "v.2.9.0",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1174,6 +1177,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.9.0", Project: "H@N UI / Outages", Summary: "Outage targets now show where their servers are: hovering a card pins the server location on the globe (CDN edges flagged), and clicking opens its status page.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.8.5", Project: "H@N UI / Globe", Summary: "Globe shrinks to fit short windows so the threat feed always keeps room at the bottom.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.8.4", Project: "H@N UI / Globe", Summary: "New arcs toggle on the globe toolbar: show all arcs, visitor arcs only, attack arcs only, or none (remembered per browser).", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.8.3", Project: "H@N UI / Globe", Summary: "Threat feed now fills the left column down to the bottom of the page; the globe box can be resized by dragging its bottom edge; globe zoom goes much deeper (up to 8x) and the flat map can be panned.", Tag: "🟢 FEAT" },
@@ -2928,18 +2932,59 @@
       }
     }
 
+    // Human-facing status page for a target (API endpoints map to the page people actually read)
+    function outageStatusPage(svc) {
+      const raw = String(svc.url || svc.apiUrl || "");
+      let u;
+      try { u = new URL(raw); } catch (_) { return ""; }
+      const type = String(svc.type || "").toLowerCase();
+      if (type === "google") return "https://www.google.com/appsstatus/dashboard/";
+      if (type === "statuspage" || type === "meta" || type === "slack" || /\/api\/|\.json$/i.test(u.pathname)) return u.origin + "/";
+      return u.href;
+    }
+
+    function outageLocationText(geo) {
+      if (!geo || (!geo.lat && !geo.lon)) return "";
+      const place = [geo.city, geo.region && geo.region !== geo.city ? geo.region : "", geo.countryCode].filter(Boolean).join(", ");
+      return place + (geo.network ? ` // ${geo.network}` : "") + (geo.cdn ? " (CDN edge)" : "");
+    }
+
+    // Hovering a card pins that server on the globe (reuses the threat highlight layer)
+    let OUTAGE_SERVICES = [];
+    function showOutageLocation(idx) {
+      const svc = OUTAGE_SERVICES[idx];
+      const g = svc && svc.geo;
+      if (!g || (!g.lat && !g.lon)) return;
+      THREAT_HL = {
+        id: String(svc.id),
+        focus: [g.lat, g.lon],
+        regions: [],
+        points: [{ lat: g.lat, lon: g.lon, label: `${String(svc.name || svc.id).replace(/^[^A-Za-z0-9]+/, "")} // ${outageLocationText(g)}` }]
+      };
+    }
+    function openOutageStatusPage(idx) {
+      const url = safeUrl(outageStatusPage(OUTAGE_SERVICES[idx] || {}));
+      if (url) window.open(url.replace(/&amp;/g, "&"), "_blank", "noopener");
+    }
+
     function renderOutageCards(services, summaryText) {
       const grid = document.getElementById("outageTelemetryGrid");
       const badge = document.getElementById("outageSummaryBadge");
       if (!grid || !badge) return;
       badge.textContent = summaryText || "LIVE FEED";
-      grid.innerHTML = services.map(svc => {
+      OUTAGE_SERVICES = services;
+      grid.innerHTML = services.map((svc, idx) => {
         const isOnline = svc.state === "ONLINE";
         const tagClass = isOnline ? "tag" : "tag tag-danger";
         const domain = resolveBrandDomain(svc);
         const iconUrl = `https://www.google.com/s2/favicons?sz=32&domain=${encodeURIComponent(domain)}`;
+        const loc = outageLocationText(svc.geo);
         return `
-          <div class="card">
+          <div class="card outage-card" tabindex="0" role="link"
+               title="Hover: show server location on the globe // Click: open status page"
+               onmouseenter="showOutageLocation(${idx})" onfocus="showOutageLocation(${idx})"
+               onmouseleave="clearThreatHighlight()" onblur="clearThreatHighlight()"
+               onclick="openOutageStatusPage(${idx})" onkeydown="if(event.key==='Enter')openOutageStatusPage(${idx})">
             <div class="card-head">
               <span style="display:inline-flex;align-items:center;gap:6px">
                 <img src="${iconUrl}" width="14" height="14" alt="" style="vertical-align:middle;border-radius:2px" />
@@ -2954,6 +2999,7 @@
               <span>ID: ${esc(svc.id)}</span>
               <span>PING: ${esc(svc.latency_ms || "--")} ms</span>
             </div>
+            ${loc ? `<div class="outage-loc">📍 ${esc(loc)}</div>` : ""}
           </div>`;
       }).join("");
     }
@@ -3249,7 +3295,7 @@
 
       const results = activeTargets.map(t => {
         const srv = byId[t.id];
-        if (srv) return Object.assign({}, srv, { name: t.name || srv.name, url: t.apiUrl });
+        if (srv) return Object.assign({}, srv, { name: t.name || srv.name, url: t.apiUrl, type: t.type });
         return probedById[t.id];
       }).filter(Boolean);
 
