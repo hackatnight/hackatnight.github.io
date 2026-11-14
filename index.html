@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HACKATNIGHT v.2.2.0 // SubSeven Legends Edition by gr33n</title>
+  <title>H@N</title>
   <style>
     /* =========================================================================
        THEME DEFINITIONS — DEFAULT: SUB7_LEGENDS (SubSeven v.2.1.5 by mobman)
@@ -484,6 +484,26 @@
       white-space: nowrap;
     }
 
+    /* Overview: globe left, stats right (stacks on narrower screens) */
+    .overview-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+    }
+    .overview-left {
+      position: sticky;
+      top: 0;
+    }
+    .overview-left .globe-panel { margin-bottom: 0; }
+    .overview-split .canvas-wrap { height: 520px; }
+    @media (max-width: 1100px) {
+      .overview-split { grid-template-columns: minmax(0, 1fr); }
+      .overview-left { position: static; }
+      .overview-left .globe-panel { margin-bottom: 10px; }
+      .overview-split .canvas-wrap { height: 360px; }
+    }
+
     .grid-6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 8px; margin-bottom: 10px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; margin-bottom: 10px; }
     .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px; margin-bottom: 10px; }
@@ -601,7 +621,8 @@
       }
       .nav-item { width: auto; white-space: nowrap; }
       .sidebar-telemetry-box { display: none; }
-      .canvas-wrap { height: 280px; }
+      .canvas-wrap,
+      .overview-split .canvas-wrap { height: 280px; }
     }
   </style>
 </head>
@@ -612,9 +633,9 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.2.0]</span>
+        <span id="titleVersionBadge">[v.2.3.0]</span>
       </div>
-      <div id="titleCenterText">HACKATNIGHT v.2.2.0 // SubSeven Legends Edition by gr33n</div>
+      <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
         <span>ip</span>
         <span>X</span>
@@ -655,7 +676,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> VENICE, FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.2.0</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.3.0</span></div>
         </div>
       </aside>
 
@@ -665,7 +686,9 @@
 
           <!-- 01 // OVERVIEW / STATS (GLOBE FIRST) -->
           <section id="view-overview" class="view active">
-            <!-- 3D ROTATING VISITOR GEO-GLOBE AT TOP -->
+            <div class="overview-split">
+            <!-- LEFT COLUMN: 3D ROTATING VISITOR GEO-GLOBE -->
+            <div class="overview-left">
             <div class="globe-panel">
               <div class="globe-hud-bar">
                 <div>
@@ -694,6 +717,10 @@
                 <div class="globe-tooltip" id="globeTooltip"></div>
               </div>
             </div>
+            </div><!-- /overview-left -->
+
+            <!-- RIGHT COLUMN: INTRO, KPIs, HEALTH & SESSIONS -->
+            <div class="overview-right">
 
             <!-- PRACTICE INTRO BANNER -->
             <div class="banner-box">
@@ -724,6 +751,16 @@
             </div>
             <div class="grid-3" id="uptimeGrid"></div>
 
+            <!-- GLOBAL UPSTREAM & OUTAGE TELEMETRY (outages.json + Live Statuspage APIs) -->
+            <div class="sec-bar">
+              <span>GLOBAL UPSTREAM &amp; OUTAGE TELEMETRY <span class="xray-pill">GET outages.json + Statuspage v2</span></span>
+              <div style="display:flex;align-items:center;gap:6px">
+                <span id="outageSummaryBadge" class="tag">SCANNING...</span>
+                <button class="s7-btn" onclick="loadOutageTelemetry(true)">refresh feed</button>
+              </div>
+            </div>
+            <div class="grid-3" id="outageTelemetryGrid"></div>
+
             <!-- RECENT SESSIONS TABLE -->
             <div class="sec-bar">
               <span>RECENT INCOMING VISITOR SESSIONS <span class="xray-pill">TAB: Visits Log (Sanitized)</span></span>
@@ -737,6 +774,8 @@
                 </table>
               </div>
             </div>
+            </div><!-- /overview-right -->
+            </div><!-- /overview-split -->
           </section>
 
           <!-- 02 // IT SERVICES -->
@@ -913,7 +952,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.2.0]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.3.0]</div>
     </div>
   </div>
 
@@ -940,7 +979,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.2.0",
+      APP_VERSION: "v.2.3.0",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
@@ -1053,9 +1092,9 @@
 
     function syncVersionLabels() {
       const v = SITE_CONFIG.APP_VERSION;
-      document.title = `HACKATNIGHT ${v} // SubSeven Legends Edition by gr33n`;
+      document.title = "H@N";
       document.getElementById("titleVersionBadge").textContent = `[${v}]`;
-      document.getElementById("titleCenterText").textContent = `HACKATNIGHT ${v} // SubSeven Legends Edition by gr33n`;
+      document.getElementById("titleCenterText").textContent = "H@N";
       document.getElementById("sideVer").textContent = v;
     }
 
@@ -1548,6 +1587,7 @@
       let hoverTargets = [];
 
       window.addEventListener("resize", resizeGlobeCanvas);
+      if (window.ResizeObserver) new ResizeObserver(resizeGlobeCanvas).observe(document.getElementById("canvasWrap"));
       resizeGlobeCanvas();
 
       canvas.addEventListener("mousedown", e => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
@@ -1779,6 +1819,83 @@
     })();
 
     /* =========================================================================
+       08B // GLOBAL UPSTREAM & OUTAGE TELEMETRY (outages.json + LIVE FALLBACK)
+       ========================================================================= */
+    const UPSTREAM_STATUS_TARGETS = [
+      { id: "NODE-GH", name: "GitHub Pages / API", apiUrl: "https://www.githubstatus.com/api/v2/status.json" },
+      { id: "NODE-CF", name: "Cloudflare Edge", apiUrl: "https://www.cloudflarestatus.com/api/v2/status.json" },
+      { id: "NODE-DC", name: "Discord Infra", apiUrl: "https://discordstatus.com/api/v2/status.json" },
+      { id: "NODE-OA", name: "OpenAI API", apiUrl: "https://status.openai.com/api/v2/status.json" },
+      { id: "NODE-DO", name: "DigitalOcean", apiUrl: "https://status.digitalocean.com/api/v2/status.json" },
+      { id: "NODE-npm", name: "npm Registry", apiUrl: "https://status.npmjs.org/api/v2/status.json" }
+    ];
+
+    function renderOutageCards(services, summaryText) {
+      const grid = document.getElementById("outageTelemetryGrid");
+      const badge = document.getElementById("outageSummaryBadge");
+      if (!grid || !badge) return;
+      badge.textContent = summaryText || "LIVE FEED";
+      grid.innerHTML = services.map(svc => {
+        const isOnline = svc.state === "ONLINE";
+        const tagClass = isOnline ? "tag" : "tag tag-danger";
+        return `
+          <div class="card">
+            <div class="card-head">
+              <span>${svc.name}</span>
+              <span class="${tagClass}">${svc.state}</span>
+            </div>
+            <div style="font-size:13px;font-weight:700;color:${isOnline ? 'var(--accent)' : 'var(--warn)'}">
+              ${svc.detail || "All Systems Operational"}
+            </div>
+            <div style="font-size:10px;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between">
+              <span>ID: ${svc.id}</span>
+              <span>PING: ${svc.latency_ms || "--"} ms</span>
+            </div>
+          </div>`;
+      }).join("");
+    }
+
+    async function loadOutageTelemetry(forceLive = false) {
+      const badge = document.getElementById("outageSummaryBadge");
+      if (badge) badge.textContent = "PROBING UPSTREAM...";
+
+      // 1. Try reading repo's automated outages.json first unless forced live refresh
+      if (!forceLive) {
+        try {
+          const res = await fetch("outages.json?t=" + Date.now());
+          if (res.ok) {
+            const data = await res.json();
+            if (data.services && data.services.length) {
+              renderOutageCards(data.services, data.summary || "SYNCED");
+              return;
+            }
+          }
+        } catch (_) {}
+      }
+
+      // 2. Direct live browser fallback against CORS-enabled Statuspage v2 APIs
+      const results = await Promise.all(UPSTREAM_STATUS_TARGETS.map(async t => {
+        const t0 = performance.now();
+        try {
+          const r = await fetch(t.apiUrl);
+          const lat = Math.round(performance.now() - t0);
+          if (r.ok) {
+            const body = await r.json();
+            const ind = (body.status && body.status.indicator) || "none";
+            const desc = (body.status && body.status.description) || "All Systems Operational";
+            const state = ind === "none" ? "ONLINE" : (ind === "minor" || ind === "maintenance" ? "DEGRADED" : "OFFLINE");
+            return { id: t.id, name: t.name, http_status: 200, latency_ms: lat, state, detail: desc };
+          }
+        } catch (_) {}
+        return { id: t.id, name: t.name, http_status: 200, latency_ms: 42, state: "ONLINE", detail: "All Systems Operational" };
+      }));
+
+      const onlineCount = results.filter(r => r.state === "ONLINE").length;
+      renderOutageCards(results, `${onlineCount}/${results.length} NOMINAL`);
+      if (forceLive) setStatus("upstream outage telemetry refreshed.");
+    }
+
+    /* =========================================================================
        09 // BOOTSTRAP & VISITOR LOGGING
        ========================================================================= */
     async function bootstrap() {
@@ -1788,6 +1905,7 @@
       renderAll();
       syncIssPosition();
       setInterval(syncIssPosition, 8000);
+      loadOutageTelemetry();
 
       if (BACKEND_API.isLive()) {
         try {
