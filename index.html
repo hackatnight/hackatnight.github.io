@@ -633,7 +633,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.5.2]</span>
+        <span id="titleVersionBadge">[v.2.5.3]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -657,7 +657,7 @@
         <button class="s7-btn" onclick="openNavEditor()">[edit nav]</button>
       </div>
       <div class="conn-right">
-        <span id="netHealthPill" class="conn-box" style="color:var(--accent)">NET: 99.98%</span>
+        <span id="netHealthPill" class="conn-box" style="color:var(--accent)">NET: ... LOADING</span>
         <select id="themeSelect" class="conn-box" aria-label="Theme Selector">
           <option value="SUB7_LEGENDS">theme: sub7 legends</option>
           <option value="HACK_MATRIX">theme: hack matrix</option>
@@ -676,7 +676,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> VENICE, FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.2</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.3</span></div>
         </div>
       </aside>
 
@@ -736,12 +736,12 @@
 
             <!-- 6 KPI METRICS -->
             <div class="grid-6">
-              <div class="card"><div class="card-head"><span>GLOBAL UPTIME</span><span class="xray-pill">Status_Log</span></div><div class="kpi-num" id="kpiUptime">99.98%</div><div class="kpi-sub">30-day probe SLA</div></div>
-              <div class="card"><div class="card-head"><span>AVG LATENCY</span></div><div class="kpi-num" id="kpiLatency">-- ms</div><div class="kpi-sub">Edge response</div></div>
-              <div class="card"><div class="card-head"><span>ACTIVE NODES</span><span class="xray-pill">Monitored_Nodes</span></div><div class="kpi-num" id="kpiNodes">--</div><div class="kpi-sub">Monitored endpoints</div></div>
-              <div class="card"><div class="card-head"><span>TOTAL VIEWS</span><span class="xray-pill">Visits Log</span></div><div class="kpi-num" id="kpiViews">--</div><div class="kpi-sub">Logged page hits</div></div>
-              <div class="card"><div class="card-head"><span>SESSIONS</span></div><div class="kpi-num" id="kpiSessions">--</div><div class="kpi-sub">Unique visitors</div></div>
-              <div class="card"><div class="card-head"><span>TOP REGION</span></div><div class="kpi-num" style="font-size:13px" id="kpiRegion">--</div><div class="kpi-sub">Primary timezone</div></div>
+              <div class="card"><div class="card-head"><span>GLOBAL UPTIME</span><span class="xray-pill">Status_Log</span></div><div class="kpi-num" id="kpiUptime" style="font-size:13px">... LOADING</div><div class="kpi-sub">30-day probe SLA</div></div>
+              <div class="card"><div class="card-head"><span>AVG LATENCY</span></div><div class="kpi-num" id="kpiLatency" style="font-size:13px">... LOADING</div><div class="kpi-sub">Edge response</div></div>
+              <div class="card"><div class="card-head"><span>ACTIVE NODES</span><span class="xray-pill">Monitored_Nodes</span></div><div class="kpi-num" id="kpiNodes" style="font-size:13px">... LOADING</div><div class="kpi-sub">Monitored endpoints</div></div>
+              <div class="card"><div class="card-head"><span>TOTAL VIEWS</span><span class="xray-pill">Visits Log</span></div><div class="kpi-num" id="kpiViews" style="font-size:13px">... LOADING</div><div class="kpi-sub">Logged page hits</div></div>
+              <div class="card"><div class="card-head"><span>SESSIONS</span></div><div class="kpi-num" id="kpiSessions" style="font-size:13px">... LOADING</div><div class="kpi-sub">Unique visitors</div></div>
+              <div class="card"><div class="card-head"><span>TOP REGION</span></div><div class="kpi-num" style="font-size:13px" id="kpiRegion">... LOADING</div><div class="kpi-sub">Primary timezone</div></div>
             </div>
 
             <!-- INFRASTRUCTURE HEALTH -->
@@ -755,7 +755,7 @@
             <div class="sec-bar">
               <span>GLOBAL UPSTREAM &amp; OUTAGE TELEMETRY <span class="xray-pill">GET outages.json + Statuspage v2</span></span>
               <div style="display:flex;align-items:center;gap:6px">
-                <span id="outageSummaryBadge" class="tag">SCANNING...</span>
+                <span id="outageSummaryBadge" class="tag">... LOADING</span>
                 <button class="s7-btn" onclick="loadOutageTelemetry(true)">refresh feed</button>
               </div>
             </div>
@@ -833,7 +833,7 @@
 
             <div class="sec-bar">
               <span>SYSTEM &amp; FIRMWARE RELEASE CHANGELOG <span class="xray-pill">TAB: Changelog</span></span>
-              <span id="changelogCountBadge" class="tag">LIVE FEED</span>
+              <span id="changelogCountBadge" class="tag">... LOADING</span>
             </div>
             <div class="card">
               <div class="table-wrap">
@@ -973,7 +973,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.2]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.3]</div>
     </div>
   </div>
 
@@ -1000,7 +1000,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.5.2",
+      APP_VERSION: "v.2.5.3",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
@@ -1046,52 +1046,36 @@
     ];
 
     /* =========================================================================
-       04 // FALLBACK_DATA — PREVIEW / OFFLINE BASELINE DATA
+       04 // INITIAL_STATE & LOCAL_RELEASES_MANIFEST (NO FAKE PLACEHOLDER DATA)
        ========================================================================= */
-    const FALLBACK_DATA = {
-      uptime: [
-        { id: "NODE-01", name: "HACKATNIGHT_CORE", url: "https://hackatnight.com", uptime: "99.99", latency: 36, status: 200, state: "ONLINE", history: [40, 38, 35, 39, 36, 37, 35, 36] },
-        { id: "NODE-02", name: "TESTING_REPO_DEMO", url: "https://hackatnight.github.io/TestingRepo/", uptime: "99.96", latency: 49, status: 200, state: "ONLINE", history: [53, 50, 52, 48, 51, 49, 50, 49] },
-        { id: "NODE-03", name: "WORKSPACE_API_RELAY", url: "https://script.google.com", uptime: "99.98", latency: 114, status: 200, state: "ONLINE", history: [122, 118, 115, 119, 114, 117, 113, 114] }
-      ],
+    const INITIAL_STATE = {
+      uptime: [],
       telemetry: {
-        totalViews: 184,
-        uniqueSessions: 82,
-        topRegion: "America/New_York",
-        recent: [
-          { timestamp: new Date().toISOString(), path: "/#overview", referrer: "Direct", device: "Desktop", region: "America/New_York" },
-          { timestamp: new Date(Date.now() - 2400000).toISOString(), path: "/#projects", referrer: "hackatnight.github.io", device: "Mobile", region: "America/Chicago" },
-          { timestamp: new Date(Date.now() - 5100000).toISOString(), path: "/#services", referrer: "Direct", device: "Desktop", region: "Europe/London" }
-        ]
+        totalViews: null,
+        uniqueSessions: null,
+        topRegion: null,
+        recent: []
       },
-      projects: [
-        { Title: "ESP32-2432S024C Handheld Game Boy Emulator", Category: "EMBEDDED", Status: "ACTIVE", Version: "v1.4.2", Description: "Peanut-GB core on CYD hardware with LovyanGFX, CST816S touch UI, GPIO haptics, and SD ROM streaming.", "Live URL": "https://hackatnight.github.io/TestingRepo/", "Source URL": "https://github.com/hackatnight/TestingRepo" },
-        { Title: "ESP32 CYD Live OBD-II Vehicle Telemetry Gauge", Category: "AUTOMOTIVE", Status: "ACTIVE", Version: "v1.1.0", Description: "Real-time CAN/OBD-II diagnostic cluster via Bluetooth ELM327 and custom CYD display.", "Live URL": "", "Source URL": "https://github.com/hackatnight" },
-        { Title: "9211B Head Unit Firmware & CAN-Bus Bridge", Category: "AUTOMOTIVE", Status: "STABLE", Version: "v2.0.3", Description: "Debloated Android 8 automotive head unit image with custom CAN-bus steering and telemetry bindings.", "Live URL": "", "Source URL": "https://github.com/hackatnight" },
-        { Title: "Sovereign Home Lab & Enterprise Mesh Stack", Category: "INFRA", Status: "PROD", Version: "v3.2.0", Description: "Segmented VLAN architecture, Synology private cloud storage, and self-hosted container orchestration.", "Live URL": "", "Source URL": "https://github.com/hackatnight" }
-      ],
-      downloads: [
-        { "File ID": "DL-01", Title: "CYD-GB-Emulator-Firmware.bin", Version: "v1.4.2", Platform: "ESP32-2432S024C", Size: "1.42 MB", "SHA-256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "Download URL": "https://github.com/hackatnight/TestingRepo", Count: 148 },
-        { "File ID": "DL-02", Title: "FireOS8-Debloat-ADB-Kit.zip", Version: "v1.0.8", Platform: "Windows / Linux ADB", Size: "312 KB", "SHA-256": "8f434346648f6b96df89dda901c5176b10a6d83961dd3c1ac88b59b2dc327aa4", "Download URL": "https://github.com/hackatnight", Count: 94 },
-        { "File ID": "DL-03", Title: "ELM327-OBD2-PID-Scanner.ino", Version: "v1.1.0", Platform: "PlatformIO / Arduino", Size: "64 KB", "SHA-256": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae", "Download URL": "https://github.com/hackatnight", Count: 73 }
-      ],
-      changelog: [
-        { Date: "2026-11-13", Version: "v.2.5.2", Project: "H@N Core", Summary: "Fixed Changelog state overwrite bug by merging local FALLBACK_DATA releases with live Google Sheet rows and auto-syncing missing versions.", Tag: "🟠 FIX" },
-        { Date: "2026-11-13", Version: "v.2.5.1", Project: "H@N CI/CD", Summary: "Wired GitHub Actions push pipeline to automatically log git commits and version tags into the Changelog tab.", Tag: "🟣 INFRA" },
-        { Date: "2026-11-13", Version: "v.2.5.0", Project: "H@N Core", Summary: "Added live Release Changelog feed under Projects tab and repaired backend Changelog schema.", Tag: "🟢 RELEASE" },
-        { Date: "2026-11-13", Version: "v.2.4.0", Project: "H@N Telemetry", Summary: "Added 24 prioritized Florida/National ISP & enterprise outage targets with live company favicons.", Tag: "🟢 FEAT" },
-        { Date: "2026-11-13", Version: "v.2.3.0", Project: "H@N Core", Summary: "Rebranded window header to H@N, added Windows-safe ISO flag icons, and wired Outage_Targets sheet.", Tag: "🔵 UPDATE" },
-        { Date: "2026-11-13", Version: "v.2.2.0", Project: "H@N UI / Globe", Summary: "Launched Sub7 Legends dark chassis with 1:1 real-time ECEF orbital satellite & ISS telemetry globe.", Tag: "🟢 RELEASE" },
-        { Date: "2026-11-12", Version: "v.2.1.5", Project: "Workspace Router", Summary: "Deployed unified Google Apps Script backend for Visits Log, Client Vault, Triage, and Uptime probes.", Tag: "🟣 INFRA" },
-        { Date: "2026-10-24", Version: "v.1.4.2", Project: "CYD GB Emulator", Summary: "Optimized C++ Peanut-GB core on ESP32-2432S024C with CST816S capacitive touch & SD ROM paging.", Tag: "🟠 FIRMWARE" },
-        { Date: "2026-10-18", Version: "v.1.1.0", Project: "OBD-II Gauge", Summary: "Added real-time ELM327 Bluetooth CAN-bus PID telemetry cluster for ESP32 CYD display.", Tag: "🟠 FIRMWARE" },
-        { Date: "2026-10-12", Version: "v.2.0.3", Project: "9211B Head Unit", Summary: "Released debloated Android 8 MT82/9211B head unit firmware with custom steering wheel bindings.", Tag: "🟠 FIRMWARE" }
-      ],
-      triage: [
-        { id: "BUG-104", project: "CYD Emulator", severity: "LOW", summary: "Add palette cycle shortcut on touch bezel", status: "IN_PROGRESS" },
-        { id: "BUG-101", project: "OBD2 Gauge", severity: "MEDIUM", summary: "Auto-reconnect ELM327 after ignition cycle", status: "FIXED" }
-      ]
+      projects: [],
+      downloads: [],
+      changelog: [],
+      triage: []
     };
+
+    // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
+    const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.5.3", Project: "H@N Core", Summary: "Bug fixes: replaced initial fake fallback data with explicit ... LOADING and FAILED TO FETCH states; reordered Visits Log columns (Date, IP, Country first) with newest visits on top.", Tag: "🟠 FIX" },
+      { Date: "2026-11-13", Version: "v.2.5.2", Project: "H@N Core", Summary: "Fixed Changelog state overwrite bug by merging local release manifest with live Google Sheet rows and auto-syncing missing versions.", Tag: "🟠 FIX" },
+      { Date: "2026-11-13", Version: "v.2.5.1", Project: "H@N CI/CD", Summary: "Wired GitHub Actions push pipeline to automatically log git commits and version tags into the Changelog tab.", Tag: "🟣 INFRA" },
+      { Date: "2026-11-13", Version: "v.2.5.0", Project: "H@N Core", Summary: "Added live Release Changelog feed under Projects tab and repaired backend Changelog schema.", Tag: "🟢 RELEASE" },
+      { Date: "2026-11-13", Version: "v.2.4.0", Project: "H@N Telemetry", Summary: "Added 24 prioritized Florida/National ISP & enterprise outage targets with live company favicons.", Tag: "🟢 FEAT" },
+      { Date: "2026-11-13", Version: "v.2.3.0", Project: "H@N Core", Summary: "Rebranded window header to H@N, added Windows-safe ISO flag icons, and wired Outage_Targets sheet.", Tag: "🔵 UPDATE" },
+      { Date: "2026-11-13", Version: "v.2.2.0", Project: "H@N UI / Globe", Summary: "Launched Sub7 Legends dark chassis with 1:1 real-time ECEF orbital satellite & ISS telemetry globe.", Tag: "🟢 RELEASE" },
+      { Date: "2026-11-12", Version: "v.2.1.5", Project: "Workspace Router", Summary: "Deployed unified Google Apps Script backend for Visits Log, Client Vault, Triage, and Uptime probes.", Tag: "🟣 INFRA" },
+      { Date: "2026-10-24", Version: "v.1.4.2", Project: "CYD GB Emulator", Summary: "Optimized C++ Peanut-GB core on ESP32-2432S024C with CST816S capacitive touch & SD ROM paging.", Tag: "🟠 FIRMWARE" },
+      { Date: "2026-10-18", Version: "v.1.1.0", Project: "OBD-II Gauge", Summary: "Added real-time ELM327 Bluetooth CAN-bus PID telemetry cluster for ESP32 CYD display.", Tag: "🟠 FIRMWARE" },
+      { Date: "2026-10-12", Version: "v.2.0.3", Project: "9211B Head Unit", Summary: "Released debloated Android 8 MT82/9211B head unit firmware with custom steering wheel bindings.", Tag: "🟠 FIRMWARE" }
+    ];
 
     /* =========================================================================
        05 // BACKEND_API — GOOGLE APPS SCRIPT + PUBLIC REPO FETCH CLIENT
@@ -1119,7 +1103,8 @@
     /* =========================================================================
        06 // APPLICATION STATE, VERSIONING & NAVIGATION ENGINE
        ========================================================================= */
-    let STATE = JSON.parse(JSON.stringify(FALLBACK_DATA));
+    let STATE = JSON.parse(JSON.stringify(INITIAL_STATE));
+    let SHEET_SYNC_STATUS = "LOADING"; // "LOADING" | "READY" | "ERROR"
     let MODULES = JSON.parse(localStorage.getItem("hackatnight_modules") || "null") || JSON.parse(JSON.stringify(DEFAULT_MODULES));
     let ACTIVE_TAB = "overview";
 
@@ -1327,44 +1312,95 @@
        07 // UI RENDERERS & INTERACTIVE WORKSPACE ACTIONS
        ========================================================================= */
     function renderAll() {
-      const nodes = STATE.uptime;
-      const avgLat = nodes.length ? Math.round(nodes.reduce((a, b) => a + Number(b.latency || 0), 0) / nodes.length) : 0;
-      const avgUp = nodes.length ? (nodes.reduce((a, b) => a + Number(b.uptime || 100), 0) / nodes.length).toFixed(2) : "100.00";
+      const isLoad = SHEET_SYNC_STATUS === "LOADING";
+      const isErr  = SHEET_SYNC_STATUS === "ERROR";
+      const stateText = isLoad ? "... LOADING" : "FAILED TO FETCH";
+      const stateColor = isErr ? "var(--danger)" : "var(--accent)";
+      const stateTagClass = isErr ? "tag tag-danger" : "tag";
 
-      document.getElementById("netHealthPill").textContent = `NET: ${avgUp}%`;
-      document.getElementById("kpiUptime").textContent = avgUp + "%";
-      document.getElementById("kpiLatency").textContent = avgLat + " ms";
-      document.getElementById("kpiNodes").textContent = nodes.length;
-      document.getElementById("kpiViews").textContent = STATE.telemetry.totalViews;
-      document.getElementById("kpiSessions").textContent = STATE.telemetry.uniqueSessions;
-      document.getElementById("kpiRegion").textContent = STATE.telemetry.topRegion;
+      const kpiIds = ["kpiUptime", "kpiLatency", "kpiNodes", "kpiViews", "kpiSessions", "kpiRegion"];
+      const netPill = document.getElementById("netHealthPill");
+
+      if (isLoad || isErr) {
+        if (netPill) {
+          netPill.textContent = `NET: ${stateText}`;
+          netPill.style.color = stateColor;
+        }
+        kpiIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.textContent = stateText;
+            el.style.fontSize = "13px";
+            el.style.color = stateColor;
+          }
+        });
+      } else {
+        const nodes = STATE.uptime || [];
+        const avgLat = nodes.length ? Math.round(nodes.reduce((a, b) => a + Number(b.latency || 0), 0) / nodes.length) : 0;
+        const avgUp = nodes.length ? (nodes.reduce((a, b) => a + Number(b.uptime || 100), 0) / nodes.length).toFixed(2) : "100.00";
+
+        if (netPill) {
+          netPill.textContent = `NET: ${avgUp}%`;
+          netPill.style.color = "var(--accent)";
+        }
+        kpiIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.style.color = "var(--accent)";
+            el.style.fontSize = id === "kpiRegion" ? "13px" : "18px";
+          }
+        });
+        document.getElementById("kpiUptime").textContent = avgUp + "%";
+        document.getElementById("kpiLatency").textContent = avgLat + " ms";
+        document.getElementById("kpiNodes").textContent = nodes.length;
+        document.getElementById("kpiViews").textContent = STATE.telemetry.totalViews ?? 0;
+        document.getElementById("kpiSessions").textContent = STATE.telemetry.uniqueSessions ?? 0;
+        document.getElementById("kpiRegion").textContent = STATE.telemetry.topRegion || "Unknown";
+      }
 
       // Uptime Cards
-      document.getElementById("uptimeGrid").innerHTML = nodes.map(n => {
-        const hist = n.history && n.history.length ? n.history : [40, 42, 41];
-        const max = Math.max(...hist, 100);
-        const pts = hist.map((v, i) => `${(i / Math.max(hist.length - 1, 1)) * 220},${34 - (v / max) * 28}`).join(" ");
-        return `
-          <div class="card">
-            <div class="card-head"><span>${n.name}</span><span class="${n.state === "ONLINE" ? "tag" : "tag tag-danger"}">${n.state} (${n.status})</span></div>
-            <div style="font-size:15px;font-weight:700;color:var(--accent)">${n.uptime}% <span style="font-size:11px;color:var(--muted)">// ${n.latency} ms</span></div>
-            <div style="font-size:10px;color:var(--muted);margin:3px 0 6px;overflow:hidden;text-overflow:ellipsis">${n.url}</div>
-            <svg width="100%" height="36" viewBox="0 0 220 36" preserveAspectRatio="none">
-              <polyline fill="none" stroke="var(--accent)" stroke-width="2" points="${pts}" />
-            </svg>
+      const nodes = STATE.uptime || [];
+      if (!nodes.length) {
+        document.getElementById("uptimeGrid").innerHTML = `
+          <div class="card" style="grid-column: 1 / -1">
+            <div class="card-head"><span>MONITORED_NODES</span><span class="${stateTagClass}">${stateText}</span></div>
+            <div style="font-size:13px;font-weight:700;color:${stateColor}">${stateText}</div>
           </div>`;
-      }).join("");
+      } else {
+        document.getElementById("uptimeGrid").innerHTML = nodes.map(n => {
+          const hist = n.history && n.history.length ? n.history : [40, 42, 41];
+          const max = Math.max(...hist, 100);
+          const pts = hist.map((v, i) => `${(i / Math.max(hist.length - 1, 1)) * 220},${34 - (v / max) * 28}`).join(" ");
+          return `
+            <div class="card">
+              <div class="card-head"><span>${n.name}</span><span class="${n.state === "ONLINE" ? "tag" : "tag tag-danger"}">${n.state} (${n.status})</span></div>
+              <div style="font-size:15px;font-weight:700;color:var(--accent)">${n.uptime}% <span style="font-size:11px;color:var(--muted)">// ${n.latency} ms</span></div>
+              <div style="font-size:10px;color:var(--muted);margin:3px 0 6px;overflow:hidden;text-overflow:ellipsis">${n.url}</div>
+              <svg width="100%" height="36" viewBox="0 0 220 36" preserveAspectRatio="none">
+                <polyline fill="none" stroke="var(--accent)" stroke-width="2" points="${pts}" />
+              </svg>
+            </div>`;
+        }).join("");
+      }
 
       // Visits Table
-      document.getElementById("visitsTableBody").innerHTML = (STATE.telemetry.recent || []).slice(0, 8).map(v => `
-        <tr>
-          <td>${new Date(v.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</td>
-          <td>${v.path}</td>
-          <td>${formatDeviceBadge(v.device)}</td>
-          <td>${formatRegionBadge(v.region)}</td>
-        </tr>`).join("");
+      const recentVisits = (STATE.telemetry && STATE.telemetry.recent) ? STATE.telemetry.recent : [];
+      if (!recentVisits.length) {
+        document.getElementById("visitsTableBody").innerHTML = `
+          <tr>
+            <td colspan="4" style="text-align:center;font-weight:700;color:${stateColor};padding:10px">${stateText}</td>
+          </tr>`;
+      } else {
+        document.getElementById("visitsTableBody").innerHTML = recentVisits.slice(0, 8).map(v => `
+          <tr>
+            <td>${new Date(v.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</td>
+            <td>${v.path}</td>
+            <td>${formatDeviceBadge(v.device)}</td>
+            <td>${formatRegionBadge(v.region)}</td>
+          </tr>`).join("");
+      }
 
-      // Services Grid
+      // Services Grid (Static Practice Offerings)
       document.getElementById("servicesGrid").innerHTML = SERVICES_DATA.map(s => `
         <div class="card">
           <div class="card-head"><span>${s.code}</span><span class="tag">AVAILABLE</span></div>
@@ -1374,72 +1410,122 @@
         </div>`).join("");
 
       // Projects Grid
-      document.getElementById("projectsGrid").innerHTML = STATE.projects.map(p => `
-        <div class="card">
-          <div class="card-head"><span>${p.Category || "SYSTEM"} // ${p.Version || "v1.0"}</span><span class="tag">${p.Status || "ACTIVE"}</span></div>
-          <h3 style="margin:4px 0 6px;font-size:13px;color:var(--text)">${p.Title}</h3>
-          <p style="font-size:11px;color:var(--muted);margin:0 0 10px">${p.Description}</p>
-          <div style="display:flex;gap:6px;flex-wrap:wrap">
-            ${p["Live URL"] ? `<a class="s7-btn active-toggle" href="${p["Live URL"]}" target="_blank" rel="noopener">[live demo]</a>` : ""}
-            ${p["Source URL"] ? `<a class="s7-btn" href="${p["Source URL"]}" target="_blank" rel="noopener">[source code]</a>` : ""}
-          </div>
-        </div>`).join("");
+      const projectsList = STATE.projects || [];
+      if (!projectsList.length) {
+        document.getElementById("projectsGrid").innerHTML = `
+          <div class="card" style="grid-column: 1 / -1">
+            <div class="card-head"><span>PROJECTS</span><span class="${stateTagClass}">${stateText}</span></div>
+            <div style="font-size:13px;font-weight:700;color:${stateColor}">${stateText}</div>
+          </div>`;
+      } else {
+        document.getElementById("projectsGrid").innerHTML = projectsList.map(p => `
+          <div class="card">
+            <div class="card-head"><span>${p.Category || "SYSTEM"} // ${p.Version || "v1.0"}</span><span class="tag">${p.Status || "ACTIVE"}</span></div>
+            <h3 style="margin:4px 0 6px;font-size:13px;color:var(--text)">${p.Title}</h3>
+            <p style="font-size:11px;color:var(--muted);margin:0 0 10px">${p.Description}</p>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              ${p["Live URL"] ? `<a class="s7-btn active-toggle" href="${p["Live URL"]}" target="_blank" rel="noopener">[live demo]</a>` : ""}
+              ${p["Source URL"] ? `<a class="s7-btn" href="${p["Source URL"]}" target="_blank" rel="noopener">[source code]</a>` : ""}
+            </div>
+          </div>`).join("");
+      }
 
       // Downloads Grid
-      document.getElementById("downloadsGrid").innerHTML = STATE.downloads.map(d => `
-        <div class="card">
-          <div class="card-head"><span>${d.Platform}</span><span class="tag">${d.Count} DLs</span></div>
-          <h3 style="margin:4px 0 4px;font-size:12px;color:var(--accent)">${d.Title}</h3>
-          <div style="font-size:10px;color:var(--muted);margin-bottom:6px">VER: ${d.Version} // SIZE: ${d.Size}</div>
-          <div style="font-size:9px;color:var(--muted);word-break:break-all;margin-bottom:8px">SHA256: ${d["SHA-256"]}</div>
-          <button class="s7-btn active-toggle" onclick="triggerDownload('${d["File ID"]}', '${d["Download URL"]}')">[download package]</button>
-        </div>`).join("");
+      const downloadsList = STATE.downloads || [];
+      if (!downloadsList.length) {
+        document.getElementById("downloadsGrid").innerHTML = `
+          <div class="card" style="grid-column: 1 / -1">
+            <div class="card-head"><span>DOWNLOADS</span><span class="${stateTagClass}">${stateText}</span></div>
+            <div style="font-size:13px;font-weight:700;color:${stateColor}">${stateText}</div>
+          </div>`;
+      } else {
+        document.getElementById("downloadsGrid").innerHTML = downloadsList.map(d => `
+          <div class="card">
+            <div class="card-head"><span>${d.Platform}</span><span class="tag">${d.Count} DLs</span></div>
+            <h3 style="margin:4px 0 4px;font-size:12px;color:var(--accent)">${d.Title}</h3>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:6px">VER: ${d.Version} // SIZE: ${d.Size}</div>
+            <div style="font-size:9px;color:var(--muted);word-break:break-all;margin-bottom:8px">SHA256: ${d["SHA-256"]}</div>
+            <button class="s7-btn active-toggle" onclick="triggerDownload('${d["File ID"]}', '${d["Download URL"]}')">[download package]</button>
+          </div>`).join("");
+      }
 
       // Changelog Table
       const clRows = STATE.changelog || [];
       const clBadge = document.getElementById("changelogCountBadge");
-      if (clBadge) clBadge.textContent = `${clRows.length} RELEASES`;
       const clBody = document.getElementById("changelogTableBody");
-      if (clBody) {
-        clBody.innerHTML = clRows.map(c => {
-          const rawDate = c.Date || c.date || "";
-          const fmtDate = String(rawDate).slice(0, 10);
-          const ver = c.Version || c.version || "--";
-          const proj = c.Project || c.project || "H@N";
-          const sum = c.Summary || c.summary || "";
-          const tag = c.Tag || c.tag || "UPDATE";
-          return `
+      if (!clRows.length) {
+        if (clBadge) {
+          clBadge.textContent = stateText;
+          clBadge.className = stateTagClass;
+        }
+        if (clBody) {
+          clBody.innerHTML = `
             <tr>
-              <td style="color:var(--muted);white-space:nowrap">${fmtDate}</td>
-              <td style="color:var(--accent);font-weight:700;white-space:nowrap">${ver}</td>
-              <td style="font-weight:700;white-space:nowrap">${proj}</td>
-              <td>${sum}</td>
-              <td><span class="tag">${tag}</span></td>
+              <td colspan="5" style="text-align:center;font-weight:700;color:${stateColor};padding:10px">${stateText}</td>
             </tr>`;
-        }).join("");
+        }
+      } else {
+        if (clBadge) {
+          clBadge.textContent = `${clRows.length} RELEASES`;
+          clBadge.className = "tag";
+        }
+        if (clBody) {
+          clBody.innerHTML = clRows.map(c => {
+            const rawDate = c.Date || c.date || "";
+            const fmtDate = String(rawDate).slice(0, 10);
+            const ver = c.Version || c.version || "--";
+            const proj = c.Project || c.project || "H@N";
+            const sum = c.Summary || c.summary || "";
+            const tag = c.Tag || c.tag || "UPDATE";
+            return `
+              <tr>
+                <td style="color:var(--muted);white-space:nowrap">${fmtDate}</td>
+                <td style="color:var(--accent);font-weight:700;white-space:nowrap">${ver}</td>
+                <td style="font-weight:700;white-space:nowrap">${proj}</td>
+                <td>${sum}</td>
+                <td><span class="tag">${tag}</span></td>
+              </tr>`;
+          }).join("");
+        }
       }
 
       // Triage Table
-      document.getElementById("triageTableBody").innerHTML = STATE.triage.map(t => `
-        <tr>
-          <td>${t.id}</td>
-          <td>${t.project}</td>
-          <td>${t.severity}</td>
-          <td><span class="tag">${t.status}</span></td>
-        </tr>`).join("");
+      const triageList = STATE.triage || [];
+      if (!triageList.length) {
+        document.getElementById("triageTableBody").innerHTML = `
+          <tr>
+            <td colspan="4" style="text-align:center;font-weight:700;color:${stateColor};padding:10px">${stateText}</td>
+          </tr>`;
+      } else {
+        document.getElementById("triageTableBody").innerHTML = triageList.map(t => `
+          <tr>
+            <td>${t.id}</td>
+            <td>${t.project}</td>
+            <td>${t.severity}</td>
+            <td><span class="tag">${t.status}</span></td>
+          </tr>`).join("");
+      }
     }
 
     async function triggerLiveProbe() {
       setStatus("probing monitored endpoints...");
-      const res = await BACKEND_API.post({ action: "probe_now" });
-      if (res.uptime) STATE.uptime = res.uptime;
-      else STATE.uptime.forEach(n => {
-        n.latency = Math.max(20, n.latency + Math.floor(Math.random() * 11 - 5));
-        n.history.push(n.latency);
-        if (n.history.length > 16) n.history.shift();
-      });
-      renderAll();
-      setStatus("endpoint health probe complete.");
+      try {
+        const res = await BACKEND_API.post({ action: "probe_now" });
+        if (res && res.uptime && res.uptime.length) {
+          STATE.uptime = res.uptime;
+          SHEET_SYNC_STATUS = "READY";
+          renderAll();
+          setStatus("endpoint health probe complete.");
+          return;
+        }
+        throw new Error("Empty probe response");
+      } catch (_) {
+        if (!STATE.uptime || !STATE.uptime.length) {
+          SHEET_SYNC_STATUS = "ERROR";
+        }
+        renderAll();
+        setStatus("endpoint health probe failed.");
+      }
     }
 
     async function triggerDownload(fileId, url) {
@@ -2036,11 +2122,36 @@
     }
 
     async function loadOutageTelemetry(forceLive = false) {
+      const grid = document.getElementById("outageTelemetryGrid");
       const badge = document.getElementById("outageSummaryBadge");
-      if (badge) badge.textContent = "PROBING UPSTREAM...";
+      if (badge) {
+        badge.textContent = "... LOADING";
+        badge.className = "tag";
+      }
+      if (grid) {
+        grid.innerHTML = `
+          <div class="card" style="grid-column: 1 / -1">
+            <div class="card-head"><span>OUTAGE_TARGETS</span><span class="tag">... LOADING</span></div>
+            <div style="font-size:13px;font-weight:700;color:var(--accent)">... LOADING</div>
+          </div>`;
+      }
 
-      // 1. Pull dynamic targets list from HACKATNIGHT_BACKEND (Outage_Targets tab) if available
-      let activeTargets = UPSTREAM_STATUS_TARGETS.slice();
+      // 1. Try reading repo's automated outages.json first unless forced live refresh
+      if (!forceLive) {
+        try {
+          const res = await fetch("outages.json?t=" + Date.now());
+          if (res.ok) {
+            const data = await res.json();
+            if (data.services && data.services.length) {
+              renderOutageCards(data.services, data.summary || "SYNCED");
+              return;
+            }
+          }
+        } catch (_) {}
+      }
+
+      // 2. Pull dynamic targets list from HACKATNIGHT_BACKEND (Outage_Targets tab)
+      let activeTargets = [];
       if (BACKEND_API.isLive()) {
         try {
           const sheetRes = await BACKEND_API.get({ action: "outage_targets" });
@@ -2057,21 +2168,22 @@
         } catch (_) {}
       }
 
-      // 2. Try reading repo's automated outages.json first unless forced live refresh or custom sheet targets loaded
-      if (!forceLive && activeTargets.length === UPSTREAM_STATUS_TARGETS.length) {
-        try {
-          const res = await fetch("outages.json?t=" + Date.now());
-          if (res.ok) {
-            const data = await res.json();
-            if (data.services && data.services.length) {
-              renderOutageCards(data.services, data.summary || "SYNCED");
-              return;
-            }
-          }
-        } catch (_) {}
+      if (!activeTargets.length) {
+        if (badge) {
+          badge.textContent = "FAILED TO FETCH";
+          badge.className = "tag tag-danger";
+        }
+        if (grid) {
+          grid.innerHTML = `
+            <div class="card" style="grid-column: 1 / -1">
+              <div class="card-head"><span>OUTAGE_TARGETS</span><span class="tag tag-danger">FAILED TO FETCH</span></div>
+              <div style="font-size:13px;font-weight:700;color:var(--danger)">FAILED TO FETCH</div>
+            </div>`;
+        }
+        return;
       }
 
-      // 3. Probe all enabled targets from Outage_Targets tab (or default list)
+      // 3. Probe all enabled targets from Outage_Targets tab
       const results = await Promise.all(activeTargets.map(async t => {
         const t0 = performance.now();
         const ctype = (t.type || "statuspage").toLowerCase();
@@ -2092,7 +2204,7 @@
             return { id: t.id, name: t.name, url: t.apiUrl, http_status: 200, latency_ms: lat, state: "ONLINE", detail: "Edge Reachable (200 OK)" };
           }
         } catch (_) {}
-        return { id: t.id, name: t.name, url: t.apiUrl, http_status: 200, latency_ms: 42, state: "ONLINE", detail: "All Systems Operational" };
+        return { id: t.id, name: t.name, url: t.apiUrl, http_status: 0, latency_ms: "--", state: "OFFLINE", detail: "FAILED TO FETCH" };
       }));
 
       const onlineCount = results.filter(r => r.state === "ONLINE").length;
@@ -2113,15 +2225,16 @@
       loadOutageTelemetry();
 
       if (BACKEND_API.isLive()) {
+        setStatus("loading telemetry from HACKATNIGHT_BACKEND...", "... loading");
         try {
           const data = await BACKEND_API.get({ action: "bootstrap" });
-          if (data.status === "ok") {
-            if (data.uptime && data.uptime.length) STATE.uptime = data.uptime;
+          if (data && data.status === "ok") {
+            STATE.uptime = Array.isArray(data.uptime) ? data.uptime : [];
             if (data.telemetry) STATE.telemetry = data.telemetry;
-            if (data.projects && data.projects.length) STATE.projects = data.projects;
-            if (data.changelog && data.changelog.length) {
+            STATE.projects = Array.isArray(data.projects) ? data.projects : [];
+            if (Array.isArray(data.changelog)) {
               const sheetVers = new Set(data.changelog.map(r => String(r.Version || r.version || "").trim()));
-              const missingLocal = FALLBACK_DATA.changelog.filter(loc => !sheetVers.has(String(loc.Version).trim()));
+              const missingLocal = LOCAL_RELEASES_MANIFEST.filter(loc => !sheetVers.has(String(loc.Version).trim()));
               STATE.changelog = [...missingLocal, ...data.changelog];
               // Automatically push any brand-new local release entry into the Google Sheet Changelog tab if missing
               missingLocal.slice().reverse().forEach(entry => {
@@ -2135,17 +2248,24 @@
                 }).catch(() => {});
               });
             }
-            if (data.downloads && data.downloads.length) STATE.downloads = data.downloads;
-            if (data.triage && data.triage.length) STATE.triage = data.triage;
-            setStatus("live workspace telemetry synchronized.");
+            STATE.downloads = Array.isArray(data.downloads) ? data.downloads : [];
+            STATE.triage = Array.isArray(data.triage) ? data.triage : [];
+            SHEET_SYNC_STATUS = "READY";
+            setStatus("live workspace telemetry synchronized.", "- online -");
+          } else {
+            throw new Error((data && data.message) || "Invalid bootstrap payload");
           }
         } catch (e) {
-          setStatus("offline/fallback mode active.");
+          SHEET_SYNC_STATUS = "ERROR";
+          setStatus("FAILED TO FETCH telemetry from HACKATNIGHT_BACKEND.", "- fetch err -");
         }
+      } else {
+        SHEET_SYNC_STATUS = "ERROR";
+        setStatus("FAILED TO FETCH // backend URL not configured.", "- offline -");
       }
 
-      // Silently merge public repositories for hackatnight
-      try {
+      // Silently merge public repositories for hackatnight once backend projects have loaded
+      if (SHEET_SYNC_STATUS === "READY") try {
         const ghRes = await fetch(`https://api.github.com/users/${SITE_CONFIG.PUBLIC_USER}/repos?sort=updated&per_page=6`);
         if (ghRes.ok) {
           const repos = await ghRes.json();
