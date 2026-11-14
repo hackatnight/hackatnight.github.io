@@ -202,7 +202,7 @@
   },
   "cloudflare": {
     "enabled": true,
-    "fetched": "2026-11-14T20:37:11Z",
+    "fetched": "2026-11-14T20:40:16Z",
     "window": "24h",
     "attribution": "Cloudflare Radar, https://radar.cloudflare.com",
     "layer3": [
@@ -563,54 +563,54 @@
       {
         "asn": "8075",
         "name": "Microsoft Corporation",
-        "value": 4.586
+        "value": 4.616
       },
       {
         "asn": "396982",
         "name": "Google LLC",
-        "value": 3.706
+        "value": 3.716
       },
       {
         "asn": "16509",
         "name": "Amazon.com, Inc.",
-        "value": 2.817
+        "value": 2.824
       },
       {
         "asn": "4134",
         "name": "CHINANET BACKBONE",
-        "value": 2.218
+        "value": 2.19
       },
       {
         "asn": "14061",
         "name": "DigitalOcean, LLC",
-        "value": 1.61
+        "value": 1.602
       },
       {
         "asn": "4837",
         "name": "CHINA UNICOM China169 Backbone",
-        "value": 1.594
+        "value": 1.58
       },
       {
         "asn": "14618",
         "name": "Amazon.com, Inc.",
-        "value": 1.55
+        "value": 1.551
       },
       {
         "asn": "45102",
         "name": "Alibaba (US) Technology Co., Ltd.",
-        "value": 1.412
+        "value": 1.41
       },
       {
         "asn": "24940",
         "name": "Hetzner Online GmbH",
-        "value": 1.404
+        "value": 1.401
       },
       {
         "asn": "4766",
         "name": "Korea Telecom",
-        "value": 1.148
+        "value": 1.132
       }
     ]
   },
-  "updated": "2026-11-14T20:37:12Z"
+  "updated": "2026-11-14T20:40:17Z"
 }
