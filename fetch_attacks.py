@@ -70,6 +70,40 @@ def parse_dshield(text):
     return nets[:20]
 
 
+def geolocate_networks(nets, prev_nets):
+    """Adds city/state/company to each DShield /24 by looking up its first host IP (ipwho.is, no key).
+    Results are reused from the previous run for the same network, so each block is looked up once."""
+    cache = {n.get("network"): n.get("geo") for n in (prev_nets or []) if n.get("geo")}
+    for n in nets:
+        if n.get("geo"):
+            continue
+        if cache.get(n["network"]):
+            n["geo"] = cache[n["network"]]
+            continue
+        try:
+            base = n["network"].split("/")[0].split(".")
+            ip = ".".join(base[:3] + [str(int(base[3]) + 1)])
+            fields = "success,city,region,country_code,latitude,longitude,connection"
+            j = json.loads(http_get(f"https://ipwho.is/{ip}?fields={fields}", timeout=10))
+            if not j.get("success"):
+                continue
+            conn = j.get("connection") or {}
+            n["geo"] = {
+                "city": str(j.get("city") or "")[:40],
+                "region": str(j.get("region") or "")[:40],
+                "countryCode": str(j.get("country_code") or "")[:2],
+                "lat": round(float(j.get("latitude") or 0), 3),
+                "lon": round(float(j.get("longitude") or 0), 3),
+                "org": str(conn.get("org") or conn.get("isp") or "")[:60],
+                "asn": conn.get("asn") or "",
+            }
+        except Exception as e:
+            print(f"[attacks] geo lookup skipped for {n.get('network')}: {e}")
+    located = sum(1 for n in nets if n.get("geo"))
+    print(f"[attacks] DShield: {located}/{len(nets)} networks located to city level")
+    return nets
+
+
 def fetch_dshield(previous):
     local = os.environ.get("ATTACK_DSHIELD_FILE")
     prev = (previous or {}).get("dshield") or {}
@@ -78,6 +112,8 @@ def fetch_dshield(previous):
         try:
             if last and now_utc() - datetime.strptime(last, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < DSHIELD_MIN_AGE:
                 print("[attacks] DShield: fetched less than an hour ago, reusing")
+                if prev.get("networks") and not all(n.get("geo") for n in prev["networks"]):
+                    prev = dict(prev, networks=geolocate_networks([dict(n) for n in prev["networks"]], prev["networks"]))
                 return prev
         except ValueError:
             pass
@@ -91,6 +127,7 @@ def fetch_dshield(previous):
         if not nets:
             raise ValueError("no rows parsed")
         print(f"[attacks] DShield: {len(nets)} networks")
+        nets = geolocate_networks(nets, prev.get("networks"))
         return {
             "fetched": iso(now_utc()),
             "networks": nets,
@@ -150,6 +187,17 @@ def fetch_cloudflare(previous):
             # Never print the token; only the error text
             print(f"[attacks] Cloudflare {layer} failed: {e}; keeping previous data")
             out[layer] = prev.get(layer, [])
+    # Companies/networks behind the most web (layer 7) attacks; Radar gives names, not locations or targets
+    try:
+        payload = json.loads(http_get(CF_BASE + "layer7/top/ases/origin?limit=10&dateRange=1d&format=json",
+                                      headers={"Authorization": f"Bearer {token}"}))
+        rows = ((payload.get("result") or {}).get("top_0")) or []
+        out["topAses"] = [{"asn": str(r.get("originAsn", ""))[:12], "name": str(r.get("originAsnName", ""))[:60],
+                           "value": round(float(r.get("value", 0) or 0), 3)} for r in rows][:10]
+        print(f"[attacks] Cloudflare top attacking networks: {len(out['topAses'])}")
+    except Exception as e:
+        print(f"[attacks] Cloudflare top ASes failed: {e}; keeping previous data")
+        out["topAses"] = prev.get("topAses", [])
     return out
 
 

@@ -728,7 +728,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.11.2]</span>
+        <span id="titleVersionBadge">[v.2.12.0]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -771,7 +771,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.11.2</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.12.0</span></div>
         </div>
       </aside>
 
@@ -1088,7 +1088,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.11.2]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.12.0]</div>
     </div>
   </div>
 
@@ -1115,7 +1115,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.11.2",
+      APP_VERSION: "v.2.12.0",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1178,6 +1178,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.12.0", Project: "H@N UI / Attack map", Summary: "Attack map goes below country level: DShield scanning networks are pinned at their city/state with the company name, and the legend lists the companies behind the most web attacks (Cloudflare Radar top origin networks).", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.11.2", Project: "H@N UI / Globe", Summary: "Pause/play button for the globe rotation; dragging the globe now moves the surface with the cursor (horizontal drag was reversed).", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.11.1", Project: "H@N UI / Globe", Summary: "US state borders on the globe and flat map: hover names the state, postal codes appear when zoomed in.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.11.0", Project: "H@N Telemetry", Summary: "FEAT-107: each visit now records client diagnostics in the private Visits Log (browser/OS, screen, cores/memory, connection, page timings, download speed from the map file, backend round-trip). Passive only, no extra downloads; skipped when Do Not Track / GPC is on.", Tag: "🟢 FEAT" },
@@ -2244,7 +2245,13 @@
       const parts = [];
       if (cfOn) parts.push(`<span class="lg-arc">━▶ origin → target (${layerName}, last 24h)</span> // source: Cloudflare Radar`);
       if (ATTACK_STATE.dshield && (ATTACK_STATE.dshield.networks || []).length) {
-        parts.push(`<span class="lg-src">◆ top scanning sources</span> // source: SANS ISC DShield (isc.sans.edu)`);
+        parts.push(`<span class="lg-src">◆ top scanning networks (city level)</span> // source: SANS ISC DShield (isc.sans.edu)`);
+      }
+      // Companies behind the most web attacks (Cloudflare gives names only, no location)
+      const ases = (ATTACK_STATE.cf && Array.isArray(ATTACK_STATE.cf.topAses)) ? ATTACK_STATE.cf.topAses.slice(0, 5) : [];
+      if (cfOn && ases.length) {
+        parts.push(`<span class="lg-arc">top web-attack networks (24h):</span> ` +
+          ases.map((a, i) => `${i + 1}. ${esc(String(a.name || "AS" + a.asn).slice(0, 22))} ${Number(a.value).toFixed(1)}%`).join(" · "));
       }
       el.innerHTML = parts.length ? "ATTACK MAP<br/>" + parts.join("<br/>") : "ATTACK MAP // no data yet";
     }
@@ -2786,32 +2793,53 @@
         // Attack map layer: Cloudflare Radar origin -> target arcs + DShield top scanning sources
         if (GLOBE_STATE.attackLayer !== "off" && ATTACK_STATE.loaded) {
           ctx.save();
-          // DShield: one marker per country, sized by targets scanned
+          // DShield: one marker per attacking network at its city (geolocated /24 block), sized by targets scanned.
+          // Networks without a location fall back to one marker per country.
           const ds = (ATTACK_STATE.dshield && ATTACK_STATE.dshield.networks) || [];
+          const dsMax = Math.max(1, ...ds.map(n => Number(n.targets) || 0));
+          const markers = [];
           const byCc = {};
           ds.forEach(n => {
+            const g = n.geo;
+            const targets = Number(n.targets) || 0;
+            if (g && (g.lat || g.lon)) {
+              const place = [g.city, g.region && g.region !== g.city ? g.region : "", g.countryCode].filter(Boolean).join(", ");
+              markers.push({
+                lat: g.lat, lon: g.lon, size: 3 + 5 * Math.sqrt(targets / dsMax),
+                label: String(n.name || g.org || "?").slice(0, 18),
+                info: `SCANNING SOURCE // ${String(g.org || n.name || "?").slice(0, 40)} (${n.network}) // ${place} // ${targets.toLocaleString()} targets scanned (SANS ISC DShield)`
+              });
+              return;
+            }
             const cc = String(n.country || "").toUpperCase();
             if (!COUNTRY_CENTERS[cc]) return;
             if (!byCc[cc]) byCc[cc] = { total: 0, names: [] };
-            byCc[cc].total += Number(n.targets) || 0;
+            byCc[cc].total += targets;
             byCc[cc].names.push(`${String(n.name || "?").slice(0, 28)} (${n.network})`);
           });
-          const dsMax = Math.max(1, ...Object.values(byCc).map(v => v.total));
           Object.keys(byCc).forEach(cc => {
             const c = COUNTRY_CENTERS[cc];
-            const p = projectPoint(c[0] + 1.5, c[1] + 2.5, cx, cy, R);  // nudged so it doesn't sit on top of visitor pins
+            markers.push({
+              lat: c[0] + 1.5, lon: c[1] + 2.5, size: 3 + 5 * Math.sqrt(byCc[cc].total / dsMax), label: "",
+              info: `TOP SCANNING SOURCE // ${cc} // ${byCc[cc].total.toLocaleString()} targets scanned // ${byCc[cc].names.slice(0, 2).join(", ")} (SANS ISC DShield)`
+            });
+          });
+          markers.forEach(m => {
+            const p = projectPoint(m.lat, m.lon, cx, cy, R);
             if (!p.visible) return;
-            const size = 3 + 5 * Math.sqrt(byCc[cc].total / dsMax);
-            const pulse = 0.5 + 0.5 * Math.sin(nowMs / 420 + c[1]);
+            const pulse = 0.5 + 0.5 * Math.sin(nowMs / 420 + m.lon);
+            const size = m.size;
             ctx.fillStyle = `rgba(224, 92, 255, ${0.55 + 0.35 * pulse})`;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y - size); ctx.lineTo(p.x + size, p.y); ctx.lineTo(p.x, p.y + size); ctx.lineTo(p.x - size, p.y);
             ctx.closePath();
             ctx.fill();
-            hoverTargets.push({
-              x: p.x, y: p.y,
-              info: `TOP SCANNING SOURCE // ${cc} // ${byCc[cc].total.toLocaleString()} targets scanned // ${byCc[cc].names.slice(0, 2).join(", ")} (SANS ISC DShield)`
-            });
+            if (m.label && GLOBE_STATE.zoom >= 1.8) {
+              ctx.font = "8px monospace";
+              ctx.fillStyle = "rgba(230, 160, 255, 0.85)";
+              ctx.fillText(m.label, p.x + size + 3, p.y + 3);
+            }
+            hoverTargets.push({ x: p.x, y: p.y, info: m.info });
           });
 
           // Cloudflare Radar arcs for the selected layer
