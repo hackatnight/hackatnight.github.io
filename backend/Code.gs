@@ -16,6 +16,9 @@ const CONFIG = {
   SITE_NAME: "HACKATNIGHT",
   SITE_URL: "https://hackatnight.com",
   MAX_UPLOAD_BYTES: 25 * 1024 * 1024,
+  MAX_VAULT_SERVE_BYTES: 20 * 1024 * 1024,
+  VAULT_ALLOWED_EXT: ["zip", "bin", "log", "txt", "pdf", "png", "jpg", "jpeg"],
+  VAULT_DAILY_BYTES: 100 * 1024 * 1024,   // total upload budget per day across all visitors // vault releases are streamed through the script, so Drive files can stay private
   GITHUB_USER: "hackatnight",
   MAX_VISIT_ROWS: 500,        // Visits Log keeps the newest 500; older rows move to Visits_Archive
   MAX_STATUS_ROWS: 3000,      // Status_Log keeps the newest 3000; older rows move to Status_Log_Archive
@@ -31,7 +34,8 @@ const CONFIG = {
     vault_upload: [5, 300],
     status_sync: [6, 600],
     changelog_sync: [20, 3600],
-    project_sync: [10, 3600]
+    project_sync: [10, 3600],
+    unlock_key: [20, 300]
   },
   CHANGELOG_TAGS: ["🟢 FEAT", "🟢 RELEASE", "🟠 FIX", "🟣 INFRA", "🔵 UPDATE", "🟠 FIRMWARE"],
   // IP geolocation for the Visits Log. Set to false to switch it off instantly; visits still log normally.
@@ -106,7 +110,7 @@ function geoLookup(ip) {
 function geoRow(geo) {
   if (!geo) return ["", "", "", "", "", ""];                              // lookup failed: leave blank, backfill retries later
   if (geo.unknown) return ["", "", "Unknown", "--", "", ""];              // private/invalid IP: mark so it isn't retried
-  return [geo.city, geo.region, geo.country, geo.countryCode, geo.lat, geo.lon];
+  return [sheetSafe(geo.city), sheetSafe(geo.region), sheetSafe(geo.country), sheetSafe(geo.countryCode), geo.lat, geo.lon];
 }
 
 // Adds the geo headers to J1:O1 of a log sheet if they are missing. Never touches columns A-I.
@@ -140,6 +144,17 @@ function backfillVisitGeo() {
 }
 
 /* ---------- Abuse protection helpers ---------- */
+/* ---------- Sheet formula-injection guard ----------
+ * Google Sheets runs any written text that starts with = + - @ (or a tab/CR before one) as a formula.
+ * Every visitor-supplied string goes through sheetSafe() before it is written, so it is always stored as text.
+ */
+function sheetSafe(val) {
+  if (val === null || val === undefined) return "";
+  if (typeof val !== "string") return val;
+  const trimmed = val.replace(/^[\s\u0000-\u001f]+/, "");
+  return /^[=+\-@]/.test(trimmed) ? "'" + trimmed : val;
+}
+
 function isRateLimited(action) {
   const rule = CONFIG.RATE_LIMITS[action];
   if (!rule) return false;
@@ -296,6 +311,13 @@ function setupSheets() {
   }
 }
 
+// Logs the full error for the owner (Apps Script > Executions) and gives callers only a reference code
+function publicError(err) {
+  const ref = Utilities.getUuid().slice(0, 8).toUpperCase();
+  console.error("[" + ref + "] " + (err && err.stack ? err.stack : err));
+  return { status: "error", message: "Backend error (ref " + ref + ")" };
+}
+
 function doGet(e) {
   const action = (e && e.parameter && e.parameter.action) ? e.parameter.action : "bootstrap";
   try {
@@ -319,12 +341,12 @@ function doGet(e) {
       });
     }
     if (action === "unlock_key") {
-      const key = (e.parameter.key || "").trim();
-      return jsonOut(validateAndRedeemKey(key));
+      // Keys are only accepted by POST so they never land in URLs or browser history
+      return jsonOut({ status: "error", message: "unlock_key must be sent as POST" });
     }
     return jsonOut({ status: "error", message: "Unknown GET action" });
   } catch (err) {
-    return jsonOut({ status: "error", message: err.toString() });
+    return jsonOut(publicError(err));
   }
 }
 
@@ -350,6 +372,8 @@ function doPost(e) {
         return jsonOut(createBugTriage(body));
       case "vault_upload":
         return jsonOut(handleVaultUpload(body));
+      case "unlock_key":
+        return jsonOut(validateAndRedeemKey(String(body.key || "").trim()));
       case "probe_now": {
         // Only run a real probe if none ran recently; otherwise return the latest results
         const cache = CacheService.getScriptCache();
@@ -370,7 +394,7 @@ function doPost(e) {
         return jsonOut({ status: "error", message: "Unknown POST action: " + action });
     }
   } catch (err) {
-    return jsonOut({ status: "error", message: err.toString() });
+    return jsonOut(publicError(err));
   }
 }
 
@@ -428,12 +452,12 @@ function syncProjectEntry(d) {
   const rowRange = sheet.getRange(nextRow, 1, 1, 9);
   rowRange.setValues([[
     projId,
-    d.title || "Untitled Project",
-    d.category || "CODE",
+    sheetSafe(d.title || "Untitled Project"),
+    sheetSafe(d.category || "CODE"),
     d.status || "PUBLIC_REPO",
     d.version || "HEAD",
-    d.description || "Public engineering repository maintained by hackatnight.",
-    d.liveUrl || "",
+    sheetSafe(d.description || "Public engineering repository maintained by hackatnight."),
+    sheetSafe(d.liveUrl || ""),
     d.sourceUrl || "https://github.com/hackatnight",
     d.updatedDate || new Date().toISOString().slice(0, 10)
   ]]);
@@ -485,10 +509,10 @@ function insertChangelogRow(sheet, d) {
   sheet.insertRowBefore(2);
   const rowRange = sheet.getRange(2, 1, 1, 5);
   rowRange.setValues([[
-    d.date || new Date().toISOString().slice(0, 10),
-    d.version || "v.2.5.1",
-    d.project || "H@N Core",
-    d.summary || "Repository push update",
+    sheetSafe(String(d.date || new Date().toISOString().slice(0, 10))),
+    sheetSafe(String(d.version || "v.2.5.1")),
+    sheetSafe(d.project || "H@N Core"),
+    sheetSafe(d.summary || "Repository push update"),
     d.tag || "🔵 UPDATE"
   ]]);
 
@@ -560,7 +584,7 @@ function syncOutageStatus(d) {
     statusRows.push([
       now,
       node.id,
-      String(node.name || "").slice(0, 80),
+      sheetSafe(String(node.name || "").slice(0, 80)),
       Number(node.http_status) || 0,
       Number(node.latency_ms) || 0,
       node.state
@@ -595,7 +619,7 @@ function logVisit(d) {
   // Columns A-I (unchanged): Timestamp, IP Address, Country / Region (browser timezone), Page Path, Device Type,
   //   Referrer, Page Title, Session ID, Browser / User Agent
   // Columns J-O (geo): City, Region, Country, Country Code, Latitude, Longitude
-  const s = v => String(v || "").slice(0, 500);
+  const s = v => sheetSafe(String(v || "").slice(0, 500));
   sheet.insertRowBefore(2);
   const width = CONFIG.GEO_LOOKUP ? 15 : 9;
   const row = [
@@ -644,12 +668,12 @@ function createSupportTicket(d) {
   sheet.appendRow([
     now,
     ticketId,
-    d.name || "Anonymous",
-    d.email || "",
-    d.serviceTier || "General IT Support",
-    d.urgency || "STANDARD",
-    d.hardware || "Not specified",
-    d.description || "",
+    sheetSafe(d.name || "Anonymous"),
+    sheetSafe(d.email || ""),
+    sheetSafe(d.serviceTier || "General IT Support"),
+    sheetSafe(d.urgency || "STANDARD"),
+    sheetSafe(d.hardware || "Not specified"),
+    sheetSafe(d.description || ""),
     "NEW"
   ]);
 
@@ -676,12 +700,12 @@ function createCommsMessage(d) {
   const now = new Date();
   sheet.appendRow([
     now,
-    d.handle || "Operator",
-    d.email || "",
-    d.subject || "Direct Transmission",
-    d.checksum || "",
-    d.message || "",
-    d.ipAddress || "Unknown"
+    sheetSafe(d.handle || "Operator"),
+    sheetSafe(d.email || ""),
+    sheetSafe(d.subject || "Direct Transmission"),
+    sheetSafe(d.checksum || ""),
+    sheetSafe(d.message || ""),
+    sheetSafe(d.ipAddress || "Unknown")
   ]);
 
   sendFormattedAlert(
@@ -707,11 +731,11 @@ function createBugTriage(d) {
   sheet.appendRow([
     now,
     issueId,
-    d.project || "General",
-    d.severity || "LOW",
-    d.reporter || "Anonymous",
-    d.summary || "",
-    d.environment || "",
+    sheetSafe(d.project || "General"),
+    sheetSafe(d.severity || "LOW"),
+    sheetSafe(d.reporter || "Anonymous"),
+    sheetSafe(d.summary || ""),
+    sheetSafe(d.environment || ""),
     "NEW"
   ]);
 
@@ -736,10 +760,30 @@ function handleVaultUpload(d) {
   if (!d.base64Data || !d.fileName) {
     return { status: "error", message: "Missing file payload" };
   }
+  // File type allowlist (by extension)
+  const fileName = String(d.fileName).replace(/[\\/:*?"<>|\u0000-\u001f]/g, "_").slice(0, 120);
+  const ext = (fileName.match(/\.([A-Za-z0-9]+)$/) || [])[1];
+  if (!ext || CONFIG.VAULT_ALLOWED_EXT.indexOf(ext.toLowerCase()) === -1) {
+    return { status: "error", message: "File type not allowed (use ." + CONFIG.VAULT_ALLOWED_EXT.join(" .") + ")" };
+  }
+  // Size check before decoding: base64 is about 4/3 the size of the file
+  const approxBytes = Math.floor(String(d.base64Data).length * 3 / 4);
+  if (approxBytes > CONFIG.MAX_UPLOAD_BYTES) {
+    return { status: "error", message: "File exceeds 25 MB limit" };
+  }
+  // Daily total cap so a bot can't slowly fill Drive
+  const props = PropertiesService.getScriptProperties();
+  const dayKey = "vault_bytes_" + Utilities.formatDate(new Date(), "UTC", "yyyyMMdd");
+  const usedToday = Number(props.getProperty(dayKey) || 0);
+  if (usedToday + approxBytes > CONFIG.VAULT_DAILY_BYTES) {
+    return { status: "error", message: "Vault upload limit reached for today, please try again tomorrow" };
+  }
   const bytes = Utilities.base64Decode(d.base64Data);
   if (bytes.length > CONFIG.MAX_UPLOAD_BYTES) {
     return { status: "error", message: "File exceeds 25 MB limit" };
   }
+  props.setProperty(dayKey, String(usedToday + bytes.length));
+  d.fileName = fileName;
 
   const rootIter = DriveApp.getFoldersByName(CONFIG.VAULT_FOLDER_NAME);
   const rootFolder = rootIter.hasNext() ? rootIter.next() : DriveApp.createFolder(CONFIG.VAULT_FOLDER_NAME);
@@ -757,12 +801,12 @@ function handleVaultUpload(d) {
   sheet.appendRow([
     now,
     safeTicket,
-    d.clientEmail || "Not provided",
-    d.fileName,
+    sheetSafe(d.clientEmail || "Not provided"),
+    sheetSafe(String(d.fileName)),
     (bytes.length / 1024).toFixed(2),
-    d.sha256 || "",
+    sheetSafe(d.sha256 || ""),
     fileUrl,
-    d.notes || ""
+    sheetSafe(d.notes || "")
   ]);
 
   sendFormattedAlert(
@@ -782,16 +826,29 @@ function handleVaultUpload(d) {
   return { status: "ok", fileName: d.fileName, ticketId: safeTicket, size: bytes.length };
 }
 
+// Wrong-key lockout. Apps Script can't see the caller's IP, so this is site-wide:
+// after VAULT_MAX_FAILS wrong keys, all key checks pause for VAULT_LOCK_SEC.
+const VAULT_MAX_FAILS = 5;
+const VAULT_LOCK_SEC = 900;
+
 function validateAndRedeemKey(key) {
   if (!key) return { status: "denied", message: "ACCESS_DENIED: Empty key" };
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Client_Keys");
-  const rows = sheet.getDataRange().getValues();
-  const now = new Date();
+  const cache = CacheService.getScriptCache();
+  const fails = Number(cache.get("vault_fail") || 0);
+  if (fails >= VAULT_MAX_FAILS) {
+    return { status: "denied", message: "ACCESS_DENIED: Too many wrong keys. Vault locked for 15 minutes." };
+  }
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(10000)) return { status: "error", message: "Vault busy, try again" };
+  try {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Client_Keys");
+    const rows = sheet.getDataRange().getValues();
+    const now = new Date();
 
-  for (let i = 1; i < rows.length; i++) {
-    if (String(rows[i][0]).trim().toUpperCase() === key.toUpperCase()) {
+    for (let i = 1; i < rows.length; i++) {
+      if (String(rows[i][0]).trim().toUpperCase() !== key.toUpperCase()) continue;
       const title = rows[i][1];
-      const fileName = rows[i][2];
+      const fileName = String(rows[i][2] || "release.bin");
       const driveFileId = String(rows[i][3]).trim();
       const expiresAt = rows[i][4] ? new Date(rows[i][4]) : null;
       const remaining = Number(rows[i][5]) || 0;
@@ -802,23 +859,37 @@ function validateAndRedeemKey(key) {
       if (remaining <= 0) {
         return { status: "denied", message: "ACCESS_DENIED: Download quota exhausted" };
       }
-
-      sheet.getRange(i + 1, 6).setValue(remaining - 1);
-      let downloadUrl = "";
-      if (driveFileId) {
-        downloadUrl = "https://drive.google.com/uc?export=download&id=" + encodeURIComponent(driveFileId);
+      if (!driveFileId) {
+        return { status: "error", message: "VAULT_ERROR: No file is attached to this key" };
       }
 
+      // Read the private Drive file before spending a download, so a broken file never costs one
+      let blob;
+      try {
+        const file = DriveApp.getFileById(driveFileId);
+        if (file.getSize() > CONFIG.MAX_VAULT_SERVE_BYTES) {
+          return { status: "error", message: "VAULT_ERROR: File is too large to serve from the vault" };
+        }
+        blob = file.getBlob();
+      } catch (err) {
+        return { status: "error", message: "VAULT_ERROR: Release file unavailable" };
+      }
+
+      sheet.getRange(i + 1, 6).setValue(remaining - 1);
       return {
         status: "ok",
         title: title,
         fileName: fileName,
         remaining: remaining - 1,
-        downloadUrl: downloadUrl
+        mimeType: blob.getContentType() || "application/octet-stream",
+        base64Data: Utilities.base64Encode(blob.getBytes())
       };
     }
+    cache.put("vault_fail", String(fails + 1), VAULT_LOCK_SEC);
+    return { status: "denied", message: "ACCESS_DENIED: Invalid release key" };
+  } finally {
+    lock.releaseLock();
   }
-  return { status: "denied", message: "ACCESS_DENIED: Invalid release key" };
 }
 
 function runHealthChecks() {
@@ -1092,4 +1163,29 @@ function jsonOut(obj) {
   return ContentService
     .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+
+/* ---------- Sheet menu: H@N Tools ---------- */
+function onOpen() {
+  SpreadsheetApp.getUi()
+    .createMenu("H@N Tools")
+    .addItem("Generate vault key", "generateVaultKey")
+    .addToUi();
+}
+
+// Makes a random, hard-to-guess vault key (HACK-XXXX-XXXX-XXXX, 48 bits) and adds a Client_Keys row for it.
+// Fill in the Release Title, File Name, Drive File ID and Issued To afterwards.
+function newVaultKey() {
+  const hex = Utilities.getUuid().replace(/-/g, "").toUpperCase();
+  return "HACK-" + hex.slice(0, 4) + "-" + hex.slice(4, 8) + "-" + hex.slice(8, 12);
+}
+
+function generateVaultKey() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Client_Keys");
+  const key = newVaultKey();
+  const expires = new Date();
+  expires.setFullYear(expires.getFullYear() + 1);
+  sheet.appendRow([key, "", "", "", Utilities.formatDate(expires, Session.getScriptTimeZone(), "yyyy-MM-dd"), 5, ""]);
+  SpreadsheetApp.getUi().alert("New vault key added to Client_Keys:\n\n" + key + "\n\nFill in the release title, file name, Drive File ID and who it's issued to.");
 }
