@@ -728,7 +728,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.10.0]</span>
+        <span id="titleVersionBadge">[v.2.10.1]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -771,7 +771,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.10.0</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.10.1</span></div>
         </div>
       </aside>
 
@@ -846,7 +846,7 @@
               </div>
               <div style="display:flex;gap:6px;flex-wrap:wrap">
                 <button class="s7-btn active-toggle" onclick="switchTab('services')">it services -&gt;</button>
-                <button class="s7-btn" onclick="switchTab('support')">open ticket</button>
+                <button class="s7-btn" onclick="openSupportTicket()">open ticket</button>
               </div>
             </div>
 
@@ -901,9 +901,53 @@
                 <h1>PRIVATE IT SERVICES // HACKATNIGHT</h1>
                 <p>Direct technical consulting, network security architecture, private NAS storage, and custom hardware/firmware engineering.</p>
               </div>
-              <button class="s7-btn active-toggle" onclick="switchTab('support')">dispatch support ticket -&gt;</button>
+              <button class="s7-btn active-toggle" onclick="openSupportTicket()">dispatch support ticket -&gt;</button>
             </div>
             <div class="grid-2" id="servicesGrid"></div>
+
+            <!-- IT SUPPORT TICKET (moved here from its own tab) -->
+            <div class="card" id="supportTicketBox" style="max-width:740px;margin:10px auto 0;scroll-margin-top:10px">
+              <div class="card-head"><span>IT SUPPORT DISPATCH INTAKE</span><span class="xray-pill">POST support -&gt; IT_Support_Queue + Email</span></div>
+              <p style="font-size:11px;color:var(--muted);margin-top:0">Submit a technical support request below. A tracking ID is generated immediately and dispatched directly to <strong>gr33n</strong>.</p>
+              <div class="grid-2" style="margin-bottom:0">
+                <div>
+                  <label>NAME / ORGANIZATION</label>
+                  <input id="supName" placeholder="Your name or business" />
+                </div>
+                <div>
+                  <label>EMAIL ADDRESS</label>
+                  <input id="supEmail" type="email" placeholder="you@domain.com" />
+                </div>
+              </div>
+              <div class="grid-2" style="margin-bottom:0">
+                <div>
+                  <label>SERVICE CATEGORY</label>
+                  <select id="supTier">
+                    <option>Network &amp; Security Hardening</option>
+                    <option>Private Cloud &amp; NAS Architecture</option>
+                    <option>System Diagnostics &amp; Recovery</option>
+                    <option>Custom Embedded &amp; Firmware Builds</option>
+                    <option>General IT Consultation</option>
+                  </select>
+                </div>
+                <div>
+                  <label>PRIORITY LEVEL</label>
+                  <select id="supUrgency">
+                    <option value="STANDARD">STANDARD (24-48h)</option>
+                    <option value="PRIORITY">PRIORITY (Same-Day)</option>
+                    <option value="CRITICAL">CRITICAL (System Down)</option>
+                  </select>
+                </div>
+              </div>
+              <label>TARGET HARDWARE / OS / ENVIRONMENT</label>
+              <input id="supHardware" placeholder="e.g. Windows 11 Workstation, Synology NAS, Ubiquiti Network, ESP32" />
+              <label>ISSUE OR PROJECT DESCRIPTION</label>
+              <textarea id="supDesc" rows="4" placeholder="Describe the issue, symptoms, or project requirements..."></textarea>
+              <div style="margin-top:10px">
+                <button class="s7-btn active-toggle" onclick="submitSupportTicket()">dispatch support ticket</button>
+              </div>
+              <div id="supStatus" class="alert-box"></div>
+            </div>
           </section>
 
           <!-- 03 // CLIENT VAULT -->
@@ -978,52 +1022,6 @@
             <div class="grid-3" id="downloadsGrid"></div>
           </section>
 
-          <!-- 06 // IT SUPPORT -->
-          <section id="view-support" class="view">
-            <div class="card" style="max-width:740px;margin:0 auto">
-              <div class="card-head"><span>IT SUPPORT DISPATCH INTAKE</span><span class="xray-pill">POST support -&gt; IT_Support_Queue + Email</span></div>
-              <p style="font-size:11px;color:var(--muted);margin-top:0">Submit a technical support request below. A tracking ID is generated immediately and dispatched directly to <strong>gr33n</strong>.</p>
-              <div class="grid-2" style="margin-bottom:0">
-                <div>
-                  <label>NAME / ORGANIZATION</label>
-                  <input id="supName" placeholder="Your name or business" />
-                </div>
-                <div>
-                  <label>EMAIL ADDRESS</label>
-                  <input id="supEmail" type="email" placeholder="you@domain.com" />
-                </div>
-              </div>
-              <div class="grid-2" style="margin-bottom:0">
-                <div>
-                  <label>SERVICE CATEGORY</label>
-                  <select id="supTier">
-                    <option>Network &amp; Security Hardening</option>
-                    <option>Private Cloud &amp; NAS Architecture</option>
-                    <option>System Diagnostics &amp; Recovery</option>
-                    <option>Custom Embedded &amp; Firmware Builds</option>
-                    <option>General IT Consultation</option>
-                  </select>
-                </div>
-                <div>
-                  <label>PRIORITY LEVEL</label>
-                  <select id="supUrgency">
-                    <option value="STANDARD">STANDARD (24-48h)</option>
-                    <option value="PRIORITY">PRIORITY (Same-Day)</option>
-                    <option value="CRITICAL">CRITICAL (System Down)</option>
-                  </select>
-                </div>
-              </div>
-              <label>TARGET HARDWARE / OS / ENVIRONMENT</label>
-              <input id="supHardware" placeholder="e.g. Windows 11 Workstation, Synology NAS, Ubiquiti Network, ESP32" />
-              <label>ISSUE OR PROJECT DESCRIPTION</label>
-              <textarea id="supDesc" rows="4" placeholder="Describe the issue, symptoms, or project requirements..."></textarea>
-              <div style="margin-top:10px">
-                <button class="s7-btn active-toggle" onclick="submitSupportTicket()">dispatch support ticket</button>
-              </div>
-              <div id="supStatus" class="alert-box"></div>
-            </div>
-          </section>
-
           <!-- 07 // COMMS & TRIAGE -->
           <section id="view-comms" class="view">
             <div class="grid-2">
@@ -1080,7 +1078,7 @@
         </div>
 
         <!-- FULL-WIDTH BOTTOM ACTION BUTTON -->
-        <button class="sub7-bottom-cta" onclick="switchTab('support')">
+        <button class="sub7-bottom-cta" onclick="openSupportTicket()">
           visit hackatnight.com support dispatch // request private it engineering
         </button>
       </div>
@@ -1089,7 +1087,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.10.0]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.10.1]</div>
     </div>
   </div>
 
@@ -1116,7 +1114,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.10.0",
+      APP_VERSION: "v.2.10.1",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1131,7 +1129,6 @@
       { id: "vault",     label: "client vault",     enabled: true },
       { id: "projects",  label: "projects",         enabled: true },
       { id: "downloads", label: "downloads",        enabled: true },
-      { id: "support",   label: "it support",       enabled: true },
       { id: "comms",     label: "comms / triage",   enabled: true }
     ];
 
@@ -1180,6 +1177,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.10.1", Project: "H@N UI", Summary: "IT support ticket form moved into the IT Services tab (old tab removed; all ticket buttons and #support links now land on the form). AWS regional events show DEGRADED instead of OFFLINE.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.10.0", Project: "H@N Outages", Summary: "Outage checks rebuilt on real sources (Cloudflare Radar + IODA for ISPs, AWS Health, Azure, Google and Meta feeds actually parsed), a second independent check per target with an agreement indicator, and blocked pages now show UNVERIFIED instead of ONLINE.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.9.1", Project: "H@N UI / Outages", Summary: "Outage target hover now shows both the provider HQ / main region (gold) and the CDN edge or server the probe reached (red), linked on the globe.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.9.0", Project: "H@N UI / Outages", Summary: "Outage targets now show where their servers are: hovering a card pins the server location on the globe (CDN edges flagged), and clicking opens its status page.", Tag: "🟢 FEAT" },
@@ -1255,7 +1253,16 @@
        ========================================================================= */
     let STATE = JSON.parse(JSON.stringify(INITIAL_STATE));
     let SHEET_SYNC_STATUS = "LOADING"; // "LOADING" | "READY" | "ERROR"
-    let MODULES = JSON.parse(localStorage.getItem("hackatnight_modules") || "null") || JSON.parse(JSON.stringify(DEFAULT_MODULES));
+    // Keeps saved sidebar settings in step with the current tabs: drops removed tabs (e.g. the old "it support"),
+    // adds any new default tabs, and keeps the visitor's order and on/off choices for the rest.
+    function sanitizeModules(list) {
+      const known = {};
+      DEFAULT_MODULES.forEach(m => { known[m.id] = m; });
+      const out = (Array.isArray(list) ? list : []).filter(m => m && known[m.id]).map(m => ({ id: m.id, label: known[m.id].label, enabled: m.enabled !== false }));
+      DEFAULT_MODULES.forEach(m => { if (!out.some(o => o.id === m.id)) out.push(JSON.parse(JSON.stringify(m))); });
+      return out;
+    }
+    let MODULES = sanitizeModules((() => { try { return JSON.parse(localStorage.getItem("hackatnight_modules") || "null"); } catch (_) { return null; } })());
     let ACTIVE_TAB = "overview";
 
     function syncVersionLabels() {
@@ -1283,6 +1290,8 @@
     }
 
     function switchTab(tabId) {
+      // Old "#support" links and buttons now land on the ticket form inside IT Services
+      if (tabId === "support") return openSupportTicket();
       const enabled = MODULES.filter(m => m.enabled);
       const targetMod = enabled.find(m => m.id === tabId) || enabled[0] || MODULES[0];
       ACTIVE_TAB = targetMod.id;
@@ -1296,8 +1305,18 @@
       if (ACTIVE_TAB === "overview") resizeGlobeCanvas();
     }
 
+    function openSupportTicket() {
+      switchTab("services");
+      const box = document.getElementById("supportTicketBox");
+      if (box) {
+        box.scrollIntoView({ behavior: "smooth", block: "start" });
+        const first = document.getElementById("supName");
+        if (first) setTimeout(() => first.focus({ preventScroll: true }), 350);
+      }
+    }
+
     function bookService(title) {
-      switchTab("support");
+      openSupportTicket();
       const sel = document.getElementById("supTier");
       for (let i = 0; i < sel.options.length; i++) {
         if (sel.options[i].text === title) sel.selectedIndex = i;
@@ -1345,7 +1364,7 @@
         document.documentElement.setAttribute("data-theme", snap.theme);
       }
       if (snap.modules) {
-        MODULES = snap.modules;
+        MODULES = sanitizeModules(snap.modules);
         localStorage.setItem("hackatnight_modules", JSON.stringify(MODULES));
       }
       if (snap.globe) Object.assign(GLOBE_STATE, snap.globe);

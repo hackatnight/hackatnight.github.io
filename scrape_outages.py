@@ -159,7 +159,8 @@ def check_target(target):
             levels = [int(v.get("current", 0) or 0) for e in events for v in (e.get("impacted_services") or {}).values()]
             levels += [int(e.get("status", 0) or 0) for e in events]
             worst = max(levels or [1])
-            state = "OFFLINE" if worst >= 3 else "DEGRADED" if worst >= 2 else "ONLINE"
+            # AWS events are almost always regional, so cap at DEGRADED rather than calling all of AWS offline
+            state = "DEGRADED" if worst >= 2 else "ONLINE"
             e0 = events[0]
             return result(target, code, latency, state, short(f"{len(events)} event(s): {e0.get('service_name', '')} {e0.get('region_name', '')} - {e0.get('summary', '')}"))
 
@@ -285,7 +286,7 @@ def cross_check(target, r):
         r["agree"] = "1/2 (primary blocked)"
         r["detail"] = f"{second['source']} {'reachable' if s2 == 'ONLINE' else second['detail']} // {r['detail']}"
     elif s2 == "ONLINE":
-        r["agree"] = "sources disagree"   # official incident, but the service still answers (partial outage)
+        r["agree"] = "official incident // service reachable"   # partial outage: the provider reports it, the front door still answers
     else:
         r["agree"] = "2/2 agree"
         if ctype.startswith("radar") and "DOWN" in (s2,):
