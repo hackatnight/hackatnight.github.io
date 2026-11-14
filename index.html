@@ -806,6 +806,13 @@
       #outageTelemetryGrid.outage-compact .outage-card.expanded { grid-column: 1 / -1; }
       #outageTelemetryGrid.outage-compact .outage-card.expanded .oc-label { display: inline; }
       .data-credits { font-size: 6px; }
+      /* miniaturize all content text on phones; keep a little hierarchy */
+      #mainViewport { font-size: 9px; }
+      #mainViewport :is(div, span, td, th, a, strong, p, label, li, h1, h2, h3, h4, input, select, textarea, button) { font-size: inherit !important; line-height: 1.3; }
+      #mainViewport :is(h1, h2, h3, .card-head, .threat-head strong) { font-size: 10px !important; }
+      #mainViewport .tag, #mainViewport .xray-pill { font-size: 7px !important; padding: 0 3px; }
+      #mainViewport table td, #mainViewport table th { padding: 2px 3px !important; }
+      #mainViewport .threat-foot { display: none; }
       .sub7-bottom-cta { font-size: 9px; padding: 4px; }
     }
   </style>
@@ -3616,8 +3623,7 @@
         }).join("");
       const foot = document.getElementById("threatFoot");
       if (foot) {
-        foot.textContent = "HOVER / TAP: LOCATE ON GLOBE // SOURCES: " +
-          THREAT_STATE.sourceOrder.map(id => (THREAT_STATE.sources[id] || {}).name || id).join(" · ");
+        foot.textContent = "HOVER / TAP: LOCATE ON GLOBE";
       }
     }
 
