@@ -125,12 +125,13 @@ function backfillVisitGeo() {
   if (!sheet || sheet.getLastRow() < 2) return 0;
   ensureGeoHeaders(sheet);
   const n = sheet.getLastRow() - 1;
-  const ips = sheet.getRange(2, 2, n, 1).getValues();
-  const codes = sheet.getRange(2, 13, n, 1).getValues();
+  const ips = sheet.getRange(2, 1, n, 2).getValues();      // A (timestamp) + B (IP)
+  const geoCols = sheet.getRange(2, 10, n, 4).getValues(); // J-M (City, Region, Country, Country Code)
   let done = 0;
   for (let i = 0; i < n && done < CONFIG.GEO_BACKFILL_PER_RUN; i++) {
-    if (codes[i][0] !== "") continue;
-    const geo = geoLookup(ips[i][0]);
+    if (!ips[i][0] && !ips[i][1]) continue;                 // blank spacer row: leave it alone
+    if (geoCols[i].some(v => v !== "")) continue;           // anything already in J-M: never overwrite it
+    const geo = geoLookup(ips[i][1]);
     if (!geo) continue;
     sheet.getRange(i + 2, 10, 1, 6).setValues([geoRow(geo)]);
     done++;
