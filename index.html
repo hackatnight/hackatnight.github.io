@@ -728,7 +728,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.11.1]</span>
+        <span id="titleVersionBadge">[v.2.11.2]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -771,7 +771,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.11.1</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.11.2</span></div>
         </div>
       </aside>
 
@@ -792,6 +792,7 @@
                 </div>
                 <div class="globe-toggles">
                   <button class="s7-btn active-toggle" id="btnMode" onclick="toggleGlobeMode()">mode: 3d globe</button>
+                  <button class="s7-btn active-toggle" id="btnPause" onclick="toggleGlobePause()" title="Pause or resume the globe's rotation">⏸ pause</button>
                   <button class="s7-btn" id="btnSpin" onclick="toggleEarthSpin()">earth: gentle spin</button>
                   <button class="s7-btn active-toggle" id="btnSats" onclick="toggleSats()">sats: on</button>
                   <button class="s7-btn active-toggle" id="btnSolar" onclick="toggleSolar()">solar: on</button>
@@ -1087,7 +1088,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.11.1]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.11.2]</div>
     </div>
   </div>
 
@@ -1114,7 +1115,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.11.1",
+      APP_VERSION: "v.2.11.2",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1177,6 +1178,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.11.2", Project: "H@N UI / Globe", Summary: "Pause/play button for the globe rotation; dragging the globe now moves the surface with the cursor (horizontal drag was reversed).", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.11.1", Project: "H@N UI / Globe", Summary: "US state borders on the globe and flat map: hover names the state, postal codes appear when zoomed in.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.11.0", Project: "H@N Telemetry", Summary: "FEAT-107: each visit now records client diagnostics in the private Visits Log (browser/OS, screen, cores/memory, connection, page timings, download speed from the map file, backend round-trip). Passive only, no extra downloads; skipped when Do Not Track / GPC is on.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.10.1", Project: "H@N UI", Summary: "IT support ticket form moved into the IT Services tab (old tab removed; all ticket buttons and #support links now land on the form). AWS regional events show DEGRADED instead of OFFLINE.", Tag: "🟠 FIX" },
@@ -1896,6 +1898,7 @@
     const GLOBE_STATE = {
       mode3d: true,
       realTimeUtc: false,
+      paused: false,
       showSats: true,
       showSolar: true,
       showCables: true,
@@ -2162,6 +2165,11 @@
     function syncGlobeToggleButtons() {
       document.getElementById("btnMode").textContent = GLOBE_STATE.mode3d ? "mode: 3d globe" : "mode: 2d map";
       document.getElementById("btnSpin").textContent = GLOBE_STATE.realTimeUtc ? "earth: real-time utc" : "earth: gentle spin";
+      const btnPause = document.getElementById("btnPause");
+      if (btnPause) {
+        btnPause.textContent = GLOBE_STATE.paused ? "▶ play" : "⏸ pause";
+        btnPause.classList.toggle("active-toggle", !GLOBE_STATE.paused);
+      }
       document.getElementById("btnSats").textContent = `sats: ${GLOBE_STATE.showSats ? "on" : "off"}`;
       document.getElementById("btnSats").classList.toggle("active-toggle", GLOBE_STATE.showSats);
       document.getElementById("btnSolar").textContent = `solar: ${GLOBE_STATE.showSolar ? "on" : "off"}`;
@@ -2186,6 +2194,11 @@
 
     function toggleGlobeMode() { GLOBE_STATE.mode3d = !GLOBE_STATE.mode3d; syncGlobeToggleButtons(); }
     function toggleEarthSpin() { GLOBE_STATE.realTimeUtc = !GLOBE_STATE.realTimeUtc; syncGlobeToggleButtons(); }
+    function toggleGlobePause() {
+      GLOBE_STATE.paused = !GLOBE_STATE.paused;
+      syncGlobeToggleButtons();
+      setStatus(GLOBE_STATE.paused ? "globe rotation paused." : "globe rotation resumed.");
+    }
     function toggleSats() { GLOBE_STATE.showSats = !GLOBE_STATE.showSats; syncGlobeToggleButtons(); }
     function toggleSolar() { GLOBE_STATE.showSolar = !GLOBE_STATE.showSolar; syncGlobeToggleButtons(); }
     function toggleCables() { GLOBE_STATE.showCables = !GLOBE_STATE.showCables; syncGlobeToggleButtons(); }
@@ -2382,7 +2395,7 @@
           if (GLOBE_STATE.mode3d) {
             // Rotate slower when zoomed in so the drag follows the cursor
             const k = 1 / GLOBE_STATE.zoom;
-            GLOBE_STATE.rotLon += (e.clientX - lastX) * 0.35 * k;
+            GLOBE_STATE.rotLon -= (e.clientX - lastX) * 0.35 * k;   // minus: the surface moves with the cursor
             GLOBE_STATE.rotLat = Math.max(-75, Math.min(75, GLOBE_STATE.rotLat + (e.clientY - lastY) * 0.25 * k));
           } else {
             // Flat map: drag pans
@@ -2532,7 +2545,7 @@
             const targetTilt = Math.max(-35, Math.min(55, THREAT_HL.focus[0]));
             GLOBE_STATE.rotLat += (targetTilt - GLOBE_STATE.rotLat) * 0.08;
           }
-        } else if (!dragging) {
+        } else if (!dragging && !GLOBE_STATE.paused) {
           if (GLOBE_STATE.realTimeUtc) {
             const d = new Date(nowMs);
             const utcHours = d.getUTCHours() + d.getUTCMinutes() / 60 + d.getUTCSeconds() / 3600;
