@@ -728,7 +728,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.10.1]</span>
+        <span id="titleVersionBadge">[v.2.11.0]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -771,7 +771,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.10.1</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.11.0</span></div>
         </div>
       </aside>
 
@@ -1087,7 +1087,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.10.1]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.11.0]</div>
     </div>
   </div>
 
@@ -1114,7 +1114,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.10.1",
+      APP_VERSION: "v.2.11.0",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1177,6 +1177,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.11.0", Project: "H@N Telemetry", Summary: "FEAT-107: each visit now records client diagnostics in the private Visits Log (browser/OS, screen, cores/memory, connection, page timings, download speed from the map file, backend round-trip). Passive only, no extra downloads; skipped when Do Not Track / GPC is on.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.10.1", Project: "H@N UI", Summary: "IT support ticket form moved into the IT Services tab (old tab removed; all ticket buttons and #support links now land on the form). AWS regional events show DEGRADED instead of OFFLINE.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.10.0", Project: "H@N Outages", Summary: "Outage checks rebuilt on real sources (Cloudflare Radar + IODA for ISPs, AWS Health, Azure, Google and Meta feeds actually parsed), a second independent check per target with an agreement indicator, and blocked pages now show UNVERIFIED instead of ONLINE.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.9.1", Project: "H@N UI / Outages", Summary: "Outage target hover now shows both the provider HQ / main region (gold) and the CDN edge or server the probe reached (red), linked on the globe.", Tag: "🟢 FEAT" },
@@ -3535,6 +3536,7 @@
         if (ipRes.ok) ipAddress = (await ipRes.json()).ip || ipAddress;
       } catch (_) {}
 
+      const tVisit = performance.now();
       BACKEND_API.post({
         action: "visit",
         pagePath: location.pathname + location.hash,
@@ -3545,7 +3547,58 @@
         sessionId: sid,
         country: tz,
         ipAddress: ipAddress
+      }).then(res => {
+        if (res && res.status === "ok") sendVisitDiagnostics(sid, Math.round(performance.now() - tVisit));
       }).catch(() => {});
+    }
+
+    /* Client diagnostics (FEAT-107): passive readings only, no extra downloads. Sent once per session, to the
+       private Visits Log only. Skipped entirely for visitors with Do Not Track or Global Privacy Control on. */
+    function collectClientDiagnostics(backendMs) {
+      const ua = navigator.userAgent;
+      const uad = navigator.userAgentData;
+      const brand = uad && uad.brands ? (uad.brands.find(b => !/Not.?A.?Brand|Chromium/i.test(b.brand)) || uad.brands[0]) : null;
+      const browser = brand ? `${brand.brand} ${brand.version}` :
+        (ua.match(/(Firefox|Edg|OPR|Chrome|Safari)\/(\d+)/) || []).slice(1, 3).join(" ").replace(/^Edg /, "Edge ").replace(/^OPR /, "Opera ");
+      const os = (uad && uad.platform) || (/Windows/.test(ua) ? "Windows" : /Android/.test(ua) ? "Android" : /iPhone|iPad|iOS/.test(ua) ? "iOS" : /Mac OS/.test(ua) ? "macOS" : /Linux/.test(ua) ? "Linux" : "");
+      const c = navigator.connection || {};
+      const nav = (performance.getEntriesByType("navigation") || [])[0];
+      const map = (performance.getEntriesByType("resource") || []).find(e => /\/world\.json(\?|$)/.test(e.name));
+      let mapMBps = null, mapCached = false;
+      if (map) {
+        if (!map.transferSize && map.decodedBodySize) mapCached = true;
+        else if (map.transferSize && map.responseEnd > map.responseStart) {
+          mapMBps = Math.round((map.transferSize / 1048576) / ((map.responseEnd - map.requestStart) / 1000) * 100) / 100;
+        }
+      }
+      return {
+        browser, os,
+        screenW: screen.width, screenH: screen.height, dpr: Math.round((window.devicePixelRatio || 1) * 100) / 100,
+        viewW: innerWidth, viewH: innerHeight,
+        cores: navigator.hardwareConcurrency || null, memGB: navigator.deviceMemory || null,
+        netType: c.effectiveType || "", downMbps: typeof c.downlink === "number" ? c.downlink : null,
+        rttMs: typeof c.rtt === "number" ? c.rtt : null, saveData: !!c.saveData,
+        ttfbMs: nav ? Math.round(nav.responseStart - nav.requestStart) : null,
+        loadMs: nav && nav.loadEventEnd ? Math.round(nav.loadEventEnd - nav.startTime) : null,
+        mapMBps, mapCached, backendMs,
+        lang: navigator.language || "",
+        dark: !!(window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches),
+        touch: navigator.maxTouchPoints || 0
+      };
+    }
+
+    function sendVisitDiagnostics(sid, backendMs) {
+      const optedOut = navigator.globalPrivacyControl === true || navigator.doNotTrack === "1" || window.doNotTrack === "1";
+      if (optedOut || sessionStorage.getItem("hack_diag_sent") === sid) return;
+      const go = () => {
+        try {
+          sessionStorage.setItem("hack_diag_sent", sid);
+          BACKEND_API.post({ action: "visit_diag", sessionId: sid, diag: collectClientDiagnostics(backendMs) }).catch(() => {});
+        } catch (_) {}
+      };
+      // Wait for the page (and the map file) to finish loading so the timings are complete
+      const later = () => setTimeout(go, 4000);
+      if (document.readyState === "complete") later(); else window.addEventListener("load", later, { once: true });
     }
 
     bootstrap();

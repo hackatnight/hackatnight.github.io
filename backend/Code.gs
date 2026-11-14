@@ -35,7 +35,8 @@ const CONFIG = {
     status_sync: [6, 600],
     changelog_sync: [20, 3600],
     project_sync: [10, 3600],
-    unlock_key: [20, 300]
+    unlock_key: [20, 300],
+    visit_diag: [60, 60]
   },
   CHANGELOG_TAGS: ["🟢 FEAT", "🟢 RELEASE", "🟠 FIX", "🟣 INFRA", "🔵 UPDATE", "🟠 FIRMWARE"],
   // IP geolocation for the Visits Log. Set to false to switch it off instantly; visits still log normally.
@@ -43,7 +44,9 @@ const CONFIG = {
   GEO_CACHE_SEC: 21600,        // cache each IP's location for 6 hours (CacheService maximum)
   GEO_BACKFILL_PER_RUN: 15,    // old rows filled in per 15-minute health-check run
   // Extra Visits Log columns, always placed AFTER the original 9 (A-I) so nothing existing moves
-  GEO_HEADERS: ["City", "Region", "Country", "Country Code", "Latitude", "Longitude"]
+  GEO_HEADERS: ["City", "Region", "Country", "Country Code", "Latitude", "Longitude"],
+  DIAG_COL: 16,                       // Visits Log column P
+  DIAG_HEADER: "Client Diagnostics"
 };
 
 /* ---------- IP geolocation (server-side, cached, never blocks visit logging) ---------- */
@@ -196,6 +199,7 @@ function trimVisitsLog() {
     const values = sheet.getRange(firstExcessRow, 1, n, cols).getValues();
     const archive = getArchiveSheet(ss, "Visits_Archive", sheet);
     if (cols > 9) ensureGeoHeaders(archive);
+    if (cols >= CONFIG.DIAG_COL) ensureDiagHeader(archive);
     archive.getRange(archive.getLastRow() + 1, 1, n, cols).setValues(values);
     sheet.deleteRows(firstExcessRow, n);
     return n;
@@ -372,6 +376,8 @@ function doPost(e) {
         return jsonOut(createBugTriage(body));
       case "vault_upload":
         return jsonOut(handleVaultUpload(body));
+      case "visit_diag":
+        return jsonOut(logVisitDiagnostics(body));
       case "unlock_key":
         return jsonOut(validateAndRedeemKey(String(body.key || "").trim()));
       case "probe_now": {
@@ -647,6 +653,69 @@ function logVisit(d) {
 
   trimVisitsLog();
   return { status: "ok" };
+}
+
+/* ---------- Client diagnostics (FEAT-107) ----------
+ * The browser sends a few passive readings a few seconds after the visit is logged. Only whitelisted fields are
+ * used; the cell text is built here (never taken from the browser as-is) and written to Visits Log column P
+ * on that session's newest row. This column is private to the sheet and is never sent to the public site.
+ */
+function ensureDiagHeader(sheet) {
+  const cell = sheet.getRange(1, CONFIG.DIAG_COL);
+  if (cell.getValue() !== CONFIG.DIAG_HEADER) cell.setValue(CONFIG.DIAG_HEADER).setFontWeight("bold");
+}
+
+function logVisitDiagnostics(d) {
+  const sid = String(d.sessionId || "").slice(0, 60);
+  const g = d.diag || {};
+  if (!/^sid_[a-z0-9]+$/i.test(sid)) return { status: "error", message: "Bad session" };
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Visits Log");
+  if (!sheet || sheet.getLastRow() < 2) return { status: "error", message: "Visits Log tab missing" };
+
+  const num = (v, lo, hi) => { const n = Number(v); return isFinite(n) && n >= lo && n <= hi ? n : null; };
+  const word = (v, n) => String(v || "").replace(/[^A-Za-z0-9 ._()\/+-]/g, "").slice(0, n).trim();
+  const parts = [];
+  const browser = [word(g.browser, 24), word(g.os, 24)].filter(Boolean).join(" / ");
+  if (browser) parts.push(browser);
+  const sw = num(g.screenW, 100, 16000), sh = num(g.screenH, 100, 16000), dpr = num(g.dpr, 0.5, 8);
+  if (sw && sh) parts.push(sw + "x" + sh + (dpr ? " @" + dpr + "x" : ""));
+  const vw = num(g.viewW, 100, 16000), vh = num(g.viewH, 100, 16000);
+  if (vw && vh) parts.push("view " + vw + "x" + vh);
+  const cores = num(g.cores, 1, 512), mem = num(g.memGB, 0.25, 1024);
+  if (cores) parts.push(cores + " cores");
+  if (mem) parts.push(mem + " GB");
+  const net = word(g.netType, 8), down = num(g.downMbps, 0, 100000), rtt = num(g.rttMs, 0, 60000);
+  if (net || down !== null) parts.push(["net " + (net || "?"), down !== null ? "~" + down + " Mbps" : "", rtt !== null ? "rtt " + rtt + " ms" : ""].filter(Boolean).join(" "));
+  if (g.saveData === true) parts.push("data saver");
+  const ttfb = num(g.ttfbMs, 0, 120000), load = num(g.loadMs, 0, 600000);
+  if (ttfb !== null) parts.push("TTFB " + ttfb + " ms");
+  if (load !== null) parts.push("load " + (load / 1000).toFixed(1) + " s");
+  const tput = num(g.mapMBps, 0, 100000);
+  if (g.mapCached === true) parts.push("map cached");
+  else if (tput !== null) parts.push("download " + tput + " MB/s");
+  const be = num(g.backendMs, 0, 120000);
+  if (be !== null) parts.push("backend " + be + " ms");
+  const lang = word(g.lang, 12);
+  if (lang) parts.push(lang);
+  if (g.dark === true) parts.push("dark mode");
+  const touch = num(g.touch, 0, 32);
+  if (touch) parts.push("touch " + touch);
+  if (!parts.length) return { status: "error", message: "No diagnostics" };
+  const text = sheetSafe(parts.join(" · ").slice(0, 500));
+
+  ensureDiagHeader(sheet);
+  // Newest visits are at the top; find this session's latest row among the most recent ones
+  const n = Math.min(60, sheet.getLastRow() - 1);
+  const ids = sheet.getRange(2, 8, n, 1).getValues();
+  for (let i = 0; i < n; i++) {
+    if (String(ids[i][0]) === sid) {
+      const cell = sheet.getRange(i + 2, CONFIG.DIAG_COL);
+      if (cell.getValue()) return { status: "exists" };
+      cell.setValue(text).setFontFamily("Roboto Mono").setFontSize(9).setFontColor("#EBEFF4").setBackground("#181124");
+      return { status: "ok" };
+    }
+  }
+  return { status: "error", message: "Visit row not found" };
 }
 
 function incrementDownload(fileId) {
