@@ -559,17 +559,38 @@
       gap: 10px;
       align-items: start;
     }
+    /* Left column fills the visible height: globe on top (resizable), threat feed down to the bottom edge */
     .overview-left {
       position: sticky;
       top: 0;
+      display: flex;
+      flex-direction: column;
+      height: var(--overview-left-h, calc(100vh - 140px));
     }
-    .overview-left .globe-panel { margin-bottom: 0; }
-    .overview-split .canvas-wrap { height: 520px; }
+    .overview-left .globe-panel { margin-bottom: 0; flex: 0 0 auto; }
+    .overview-split .canvas-wrap { height: var(--globe-h, 520px); }
+    .overview-left .threat-panel { flex: 1 1 auto; min-height: 120px; display: flex; flex-direction: column; }
+    .overview-left .threat-list { flex: 1 1 auto; max-height: none; min-height: 0; }
+    .globe-resizer {
+      height: 8px;
+      cursor: ns-resize;
+      background: #021229;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: none;
+      user-select: none;
+    }
+    .globe-resizer::before { content: ""; width: 42px; height: 2px; border-top: 1px solid #386bb8; border-bottom: 1px solid #386bb8; }
+    .globe-resizer:hover, .globe-resizer.dragging { background: #05306b; }
     @media (max-width: 1100px) {
       .overview-split { grid-template-columns: minmax(0, 1fr); }
-      .overview-left { position: static; }
+      .overview-left { position: static; height: auto; display: block; }
       .overview-left .globe-panel { margin-bottom: 10px; }
-      .overview-split .canvas-wrap { height: 360px; }
+      .overview-split .canvas-wrap { height: var(--globe-h, 360px); }
+      .overview-left .threat-panel { display: block; }
+      .overview-left .threat-list { max-height: 300px; }
     }
 
     .grid-6 { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 8px; margin-bottom: 10px; }
@@ -701,7 +722,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.8.2]</span>
+        <span id="titleVersionBadge">[v.2.8.3]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -744,7 +765,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.8.2</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.8.3</span></div>
         </div>
       </aside>
 
@@ -781,11 +802,12 @@
                   ACTIVE_TRACKS: ISS, STARLINK-3041, NOAA-19, GPS-BIIR-11
                 </div>
                 <div class="globe-overlay-br">
-                  DRAG: ROTATE // SCROLL: ZOOM // HOVER: INSPECT NODE
+                  DRAG: ROTATE // SCROLL: ZOOM // DBL-CLICK: RESET VIEW // HOVER: INSPECT
                 </div>
                 <div class="attack-legend" id="attackLegend"></div>
                 <div class="globe-tooltip" id="globeTooltip"></div>
               </div>
+              <div class="globe-resizer" id="globeResizer" title="Drag to resize the globe // double-click to reset"></div>
             </div>
 
             <!-- THREAT INTEL // MULTI-SOURCE FEED (hover or tap an item to locate it on the globe) -->
@@ -1060,7 +1082,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.8.2]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.8.3]</div>
     </div>
   </div>
 
@@ -1087,7 +1109,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.8.2",
+      APP_VERSION: "v.2.8.3",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1151,6 +1173,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.8.3", Project: "H@N UI / Globe", Summary: "Threat feed now fills the left column down to the bottom of the page; the globe box can be resized by dragging its bottom edge; globe zoom goes much deeper (up to 8x) and the flat map can be panned.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.8.2", Project: "H@N UI / Globe", Summary: "Globe arcs now fly as raised 3D great-circle paths that roll smoothly over the horizon while the globe rotates, instead of vanishing.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.8.1", Project: "H@N Security", Summary: "Security hardening: formula-injection guard on every sheet write, vault files served privately through the backend, wrong-key lockout and strong vault keys, upload type/size/daily caps, generic backend errors, and a Content Security Policy.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.8.0", Project: "H@N UI / Globe", Summary: "Globe map rebuilt with real country borders (Natural Earth), country names, and hover/tap to identify any country; HQ renamed H@N_HQ_FL with no city or exact coordinates shown.", Tag: "🟢 FEAT" },
@@ -1846,7 +1869,8 @@
       attackLayer: "layer3",   // "layer3" (DDoS) | "layer7" (web) | "off"
       rotLon: -81.7,
       rotLat: 22.0,
-      zoom: 1.0
+      zoom: 1.0,
+      pan2d: { x: 0, y: 0 }
     };
 
     // Index 0 is always HQ. Real visitor pins are rebuilt from backend telemetry by buildVisitorPins():
@@ -2233,6 +2257,55 @@
         return { lat, lon };
       }
 
+      // Left column height = visible part of the scrolling viewport, so the threat feed ends at the page bottom
+      const viewport = document.getElementById("mainViewport");
+      const leftCol = document.querySelector(".overview-left");
+      function fitOverviewLeft() {
+        if (!viewport || !leftCol) return;
+        const cs = getComputedStyle(viewport);
+        const h = viewport.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+        leftCol.style.setProperty("--overview-left-h", Math.max(400, Math.floor(h)) + "px");
+      }
+      window.addEventListener("resize", fitOverviewLeft);
+      fitOverviewLeft();
+
+      // Drag the bar under the globe to resize it; the size is remembered per browser
+      const resizer = document.getElementById("globeResizer");
+      const wrapEl = document.getElementById("canvasWrap");
+      const setGlobeH = h => {
+        const stacked = getComputedStyle(leftCol).display !== "flex";
+        const max = stacked ? 900 : leftCol.clientHeight - wrapEl.parentElement.querySelector(".globe-hud-bar").offsetHeight - 8 - 130;
+        const v = Math.round(Math.max(220, Math.min(max, h)));
+        leftCol.style.setProperty("--globe-h", v + "px");
+        return v;
+      };
+      try {
+        const saved = Number(localStorage.getItem("han_globe_h"));
+        if (saved) setGlobeH(saved);
+      } catch (_) {}
+      if (resizer) {
+        let startY = 0, startH = 0;
+        const move = e => setGlobeH(startH + (e.clientY - startY));
+        const up = () => {
+          resizer.classList.remove("dragging");
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", up);
+          try { localStorage.setItem("han_globe_h", String(wrapEl.offsetHeight)); } catch (_) {}
+        };
+        resizer.addEventListener("pointerdown", e => {
+          e.preventDefault();
+          startY = e.clientY;
+          startH = wrapEl.offsetHeight;
+          resizer.classList.add("dragging");
+          window.addEventListener("pointermove", move);
+          window.addEventListener("pointerup", up);
+        });
+        resizer.addEventListener("dblclick", () => {
+          leftCol.style.removeProperty("--globe-h");
+          try { localStorage.removeItem("han_globe_h"); } catch (_) {}
+        });
+      }
+
       window.addEventListener("resize", resizeGlobeCanvas);
       if (window.ResizeObserver) new ResizeObserver(resizeGlobeCanvas).observe(document.getElementById("canvasWrap"));
       resizeGlobeCanvas();
@@ -2241,8 +2314,16 @@
       window.addEventListener("mouseup", () => { dragging = false; });
       window.addEventListener("mousemove", e => {
         if (dragging) {
-          GLOBE_STATE.rotLon += (e.clientX - lastX) * 0.35;
-          GLOBE_STATE.rotLat = Math.max(-75, Math.min(75, GLOBE_STATE.rotLat + (e.clientY - lastY) * 0.25));
+          if (GLOBE_STATE.mode3d) {
+            // Rotate slower when zoomed in so the drag follows the cursor
+            const k = 1 / GLOBE_STATE.zoom;
+            GLOBE_STATE.rotLon += (e.clientX - lastX) * 0.35 * k;
+            GLOBE_STATE.rotLat = Math.max(-75, Math.min(75, GLOBE_STATE.rotLat + (e.clientY - lastY) * 0.25 * k));
+          } else {
+            // Flat map: drag pans
+            GLOBE_STATE.pan2d.x += e.clientX - lastX;
+            GLOBE_STATE.pan2d.y += e.clientY - lastY;
+          }
           lastX = e.clientX;
           lastY = e.clientY;
         }
@@ -2266,8 +2347,23 @@
 
       canvas.addEventListener("wheel", e => {
         e.preventDefault();
-        GLOBE_STATE.zoom = Math.max(0.7, Math.min(1.85, GLOBE_STATE.zoom + (e.deltaY < 0 ? 0.08 : -0.08)));
+        const before = GLOBE_STATE.zoom;
+        GLOBE_STATE.zoom = Math.max(0.7, Math.min(8, before * (e.deltaY < 0 ? 1.12 : 1 / 1.12)));
+        if (!GLOBE_STATE.mode3d) {
+          // Flat map zooms toward the cursor
+          const rect = canvas.getBoundingClientRect();
+          const f = GLOBE_STATE.zoom / before;
+          const ox = e.clientX - rect.left - globeW * 0.5, oy = e.clientY - rect.top - globeH * 0.52;
+          GLOBE_STATE.pan2d.x = ox - (ox - GLOBE_STATE.pan2d.x) * f;
+          GLOBE_STATE.pan2d.y = oy - (oy - GLOBE_STATE.pan2d.y) * f;
+        }
       }, { passive: false });
+
+      // Double-click resets zoom and flat-map pan
+      canvas.addEventListener("dblclick", () => {
+        GLOBE_STATE.zoom = 1;
+        GLOBE_STATE.pan2d = { x: 0, y: 0 };
+      });
 
       function projectPoint(lat, lon, cx, cy, R) {
         if (!GLOBE_STATE.mode3d) {
@@ -2374,13 +2470,19 @@
             const utcHours = d.getUTCHours() + d.getUTCMinutes() / 60 + d.getUTCSeconds() / 3600;
             GLOBE_STATE.rotLon = (12 - utcHours) * 15;
           } else {
-            GLOBE_STATE.rotLon = (GLOBE_STATE.rotLon + 0.06) % 360;
+            GLOBE_STATE.rotLon = (GLOBE_STATE.rotLon + 0.06 / GLOBE_STATE.zoom) % 360;
           }
         }
 
-        const cx = globeW * 0.5;
-        const cy = globeH * 0.52;
         const R = Math.min(globeW, globeH) * 0.39 * GLOBE_STATE.zoom;
+        if (!GLOBE_STATE.mode3d) {
+          // Keep the flat map from being dragged fully off screen
+          const mx = Math.max(0, R * 1.65 - globeW * 0.3), my = Math.max(0, R * 0.88 - globeH * 0.3);
+          GLOBE_STATE.pan2d.x = Math.max(-mx, Math.min(mx, GLOBE_STATE.pan2d.x));
+          GLOBE_STATE.pan2d.y = Math.max(-my, Math.min(my, GLOBE_STATE.pan2d.y));
+        }
+        const cx = globeW * 0.5 + (GLOBE_STATE.mode3d ? 0 : GLOBE_STATE.pan2d.x);
+        const cy = globeH * 0.52 + (GLOBE_STATE.mode3d ? 0 : GLOBE_STATE.pan2d.y);
 
         // Sphere outline / 2D frame
         ctx.strokeStyle = "#386bb8";

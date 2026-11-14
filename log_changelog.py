@@ -25,7 +25,7 @@ def extract_app_version():
             return m.group(1)
     except Exception:
         pass
-    return "v.2.8.2"
+    return "v.2.8.3"
 
 def classify_commit(msg):
     low = msg.lower()
