@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-14 19:53:01 UTC",
+  "lastUpdated": "2026-11-14 19:55:34 UTC",
   "summary": "22/24 NODES NOMINAL",
   "services": [
     {
@@ -7,216 +7,576 @@
       "name": "📡 Frontier Fiber (FL ISP)",
       "url": "https://frontier.com/helpcenter/categories/internet/troubleshooting/service-status",
       "http_status": 403,
-      "latency_ms": 397,
+      "latency_ms": 309,
       "state": "ONLINE",
-      "detail": "Edge Active (HTTP 403)"
+      "detail": "Edge Active (HTTP 403)",
+      "type": "http",
+      "geo": {
+        "host": "frontier.com",
+        "ip": "96.6.230.90",
+        "city": "San Jose",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.339,
+        "lon": -121.895,
+        "network": "Akamai Technologies, Inc.",
+        "asn": 16625,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-XFIN",
       "name": "📡 Comcast / Xfinity (FL ISP)",
       "url": "https://www.xfinity.com/support/status",
       "http_status": 200,
-      "latency_ms": 317,
+      "latency_ms": 167,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable"
+      "detail": "HTTP 200 Reachable",
+      "type": "http",
+      "geo": {
+        "host": "www.xfinity.com",
+        "ip": "104.68.100.236",
+        "city": "San Jose",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.339,
+        "lon": -121.895,
+        "network": "Akamai Technologies, Inc.",
+        "asn": 16625,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-SPEC",
       "name": "📡 Spectrum / Charter (FL ISP)",
       "url": "https://www.spectrum.net/support/internet/outage",
       "http_status": 200,
-      "latency_ms": 290,
+      "latency_ms": 325,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable"
+      "detail": "HTTP 200 Reachable",
+      "type": "http",
+      "geo": {
+        "host": "www.spectrum.net",
+        "ip": "13.249.74.60",
+        "city": "San Jose",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.339,
+        "lon": -121.895,
+        "network": "Amazon.com, Inc.",
+        "asn": 16509,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-ATT",
       "name": "📡 AT&T Fiber (FL ISP)",
       "url": "https://www.att.com/outages/",
       "http_status": 200,
-      "latency_ms": 125,
+      "latency_ms": 431,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable"
+      "detail": "HTTP 200 Reachable",
+      "type": "http",
+      "geo": {
+        "host": "www.att.com",
+        "ip": "184.84.194.193",
+        "city": "San Jose",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.339,
+        "lon": -121.895,
+        "network": "Akamai Technologies, Inc.",
+        "asn": 16625,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-TMO",
       "name": "📶 T-Mobile 5G Home ISP",
       "url": "https://www.t-mobile.com/support/coverage",
       "http_status": 200,
-      "latency_ms": 233,
+      "latency_ms": 197,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable"
+      "detail": "HTTP 200 Reachable",
+      "type": "http",
+      "geo": {
+        "host": "www.t-mobile.com",
+        "ip": "23.216.149.146",
+        "city": "San Jose",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.339,
+        "lon": -121.895,
+        "network": "Akamai Technologies, Inc.",
+        "asn": 20940,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-VZ",
       "name": "📡 Verizon 5G / Fios ISP",
       "url": "https://www.verizon.com/support/check-network-status/",
       "http_status": 200,
-      "latency_ms": 110,
+      "latency_ms": 280,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable"
+      "detail": "HTTP 200 Reachable",
+      "type": "http",
+      "geo": {
+        "host": "www.verizon.com",
+        "ip": "23.62.46.207",
+        "city": "San Jose",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.339,
+        "lon": -121.895,
+        "network": "Akamai Technologies, Inc.",
+        "asn": 20940,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-CTL",
       "name": "📡 CenturyLink / Quantum (FL)",
       "url": "https://www.quantumfiber.com",
       "http_status": 200,
-      "latency_ms": 318,
+      "latency_ms": 263,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable"
+      "detail": "HTTP 200 Reachable",
+      "type": "http",
+      "geo": {
+        "host": "www.quantumfiber.com",
+        "ip": "45.154.183.45",
+        "city": "Washington",
+        "region": "District of Columbia",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 38.895,
+        "lon": -77.036,
+        "network": "Section.io, Inc.",
+        "asn": 136133,
+        "cdn": false,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-HTW",
       "name": "📡 Hotwire Fision (FL Fiber)",
       "url": "https://gethotwired.com",
       "http_status": 200,
-      "latency_ms": 194,
+      "latency_ms": 184,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable"
+      "detail": "HTTP 200 Reachable",
+      "type": "http",
+      "geo": {
+        "host": "gethotwired.com",
+        "ip": "104.18.8.222",
+        "city": "San Francisco",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.775,
+        "lon": -122.419,
+        "network": "Cloudflare, Inc.",
+        "asn": 13335,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-STLK",
       "name": "🛰️ Starlink Satellite ISP",
       "url": "https://www.starlink.com",
       "http_status": 200,
-      "latency_ms": 285,
+      "latency_ms": 244,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable"
+      "detail": "HTTP 200 Reachable",
+      "type": "http",
+      "geo": {
+        "host": "www.starlink.com",
+        "ip": "151.101.129.143",
+        "city": "San Francisco",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.775,
+        "lon": -122.419,
+        "network": "Fastly, Inc.",
+        "asn": 54113,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-MS365",
       "name": "🟦 Microsoft 365 / Azure",
       "url": "https://status.cloud.microsoft",
       "http_status": 200,
-      "latency_ms": 182,
+      "latency_ms": 50,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable"
+      "detail": "HTTP 200 Reachable",
+      "type": "http",
+      "geo": {
+        "host": "status.cloud.microsoft",
+        "ip": "150.171.109.154",
+        "city": "Redmond",
+        "region": "Washington",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 47.674,
+        "lon": -122.122,
+        "network": "Microsoft Corporation",
+        "asn": 8075,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-OUTLOOK",
       "name": "📧 Microsoft Outlook",
       "url": "https://portal.office.com/servicestatus",
       "http_status": 200,
-      "latency_ms": 474,
+      "latency_ms": 117,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable"
+      "detail": "HTTP 200 Reachable",
+      "type": "http",
+      "geo": {
+        "host": "portal.office.com",
+        "ip": "150.171.74.13",
+        "city": "Redmond",
+        "region": "Washington",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 47.674,
+        "lon": -122.122,
+        "network": "Microsoft Corporation",
+        "asn": 8075,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-EXCH",
       "name": "🔄 MS Exchange Online",
       "url": "https://outlook.office365.com/owa/healthcheck.htm",
       "http_status": 417,
-      "latency_ms": 556,
+      "latency_ms": 65,
       "state": "ONLINE",
-      "detail": "Edge Active (HTTP 417)"
+      "detail": "Edge Active (HTTP 417)",
+      "type": "http",
+      "geo": {
+        "host": "outlook.office365.com",
+        "ip": "52.96.110.98",
+        "city": "San Jose",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.339,
+        "lon": -121.895,
+        "network": "Microsoft Corporation",
+        "asn": 8075,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-GWS",
       "name": "🌐 Google Workspace",
       "url": "https://www.google.com/appsstatus/dashboard/incidents.json",
       "http_status": 200,
-      "latency_ms": 51,
+      "latency_ms": 48,
       "state": "ONLINE",
-      "detail": "Google Workspace Nominal"
+      "detail": "Google Workspace Nominal",
+      "type": "google",
+      "geo": {
+        "host": "www.google.com",
+        "ip": "142.251.156.119",
+        "city": "San Jose",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.339,
+        "lon": -121.895,
+        "network": "Google LLC",
+        "asn": 15169,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-AWS",
       "name": "🟧 Amazon Web Services",
       "url": "https://health.aws.amazon.com/health/status",
       "http_status": 200,
-      "latency_ms": 14,
+      "latency_ms": 196,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable"
+      "detail": "HTTP 200 Reachable",
+      "type": "http",
+      "geo": {
+        "host": "health.aws.amazon.com",
+        "ip": "18.246.123.237",
+        "city": "Boardman",
+        "region": "Oregon",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 45.84,
+        "lon": -119.701,
+        "network": "Amazon.com, Inc.",
+        "asn": 16509,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-CF",
       "name": "☁️ Cloudflare Edge",
       "url": "https://www.cloudflarestatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 114,
+      "latency_ms": 419,
       "state": "DEGRADED",
-      "detail": "Partially Degraded Service"
+      "detail": "Partially Degraded Service",
+      "type": "statuspage",
+      "geo": {
+        "host": "www.cloudflarestatus.com",
+        "ip": "34.54.18.70",
+        "city": "Kansas City",
+        "region": "Missouri",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 39.1,
+        "lon": -94.579,
+        "network": "Google LLC",
+        "asn": 396982,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-META",
       "name": "📘 Facebook / Meta",
       "url": "https://metastatus.com/data/orgs.json",
       "http_status": 200,
-      "latency_ms": 60,
+      "latency_ms": 114,
       "state": "ONLINE",
-      "detail": "Meta Graph & Services Nominal"
+      "detail": "Meta Graph & Services Nominal",
+      "type": "meta",
+      "geo": {
+        "host": "metastatus.com",
+        "ip": "18.239.199.57",
+        "city": "San Jose",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.339,
+        "lon": -121.895,
+        "network": "Amazon.com, Inc.",
+        "asn": 16509,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-OA",
       "name": "🧠 OpenAI API",
       "url": "https://status.openai.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 232,
+      "latency_ms": 198,
       "state": "DEGRADED",
-      "detail": "Partial System Degradation"
+      "detail": "Partial System Degradation",
+      "type": "statuspage",
+      "geo": {
+        "host": "status.openai.com",
+        "ip": "66.33.60.66",
+        "city": "Los Angeles",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 34.052,
+        "lon": -118.244,
+        "network": "Vercel, Inc",
+        "asn": 16509,
+        "cdn": false,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-SLK",
       "name": "💼 Slack",
       "url": "https://status.slack.com/api/v2.0.0/current",
       "http_status": 200,
-      "latency_ms": 270,
+      "latency_ms": 403,
       "state": "ONLINE",
-      "detail": "All Systems Operational"
+      "detail": "All Systems Operational",
+      "type": "slack",
+      "geo": {
+        "host": "status.slack.com",
+        "ip": "34.195.54.161",
+        "city": "Washington",
+        "region": "District of Columbia",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 38.895,
+        "lon": -77.036,
+        "network": "Amazon Technologies Inc.",
+        "asn": 14618,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-ZM",
       "name": "📹 Zoom",
       "url": "https://status.zoom.us/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 330,
+      "latency_ms": 383,
       "state": "ONLINE",
-      "detail": "All Systems Operational"
+      "detail": "All Systems Operational",
+      "type": "statuspage",
+      "geo": {
+        "host": "status.zoom.us",
+        "ip": "52.85.151.100",
+        "city": "San Jose",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.339,
+        "lon": -121.895,
+        "network": "Amazon.com, Inc.",
+        "asn": 16509,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-GH",
       "name": "🐙 GitHub Pages / API",
       "url": "https://www.githubstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 181,
+      "latency_ms": 165,
       "state": "ONLINE",
-      "detail": "All Systems Operational"
+      "detail": "All Systems Operational",
+      "type": "statuspage",
+      "geo": {
+        "host": "www.githubstatus.com",
+        "ip": "108.138.246.57",
+        "city": "San Francisco",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.775,
+        "lon": -122.419,
+        "network": "Amazon.com, Inc.",
+        "asn": 16509,
+        "cdn": true,
+        "checked": 1794686141
+      }
     },
     {
       "id": "NODE-DC",
       "name": "💬 Discord Infra",
       "url": "https://discordstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 213,
+      "latency_ms": 205,
       "state": "ONLINE",
-      "detail": "All Systems Operational"
+      "detail": "All Systems Operational",
+      "type": "statuspage",
+      "geo": {
+        "host": "discordstatus.com",
+        "ip": "52.85.151.101",
+        "city": "San Jose",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.339,
+        "lon": -121.895,
+        "network": "Amazon.com, Inc.",
+        "asn": 16509,
+        "cdn": true,
+        "checked": 1794686142
+      }
     },
     {
       "id": "NODE-RD",
       "name": "👽 Reddit",
       "url": "https://www.redditstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 190,
+      "latency_ms": 215,
       "state": "ONLINE",
-      "detail": "All Systems Operational"
+      "detail": "All Systems Operational",
+      "type": "statuspage",
+      "geo": {
+        "host": "www.redditstatus.com",
+        "ip": "18.238.192.91",
+        "city": "San Jose",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.339,
+        "lon": -121.895,
+        "network": "Amazon.com, Inc.",
+        "asn": 16509,
+        "cdn": true,
+        "checked": 1794686142
+      }
     },
     {
       "id": "NODE-DO",
       "name": "🌊 DigitalOcean",
       "url": "https://status.digitalocean.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 56,
+      "latency_ms": 73,
       "state": "ONLINE",
-      "detail": "All Systems Operational"
+      "detail": "All Systems Operational",
+      "type": "statuspage",
+      "geo": {
+        "host": "status.digitalocean.com",
+        "ip": "104.19.173.68",
+        "city": "San Francisco",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.775,
+        "lon": -122.419,
+        "network": "Cloudflare, Inc.",
+        "asn": 13335,
+        "cdn": true,
+        "checked": 1794686142
+      }
     },
     {
       "id": "NODE-CORE",
       "name": "🛡️ HACKATNIGHT_CORE",
       "url": "https://hackatnight.com",
       "http_status": 200,
-      "latency_ms": 386,
+      "latency_ms": 248,
       "state": "ONLINE",
-      "detail": "HTTP 200 Reachable"
+      "detail": "HTTP 200 Reachable",
+      "type": "http",
+      "geo": {
+        "host": "hackatnight.com",
+        "ip": "185.199.111.153",
+        "city": "San Francisco",
+        "region": "California",
+        "country": "United States",
+        "countryCode": "US",
+        "lat": 37.775,
+        "lon": -122.419,
+        "network": "GitHub, Inc.",
+        "asn": 54113,
+        "cdn": false,
+        "checked": 1794686142
+      }
     }
   ]
 }
