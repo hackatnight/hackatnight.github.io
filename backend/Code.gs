@@ -346,7 +346,7 @@ function doGet(e) {
       });
     }
     if (action === "chat_poll") {
-      return jsonOut(chatPoll(Number(e.parameter.since) || 0));
+      return jsonOut(chatPoll(Number(e.parameter.since) || 0, e.parameter.name, e.parameter.sid));
     }
     if (action === "unlock_key") {
       // Keys are only accepted by POST so they never land in URLs or browser history
@@ -1243,7 +1243,9 @@ function escHtml(str) {
  * One public room. Every message is logged to the Chat_Log tab (Timestamp, Username, IP, Message).
  * The newest 60 messages are kept in the script cache so polling is fast; IPs are never sent to browsers.
  */
-const CHAT_CACHE_KEY = "chat_recent_v1";
+const CHAT_CACHE_KEY = "chat_recent_v2";
+const CHAT_PRESENCE_KEY = "chat_presence_v1";
+const CHAT_ONLINE_MS = 25000;   // a user counts as online if they polled in the last 25 s
 const CHAT_KEEP = 60;
 
 function chatSheet() {
@@ -1269,7 +1271,7 @@ function chatRecent() {
   if (last < 2) return [];
   const n = Math.min(CHAT_KEEP, last - 1);
   const rows = sh.getRange(last - n + 1, 1, n, 4).getValues();
-  const list = rows.map(r => ({
+  const list = rows.filter(r => r[0] && r[1]).map(r => ({
     ts: new Date(r[0]).getTime() || 0,
     name: String(r[1] || "").replace(/^'/, ""),
     msg: String(r[3] || "").replace(/^'/, "")
@@ -1278,9 +1280,30 @@ function chatRecent() {
   return list;
 }
 
-function chatPoll(since) {
+// Each poll also marks that browser as present; returns who is in the room (names only)
+function chatPresence(name, sid) {
+  const cache = CacheService.getScriptCache();
+  let map = {};
+  try { map = JSON.parse(cache.get(CHAT_PRESENCE_KEY) || "{}"); } catch (_) {}
+  const now = Date.now();
+  const cleanName = String(name || "").replace(/[^A-Za-z0-9 _.\-@]/g, "").trim().slice(0, 24);
+  const cleanSid = String(sid || "").replace(/[^A-Za-z0-9_]/g, "").slice(0, 60);
+  Object.keys(map).forEach(k => { if (now - map[k].t > CHAT_ONLINE_MS) delete map[k]; });
+  if (cleanName.length >= 2 && cleanSid) map[cleanSid] = { n: cleanName, t: now };
+  const keys = Object.keys(map);
+  if (keys.length > 200) keys.slice(0, keys.length - 200).forEach(k => delete map[k]);
+  cache.put(CHAT_PRESENCE_KEY, JSON.stringify(map), 600);
+  return Array.from(new Set(Object.keys(map).map(k => map[k].n))).sort((a, b) => a.localeCompare(b));
+}
+
+function chatPoll(since, name, sid) {
   const list = chatRecent();
-  return { status: "ok", now: Date.now(), messages: since ? list.filter(m => m.ts > since) : list };
+  return {
+    status: "ok",
+    now: Date.now(),
+    users: chatPresence(name, sid),
+    messages: since ? list.filter(m => m.ts > since) : list
+  };
 }
 
 function chatSend(d) {
