@@ -41,5 +41,5 @@ jobs:
           git config --global user.name "hackatnight-bot"
           git config --global user.email "bot@hackatnight.com"
           git add outages.json
-          git diff --staged --quiet || git commit -m "chore(telemetry): update live outages.json [v.2.5.1]"
+          git diff --staged --quiet || git commit -m "chore(telemetry): update live outages.json"
           git push

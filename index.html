@@ -633,7 +633,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.5.4]</span>
+        <span id="titleVersionBadge">[v.2.5.6]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -676,7 +676,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> VENICE, FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.4</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.6</span></div>
         </div>
       </aside>
 
@@ -973,7 +973,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.4]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.6]</div>
     </div>
   </div>
 
@@ -1000,7 +1000,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.5.4",
+      APP_VERSION: "v.2.5.6",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
@@ -1064,6 +1064,8 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.5.6", Project: "H@N CI/CD", Summary: "Bug fixes: Telemetry & Outage Sync workflow no longer crashes when the webhook secret is empty (falls back to the built-in Apps Script URL), web requests moved inside error handling, and actions bumped to Node 24 (checkout v5, setup-python v6).", Tag: "🟠 FIX" },
+      { Date: "2026-11-14", Version: "v.2.5.5", Project: "H@N Core", Summary: "Real GeoIP visitor tracking & dynamic globe visitor arcs.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.5.4", Project: "H@N Core", Summary: "More fixes: wired two-way Projects sync between Google Sheets and public GitHub repositories with uniform retro-terminal row formatting.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.5.3", Project: "H@N Core", Summary: "Bug fixes: replaced initial fake fallback data with explicit ... LOADING and FAILED TO FETCH states; reordered Visits Log columns (Date, IP, Country first) with newest visits on top.", Tag: "🟠 FIX" },
       { Date: "2026-11-13", Version: "v.2.5.2", Project: "H@N Core", Summary: "Fixed Changelog state overwrite bug by merging local release manifest with live Google Sheet rows and auto-syncing missing versions.", Tag: "🟠 FIX" },
