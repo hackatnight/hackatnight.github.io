@@ -29,7 +29,16 @@ QUERY = """
 );
 out tags geom;
 """
-UA = "H@N-Cable-Map/1.0 (+https://hackatnight.com)"
+# US fiber on land (not underwater), only runs of 20 km or more; lower 48 bounding box
+LAND_QUERY = """
+[out:json][timeout:240];
+(
+  way["communication"="line"]["location"!~"^(underwater|submarine)$"]["submarine"!="yes"](if: length() > 20000)(24.3,-125.0,49.5,-66.8);
+  way["telecom"="line"]["location"!~"^(underwater|submarine)$"]["submarine"!="yes"](if: length() > 20000)(24.3,-125.0,49.5,-66.8);
+);
+out tags geom;
+"""
+UA = "H@N-Cable-Map/1.1 (+https://hackatnight.com)"
 
 
 def now():
@@ -65,6 +74,34 @@ def length_km(pts):
     return total
 
 
+def overpass(query, label):
+    for url in ENDPOINTS:
+        try:
+            req = urllib.request.Request(url, data=urllib.parse.urlencode({"data": query}).encode(),
+                                         headers={"User-Agent": UA})
+            with urllib.request.urlopen(req, timeout=300) as res:
+                data = json.loads(res.read().decode("utf-8"))
+            print(f"[cables] {label} via {url}: {len(data.get('elements', []))} ways")
+            return data
+        except Exception as e:
+            print(f"[cables] {label} via {url} failed: {e}")
+            time.sleep(5)
+    return None
+
+
+def land_lines(data):
+    out = []
+    for el in (data or {}).get("elements", []):
+        pts = [(round(g["lon"], 3), round(g["lat"], 3)) for g in (el.get("geometry") or []) if "lon" in g]
+        if len(pts) < 2:
+            continue
+        tags = el.get("tags") or {}
+        s = dp(pts, 0.02)
+        out.append({"n": (tags.get("name") or "").strip()[:80], "op": (tags.get("operator") or tags.get("owner") or "").strip()[:80],
+                    "km": int(length_km(pts)), "p": [[round(x, 2), round(y, 2)] for x, y in s]})
+    return out
+
+
 def main():
     previous = None
     if os.path.exists(OUTPUT):
@@ -72,27 +109,17 @@ def main():
             with open(OUTPUT, encoding="utf-8") as f:
                 previous = json.load(f)
             updated = datetime.strptime(previous.get("updated", ""), "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
-            if now() - updated < MAX_AGE and not os.environ.get("CABLES_FORCE"):
+            if now() - updated < MAX_AGE and "land" in previous and not os.environ.get("CABLES_FORCE"):
                 print("[cables] fetched within the last day, skipping")
                 return 0
         except Exception:
             pass
 
-    data = None
-    for url in ENDPOINTS:
-        try:
-            req = urllib.request.Request(url, data=urllib.parse.urlencode({"data": QUERY}).encode(),
-                                         headers={"User-Agent": UA})
-            with urllib.request.urlopen(req, timeout=300) as res:
-                data = json.loads(res.read().decode("utf-8"))
-            print(f"[cables] {url}: {len(data.get('elements', []))} ways")
-            break
-        except Exception as e:
-            print(f"[cables] {url} failed: {e}")
-            time.sleep(5)
+    data = overpass(QUERY, "submarine")
     if not data:
         print("[cables] all endpoints failed; keeping previous file")
         return 0
+    land_data = overpass(LAND_QUERY, "US land")
 
     # Group segments by cable name; unnamed bits are kept only if they are long (real cable spans)
     groups = {}
@@ -135,10 +162,12 @@ def main():
         "updated": now().strftime("%Y-%m-%dT%H:%M:%SZ"),
         "count": len(cables),
         "cables": cables,
+        # Keep the previous land set if this run's land query failed
+        "land": land_lines(land_data) if land_data else (previous or {}).get("land", []),
     }
     with open(OUTPUT, "w", encoding="utf-8") as f:
         json.dump(out, f, separators=(",", ":"), ensure_ascii=False)
-    print(f"[cables] wrote {OUTPUT}: {len(cables)} cables, {total_pts} points, {os.path.getsize(OUTPUT) // 1024} KB")
+    print(f"[cables] wrote {OUTPUT}: {len(cables)} cables, {total_pts} points, {len(out['land'])} US land lines, {os.path.getsize(OUTPUT) // 1024} KB")
     return 0
 
 
