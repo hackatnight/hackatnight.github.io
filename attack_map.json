@@ -6,86 +6,203 @@
         "network": "45.198.224.0/24",
         "name": "OWS",
         "country": "US",
-        "targets": 312
+        "targets": 312,
+        "geo": {
+          "city": "Montreal",
+          "region": "Quebec",
+          "countryCode": "CA",
+          "lat": 45.509,
+          "lon": -73.588,
+          "org": "VPSVAULT.HOST LTD",
+          "asn": 215925
+        }
       },
       {
         "network": "65.49.1.0/24",
         "name": "HURRICANE",
         "country": "US",
-        "targets": 306
+        "targets": 306,
+        "geo": {
+          "city": "Livermore-Pleasanton",
+          "region": "California",
+          "countryCode": "US",
+          "lat": 37.697,
+          "lon": -121.844,
+          "org": "Hurricane Electric LLC",
+          "asn": 6939
+        }
       },
       {
         "network": "193.47.62.0/24",
         "name": "ASN-QUADRANET-GLOBAL",
         "country": "US",
-        "targets": 306
+        "targets": 306,
+        "geo": {
+          "city": "Amsterdam",
+          "region": "Provincie Noord-Holland",
+          "countryCode": "NL",
+          "lat": 52.374,
+          "lon": 4.89,
+          "org": "BESTDC LIMITED",
+          "asn": 216014
+        }
       },
       {
         "network": "69.5.169.0/24",
         "name": "OMNIS",
         "country": "US",
-        "targets": 294
+        "targets": 294,
+        "geo": {
+          "city": "Frankfurt am Main",
+          "region": "Hessen",
+          "countryCode": "DE",
+          "lat": 50.116,
+          "lon": 8.684,
+          "org": "Infrawatch Limited",
+          "asn": 25369
+        }
       },
       {
         "network": "193.163.125.0/24",
         "name": "INTERNET-MEASUREMENT",
         "country": "GB",
-        "targets": 291
+        "targets": 291,
+        "geo": {
+          "city": "Leeds",
+          "region": "England",
+          "countryCode": "GB",
+          "lat": 53.796,
+          "lon": -1.548,
+          "org": "Driftnet Ltd",
+          "asn": 211298
+        }
       },
       {
         "network": "64.62.197.0/24",
         "name": "HURRICANE",
         "country": "US",
-        "targets": 288
+        "targets": 288,
+        "geo": {
+          "city": "Livermore-Pleasanton",
+          "region": "California",
+          "countryCode": "US",
+          "lat": 37.697,
+          "lon": -121.844,
+          "org": "Hurricane Electric LLC",
+          "asn": 6939
+        }
       },
       {
         "network": "64.205.72.0/24",
         "name": "MEGAPATH2-",
         "country": "US",
-        "targets": 288
+        "targets": 288,
+        "geo": {
+          "city": "Amsterdam",
+          "region": "Provincie Noord-Holland",
+          "countryCode": "NL",
+          "lat": 52.374,
+          "lon": 4.89,
+          "org": "Private Customer",
+          "asn": 25369
+        }
       },
       {
         "network": "147.185.132.0/24",
         "name": "GOOGLE-CLOUD-PLATFORM",
         "country": "US",
-        "targets": 284
+        "targets": 284,
+        "geo": {
+          "city": "San Jose",
+          "region": "California",
+          "countryCode": "US",
+          "lat": 37.339,
+          "lon": -121.895,
+          "org": "Palo Alto Networks, Inc",
+          "asn": 396982
+        }
       },
       {
         "network": "151.243.11.0/24",
         "name": "RASANA",
         "country": "IR",
-        "targets": 283
+        "targets": 283,
+        "geo": {
+          "city": "Betzdorf",
+          "region": "Rheinland-Pfalz",
+          "countryCode": "DE",
+          "lat": 50.791,
+          "lon": 7.872,
+          "org": "Private Customer",
+          "asn": 209630
+        }
       },
       {
         "network": "200.138.46.0/24",
         "name": "V tal",
         "country": "BR",
-        "targets": 283
+        "targets": 283,
+        "geo": {
+          "city": "Amsterdam",
+          "region": "Provincie Noord-Holland",
+          "countryCode": "NL",
+          "lat": 52.374,
+          "lon": 4.89,
+          "org": "Private Customer",
+          "asn": 25369
+        }
       },
       {
         "network": "45.148.10.0/24",
         "name": "PPTECHNOLOGY",
         "country": "GB",
-        "targets": 282
+        "targets": 282,
+        "geo": {
+          "city": "Amsterdam",
+          "region": "Provincie Noord-Holland",
+          "countryCode": "NL",
+          "lat": 52.374,
+          "lon": 4.89,
+          "org": "TECHOFF SRV LIMITED",
+          "asn": 48090
+        }
       },
       {
         "network": "77.90.185.0/24",
         "name": "BTHOSTER",
         "country": "GB",
-        "targets": 281
+        "targets": 281,
+        "geo": {
+          "city": "Augsburg",
+          "region": "Bavaria",
+          "countryCode": "DE",
+          "lat": 48.372,
+          "lon": 10.899,
+          "org": "Limited Network LTD",
+          "asn": 213790
+        }
       },
       {
         "network": "91.196.152.0/24",
         "name": "ATT-INTERNET4",
         "country": "US",
-        "targets": 281
+        "targets": 281,
+        "geo": {
+          "city": "Roubaix",
+          "region": "Hauts-de-France",
+          "countryCode": "FR",
+          "lat": 50.694,
+          "lon": 3.175,
+          "org": "ONYPHE SAS",
+          "asn": 213412
+        }
       }
     ],
     "attribution": "SANS Technology Institute, Internet Storm Center (DShield), https://isc.sans.edu"
   },
   "cloudflare": {
     "enabled": true,
-    "fetched": "2026-11-14T20:27:48Z",
+    "fetched": "2026-11-14T20:33:56Z",
     "window": "24h",
     "attribution": "Cloudflare Radar, https://radar.cloudflare.com",
     "layer3": [
@@ -441,7 +558,59 @@
         "targetName": "United States",
         "value": 0.43
       }
+    ],
+    "topAses": [
+      {
+        "asn": "8075",
+        "name": "Microsoft Corporation",
+        "value": 4.586
+      },
+      {
+        "asn": "396982",
+        "name": "Google LLC",
+        "value": 3.706
+      },
+      {
+        "asn": "16509",
+        "name": "Amazon.com, Inc.",
+        "value": 2.817
+      },
+      {
+        "asn": "4134",
+        "name": "CHINANET BACKBONE",
+        "value": 2.218
+      },
+      {
+        "asn": "14061",
+        "name": "DigitalOcean, LLC",
+        "value": 1.61
+      },
+      {
+        "asn": "4837",
+        "name": "CHINA UNICOM China169 Backbone",
+        "value": 1.594
+      },
+      {
+        "asn": "14618",
+        "name": "Amazon.com, Inc.",
+        "value": 1.55
+      },
+      {
+        "asn": "45102",
+        "name": "Alibaba (US) Technology Co., Ltd.",
+        "value": 1.412
+      },
+      {
+        "asn": "24940",
+        "name": "Hetzner Online GmbH",
+        "value": 1.404
+      },
+      {
+        "asn": "4766",
+        "name": "Korea Telecom",
+        "value": 1.148
+      }
     ]
   },
-  "updated": "2026-11-14T20:27:49Z"
+  "updated": "2026-11-14T20:33:58Z"
 }
