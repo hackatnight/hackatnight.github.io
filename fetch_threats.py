@@ -358,7 +358,8 @@ def feed_severity(src_id, title, desc, link):
     if src_id == "NCSC":
         kind = re.search(r"ncsc\.gov\.uk/([a-z-]+)/", link)
         kind = kind.group(1).upper() if kind else "NEWS"
-        if re.search(r"\bcritical\b", title, re.I):
+        # Only real security wording counts ("critical infrastructure"/"critical organisations" do not)
+        if re.search(r"critical (security|vulnerabilit|flaw|issue|patch|update)|actively exploited|zero[- ]day", title, re.I):
             return "CRITICAL"
         return {"BLOGS": "BLOG", "REPORT": "REPORT", "GUIDANCE": "GUIDANCE"}.get(kind, "NEWS")
     if src_id == "CCCS":
@@ -368,7 +369,7 @@ def feed_severity(src_id, title, desc, link):
             return "EXPLOITED"
         return "ADVISORY"
     if src_id == "ACSC":
-        if re.search(r"\bcritical\b", text, re.I):
+        if re.search(r"critical (security|vulnerabilit|flaw|issue)|actively exploited", text, re.I):
             return "CRITICAL"
         return "ALERT"
     if src_id == "MSRC":
