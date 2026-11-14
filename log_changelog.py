@@ -5,10 +5,7 @@ import re
 import os
 from datetime import datetime, timezone
 
-APPS_SCRIPT_WEBHOOK = os.environ.get(
-    "APPS_SCRIPT_WEBHOOK",
-    "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec"
-)
+APPS_SCRIPT_WEBHOOK = os.environ.get("APPS_SCRIPT_WEBHOOK", "").strip() or "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec"
 
 def get_latest_commit():
     try:
@@ -60,13 +57,13 @@ def main():
         "tag": tag
     }
 
-    req = urllib.request.Request(
-        APPS_SCRIPT_WEBHOOK,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
-        method="POST"
-    )
     try:
+        req = urllib.request.Request(
+            APPS_SCRIPT_WEBHOOK,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST"
+        )
         with urllib.request.urlopen(req, timeout=10) as res:
             resp_text = res.read().decode("utf-8")
             print(f"[{date_str}] Logged commit {sha} ({version}) to Changelog tab: {resp_text}")

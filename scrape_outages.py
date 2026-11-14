@@ -28,19 +28,16 @@ TARGETS = [
     {"id": "NODE-01",      "name": "🛡️ HACKATNIGHT_CORE",        "type": "http",       "url": "https://hackatnight.com"}
 ]
 
-APPS_SCRIPT_WEBHOOK = os.environ.get(
-    "APPS_SCRIPT_WEBHOOK",
-    "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec"
-)
+APPS_SCRIPT_WEBHOOK = os.environ.get("APPS_SCRIPT_WEBHOOK", "").strip() or "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec"
 
 def check_target(target):
-    req = urllib.request.Request(
-        target["url"],
-        headers={"User-Agent": "Mozilla/5.0 (compatible; H@N-Telemetry-Monitor/2.4.0)"}
-    )
     start = time.time()
     ctype = (target.get("type") or "http").lower()
     try:
+        req = urllib.request.Request(
+            target["url"],
+            headers={"User-Agent": "Mozilla/5.0 (compatible; H@N-Telemetry-Monitor/2.4.0)"}
+        )
         with urllib.request.urlopen(req, timeout=10) as res:
             latency_ms = int((time.time() - start) * 1000)
             http_code = res.getcode()
