@@ -25,7 +25,7 @@ def extract_app_version():
             return m.group(1)
     except Exception:
         pass
-    return "v.2.5.6"
+    return "v.2.5.7"
 
 def classify_commit(msg):
     low = msg.lower()
@@ -53,7 +53,7 @@ def main():
         "date": date_str,
         "version": version,
         "project": "H@N Core",
-        "summary": f"{msg} ({sha})",
+        "summary": f"{msg[:380]} ({sha})",
         "tag": tag
     }
 

@@ -4,6 +4,7 @@ import urllib.parse
 import json
 import time
 import os
+import socket
 from datetime import datetime, timezone
 
 TARGETS = [
@@ -25,8 +26,14 @@ TARGETS = [
     {"id": "NODE-SPEC",    "name": "📡 Spectrum / Charter ISP",  "type": "http",       "url": "https://www.spectrum.net/support/internet/outage"},
     {"id": "NODE-ATT",     "name": "📡 AT&T Fiber / ISP",        "type": "http",       "url": "https://www.att.com/outages/"},
     {"id": "NODE-VZ",      "name": "📡 Verizon Fios / ISP",      "type": "http",       "url": "https://www.verizon.com/support/check-network-status/"},
-    {"id": "NODE-01",      "name": "🛡️ HACKATNIGHT_CORE",        "type": "http",       "url": "https://hackatnight.com"}
+    {"id": "NODE-CORE",    "name": "🛡️ HACKATNIGHT_CORE",        "type": "http",       "url": "https://hackatnight.com"}
 ]
+
+BROWSER_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36 H@N-Telemetry/2.5",
+    "Accept": "text/html,application/json;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+}
 
 APPS_SCRIPT_WEBHOOK = os.environ.get("APPS_SCRIPT_WEBHOOK", "").strip() or "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec"
 
@@ -34,11 +41,9 @@ def check_target(target):
     start = time.time()
     ctype = (target.get("type") or "http").lower()
     try:
-        req = urllib.request.Request(
-            target["url"],
-            headers={"User-Agent": "Mozilla/5.0 (compatible; H@N-Telemetry-Monitor/2.4.0)"}
-        )
-        with urllib.request.urlopen(req, timeout=10) as res:
+        # Browser-like headers: several ISP/Microsoft pages reject or stall obvious bot requests
+        req = urllib.request.Request(target["url"], headers=BROWSER_HEADERS)
+        with urllib.request.urlopen(req, timeout=15) as res:
             latency_ms = int((time.time() - start) * 1000)
             http_code = res.getcode()
             raw_bytes = res.read(65536)
@@ -79,8 +84,9 @@ def check_target(target):
             }
     except urllib.error.HTTPError as e:
         latency_ms = int((time.time() - start) * 1000)
-        # WAF/Bot protection on ISP pages (403) still proves the ISP edge router is up and responding
-        if ctype == "http" and e.code in (401, 403, 405):
+        # Any 4xx answer (bot/WAF blocks, 417 from Exchange, etc.) still proves the edge is up and responding.
+        # Only 404/410 (page gone) and 429 (throttled) are treated as problems.
+        if ctype == "http" and 400 <= e.code < 500 and e.code not in (404, 410, 429):
             return {
                 "id": target["id"],
                 "name": target["name"],
@@ -99,7 +105,8 @@ def check_target(target):
             "state": "DEGRADED" if e.code == 429 else "OFFLINE",
             "detail": f"HTTP Error {e.code}"
         }
-    except Exception:
+    except Exception as e:
+        is_timeout = isinstance(e, (TimeoutError, socket.timeout)) or "timed out" in str(e).lower()
         return {
             "id": target["id"],
             "name": target["name"],
@@ -107,7 +114,7 @@ def check_target(target):
             "http_status": 0,
             "latency_ms": 0,
             "state": "OFFLINE",
-            "detail": "Connection Timeout / Unreachable"
+            "detail": "Probe Timed Out (may block GitHub runners)" if is_timeout else "Connection Failed / Unreachable"
         }
 
 def push_to_backend(results, timestamp):
