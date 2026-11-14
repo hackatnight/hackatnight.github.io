@@ -722,7 +722,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.8.4]</span>
+        <span id="titleVersionBadge">[v.2.8.5]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -765,7 +765,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.8.4</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.8.5</span></div>
         </div>
       </aside>
 
@@ -1083,7 +1083,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.8.4]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.8.5]</div>
     </div>
   </div>
 
@@ -1110,7 +1110,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.8.4",
+      APP_VERSION: "v.2.8.5",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1174,6 +1174,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.8.5", Project: "H@N UI / Globe", Summary: "Globe shrinks to fit short windows so the threat feed always keeps room at the bottom.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.8.4", Project: "H@N UI / Globe", Summary: "New arcs toggle on the globe toolbar: show all arcs, visitor arcs only, attack arcs only, or none (remembered per browser).", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.8.3", Project: "H@N UI / Globe", Summary: "Threat feed now fills the left column down to the bottom of the page; the globe box can be resized by dragging its bottom edge; globe zoom goes much deeper (up to 8x) and the flat map can be panned.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.8.2", Project: "H@N UI / Globe", Summary: "Globe arcs now fly as raised 3D great-circle paths that roll smoothly over the horizon while the globe rotates, instead of vanishing.", Tag: "🟢 FEAT" },
@@ -2302,6 +2303,12 @@
         const saved = Number(localStorage.getItem("han_globe_h"));
         if (saved) setGlobeH(saved);
       } catch (_) {}
+      // On short windows, shrink the globe so the threat feed keeps at least ~130px
+      const clampGlobe = () => {
+        if (getComputedStyle(leftCol).display === "flex") setGlobeH(wrapEl.offsetHeight);
+      };
+      window.addEventListener("resize", () => requestAnimationFrame(clampGlobe));
+      clampGlobe();
       if (resizer) {
         let startY = 0, startH = 0;
         const move = e => setGlobeH(startH + (e.clientY - startY));
