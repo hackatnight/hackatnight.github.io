@@ -85,7 +85,7 @@
   },
   "cloudflare": {
     "enabled": true,
-    "fetched": "2026-11-14T19:10:02Z",
+    "fetched": "2026-11-14T19:16:26Z",
     "window": "24h",
     "attribution": "Cloudflare Radar, https://radar.cloudflare.com",
     "layer3": [
@@ -443,5 +443,5 @@
       }
     ]
   },
-  "updated": "2026-11-14T19:10:04Z"
+  "updated": "2026-11-14T19:16:27Z"
 }
