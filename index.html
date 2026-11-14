@@ -633,7 +633,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.5.7]</span>
+        <span id="titleVersionBadge">[v.2.5.8]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -676,7 +676,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> VENICE, FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.7</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.5.8</span></div>
         </div>
       </aside>
 
@@ -973,7 +973,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.7]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.5.8]</div>
     </div>
   </div>
 
@@ -1000,7 +1000,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.5.7",
+      APP_VERSION: "v.2.5.8",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
@@ -1064,6 +1064,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.5.8", Project: "H@N Core", Summary: "Security fix: all sheet and visitor-supplied data is now HTML-escaped before display, and project/download links only allow http(s) URLs.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.5.7", Project: "H@N Core", Summary: "Bug fixes from full-site audit: forms now report real backend errors, backend log trimming with archive tabs, 24h uptime window, rate limits & validation on backend writes, alert emails only on state changes, fewer false OFFLINE outage readings.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.5.6", Project: "H@N CI/CD", Summary: "Bug fixes: Telemetry & Outage Sync workflow no longer crashes when the webhook secret is empty (falls back to the built-in Apps Script URL), web requests moved inside error handling, and actions bumped to Node 24 (checkout v5, setup-python v6).", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.5.5", Project: "H@N Core", Summary: "Real GeoIP visitor tracking & dynamic globe visitor arcs (rolled back to the v.2.5.4 code in the 'stable version' commit).", Tag: "🔵 UPDATE" },
@@ -1263,8 +1264,21 @@
     /* =========================================================================
        06B // DEVICE ICON & WINDOWS-SAFE COUNTRY FLAG RENDERER
        ========================================================================= */
+    // Escape any value that came from the backend/sheet before putting it into innerHTML.
+    // Visitors and form submitters control some of these fields, so they must never be treated as HTML.
+    function esc(v) {
+      return String(v == null ? "" : v)
+        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+    }
+    // Only allow http(s) links from sheet data (blocks javascript: and data: URLs)
+    function safeUrl(u) {
+      const s = String(u || "").trim();
+      return /^https?:\/\//i.test(s) ? esc(s) : "";
+    }
+
     function formatDeviceBadge(devRaw) {
-      const clean = String(devRaw || "Desktop").replace(/[💻📱📟🖥️]/g, "").trim();
+      const clean = esc(String(devRaw || "Desktop").replace(/[💻📱📟🖥️]/g, "").trim());
       if (/mobile|phone|android|iphone/i.test(clean)) return `📱 ${clean}`;
       if (/tablet|ipad/i.test(clean)) return `📟 ${clean}`;
       return `💻 ${clean || "Desktop"}`;
@@ -1313,10 +1327,10 @@
     }
 
     function formatRegionBadge(regionRaw) {
-      const clean = String(regionRaw || "Unknown")
+      const clean = esc(String(regionRaw || "Unknown")
         .replace(/[\uD83C][\uDDE6-\uDDFF][\uD83C][\uDDE6-\uDDFF]/g, "")
         .replace(/^[🌐]\s*/, "")
-        .trim();
+        .trim());
       const iso = resolveCountryCode(regionRaw);
       if (iso) {
         return `<span style="display:inline-flex;align-items:center;gap:5px"><img src="https://flagcdn.com/16x12/${iso}.png" width="16" height="12" alt="${iso.toUpperCase()}" style="vertical-align:middle;border:1px solid rgba(255,255,255,0.25);border-radius:1px" /><span>${clean}</span></span>`;
@@ -1384,14 +1398,14 @@
           </div>`;
       } else {
         document.getElementById("uptimeGrid").innerHTML = nodes.map(n => {
-          const hist = n.history && n.history.length ? n.history : [40, 42, 41];
+          const hist = (n.history && n.history.length ? n.history : [40, 42, 41]).map(v => Number(v) || 0);
           const max = Math.max(...hist, 100);
           const pts = hist.map((v, i) => `${(i / Math.max(hist.length - 1, 1)) * 220},${34 - (v / max) * 28}`).join(" ");
           return `
             <div class="card">
-              <div class="card-head"><span>${n.name}</span><span class="${n.state === "ONLINE" ? "tag" : "tag tag-danger"}">${n.state} (${n.status})</span></div>
-              <div style="font-size:15px;font-weight:700;color:var(--accent)">${n.uptime}% <span style="font-size:11px;color:var(--muted)">// ${n.latency} ms</span></div>
-              <div style="font-size:10px;color:var(--muted);margin:3px 0 6px;overflow:hidden;text-overflow:ellipsis">${n.url}</div>
+              <div class="card-head"><span>${esc(n.name)}</span><span class="${n.state === "ONLINE" ? "tag" : "tag tag-danger"}">${esc(n.state)} (${esc(n.status)})</span></div>
+              <div style="font-size:15px;font-weight:700;color:var(--accent)">${esc(n.uptime)}% <span style="font-size:11px;color:var(--muted)">// ${esc(n.latency)} ms</span></div>
+              <div style="font-size:10px;color:var(--muted);margin:3px 0 6px;overflow:hidden;text-overflow:ellipsis">${esc(n.url)}</div>
               <svg width="100%" height="36" viewBox="0 0 220 36" preserveAspectRatio="none">
                 <polyline fill="none" stroke="var(--accent)" stroke-width="2" points="${pts}" />
               </svg>
@@ -1410,7 +1424,7 @@
         document.getElementById("visitsTableBody").innerHTML = recentVisits.slice(0, 8).map(v => `
           <tr>
             <td>${new Date(v.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</td>
-            <td>${v.path}</td>
+            <td>${esc(v.path)}</td>
             <td>${formatDeviceBadge(v.device)}</td>
             <td>${formatRegionBadge(v.region)}</td>
           </tr>`).join("");
@@ -1436,12 +1450,12 @@
       } else {
         document.getElementById("projectsGrid").innerHTML = projectsList.map(p => `
           <div class="card">
-            <div class="card-head"><span>${p.Category || "SYSTEM"} // ${p.Version || "v1.0"}</span><span class="tag">${p.Status || "ACTIVE"}</span></div>
-            <h3 style="margin:4px 0 6px;font-size:13px;color:var(--text)">${p.Title}</h3>
-            <p style="font-size:11px;color:var(--muted);margin:0 0 10px">${p.Description}</p>
+            <div class="card-head"><span>${esc(p.Category || "SYSTEM")} // ${esc(p.Version || "v1.0")}</span><span class="tag">${esc(p.Status || "ACTIVE")}</span></div>
+            <h3 style="margin:4px 0 6px;font-size:13px;color:var(--text)">${esc(p.Title)}</h3>
+            <p style="font-size:11px;color:var(--muted);margin:0 0 10px">${esc(p.Description)}</p>
             <div style="display:flex;gap:6px;flex-wrap:wrap">
-              ${p["Live URL"] ? `<a class="s7-btn active-toggle" href="${p["Live URL"]}" target="_blank" rel="noopener">[live demo]</a>` : ""}
-              ${p["Source URL"] ? `<a class="s7-btn" href="${p["Source URL"]}" target="_blank" rel="noopener">[source code]</a>` : ""}
+              ${safeUrl(p["Live URL"]) ? `<a class="s7-btn active-toggle" href="${safeUrl(p["Live URL"])}" target="_blank" rel="noopener">[live demo]</a>` : ""}
+              ${safeUrl(p["Source URL"]) ? `<a class="s7-btn" href="${safeUrl(p["Source URL"])}" target="_blank" rel="noopener">[source code]</a>` : ""}
             </div>
           </div>`).join("");
       }
@@ -1457,11 +1471,11 @@
       } else {
         document.getElementById("downloadsGrid").innerHTML = downloadsList.map(d => `
           <div class="card">
-            <div class="card-head"><span>${d.Platform}</span><span class="tag">${d.Count} DLs</span></div>
-            <h3 style="margin:4px 0 4px;font-size:12px;color:var(--accent)">${d.Title}</h3>
-            <div style="font-size:10px;color:var(--muted);margin-bottom:6px">VER: ${d.Version} // SIZE: ${d.Size}</div>
-            <div style="font-size:9px;color:var(--muted);word-break:break-all;margin-bottom:8px">SHA256: ${d["SHA-256"]}</div>
-            <button class="s7-btn active-toggle" onclick="triggerDownload('${d["File ID"]}', '${d["Download URL"]}')">[download package]</button>
+            <div class="card-head"><span>${esc(d.Platform)}</span><span class="tag">${esc(d.Count)} DLs</span></div>
+            <h3 style="margin:4px 0 4px;font-size:12px;color:var(--accent)">${esc(d.Title)}</h3>
+            <div style="font-size:10px;color:var(--muted);margin-bottom:6px">VER: ${esc(d.Version)} // SIZE: ${esc(d.Size)}</div>
+            <div style="font-size:9px;color:var(--muted);word-break:break-all;margin-bottom:8px">SHA256: ${esc(d["SHA-256"])}</div>
+            <button class="s7-btn active-toggle" data-file-id="${esc(d["File ID"])}" data-url="${safeUrl(d["Download URL"])}" onclick="triggerDownload(this.dataset.fileId, this.dataset.url)">[download package]</button>
           </div>`).join("");
       }
 
@@ -1495,11 +1509,11 @@
             const tag = c.Tag || c.tag || "UPDATE";
             return `
               <tr>
-                <td style="color:var(--muted);white-space:nowrap">${fmtDate}</td>
-                <td style="color:var(--accent);font-weight:700;white-space:nowrap">${ver}</td>
-                <td style="font-weight:700;white-space:nowrap">${proj}</td>
-                <td>${sum}</td>
-                <td><span class="tag">${tag}</span></td>
+                <td style="color:var(--muted);white-space:nowrap">${esc(fmtDate)}</td>
+                <td style="color:var(--accent);font-weight:700;white-space:nowrap">${esc(ver)}</td>
+                <td style="font-weight:700;white-space:nowrap">${esc(proj)}</td>
+                <td>${esc(sum)}</td>
+                <td><span class="tag">${esc(tag)}</span></td>
               </tr>`;
           }).join("");
         }
@@ -1515,10 +1529,10 @@
       } else {
         document.getElementById("triageTableBody").innerHTML = triageList.map(t => `
           <tr>
-            <td>${t.id}</td>
-            <td>${t.project}</td>
-            <td>${t.severity}</td>
-            <td><span class="tag">${t.status}</span></td>
+            <td>${esc(t.id)}</td>
+            <td>${esc(t.project)}</td>
+            <td>${esc(t.severity)}</td>
+            <td><span class="tag">${esc(t.status)}</span></td>
           </tr>`).join("");
       }
     }
@@ -2146,16 +2160,16 @@
             <div class="card-head">
               <span style="display:inline-flex;align-items:center;gap:6px">
                 <img src="${iconUrl}" width="14" height="14" alt="" style="vertical-align:middle;border-radius:2px" />
-                <span>${svc.name}</span>
+                <span>${esc(svc.name)}</span>
               </span>
-              <span class="${tagClass}">${svc.state}</span>
+              <span class="${tagClass}">${esc(svc.state)}</span>
             </div>
             <div style="font-size:13px;font-weight:700;color:${isOnline ? 'var(--accent)' : 'var(--warn)'}">
-              ${svc.detail || "All Systems Operational"}
+              ${esc(svc.detail || "All Systems Operational")}
             </div>
             <div style="font-size:10px;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between">
-              <span>ID: ${svc.id}</span>
-              <span>PING: ${svc.latency_ms || "--"} ms</span>
+              <span>ID: ${esc(svc.id)}</span>
+              <span>PING: ${esc(svc.latency_ms || "--")} ms</span>
             </div>
           </div>`;
       }).join("");
