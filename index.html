@@ -2807,7 +2807,7 @@
               markers.push({
                 lat: g.lat, lon: g.lon, size: 3 + 5 * Math.sqrt(targets / dsMax),
                 label: String(n.name || g.org || "?").slice(0, 18),
-                info: `SCANNING SOURCE // ${String(g.org || n.name || "?").slice(0, 40)} (${n.network}) // ${place} // ${targets.toLocaleString()} targets scanned (SANS ISC DShield)`
+                info: `SCANNING SOURCE // ${[n.name, g.org].filter((v, i, arr) => v && arr.indexOf(v) === i).join(" / ").slice(0, 60) || "?"} (${n.network}) // ${place} // ${targets.toLocaleString()} targets scanned (SANS ISC DShield)`
               });
               return;
             }
