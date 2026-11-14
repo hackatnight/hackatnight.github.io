@@ -697,7 +697,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.7.0]</span>
+        <span id="titleVersionBadge">[v.2.7.1]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -740,7 +740,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> VENICE, FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.7.0</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.7.1</span></div>
         </div>
       </aside>
 
@@ -1056,7 +1056,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.7.0]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.7.1]</div>
     </div>
   </div>
 
@@ -1083,7 +1083,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.7.0",
+      APP_VERSION: "v.2.7.1",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.0998, lon: -82.4543, label: "HQ // VENICE_FL" }
@@ -1147,6 +1147,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.7.1", Project: "H@N UI / Globe", Summary: "Attack map: Cloudflare Radar arcs live; ~60 more country positions so no attack pair is dropped; same-country (domestic) attacks shown as looping rings.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.7.0", Project: "H@N UI / Globe", Summary: "Attack map layer on the globe: animated origin-to-target arcs from Cloudflare Radar (DDoS L3 and web L7, last 24h) and top scanning sources from SANS ISC DShield, with an attacks toggle and source credits.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.6.1", Project: "H@N Threat Intel", Summary: "Threat feed adds UK NCSC, Canadian Cyber Centre, Australian ACSC, Microsoft MSRC and Cisco PSIRT, each with its own icon, color and filter chip; national advisories highlight their country on the globe.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.6.0", Project: "H@N Threat Intel", Summary: "Threat intel box under the globe: latest CISA Known Exploited Vulnerabilities and ICS advisories, refreshed every 30 minutes; hovering or tapping an item highlights the affected countries, regions or worldwide scope on the globe.", Tag: "🟢 FEAT" },
@@ -1878,7 +1879,23 @@
       GH: [7.9, -1.0], TZ: [-6.4, 34.9], UG: [1.4, 32.3], AO: [-11.2, 17.9], BO: [-16.3, -63.6],
       PY: [-23.4, -58.4], UY: [-32.5, -55.8], EC: [-1.8, -78.2], CR: [9.7, -83.8], PA: [8.5, -80.8],
       GT: [15.8, -90.2], BZ: [17.2, -88.5], KN: [17.3, -62.7], VG: [18.4, -64.6], SC: [-4.7, 55.5],
-      MT: [35.9, 14.4], BS: [25.0, -77.4], TT: [10.7, -61.2], LA: [19.9, 102.5]
+      MT: [35.9, 14.4], BS: [25.0, -77.4], TT: [10.7, -61.2], LA: [19.9, 102.5],
+      CW: [12.2, -69.0], CM: [5.7, 12.7], AW: [12.5, -70.0], BB: [13.2, -59.5], KY: [19.3, -81.3],
+      BM: [32.3, -64.8], JE: [49.2, -2.1], GG: [49.5, -2.6], IM: [54.2, -4.5], GI: [36.1, -5.3],
+      MO: [22.2, 113.5], BN: [4.5, 114.7], FJ: [-17.7, 178.1], PG: [-6.3, 143.9], ZW: [-19.0, 29.2],
+      ZM: [-13.1, 27.8], MZ: [-18.7, 35.5], MG: [-18.8, 46.9], NA: [-22.9, 18.5], BW: [-22.3, 24.7],
+      RW: [-1.9, 29.9], SN: [14.5, -14.5], CI: [7.5, -5.5], ML: [17.6, -4.0], NE: [17.6, 8.1],
+      BF: [12.2, -1.6], LR: [6.4, -9.4], SL: [8.5, -11.8], GN: [9.9, -9.7], TG: [8.6, 0.8],
+      BJ: [9.3, 2.3], SO: [5.2, 46.2], SD: [12.9, 30.2], LY: [26.3, 17.2], SY: [34.8, 39.0],
+      YE: [15.6, 48.5], OM: [21.5, 55.9], BH: [26.0, 50.6], AF: [33.9, 67.7], TJ: [38.9, 71.3],
+      KG: [41.2, 74.8], TM: [38.97, 59.6], MV: [3.2, 73.2], BT: [27.5, 90.4], KP: [40.3, 127.5],
+      ME: [42.7, 19.4], MK: [41.6, 21.7], XK: [42.6, 20.9], LI: [47.2, 9.6], MC: [43.7, 7.4],
+      AD: [42.5, 1.5], SM: [43.9, 12.5], FO: [61.9, -6.9], GL: [71.7, -42.6], NC: [-20.9, 165.6],
+      PF: [-17.7, -149.4], RE: [-21.1, 55.5], GP: [16.3, -61.6], MQ: [14.6, -61.0], GF: [4.0, -53.1],
+      SR: [3.9, -56.0], GY: [4.9, -58.9], HN: [15.2, -86.2], NI: [12.9, -85.2], LC: [13.9, -61.0],
+      GD: [12.1, -61.7], VC: [13.3, -61.2], AG: [17.1, -61.8], DM: [15.4, -61.4], TC: [21.7, -71.8],
+      MU: [-20.3, 57.6], CG: [-0.2, 15.8], CD: [-4.0, 21.8], GA: [-0.8, 11.6], MW: [-13.3, 34.3],
+      MR: [21.0, -10.9], ER: [15.2, 39.8], DJ: [11.8, 42.6], LS: [-29.6, 28.2], SZ: [-26.5, 31.5]
     };
     // Continental areas used by threat advisories ("North America", "Europe", ...): [lat, lon, spread]
     const REGION_CENTERS = {
@@ -2397,6 +2414,22 @@
             const po = projectPoint(o[0], o[1], cx, cy, R);
             const pt = projectPoint(t[0], t[1], cx, cy, R);
             const share = (Number(pr.value) || 0) / vMax;
+            if (pr.origin === pr.target) {
+              // Domestic attacks (origin and target in the same country): looping ring instead of an arc
+              if (po.visible) {
+                const spin = (nowMs / 900 + i) % (Math.PI * 2);
+                ctx.strokeStyle = "rgba(255, 77, 94, 0.85)";
+                ctx.lineWidth = 0.8 + 2.4 * share;
+                ctx.beginPath();
+                ctx.arc(po.x, po.y - 9, 7 + 4 * share, spin, spin + Math.PI * 1.6);
+                ctx.stroke();
+                hoverTargets.push({
+                  x: po.x, y: po.y - 9,
+                  info: `DOMESTIC // ${pr.originName} → ${pr.targetName} // ${Number(pr.value).toFixed(2)}% of ${layerLabel} attacks, last 24h (Cloudflare Radar)`
+                });
+              }
+              return;
+            }
             if (po.visible && pt.visible) {
               // Bow the arc away from the globe center so it reads as a trajectory
               const mx = (po.x + pt.x) / 2, my = (po.y + pt.y) / 2;
