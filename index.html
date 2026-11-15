@@ -645,6 +645,9 @@
     .outage-pop { position: fixed; z-index: 9000; display: none; pointer-events: none; box-shadow: 0 6px 24px rgba(0,0,0,.6); outline: 1px solid var(--accent); }
     .outage-pop .oc-body { display: block !important; margin-top: 4px; }
     .outage-pop .oc-label { display: inline !important; white-space: normal; }
+    .outage-pop.latched { pointer-events: auto; cursor: pointer; outline-width: 2px; }
+    .outage-pop .op-hint { margin-top: 6px; padding-top: 4px; border-top: 1px solid var(--card-border); font-size: 9px; color: var(--accent); text-align: center; }
+    .outage-pop .op-hint.muted { color: var(--muted); }
     .outage-card:hover, .outage-card:focus { outline: 1px solid var(--accent); outline-offset: -1px; }
     .outage-agree { font-size: 9px; color: var(--accent); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .outage-agree.warn { color: var(--warn); }
@@ -3508,19 +3511,33 @@
     }
     function toggleOutageCompact() {
       OUTAGE_COMPACT = !OUTAGE_COMPACT;
-      hideOutagePop();
+      hideOutagePop(true);
       applyOutageView();
     }
-    function showOutagePop(card) {
+    // Hover a compact card: its full details float above it. Click: pin (latch) that window.
+    // Click inside a pinned window: open the status page. Click anywhere else: unpin.
+    const OUTAGE_POP = { latched: false, idx: -1 };
+    function showOutagePop(card, idx, latch) {
       if (!OUTAGE_COMPACT || !card) return;
+      if (OUTAGE_POP.latched && !latch) return;
       let pop = document.getElementById("outagePop");
       if (!pop) {
         pop = document.createElement("div");
         pop.id = "outagePop";
         pop.className = "card outage-card outage-pop";
+        pop.setAttribute("role", "link");
+        pop.addEventListener("click", e => {
+          e.stopPropagation();
+          if (OUTAGE_POP.latched && OUTAGE_POP.idx >= 0) {
+            const idx2 = OUTAGE_POP.idx;
+            hideOutagePop(true);
+            openOutageStatusPage(idx2);
+          }
+        });
         document.body.appendChild(pop);
       }
-      pop.innerHTML = card.innerHTML;
+      pop.innerHTML = card.innerHTML + (latch ? '<div class="op-hint">click here to open the status page ↗</div>' : '<div class="op-hint muted">click to pin</div>');
+      pop.classList.toggle("latched", !!latch);
       pop.style.display = "block";
       const r = card.getBoundingClientRect();
       const w = Math.min(300, window.innerWidth - 16);
@@ -3528,30 +3545,36 @@
       let x = r.left + r.width / 2 - w / 2;
       x = Math.max(8, Math.min(window.innerWidth - w - 8, x));
       const ph = pop.offsetHeight;
-      let y = r.bottom + 6;
-      if (y + ph > window.innerHeight - 8) y = Math.max(8, r.top - ph - 6);
+      // Above the card; below it only when there is no room above
+      let y = r.top - ph - 6;
+      if (y < 8) y = Math.min(window.innerHeight - ph - 8, r.bottom + 6);
       pop.style.left = x + "px";
       pop.style.top = y + "px";
-      card.dataset.popShown = "1";
+      OUTAGE_POP.idx = idx;
+      OUTAGE_POP.latched = !!latch;
     }
-    function hideOutagePop(card) {
+    function hideOutagePop(force) {
+      if (OUTAGE_POP.latched && !force) return;
       const pop = document.getElementById("outagePop");
-      if (pop) pop.style.display = "none";
-      if (card) delete card.dataset.popShown;
+      if (pop) { pop.style.display = "none"; pop.classList.remove("latched"); }
+      OUTAGE_POP.latched = false;
+      OUTAGE_POP.idx = -1;
     }
-    // Hide the floating card when the page itself scrolls (not when the news box auto-scrolls)
+    document.addEventListener("click", e => {
+      if (OUTAGE_POP.latched && !e.target.closest("#outagePop, .outage-card")) hideOutagePop(true);
+    });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") hideOutagePop(true); });
     window.addEventListener("scroll", e => {
-      if (e.target === document || (e.target && e.target.id === "mainViewport")) hideOutagePop();
+      if (e.target === document || (e.target && e.target.id === "mainViewport")) hideOutagePop(true);
     }, true);
     function outageCardClick(ev, idx) {
       const card = ev.currentTarget || (ev.target && ev.target.closest(".outage-card"));
-      // On touch screens there is no hover: the first tap shows the details, the second opens the page
-      if (OUTAGE_COMPACT && card && matchMedia("(hover: none)").matches && !card.dataset.popShown) {
-        document.querySelectorAll(".outage-card[data-pop-shown]").forEach(c => delete c.dataset.popShown);
-        showOutagePop(card);
-        return;
+      // Compact view: a click pins the details window (clicking the same card again unpins it)
+      if (OUTAGE_COMPACT && card) {
+        ev.stopPropagation();
+        if (OUTAGE_POP.latched && OUTAGE_POP.idx === idx) return hideOutagePop(true);
+        return showOutagePop(card, idx, true);
       }
-      hideOutagePop(card);
       openOutageStatusPage(idx);
     }
 
@@ -3663,9 +3686,9 @@
         const loc = [homeLoc ? homeLoc.label : "", edgeLoc ? `${svc.geo.cdn ? "edge" : "server"}: ${edgeLoc}` : ""].filter(Boolean).join(" // ");
         return `
           <div class="card outage-card" tabindex="0" role="link" data-oid="${esc(svc.id)}"
-               title="Hover: details and server location on the globe // Click: open status page"
-               onmouseenter="showOutageLocation(${idx});if(matchMedia('(hover: hover)').matches)showOutagePop(this)" onfocus="showOutageLocation(${idx})"
-               onmouseleave="clearThreatHighlight();hideOutagePop(this)" onblur="clearThreatHighlight();hideOutagePop(this)"
+              
+               onmouseenter="showOutageLocation(${idx});if(matchMedia('(hover: hover)').matches)showOutagePop(this, ${idx})" onfocus="showOutageLocation(${idx})"
+               onmouseleave="clearThreatHighlight();hideOutagePop()" onblur="clearThreatHighlight()"
                onclick="outageCardClick(event, ${idx})" onkeydown="if(event.key==='Enter')outageCardClick(event, ${idx})">
             <div class="card-head">
               <span class="oc-name" style="display:inline-flex;align-items:center;gap:6px;min-width:0">
