@@ -931,7 +931,7 @@ function createBugTriage(d) {
     issueId,
     sheetSafe(String(d.project || "General").slice(0, 80)),
     sev,
-    sheetSafe(String(d.reporter || "Anonymous").slice(0, 80)),
+    "Site visitor",
     sheetSafe(String(d.summary || "").slice(0, 2000)),
     sheetSafe(String(d.environment || "").slice(0, 200)),
     "NEW", false, false
@@ -944,7 +944,7 @@ function createBugTriage(d) {
       ["Issue ID", issueId],
       ["Target Project", d.project || "General"],
       ["Severity", sev],
-      ["Reporter", d.reporter || "Anonymous"],
+      ["Reporter", "Site visitor"],
       ["Environment", d.environment || "Not specified"],
       ["Timestamp", now.toUTCString()]
     ],
@@ -1699,17 +1699,36 @@ function chatPresence(name, sid, leaving) {
     Object.keys(map).forEach(k => { if (now - map[k].t > CHAT_ONLINE_MS) delete map[k]; });
     const cleanName = chatCleanName(name);
     const cleanSid = String(sid || "").replace(/[^A-Za-z0-9_]/g, "").slice(0, 60);
+    // Reserved and banned names never show as online (no fake MOD/SYSTEM in the user list)
+    const upper = cleanName.toUpperCase();
+    const allowed = cleanName.length >= 2 && CHAT_RESERVED.indexOf(upper) < 0 &&
+      chatState().settings.banned.indexOf(upper) < 0;
     if (cleanSid) {
       if (leaving) delete map[cleanSid];
-      else if (cleanName.length >= 2) map[cleanSid] = { n: cleanName, t: now };
+      else if (map[cleanSid]) {
+        if (allowed) map[cleanSid] = { n: cleanName, t: now };
+      } else if (allowed) {
+        // New browsers joining are capped site-wide, so a script can't flood the room with fake people
+        const joins = Number(cache.get("chat_new_sids") || 0);
+        if (joins < 30) {
+          cache.put("chat_new_sids", String(joins + 1), 60);
+          map[cleanSid] = { n: cleanName, t: now };
+        }
+      }
     }
     const keys = Object.keys(map);
     if (keys.length > 200) keys.slice(0, keys.length - 200).forEach(k => delete map[k]);
     cache.put(CHAT_PRESENCE_KEY, JSON.stringify(map), 600);
     const after = namesOf(map);
-    const events = [];
+    let events = [];
     after.forEach(n => { if (!before.has(n)) events.push({ ts: now, sys: 1, msg: n + " entered the room" }); });
     before.forEach(n => { if (!after.has(n)) events.push({ ts: now, sys: 1, msg: n + " left the room" }); });
+    // At most 20 enter/leave lines per minute reach the log; any more are skipped (flood guard)
+    if (events.length) {
+      const used = Number(cache.get("chat_evt_n") || 0);
+      events = events.slice(0, Math.max(0, 20 - used));
+      if (events.length) cache.put("chat_evt_n", String(used + events.length), 60);
+    }
     chatAppend(events);
     return Array.from(after).sort((a, b) => a.localeCompare(b));
   } finally {
