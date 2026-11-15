@@ -576,6 +576,11 @@
     .chat-messages { height: min(55vh, 460px); overflow-y: auto; background: #000; border: 1px solid var(--card-border); margin-top: 6px; padding: 6px; font-size: 11px; }
     .chat-msg { margin: 2px 0; word-wrap: break-word; }
     .chat-main { display: flex; gap: 6px; }
+    /* The chat card fills the visible page height; the message list takes whatever is left */
+    #view-chat .chat-card { display: flex; flex-direction: column; height: var(--chat-h, auto); min-height: 360px; box-sizing: border-box; }
+    #view-chat .chat-room { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    #view-chat .chat-main { flex: 1; min-height: 0; }
+    #view-chat .chat-messages, #view-chat .chat-users { height: auto; max-height: none; }
     .chat-main .chat-messages { flex: 1; min-width: 0; }
     .chat-users { width: 130px; flex-shrink: 0; background: #000; border: 1px solid var(--card-border); margin-top: 6px; padding: 4px 6px; font-size: 10px; overflow-y: auto; max-height: min(55vh, 460px); }
     .chat-users-head { color: var(--muted); font-size: 9px; border-bottom: 1px solid var(--card-border); margin-bottom: 3px; padding-bottom: 2px; }
@@ -853,7 +858,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.15.1]</span>
+        <span id="titleVersionBadge">[v.2.15.2]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -898,7 +903,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.15.1</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.15.2</span></div>
         </div>
       </aside>
 
@@ -1165,8 +1170,8 @@
                 </div>
                 <div class="chat-emoji-panel" id="chatEmojiPanel" hidden></div>
                 <div class="chat-row">
-                  <button class="s7-btn chat-emoji-btn" type="button" onclick="chatToggleEmoji()" title="Emoji">😀</button>
                   <input id="chatInput" maxlength="500" placeholder="type a message, Enter to send" autocomplete="off" />
+                  <button class="s7-btn chat-emoji-btn" type="button" onclick="chatToggleEmoji()" title="Emoji">😀</button>
                   <button class="s7-btn" onclick="chatSendMsg()">send</button>
                 </div>
                 <div class="chat-note" id="chatStatus"></div>
@@ -1243,7 +1248,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.15.1]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.15.2]</div>
     </div>
     <!-- DATA CREDITS (smallest text, very bottom of the page) -->
     <div class="data-credits">
@@ -1276,7 +1281,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.15.1",
+      APP_VERSION: "v.2.15.2",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1340,6 +1345,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.15.2", Project: "H@N Core", Summary: "Chat room now fills all available page height; emoji button moved next to send.", Tag: "🔵 UPDATE" },
       { Date: "2026-11-14", Version: "v.2.15.1", Project: "H@N Core", Summary: "Chat: emoji picker, name colors, enter/leave notices and instant sends. Compact recent-visitors widget under the news box (no route column); news box scrolls slowly and continuously; triage board restyled as a table; globe always opens at the largest size that fits, including after switching tabs.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.15.0", Project: "H@N Core", Summary: "Live clock with milliseconds (visitor time zone) and a 5-minute refresh countdown for all page data; globe overlays replaced by a compact legend; credits moved to a tiny footer; resizable globe width; interleaved auto-scrolling news; compact outage view; mobile layout; live chat tab (FEAT-109); vault SHA-256 verification (FEAT-110).", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.14.0", Project: "H@N UI / Globe", Summary: "USA fiber layer from free data: mapped fiber lines (OpenStreetMap), approximate long-haul corridors along 36 interstates and the rail network (Natural Earth, per InterTubes research), and 20 interconnection hubs. Cables button cycles all / undersea / USA / off.", Tag: "🟢 FEAT" },
@@ -1471,6 +1477,7 @@
       if (ACTIVE_TAB === "chat" && typeof CHAT !== "undefined" && CHAT.name) chatStart();
       const panel = document.getElementById("view-" + ACTIVE_TAB);
       if (panel) panel.classList.add("active");
+      if (ACTIVE_TAB === "chat") requestAnimationFrame(fitChat);
       renderSidebar();
       if (location.hash !== "#" + ACTIVE_TAB) history.replaceState(null, "", "#" + ACTIVE_TAB);
       setStatus(`module active: ${targetMod.label}`);
@@ -4028,7 +4035,8 @@
     function chatShowRoom() {
       document.getElementById("chatWho").textContent = CHAT.name;
       document.getElementById("chatLogin").style.display = "none";
-      document.getElementById("chatRoom").style.display = "block";
+      document.getElementById("chatRoom").style.display = "flex";
+      fitChat();
       chatStart();
       setTimeout(() => document.getElementById("chatInput").focus(), 50);
     }
@@ -4181,7 +4189,18 @@
         input.value = msg;
       }
     }
+    // Size the chat card to the visible part of the scrolling viewport
+    function fitChat() {
+      const vp = document.getElementById("mainViewport");
+      const card = document.querySelector("#view-chat .chat-card");
+      if (!vp || !card || !card.offsetParent) return;
+      const cs = getComputedStyle(vp);
+      const top = card.getBoundingClientRect().top - vp.getBoundingClientRect().top + vp.scrollTop;
+      const h = vp.clientHeight - parseFloat(cs.paddingBottom) - top;
+      card.style.setProperty("--chat-h", Math.max(360, Math.floor(h)) + "px");
+    }
     function initChat() {
+      window.addEventListener("resize", fitChat);
       try {
         const c = localStorage.getItem("han_chat_color");
         if (CHAT_COLORS.includes(c)) CHAT.color = c;
