@@ -1328,6 +1328,14 @@ function chatSetupSettings(sh) {
   sh.setColumnWidth(9, 320);
 }
 
+// Last row that holds a message (column A); the Hidden checkboxes and settings don't count
+function chatLastRow(sh) {
+  const max = sh.getMaxRows();
+  if (sh.getRange(max, 1).getValue() !== "") return max;
+  const r = sh.getRange(max, 1).getNextDataCell(SpreadsheetApp.Direction.UP).getRow();
+  return r;
+}
+
 function chatSettings(sh) {
   const v = sh.getRange(2, 9, CHAT_SETTINGS.length - 1, 1).getValues().map(r => r[0]);
   const slow = Math.round(Number(v[3]));
@@ -1353,7 +1361,7 @@ function chatState() {
   }
   const sh = chatSheet();
   const settings = chatSettings(sh);
-  const last = sh.getLastRow();
+  const last = chatLastRow(sh);
   let list = [];
   if (last >= 2) {
     const n = Math.min(CHAT_KEEP + 40, last - 1);
@@ -1383,9 +1391,15 @@ function chatRecent() {
 function chatAppend(entries) {
   if (!entries.length) return;
   const sh = chatSheet();
-  entries.forEach(e => {
-    sh.appendRow([new Date(e.ts), e.sys ? "SYSTEM" : sheetSafe(e.name), e.ip || "", sheetSafe(e.msg), e.c || "", false]);
-  });
+  const rows = entries.map(e => [new Date(e.ts), e.sys ? "SYSTEM" : sheetSafe(e.name), e.ip || "", sheetSafe(e.msg), e.c || "", false]);
+  const start = chatLastRow(sh) + 1;
+  const max = sh.getMaxRows();
+  if (start + rows.length - 1 > max) {
+    // Grow the sheet in blocks and give the new rows Hidden checkboxes
+    sh.insertRowsAfter(max, 500);
+    sh.getRange(max + 1, 6, 500, 1).insertCheckboxes();
+  }
+  sh.getRange(start, 1, rows.length, 6).setValues(rows);
   CacheService.getScriptCache().remove(CHAT_CACHE_KEY);
 }
 
