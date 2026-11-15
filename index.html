@@ -583,7 +583,7 @@
     .chat-main { display: flex; gap: 6px; }
     .vault-stack { display: flex; flex-direction: column; gap: 10px; max-width: 740px; margin: 0 auto; }
     .comms-card { max-width: 740px; margin: 10px auto 0; }
-    #btnComms:disabled { opacity: 0.45; cursor: not-allowed; }
+    #btnComms:disabled, #btnTriage:disabled { opacity: 0.45; cursor: not-allowed; }
     /* Intro banner spans the full overview width above the globe and stats */
     .overview-banner { margin-bottom: 10px; }
     /* The chat card fills the visible page height; the message list takes whatever is left */
@@ -637,6 +637,8 @@
     .vm-loc img { vertical-align: -1px; }
     .vm-tz { color: var(--muted); }
     .triage-table { width: 100%; table-layout: fixed; }
+    .triage-note { margin-bottom: 8px; padding: 5px 8px; border: 1px solid #ffd166; color: #ffd166; background: rgba(255, 209, 102, 0.08); font-size: 11px; }
+    .triage-note[hidden], #triageBoardCard[hidden] { display: none; }
     .triage-table th:nth-child(1) { width: 78px; }
     .triage-table th:nth-child(2) { width: 120px; }
     .triage-table th:nth-child(3) { width: 74px; }
@@ -883,7 +885,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.17.0]</span>
+        <span id="titleVersionBadge">[v.2.17.1]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -928,7 +930,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.17.0</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.17.1</span></div>
         </div>
       </aside>
 
@@ -1251,14 +1253,15 @@
                 <label>SUMMARY</label>
                 <textarea id="triageSummary" rows="4" placeholder="Steps to reproduce or feature details..."></textarea>
                 <div style="margin-top:10px">
-                  <button class="s7-btn active-toggle" onclick="submitTriage()">log triage issue</button>
+                  <button class="s7-btn active-toggle" id="btnTriage" onclick="submitTriage()">log triage issue</button>
                 </div>
                 <div id="triageStatus" class="alert-box"></div>
               </div>
             </div>
 
-            <div class="card" style="margin-top:10px">
+            <div class="card" id="triageBoardCard" style="margin-top:10px">
               <div class="card-head"><span>BUG &amp; FEATURE TRIAGE BOARD</span><span class="xray-pill">TAB: Bug_Triage</span></div>
+              <div class="triage-note" id="triageNote" hidden></div>
               <div class="table-wrap">
                 <table class="triage-table">
                   <thead><tr><th>ID</th><th>Project</th><th>Severity</th><th>Summary</th><th>Status</th></tr></thead>
@@ -1280,7 +1283,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.17.0]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.17.1]</div>
     </div>
     <!-- DATA CREDITS (smallest text, very bottom of the page) -->
     <div class="data-credits">
@@ -1313,7 +1316,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.17.0",
+      APP_VERSION: "v.2.17.1",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1372,11 +1375,13 @@
       projects: [],
       downloads: [],
       changelog: [],
-      triage: []
+      triage: [],
+      triageInfo: { show: true, open: true, note: "" }
     };
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.17.1", Project: "H@N Core", Summary: "Triage control center in the Bug_Triage sheet tab: edit, add (IDs fill in), hide or remove (archived) issues; show/hide the board, pause new reports, board note, item limit. Chat_Log gets a Remove checkbox too.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.17.0", Project: "H@N Core", Summary: "Chat control center in the Chat_Log sheet tab: edit, hide or delete messages and the live chat updates; pinned MOD message (on/off checkbox); open/close chat; slow mode; banned names; post as MOD.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.16.2", Project: "H@N Core", Summary: "Fixed the chat room not filling the page when you return already logged in.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.16.1", Project: "H@N Core", Summary: "Outage cards: details float above on hover, click pins, click the pinned window to open the status page. Clock/sync/net match the theme dropdown width; vault boxes stacked (release unlock first); title bar shows your IP (display only); shield icon; recent visitors back under outage telemetry; removed duplicate ticket button.", Tag: "🔵 UPDATE" },
@@ -1919,6 +1924,18 @@
               </tr>`;
           }).join("");
         }
+      }
+
+      // Triage board settings come from the Bug_Triage tab's control center
+      const tInfo = STATE.triageInfo || { show: true, open: true, note: "" };
+      document.getElementById("triageBoardCard").hidden = tInfo.show === false;
+      const tNote = document.getElementById("triageNote");
+      tNote.textContent = tInfo.note || "";
+      tNote.hidden = !tInfo.note;
+      const tBtn = document.getElementById("btnTriage");
+      if (tBtn) {
+        tBtn.disabled = tInfo.open === false;
+        tBtn.textContent = tInfo.open === false ? "new reports are paused" : "log triage issue";
       }
 
       // Triage Table
@@ -4498,6 +4515,7 @@
         }
         if (Array.isArray(data.downloads)) STATE.downloads = data.downloads;
         if (Array.isArray(data.triage)) STATE.triage = data.triage;
+        if (data.triageInfo) STATE.triageInfo = data.triageInfo;
         SHEET_SYNC_STATUS = "READY";
         renderAll();
       } catch (_) {}
@@ -4552,6 +4570,7 @@
             }
             STATE.downloads = Array.isArray(data.downloads) ? data.downloads : [];
             STATE.triage = Array.isArray(data.triage) ? data.triage : [];
+            if (data.triageInfo) STATE.triageInfo = data.triageInfo;
             SHEET_SYNC_STATUS = "READY";
             setStatus("live workspace telemetry synchronized.", "- online -");
           } else {

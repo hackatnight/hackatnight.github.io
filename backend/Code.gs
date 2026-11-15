@@ -337,7 +337,8 @@ function doGet(e) {
         projects: getSheetObjects("Projects"),
         changelog: getSheetObjects("Changelog"),
         downloads: getSheetObjects("Downloads"),
-        triage: getSanitizedTriage()
+        triage: getSanitizedTriage(),
+        triageInfo: getTriageInfo()
       });
     }
     if (action === "outage_targets") {
@@ -830,28 +831,112 @@ function createCommsMessage(d) {
   return { status: "ok" };
 }
 
+/* ---------- Bug_Triage control center ----------
+   Columns A-H are the issues (edit any cell; type a new row and it gets an ID, time and NEW status).
+   Column I "Hidden": tick to hide an issue from the site. Column J "Remove": tick to move the row to
+   Bug_Triage_Archive. Columns L-M hold the settings below. */
+const TRIAGE_COLS = 10;
+const TRIAGE_SETTINGS = [
+  ["TRIAGE CONTROL CENTER", ""],
+  ["Show triage board on site", true],
+  ["Accept new reports from site", true],
+  ["Board note (shown above the board)", ""],
+  ["Max items shown on site", 25],
+  ["Tips", "Edit cells to change an issue. Type in a new row to add one (ID and time fill in). Tick Hidden to hide it from the site, Remove to archive it."]
+];
+const TRIAGE_STATUSES = ["NEW", "🟣 TODO", "🟡 IN PROGRESS", "🟡 PARTIAL", "🟢 IMPLEMENTED", "🟢 FIXED", "⚪ WONTFIX"];
+const TRIAGE_SEVERITIES = ["LOW", "MEDIUM", "HIGH", "CRITICAL"];
+
+// Last row that holds data in any of the given columns (checkbox columns don't count)
+function lastRowIn(sh, cols) {
+  const max = sh.getMaxRows();
+  let last = 1;
+  cols.forEach(c => {
+    const cell = sh.getRange(max, c);
+    const r = cell.getValue() !== "" ? max : cell.getNextDataCell(SpreadsheetApp.Direction.UP).getRow();
+    if (r > last) last = r;
+  });
+  return last;
+}
+
+function triageSheet() {
+  const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Bug_Triage");
+  if (sh.getRange(1, 9).getValue() !== "Hidden" || !settingsPresent(sh, 12, TRIAGE_SETTINGS[0][0])) triageSetup(sh);
+  return sh;
+}
+
+// Adds the Hidden/Remove checkboxes, dropdowns and the settings block; existing data and values are kept
+function triageSetup(sh) {
+  sh = sh || SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Bug_Triage");
+  const rows = Math.max(1, sh.getMaxRows() - 1);
+  sh.getRange(1, 9, 1, 2).setValues([["Hidden", "🗑 Remove"]]).setFontWeight("bold");
+  const hid = sh.getRange(2, 9, rows, 1), rem = sh.getRange(2, 10, rows, 1);
+  if (!hid.getDataValidation()) hid.insertCheckboxes();
+  rem.insertCheckboxes();
+  sh.getRange(2, 4, rows, 1).setDataValidation(SpreadsheetApp.newDataValidation()
+    .requireValueInList(TRIAGE_SEVERITIES, true).setAllowInvalid(true).build());
+  sh.getRange(2, 8, rows, 1).setDataValidation(SpreadsheetApp.newDataValidation()
+    .requireValueInList(TRIAGE_STATUSES, true).setAllowInvalid(true).build());
+  settingsSetup(sh, 12, TRIAGE_SETTINGS);
+}
+
+function triageSettings(sh) {
+  const v = settingsRead(sh, 12, TRIAGE_SETTINGS);
+  const max = Math.round(Number(v["Max items shown on site"]));
+  return {
+    show: v["Show triage board on site"] !== false,
+    open: v["Accept new reports from site"] !== false,
+    note: String(v["Board note (shown above the board)"] || "").slice(0, 500),
+    max: isFinite(max) && max > 0 ? Math.min(200, max) : 25
+  };
+}
+
+function triageNextId(sh, prefix) {
+  const last = lastRowIn(sh, [1, 2, 6]);
+  let n = 100;
+  if (last >= 2) sh.getRange(2, 2, last - 1, 1).getValues().forEach(r => {
+    const m = /(\d+)/.exec(String(r[0]));
+    if (m) n = Math.max(n, Number(m[1]));
+  });
+  return (prefix || "BUG") + "-" + (n + 1);
+}
+
+// Writes rows after the last issue, growing the sheet (with checkboxes) when needed
+function triageWriteRows(sh, rows) {
+  const start = lastRowIn(sh, [1, 2, 6]) + 1;
+  const max = sh.getMaxRows();
+  if (start + rows.length - 1 > max) {
+    sh.insertRowsAfter(max, 200);
+    sh.getRange(max + 1, 9, 200, 2).insertCheckboxes();
+  }
+  sh.getRange(start, 1, rows.length, TRIAGE_COLS).setValues(rows);
+  return start;
+}
+
 function createBugTriage(d) {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Bug_Triage");
-  const issueId = "BUG-" + Math.floor(100 + Math.random() * 899);
+  const sheet = triageSheet();
+  if (!triageSettings(sheet).open) return { status: "error", message: "New reports are paused right now" };
+  const issueId = triageNextId(sheet, String(d.severity || "").toUpperCase() === "LOW" ? "FEAT" : "BUG");
   const now = new Date();
-  sheet.appendRow([
+  const sev = TRIAGE_SEVERITIES.indexOf(String(d.severity || "").toUpperCase()) >= 0 ? String(d.severity).toUpperCase() : "LOW";
+  triageWriteRows(sheet, [[
     now,
     issueId,
-    sheetSafe(d.project || "General"),
-    sheetSafe(d.severity || "LOW"),
-    sheetSafe(d.reporter || "Anonymous"),
-    sheetSafe(d.summary || ""),
-    sheetSafe(d.environment || ""),
-    "NEW"
-  ]);
+    sheetSafe(String(d.project || "General").slice(0, 80)),
+    sev,
+    sheetSafe(String(d.reporter || "Anonymous").slice(0, 80)),
+    sheetSafe(String(d.summary || "").slice(0, 2000)),
+    sheetSafe(String(d.environment || "").slice(0, 200)),
+    "NEW", false, false
+  ]]);
 
   sendFormattedAlert(
-    "[HACKATNIGHT] Triage Report " + issueId + " [" + (d.severity || "LOW") + "]",
+    "[HACKATNIGHT] Triage Report " + issueId + " [" + sev + "]",
     "Issue: " + issueId + "\nProject: " + d.project + "\nSummary: " + d.summary,
     [
       ["Issue ID", issueId],
       ["Target Project", d.project || "General"],
-      ["Severity", d.severity || "LOW"],
+      ["Severity", sev],
       ["Reporter", d.reporter || "Anonymous"],
       ["Environment", d.environment || "Not specified"],
       ["Timestamp", now.toUTCString()]
@@ -860,6 +945,58 @@ function createBugTriage(d) {
   );
 
   return { status: "ok", issueId: issueId };
+}
+
+// Ticking Remove moves the row to Bug_Triage_Archive (nothing is lost)
+function triageArchiveRow(sh, row) {
+  const ss = sh.getParent();
+  let arch = ss.getSheetByName("Bug_Triage_Archive");
+  if (!arch) {
+    arch = ss.insertSheet("Bug_Triage_Archive");
+    arch.appendRow(["Timestamp", "Issue ID", "Project", "Severity", "Reporter", "Summary", "Environment", "Status", "Removed At"]);
+    arch.getRange(1, 1, 1, 9).setFontWeight("bold");
+    arch.setFrozenRows(1);
+  }
+  const vals = sh.getRange(row, 1, 1, 8).getValues()[0];
+  arch.appendRow(vals.concat([new Date()]));
+  // Only the issue's own cells (A-J) shift up, so the settings block in L-M stays put
+  sh.getRange(row, 1, 1, TRIAGE_COLS).deleteCells(SpreadsheetApp.Dimension.ROWS);
+}
+
+// New hand-typed rows get an ID, time, status and checkboxes
+function triageFillRow(sh, row) {
+  const r = sh.getRange(row, 1, 1, TRIAGE_COLS).getValues()[0];
+  if (!String(r[5] || r[2] || "").trim()) return;
+  if (!r[0]) sh.getRange(row, 1).setValue(new Date());
+  if (!r[1]) sh.getRange(row, 2).setValue(triageNextId(sh, "BUG"));
+  if (!r[3]) sh.getRange(row, 4).setValue("LOW");
+  if (!r[4]) sh.getRange(row, 5).setValue("gr33n");
+  if (!r[7]) sh.getRange(row, 8).setValue("NEW");
+  if (!sh.getRange(row, 9).getDataValidation()) sh.getRange(row, 9, 1, 2).insertCheckboxes();
+}
+
+function triageOnEdit(e) {
+  const sh = e.range.getSheet();
+  const r0 = e.range.getRow(), c0 = e.range.getColumn();
+  const nr = e.range.getNumRows(), nc = e.range.getNumColumns();
+  if (r0 < 2) return;
+  if (c0 <= 10 && c0 + nc - 1 >= 10) {
+    // Bottom-up so row numbers stay valid while deleting
+    const ticks = sh.getRange(r0, 10, nr, 1).getValues();
+    for (let i = nr - 1; i >= 0; i--) if (ticks[i][0] === true) triageArchiveRow(sh, r0 + i);
+    return;
+  }
+  if (c0 <= 8) for (let i = 0; i < nr; i++) triageFillRow(sh, r0 + i);
+}
+
+// Menu item: add a blank issue row at the bottom and jump to its summary cell
+function triageNewItem() {
+  const sh = triageSheet();
+  const id = triageNextId(sh, "BUG");
+  const row = triageWriteRows(sh, [[new Date(), id, "General", "LOW", "gr33n", "", "", "NEW", false, false]]);
+  sh.activate();
+  sh.getRange(row, 6).activate();
+  SpreadsheetApp.getActiveSpreadsheet().toast("Added " + id + ". Type the summary in the selected cell.", "H@N triage");
 }
 
 function handleVaultUpload(d) {
@@ -1208,13 +1345,28 @@ function getUptimeSummary() {
 }
 
 function getSanitizedTriage() {
-  return getSheetObjects("Bug_Triage").slice(-15).reverse().map(r => ({
-    id: r["Issue ID"],
-    project: r["Project"],
-    severity: r["Severity"],
-    summary: r["Summary"],
-    status: r["Status"] || "NEW"
-  }));
+  const sh = triageSheet();
+  const st = triageSettings(sh);
+  if (!st.show) return [];
+  const last = lastRowIn(sh, [1, 2, 6]);
+  if (last < 2) return [];
+  return sh.getRange(2, 1, last - 1, TRIAGE_COLS).getValues()
+    .filter(r => r[8] !== true && String(r[1] || r[5] || "").trim())
+    .sort((a, b) => (new Date(b[0]).getTime() || 0) - (new Date(a[0]).getTime() || 0))
+    .slice(0, st.max)
+    .map(r => ({
+      id: String(r[1] || ""),
+      project: String(r[2] || ""),
+      severity: String(r[3] || ""),
+      summary: String(r[5] || ""),
+      status: String(r[7] || "NEW")
+    }));
+}
+
+// Board settings the site shows (note, hidden board, paused reports)
+function getTriageInfo() {
+  const st = triageSettings(triageSheet());
+  return { show: st.show, open: st.open, note: st.note };
 }
 
 function getSheetObjects(tabName) {
@@ -1274,6 +1426,39 @@ function escHtml(str) {
  * joins and leaves are logged as SYSTEM lines. The newest 60 entries are kept in the script cache so polling
  * is fast; IPs are never sent to browsers.
  */
+/* ---------- Settings blocks in the Chat_Log / Bug_Triage tabs ----------
+   A block is two columns: label, value. Values are found by label (scanning the first 40 rows), so
+   deleting or inserting rows elsewhere in the tab can't mix them up. */
+function settingsRead(sh, col, defs) {
+  const vals = sh.getRange(1, col, 40, 2).getValues();
+  const out = {};
+  defs.forEach(d => {
+    const hit = vals.find(r => String(r[0]).trim() === d[0]);
+    out[d[0]] = hit && hit[1] !== "" ? hit[1] : d[1];
+  });
+  return out;
+}
+
+// Writes the block at the top of the column pair when its title is missing; existing values are kept
+function settingsSetup(sh, col, defs) {
+  const vals = sh.getRange(1, col, 40, 2).getValues();
+  const keep = {};
+  vals.forEach(r => { if (r[0] !== "" && r[1] !== "") keep[String(r[0]).trim()] = r[1]; });
+  sh.getRange(1, col, 40, 2).clearContent().clearDataValidations();
+  const block = defs.map(d => [d[0], d[0] in keep ? keep[d[0]] : d[1]]);
+  sh.getRange(1, col, block.length, 2).setValues(block);
+  sh.getRange(1, col, 1, 2).setFontWeight("bold").setBackground("#0b2a5b").setFontColor("#ffffff");
+  sh.getRange(2, col, block.length - 1, 1).setFontWeight("bold");
+  defs.forEach((d, i) => { if (typeof d[1] === "boolean") sh.getRange(i + 1, col + 1).insertCheckboxes(); });
+  sh.getRange(2, col + 1, block.length - 1, 1).setWrap(true);
+  sh.setColumnWidth(col, 230);
+  sh.setColumnWidth(col + 1, 320);
+}
+
+function settingsPresent(sh, col, title) {
+  return sh.getRange(1, col, 40, 1).getValues().some(r => String(r[0]).trim() === title);
+}
+
 const CHAT_CACHE_KEY = "chat_state_v4";
 const CHAT_PRESENCE_KEY = "chat_presence_v2";
 const CHAT_ONLINE_MS = 25000;   // a user counts as online if they polled in the last 25 s
@@ -1294,7 +1479,7 @@ const CHAT_SETTINGS = [
   ["Pinned MOD message", "Welcome to the H@N chat. Be cool."],
   ["Slow mode (seconds between messages)", 1],
   ["Banned names (comma separated)", ""],
-  ["Tips", "Edit or delete rows to change the chat. Tick Hidden (column F) to hide a message. Use the name MOD to post as moderator."]
+  ["Tips", "Edit cells to change a message. Tick Hidden (F) to hide one or Remove (G) to delete it. Use the name MOD to post as moderator."]
 ];
 
 function chatSheet() {
@@ -1305,27 +1490,18 @@ function chatSheet() {
     sh.setFrozenRows(1);
     sh.setColumnWidth(4, 520);
   }
-  if (sh.getRange(1, 6).getValue() !== "Hidden") {
-    sh.getRange(1, 1, 1, 6).setValues([["Timestamp", "Username", "IP Address", "Message", "Color", "Hidden"]]).setFontWeight("bold");
-    sh.getRange(2, 6, Math.max(1, sh.getMaxRows() - 1), 1).insertCheckboxes();
+  if (sh.getRange(1, 7).getValue() !== "🗑 Remove") {
+    sh.getRange(1, 1, 1, 7).setValues([["Timestamp", "Username", "IP Address", "Message", "Color", "Hidden", "🗑 Remove"]]).setFontWeight("bold");
+    const n = Math.max(1, sh.getMaxRows() - 1);
+    if (!sh.getRange(2, 6).getDataValidation()) sh.getRange(2, 6, n, 1).insertCheckboxes();
+    sh.getRange(2, 7, n, 1).insertCheckboxes();
   }
-  if (sh.getRange(1, 8).getValue() !== CHAT_SETTINGS[0][0]) chatSetupSettings(sh);
+  if (!settingsPresent(sh, 8, CHAT_SETTINGS[0][0])) chatSetupSettings(sh);
   return sh;
 }
 
-// Writes the settings block (columns H-I) with checkboxes; existing values are kept
 function chatSetupSettings(sh) {
-  sh = sh || chatSheet();
-  const cur = sh.getRange(1, 8, CHAT_SETTINGS.length, 2).getValues();
-  const vals = CHAT_SETTINGS.map((row, i) => [row[0], cur[i][0] === row[0] && cur[i][1] !== "" ? cur[i][1] : row[1]]);
-  sh.getRange(1, 8, vals.length, 2).setValues(vals);
-  sh.getRange(1, 8, 1, 2).setFontWeight("bold").setBackground("#0b2a5b").setFontColor("#ffffff");
-  sh.getRange(2, 8, vals.length - 1, 1).setFontWeight("bold");
-  sh.getRange(2, 9).insertCheckboxes();
-  sh.getRange(3, 9).insertCheckboxes();
-  sh.getRange(2, 9, vals.length - 1, 1).setWrap(true);
-  sh.setColumnWidth(8, 230);
-  sh.setColumnWidth(9, 320);
+  settingsSetup(sh || chatSheet(), 8, CHAT_SETTINGS);
 }
 
 // Last row that holds a message (column A); the Hidden checkboxes and settings don't count
@@ -1337,14 +1513,14 @@ function chatLastRow(sh) {
 }
 
 function chatSettings(sh) {
-  const v = sh.getRange(2, 9, CHAT_SETTINGS.length - 1, 1).getValues().map(r => r[0]);
-  const slow = Math.round(Number(v[3]));
+  const v = settingsRead(sh, 8, CHAT_SETTINGS);
+  const slow = Math.round(Number(v["Slow mode (seconds between messages)"]));
   return {
-    open: v[0] !== false,
-    pinOn: v[1] === true,
-    pin: String(v[2] || "").slice(0, 500),
+    open: v["Chat open"] !== false,
+    pinOn: v["Pinned MOD message on"] === true,
+    pin: String(v["Pinned MOD message"] || "").slice(0, 500),
     slow: isFinite(slow) ? Math.max(1, Math.min(600, slow)) : 1,
-    banned: String(v[4] || "").split(",").map(x => x.trim().toUpperCase()).filter(Boolean)
+    banned: String(v["Banned names (comma separated)"] || "").split(",").map(x => x.trim().toUpperCase()).filter(Boolean)
   };
 }
 
@@ -1391,24 +1567,36 @@ function chatRecent() {
 function chatAppend(entries) {
   if (!entries.length) return;
   const sh = chatSheet();
-  const rows = entries.map(e => [new Date(e.ts), e.sys ? "SYSTEM" : sheetSafe(e.name), e.ip || "", sheetSafe(e.msg), e.c || "", false]);
+  const rows = entries.map(e => [new Date(e.ts), e.sys ? "SYSTEM" : sheetSafe(e.name), e.ip || "", sheetSafe(e.msg), e.c || "", false, false]);
   const start = chatLastRow(sh) + 1;
   const max = sh.getMaxRows();
   if (start + rows.length - 1 > max) {
     // Grow the sheet in blocks and give the new rows Hidden checkboxes
     sh.insertRowsAfter(max, 500);
-    sh.getRange(max + 1, 6, 500, 1).insertCheckboxes();
+    sh.getRange(max + 1, 6, 500, 2).insertCheckboxes();
   }
-  sh.getRange(start, 1, rows.length, 6).setValues(rows);
+  sh.getRange(start, 1, rows.length, 7).setValues(rows);
   CacheService.getScriptCache().remove(CHAT_CACHE_KEY);
 }
 
 // Simple trigger: any edit on Chat_Log (messages or settings) reaches the live chat on the next poll
 function onEdit(e) {
   try {
-    if (e && e.range && e.range.getSheet().getName() === "Chat_Log") {
+    if (!e || !e.range) return;
+    const tab = e.range.getSheet().getName();
+    if (tab === "Chat_Log") {
+      // Remove (column G): delete just that message's cells; the settings block is untouched
+      const r0 = e.range.getRow(), c0 = e.range.getColumn(), nr = e.range.getNumRows(), nc = e.range.getNumColumns();
+      if (r0 >= 2 && c0 <= 7 && c0 + nc - 1 >= 7) {
+        const sh = e.range.getSheet();
+        const ticks = sh.getRange(r0, 7, nr, 1).getValues();
+        for (let i = nr - 1; i >= 0; i--) {
+          if (ticks[i][0] === true) sh.getRange(r0 + i, 1, 1, 7).deleteCells(SpreadsheetApp.Dimension.ROWS);
+        }
+      }
       CacheService.getScriptCache().remove(CHAT_CACHE_KEY);
     }
+    else if (tab === "Bug_Triage") triageOnEdit(e);
   } catch (_) {}
 }
 
@@ -1517,6 +1705,8 @@ function onOpen() {
     .createMenu("H@N Tools")
     .addItem("Generate vault key", "generateVaultKey")
     .addItem("Refresh live chat from Chat_Log", "chatRefreshNow")
+    .addItem("New triage item", "triageNewItem")
+    .addItem("Set up triage control center", "triageSetup")
     .addToUi();
 }
 
