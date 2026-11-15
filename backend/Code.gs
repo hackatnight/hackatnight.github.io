@@ -859,25 +859,26 @@ function lastRowIn(sh, cols) {
   return last;
 }
 
+function triageTabOpts() {
+  return {
+    keyCols: [1, 2, 6], dataCols: TRIAGE_COLS, checkCols: [9, 10], styleFrom: 9,
+    lists: { 4: TRIAGE_SEVERITIES, 8: TRIAGE_STATUSES }, centerCols: [1, 2, 4, 8],
+    spacerCol: 11, settingsCol: 12, settingsDefs: TRIAGE_SETTINGS,
+    widths: { 1: 150, 2: 84, 3: 110, 4: 90, 5: 80, 6: 360, 7: 200, 8: 150, 9: 64, 10: 84, 11: 24, 12: 230, 13: 320 }
+  };
+}
+
 function triageSheet() {
   const sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Bug_Triage");
   if (sh.getRange(1, 9).getValue() !== "Hidden" || !settingsPresent(sh, 12, TRIAGE_SETTINGS[0][0])) triageSetup(sh);
   return sh;
 }
 
-// Adds the Hidden/Remove checkboxes, dropdowns and the settings block; existing data and values are kept
+// Adds the Hidden/Remove checkboxes, dropdowns, theme and the settings block; existing data and values are kept
 function triageSetup(sh) {
   sh = sh || SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Bug_Triage");
-  const rows = Math.max(1, sh.getMaxRows() - 1);
-  sh.getRange(1, 9, 1, 2).setValues([["Hidden", "🗑 Remove"]]).setFontWeight("bold");
-  const hid = sh.getRange(2, 9, rows, 1), rem = sh.getRange(2, 10, rows, 1);
-  if (!hid.getDataValidation()) hid.insertCheckboxes();
-  rem.insertCheckboxes();
-  sh.getRange(2, 4, rows, 1).setDataValidation(SpreadsheetApp.newDataValidation()
-    .requireValueInList(TRIAGE_SEVERITIES, true).setAllowInvalid(true).build());
-  sh.getRange(2, 8, rows, 1).setDataValidation(SpreadsheetApp.newDataValidation()
-    .requireValueInList(TRIAGE_STATUSES, true).setAllowInvalid(true).build());
-  settingsSetup(sh, 12, TRIAGE_SETTINGS);
+  sh.getRange(1, 9, 1, 2).setValues([["Hidden", "🗑 Remove"]]);
+  styleControlTab(sh, triageTabOpts());
 }
 
 function triageSettings(sh) {
@@ -905,11 +906,9 @@ function triageNextId(sh, prefix) {
 function triageWriteRows(sh, rows) {
   const start = lastRowIn(sh, [1, 2, 6]) + 1;
   const max = sh.getMaxRows();
-  if (start + rows.length - 1 > max) {
-    sh.insertRowsAfter(max, 200);
-    sh.getRange(max + 1, 9, 200, 2).insertCheckboxes();
-  }
+  if (start + rows.length - 1 > max) sh.insertRowsAfter(max, 200);
   sh.getRange(start, 1, rows.length, TRIAGE_COLS).setValues(rows);
+  controlTabRows(sh, start, rows.length, triageTabOpts());
   return start;
 }
 
@@ -972,7 +971,7 @@ function triageFillRow(sh, row) {
   if (!r[3]) sh.getRange(row, 4).setValue("LOW");
   if (!r[4]) sh.getRange(row, 5).setValue("gr33n");
   if (!r[7]) sh.getRange(row, 8).setValue("NEW");
-  if (!sh.getRange(row, 9).getDataValidation()) sh.getRange(row, 9, 1, 2).insertCheckboxes();
+  if (!sh.getRange(row, 9).getDataValidation()) controlTabRows(sh, row, 1, triageTabOpts());
 }
 
 function triageOnEdit(e) {
@@ -1429,6 +1428,55 @@ function escHtml(str) {
 /* ---------- Settings blocks in the Chat_Log / Bug_Triage tabs ----------
    A block is two columns: label, value. Values are found by label (scanning the first 40 rows), so
    deleting or inserting rows elsewhere in the tab can't mix them up. */
+// Control-center tab theme (matches the existing dark Bug_Triage style)
+const TAB_THEME = { headBg: "#251d35", headFg: "#00e5ff", bodyBg: "#181124", bodyFg: "#ebeff4", font: "Roboto Mono" };
+
+/* Styles a control-center tab. o = {
+     keyCols: columns that decide where the data ends, dataCols: number of data columns (incl. checkbox columns),
+     checkCols: checkbox columns, lists: {col: [values]}, centerCols: [...], spacerCol, settingsCol, settingsDefs, widths: {col: px} } */
+function styleControlTab(sh, o) {
+  const maxR = sh.getMaxRows(), maxC = sh.getMaxColumns();
+  sh.setHiddenGridlines(true);
+  sh.setFrozenRows(1);
+  // Columns before styleFrom keep their own look (Bug_Triage A-H is already themed)
+  const from = o.styleFrom || 1;
+  sh.getRange(1, from, maxR, maxC - from + 1)
+    .setFontFamily(TAB_THEME.font).setBackground(TAB_THEME.bodyBg).setFontColor(TAB_THEME.bodyFg);
+  sh.getRange(1, 1, 1, o.dataCols)
+    .setBackground(TAB_THEME.headBg).setFontColor(TAB_THEME.headFg).setFontWeight("bold").setHorizontalAlignment("center");
+  // Spacer column between the data and the settings: nothing in it
+  if (o.spacerCol) {
+    sh.getRange(1, o.spacerCol, maxR, 1).clearContent().clearDataValidations();
+  }
+  // Dropdowns and checkboxes only on rows that hold data (new rows get them as they are added)
+  const allCtl = o.checkCols.concat(Object.keys(o.lists || {}).map(Number));
+  allCtl.forEach(c => sh.getRange(2, c, maxR - 1, 1).clearDataValidations());
+  o.checkCols.forEach(c => {
+    const r = sh.getRange(2, c, maxR - 1, 1);
+    const v = r.getValues();
+    r.setValues(v.map(x => [x[0] === true ? true : ""]));
+  });
+  const last = lastRowIn(sh, o.keyCols);
+  if (last >= 2) controlTabRows(sh, 2, last - 1, o);
+  (o.centerCols || []).concat(o.checkCols).forEach(c => sh.getRange(2, c, maxR - 1, 1).setHorizontalAlignment("center"));
+  Object.keys(o.widths || {}).forEach(c => sh.setColumnWidth(Number(c), o.widths[c]));
+  if (o.settingsCol) settingsSetup(sh, o.settingsCol, o.settingsDefs);
+}
+
+// Adds the checkboxes and dropdowns to n rows starting at row r
+function controlTabRows(sh, r, n, o) {
+  o.checkCols.forEach(c => {
+    const rg = sh.getRange(r, c, n, 1);
+    const v = rg.getValues();
+    rg.insertCheckboxes();
+    rg.setValues(v.map(x => [x[0] === true]));
+  });
+  Object.keys(o.lists || {}).forEach(c => {
+    sh.getRange(r, Number(c), n, 1).setDataValidation(SpreadsheetApp.newDataValidation()
+      .requireValueInList(o.lists[c], true).setAllowInvalid(true).build());
+  });
+}
+
 function settingsRead(sh, col, defs) {
   const vals = sh.getRange(1, col, 40, 2).getValues();
   const out = {};
@@ -1447,8 +1495,10 @@ function settingsSetup(sh, col, defs) {
   sh.getRange(1, col, 40, 2).clearContent().clearDataValidations();
   const block = defs.map(d => [d[0], d[0] in keep ? keep[d[0]] : d[1]]);
   sh.getRange(1, col, block.length, 2).setValues(block);
-  sh.getRange(1, col, 1, 2).setFontWeight("bold").setBackground("#0b2a5b").setFontColor("#ffffff");
-  sh.getRange(2, col, block.length - 1, 1).setFontWeight("bold");
+  sh.getRange(1, col, 1, 2).setFontWeight("bold").setBackground(TAB_THEME.headBg).setFontColor(TAB_THEME.headFg).setHorizontalAlignment("left");
+  sh.getRange(2, col, block.length - 1, 1).setFontWeight("bold").setFontColor(TAB_THEME.headFg);
+  sh.getRange(2, col, block.length - 1, 2).setVerticalAlignment("top")
+    .setBorder(null, null, true, null, null, true, "#3a2f52", SpreadsheetApp.BorderStyle.SOLID);
   defs.forEach((d, i) => { if (typeof d[1] === "boolean") sh.getRange(i + 1, col + 1).insertCheckboxes(); });
   sh.getRange(2, col + 1, block.length - 1, 1).setWrap(true);
   sh.setColumnWidth(col, 230);
@@ -1490,18 +1540,18 @@ function chatSheet() {
     sh.setFrozenRows(1);
     sh.setColumnWidth(4, 520);
   }
-  if (sh.getRange(1, 7).getValue() !== "🗑 Remove") {
-    sh.getRange(1, 1, 1, 7).setValues([["Timestamp", "Username", "IP Address", "Message", "Color", "Hidden", "🗑 Remove"]]).setFontWeight("bold");
-    const n = Math.max(1, sh.getMaxRows() - 1);
-    if (!sh.getRange(2, 6).getDataValidation()) sh.getRange(2, 6, n, 1).insertCheckboxes();
-    sh.getRange(2, 7, n, 1).insertCheckboxes();
-  }
-  if (!settingsPresent(sh, 8, CHAT_SETTINGS[0][0])) chatSetupSettings(sh);
+  if (sh.getRange(1, 7).getValue() !== "🗑 Remove" || !settingsPresent(sh, 8, CHAT_SETTINGS[0][0])) chatSetupSettings(sh, true);
   return sh;
 }
 
-function chatSetupSettings(sh) {
-  settingsSetup(sh || chatSheet(), 8, CHAT_SETTINGS);
+function chatSetupSettings(sh, full) {
+  sh = sh || SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Chat_Log");
+  if (full) {
+    sh.getRange(1, 1, 1, 7).setValues([["Timestamp", "Username", "IP Address", "Message", "Color", "Hidden", "🗑 Remove"]]);
+    styleControlTab(sh, chatTabOpts());
+  } else {
+    settingsSetup(sh, 8, CHAT_SETTINGS);
+  }
 }
 
 // Last row that holds a message (column A); the Hidden checkboxes and settings don't count
@@ -1522,6 +1572,21 @@ function chatSettings(sh) {
     slow: isFinite(slow) ? Math.max(1, Math.min(600, slow)) : 1,
     banned: String(v["Banned names (comma separated)"] || "").split(",").map(x => x.trim().toUpperCase()).filter(Boolean)
   };
+}
+
+function chatTabOpts() {
+  return {
+    keyCols: [1, 2, 4], dataCols: 7, checkCols: [6, 7], lists: {}, centerCols: [1, 3, 5], styleFrom: 1,
+    spacerCol: 0, settingsCol: 8, settingsDefs: CHAT_SETTINGS,
+    widths: { 1: 150, 2: 110, 3: 110, 4: 460, 5: 80, 6: 64, 7: 84, 8: 230, 9: 320 }
+  };
+}
+
+// Menu item: re-apply the theme, checkboxes and settings blocks on both control-center tabs
+function tidyControlTabs() {
+  triageSetup();
+  chatSetupSettings(null, true);
+  SpreadsheetApp.getActiveSpreadsheet().toast("Chat_Log and Bug_Triage tidied.", "H@N Tools");
 }
 
 function chatCleanName(n) {
@@ -1570,12 +1635,9 @@ function chatAppend(entries) {
   const rows = entries.map(e => [new Date(e.ts), e.sys ? "SYSTEM" : sheetSafe(e.name), e.ip || "", sheetSafe(e.msg), e.c || "", false, false]);
   const start = chatLastRow(sh) + 1;
   const max = sh.getMaxRows();
-  if (start + rows.length - 1 > max) {
-    // Grow the sheet in blocks and give the new rows Hidden checkboxes
-    sh.insertRowsAfter(max, 500);
-    sh.getRange(max + 1, 6, 500, 2).insertCheckboxes();
-  }
+  if (start + rows.length - 1 > max) sh.insertRowsAfter(max, 500);
   sh.getRange(start, 1, rows.length, 7).setValues(rows);
+  controlTabRows(sh, start, rows.length, chatTabOpts());
   CacheService.getScriptCache().remove(CHAT_CACHE_KEY);
 }
 
@@ -1706,7 +1768,7 @@ function onOpen() {
     .addItem("Generate vault key", "generateVaultKey")
     .addItem("Refresh live chat from Chat_Log", "chatRefreshNow")
     .addItem("New triage item", "triageNewItem")
-    .addItem("Set up triage control center", "triageSetup")
+    .addItem("Tidy Chat_Log + Bug_Triage tabs", "tidyControlTabs")
     .addToUi();
 }
 
