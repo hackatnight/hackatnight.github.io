@@ -859,10 +859,18 @@ function lastRowIn(sh, cols) {
   return last;
 }
 
-function triageTabOpts() {
+function triageTabOpts(sh) {
+  let statuses = TRIAGE_STATUSES.slice();
+  if (sh) {
+    const last = lastRowIn(sh, [1, 2, 6]);
+    if (last >= 2) sh.getRange(2, 8, last - 1, 1).getValues().forEach(r => {
+      const v = String(r[0] || "").trim();
+      if (v && statuses.indexOf(v) < 0 && statuses.length < 40) statuses.push(v);
+    });
+  }
   return {
     keyCols: [1, 2, 6], dataCols: TRIAGE_COLS, checkCols: [9, 10], styleFrom: 9,
-    lists: { 4: TRIAGE_SEVERITIES, 8: TRIAGE_STATUSES }, centerCols: [1, 2, 4, 8],
+    lists: { 4: TRIAGE_SEVERITIES, 8: statuses }, centerCols: [1, 2, 4, 8],
     spacerCol: 11, settingsCol: 12, settingsDefs: TRIAGE_SETTINGS,
     widths: { 1: 150, 2: 84, 3: 110, 4: 90, 5: 80, 6: 360, 7: 200, 8: 150, 9: 64, 10: 84, 11: 24, 12: 230, 13: 320 }
   };
@@ -878,7 +886,7 @@ function triageSheet() {
 function triageSetup(sh) {
   sh = sh || SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Bug_Triage");
   sh.getRange(1, 9, 1, 2).setValues([["Hidden", "🗑 Remove"]]);
-  styleControlTab(sh, triageTabOpts());
+  styleControlTab(sh, triageTabOpts(sh));
 }
 
 function triageSettings(sh) {
@@ -1497,7 +1505,8 @@ function settingsSetup(sh, col, defs) {
   sh.getRange(1, col, block.length, 2).setValues(block);
   sh.getRange(1, col, 1, 2).setFontWeight("bold").setBackground(TAB_THEME.headBg).setFontColor(TAB_THEME.headFg).setHorizontalAlignment("left");
   sh.getRange(2, col, block.length - 1, 1).setFontWeight("bold").setFontColor(TAB_THEME.headFg);
-  sh.getRange(2, col, block.length - 1, 2).setVerticalAlignment("top")
+  sh.getRange(2, col + 1, block.length - 1, 1).setHorizontalAlignment("left");
+  sh.getRange(2, col, block.length - 1, 2).setVerticalAlignment("middle")
     .setBorder(null, null, true, null, null, true, "#3a2f52", SpreadsheetApp.BorderStyle.SOLID);
   defs.forEach((d, i) => { if (typeof d[1] === "boolean") sh.getRange(i + 1, col + 1).insertCheckboxes(); });
   sh.getRange(2, col + 1, block.length - 1, 1).setWrap(true);
