@@ -215,6 +215,10 @@
       align-items: center;
       gap: 6px;
     }
+    /* Clock, sync and net share one row exactly as wide as the theme dropdown under them */
+    .conn-right { display: grid; grid-template-columns: repeat(3, auto); gap: 4px; }
+    .conn-right .conn-box { text-align: center; box-sizing: border-box; width: 100%; }
+    .conn-right #themeSelect { grid-column: 1 / -1; }
     .h7-badge {
       background: linear-gradient(180deg, #e2e8f0 0%, #64748b 100%);
       color: #090d16;
@@ -225,6 +229,7 @@
       border-radius: 2px;
       text-shadow: 0 1px 0 #ffffff;
       letter-spacing: -0.5px;
+      display: inline-flex; align-items: center; justify-content: center; line-height: 1;
     }
     .conn-label {
       color: var(--muted);
@@ -576,6 +581,7 @@
     .chat-messages { height: min(55vh, 460px); overflow-y: auto; background: #000; border: 1px solid var(--card-border); margin-top: 6px; padding: 6px; font-size: 11px; }
     .chat-msg { margin: 2px 0; word-wrap: break-word; }
     .chat-main { display: flex; gap: 6px; }
+    .vault-stack { display: flex; flex-direction: column; gap: 10px; max-width: 740px; margin: 0 auto; }
     .comms-card { max-width: 740px; margin: 10px auto 0; }
     #btnComms:disabled { opacity: 0.45; cursor: not-allowed; }
     /* Intro banner spans the full overview width above the globe and stats */
@@ -617,7 +623,8 @@
     .visits-mini { background: #000; border: 1px solid var(--card-border); margin-top: 6px; font-size: 10px; flex: 0 0 auto; }
     .vm-head { display: flex; justify-content: space-between; padding: 3px 8px; border-bottom: 1px solid var(--card-border); color: var(--accent); font-weight: 700; font-size: 10px; }
     .vm-live { color: #40f0a0; font-size: 9px; }
-    .vm-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .vm-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+    .overview-right .visits-mini { margin-top: 10px; }
     .vm-row { display: flex; align-items: center; gap: 6px; padding: 2px 8px; white-space: nowrap; overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.05); }
     .vm-t { color: var(--muted); font-variant-numeric: tabular-nums; }
     .vm-loc img { vertical-align: -1px; }
@@ -869,11 +876,11 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.16.0]</span>
+        <span id="titleVersionBadge">[v.2.16.1]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
-        <span>ip</span>
+        <span id="titleIp" title="Your public IP address (shown only to you, not logged)">ip</span>
         <span>X</span>
       </div>
     </div>
@@ -881,7 +888,7 @@
     <!-- METALLIC CONNECTION STRIP -->
     <div class="sub7-connstrip">
       <div class="conn-left">
-        <div class="h7-badge">H7</div>
+        <div class="h7-badge" title="HACKATNIGHT"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5l-8-3z" fill="currentColor"/><path d="M12 5.2 7 7.1v4c0 3.3 2.1 6.3 5 7.6V5.2z" fill="#ffffff" opacity=".35"/></svg></div>
         <span class="conn-label">host/ip:</span>
         <input class="conn-box" style="width:138px" value="hackatnight.com" readonly />
         <span class="conn-label">port:</span>
@@ -914,7 +921,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.16.0</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.16.1</span></div>
         </div>
       </aside>
 
@@ -984,11 +991,6 @@
               <div class="threat-foot" id="threatFoot">HOVER / TAP: LOCATE ON GLOBE</div>
             </div>
 
-            <!-- RECENT VISITORS (compact widget) -->
-            <div class="visits-mini" id="visitsMini">
-              <div class="vm-head"><span>RECENT VISITORS <span class="xray-pill">TAB: Visits Log (Sanitized)</span></span><span class="vm-live">● LIVE</span></div>
-              <div id="visitsTableBody" class="vm-list"></div>
-            </div>
             </div><!-- /overview-left -->
 
             <!-- RIGHT COLUMN: INTRO, KPIs, HEALTH & SESSIONS -->
@@ -1022,6 +1024,12 @@
             </div>
             <div class="grid-3" id="outageTelemetryGrid"></div>
 
+            <!-- RECENT VISITORS (compact widget) -->
+            <div class="visits-mini" id="visitsMini">
+              <div class="vm-head"><span>RECENT VISITORS <span class="xray-pill">TAB: Visits Log (Sanitized)</span></span><span class="vm-live">● LIVE</span></div>
+              <div id="visitsTableBody" class="vm-list"></div>
+            </div>
+
             </div><!-- /overview-right -->
             </div><!-- /overview-split -->
           </section>
@@ -1033,7 +1041,6 @@
                 <h1>PRIVATE IT SERVICES // HACKATNIGHT</h1>
                 <p>Direct technical consulting, network security architecture, private NAS storage, and custom hardware/firmware engineering.</p>
               </div>
-              <button class="s7-btn active-toggle" onclick="openSupportTicket()">dispatch support ticket -&gt;</button>
             </div>
             <div class="grid-2" id="servicesGrid"></div>
 
@@ -1104,7 +1111,18 @@
 
           <!-- 03 // CLIENT VAULT -->
           <section id="view-vault" class="view">
-            <div class="grid-2">
+            <div class="vault-stack">
+              <div class="card">
+                <div class="card-head"><span>TOKEN-GATED RELEASE UNLOCK</span><span class="xray-pill">POST action=unlock_key</span></div>
+                <p style="font-size:11px;color:var(--muted);margin-top:0">Enter a single-use or expiring access key issued by <strong>gr33n</strong> to unlock private firmware builds or recovery images.</p>
+                <label>RELEASE ACCESS KEY</label>
+                <input id="releaseKeyInput" placeholder="XXXX-XXXX" />
+                <div style="margin-top:10px">
+                  <button class="s7-btn active-toggle" onclick="redeemReleaseKey()">verify key &amp; unlock</button>
+                </div>
+                <div id="vaultKeyStatus" class="alert-box"></div>
+              </div>
+
               <div class="card">
                 <div class="card-head"><span>DIAGNOSTIC PAYLOAD DROP (MAX 25 MB)</span><span class="xray-pill">POST vault_upload -&gt; Drive</span></div>
                 <p style="font-size:11px;color:var(--muted);margin-top:0">Upload crash dumps, router configs, or diagnostic logs directly into the encrypted HACKATNIGHT Google Drive vault.</p>
@@ -1120,17 +1138,6 @@
                   <button class="s7-btn active-toggle" onclick="uploadVaultFile()">encrypt &amp; transmit to vault</button>
                 </div>
                 <div id="vaultUploadStatus" class="alert-box"></div>
-              </div>
-
-              <div class="card">
-                <div class="card-head"><span>TOKEN-GATED RELEASE UNLOCK</span><span class="xray-pill">POST action=unlock_key</span></div>
-                <p style="font-size:11px;color:var(--muted);margin-top:0">Enter a single-use or expiring access key issued by <strong>gr33n</strong> to unlock private firmware builds or recovery images.</p>
-                <label>RELEASE ACCESS KEY</label>
-                <input id="releaseKeyInput" placeholder="XXXX-XXXX" />
-                <div style="margin-top:10px">
-                  <button class="s7-btn active-toggle" onclick="redeemReleaseKey()">verify key &amp; unlock</button>
-                </div>
-                <div id="vaultKeyStatus" class="alert-box"></div>
               </div>
             </div>
           </section>
@@ -1265,7 +1272,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.16.0]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.16.1]</div>
     </div>
     <!-- DATA CREDITS (smallest text, very bottom of the page) -->
     <div class="data-credits">
@@ -1298,7 +1305,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.16.0",
+      APP_VERSION: "v.2.16.1",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1362,6 +1369,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.16.1", Project: "H@N Core", Summary: "Outage cards: details float above on hover, click pins, click the pinned window to open the status page. Clock/sync/net match the theme dropdown width; vault boxes stacked (release unlock first); title bar shows your IP (display only); shield icon; recent visitors back under outage telemetry; removed duplicate ticket button.", Tag: "🔵 UPDATE" },
       { Date: "2026-11-14", Version: "v.2.16.0", Project: "H@N Core", Summary: "Outage telemetry opens in compact mode with a floating details window on hover; intro banner spans the full page above the globe; chat fills the page and scrolls inside; GIF picker in chat (site-hosted set); Direct Operator Comms moved under IT Services and now requires a client key.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.15.2", Project: "H@N Core", Summary: "Chat room now fills all available page height; emoji button moved next to send.", Tag: "🔵 UPDATE" },
       { Date: "2026-11-14", Version: "v.2.15.1", Project: "H@N Core", Summary: "Chat: emoji picker, name colors, enter/leave notices and instant sends. Compact recent-visitors widget under the news box (no route column); news box scrolls slowly and continuously; triage board restyled as a table; globe always opens at the largest size that fits, including after switching tabs.", Tag: "🟢 FEAT" },
@@ -2691,8 +2699,7 @@
         if (!leftCol.offsetParent || leftCol.clientHeight < 50) return 0;
         const stacked = getComputedStyle(leftCol).display !== "flex";
         const tp = document.getElementById("threatPanel");
-        const vm = document.getElementById("visitsMini");
-        const max = stacked ? 900 : leftCol.clientHeight - wrapEl.parentElement.querySelector(".globe-hud-bar").offsetHeight - 8 - (tp ? tp.offsetHeight + 12 : 160) - (vm ? vm.offsetHeight + 6 : 0);
+        const max = stacked ? 900 : leftCol.clientHeight - wrapEl.parentElement.querySelector(".globe-hud-bar").offsetHeight - 8 - (tp ? tp.offsetHeight + 12 : 160);
         const v = Math.round(Math.max(220, Math.min(max, h)));
         leftCol.style.setProperty("--globe-h", v + "px");
         return v;
@@ -4089,6 +4096,22 @@
     const CHAT_COLORS = ["#7ce8ff", "#ffd166", "#40f0a0", "#ff8c46", "#ff4d5e", "#c4aaff", "#ff7ad9", "#ffffff"];
     const CHAT_EMOJI = "😀 😂 🤣 😊 😍 😎 🤔 😮 😢 😡 👍 👎 👏 🙏 💪 🔥 💯 ✅ ❌ ⚠️ 🚀 💻 🖥️ 📡 🛰️ 🌐 🔒 🔓 🛡️ 🐛 ⚡ 💾 📶 🎉 ❤️ 💀 👀 🤖 👾 🍕 ☕".split(" ");
     let VISITOR_IP = "Unknown";
+    // One IP lookup per page load, shared by the title bar display and visit logging
+    let VISITOR_IP_PROMISE = null;
+    function getVisitorIp() {
+      if (!VISITOR_IP_PROMISE) {
+        VISITOR_IP_PROMISE = fetch("https://api64.ipify.org?format=json")
+          .then(r => (r.ok ? r.json() : {}))
+          .then(j => (typeof j.ip === "string" && /^[0-9a-f:.]{3,45}$/i.test(j.ip) ? j.ip : "Unknown"))
+          .catch(() => "Unknown");
+      }
+      return VISITOR_IP_PROMISE;
+    }
+    // Title bar shows the visitor's own IP, for looks only (this display is never sent anywhere)
+    getVisitorIp().then(ip => {
+      const el = document.getElementById("titleIp");
+      if (el && ip !== "Unknown") el.textContent = "ip: " + ip;
+    });
 
     function chatJoin() {
       const input = document.getElementById("chatNameInput");
@@ -4559,11 +4582,7 @@
         return;
       }
 
-      let ipAddress = "Unknown";
-      try {
-        const ipRes = await fetch("https://api64.ipify.org?format=json");
-        if (ipRes.ok) ipAddress = (await ipRes.json()).ip || ipAddress;
-      } catch (_) {}
+      const ipAddress = await getVisitorIp();
       VISITOR_IP = ipAddress;
 
       const tVisit = performance.now();
