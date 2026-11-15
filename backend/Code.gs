@@ -348,7 +348,7 @@ function doGet(e) {
     }
     if (action === "chat_poll") {
       // "cs" = chat session id ("sid" is reserved by script.google.com and breaks the request)
-      return jsonOut(chatPoll(Number(e.parameter.since) || 0, e.parameter.name, e.parameter.cs));
+      return jsonOut(chatPoll(Number(e.parameter.since) || 0, e.parameter.name, e.parameter.cs, String(e.parameter.rev || "")));
     }
     if (action === "unlock_key") {
       // Keys are only accepted by POST so they never land in URLs or browser history
@@ -1274,11 +1274,28 @@ function escHtml(str) {
  * joins and leaves are logged as SYSTEM lines. The newest 60 entries are kept in the script cache so polling
  * is fast; IPs are never sent to browsers.
  */
-const CHAT_CACHE_KEY = "chat_recent_v3";
+const CHAT_CACHE_KEY = "chat_state_v4";
 const CHAT_PRESENCE_KEY = "chat_presence_v2";
 const CHAT_ONLINE_MS = 25000;   // a user counts as online if they polled in the last 25 s
 const CHAT_KEEP = 60;
+const CHAT_STATE_TTL = 20;      // seconds; edits in the sheet clear this at once, row deletions show within this time
 const CHAT_COLORS = ["#7ce8ff", "#ffd166", "#40f0a0", "#ff8c46", "#ff4d5e", "#c4aaff", "#ff7ad9", "#ffffff"];
+const CHAT_RESERVED = ["SYSTEM", "MOD", "ADMIN"];
+
+/* Chat_Log is the chat control center:
+   - Columns A-E are the messages (Timestamp, Username, IP Address, Message, Color). Edit any cell or delete a
+     row and the live chat updates. Add a row with Username "MOD" to post as the moderator.
+   - Column F "Hidden": tick it to hide a message without deleting it.
+   - Columns H-I are the settings below. */
+const CHAT_SETTINGS = [
+  ["CHAT CONTROL CENTER", ""],
+  ["Chat open", true],
+  ["Pinned MOD message on", false],
+  ["Pinned MOD message", "Welcome to the H@N chat. Be cool."],
+  ["Slow mode (seconds between messages)", 1],
+  ["Banned names (comma separated)", ""],
+  ["Tips", "Edit or delete rows to change the chat. Tick Hidden (column F) to hide a message. Use the name MOD to post as moderator."]
+];
 
 function chatSheet() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -1288,51 +1305,104 @@ function chatSheet() {
     sh.setFrozenRows(1);
     sh.setColumnWidth(4, 520);
   }
-  if (sh.getRange(1, 5).getValue() !== "Color") {
-    sh.getRange(1, 1, 1, 5).setValues([["Timestamp", "Username", "IP Address", "Message", "Color"]]).setFontWeight("bold");
+  if (sh.getRange(1, 6).getValue() !== "Hidden") {
+    sh.getRange(1, 1, 1, 6).setValues([["Timestamp", "Username", "IP Address", "Message", "Color", "Hidden"]]).setFontWeight("bold");
+    sh.getRange(2, 6, Math.max(1, sh.getMaxRows() - 1), 1).insertCheckboxes();
   }
+  if (sh.getRange(1, 8).getValue() !== CHAT_SETTINGS[0][0]) chatSetupSettings(sh);
   return sh;
+}
+
+// Writes the settings block (columns H-I) with checkboxes; existing values are kept
+function chatSetupSettings(sh) {
+  sh = sh || chatSheet();
+  const cur = sh.getRange(1, 8, CHAT_SETTINGS.length, 2).getValues();
+  const vals = CHAT_SETTINGS.map((row, i) => [row[0], cur[i][0] === row[0] && cur[i][1] !== "" ? cur[i][1] : row[1]]);
+  sh.getRange(1, 8, vals.length, 2).setValues(vals);
+  sh.getRange(1, 8, 1, 2).setFontWeight("bold").setBackground("#0b2a5b").setFontColor("#ffffff");
+  sh.getRange(2, 8, vals.length - 1, 1).setFontWeight("bold");
+  sh.getRange(2, 9).insertCheckboxes();
+  sh.getRange(3, 9).insertCheckboxes();
+  sh.getRange(2, 9, vals.length - 1, 1).setWrap(true);
+  sh.setColumnWidth(8, 230);
+  sh.setColumnWidth(9, 320);
+}
+
+function chatSettings(sh) {
+  const v = sh.getRange(2, 9, CHAT_SETTINGS.length - 1, 1).getValues().map(r => r[0]);
+  const slow = Math.round(Number(v[3]));
+  return {
+    open: v[0] !== false,
+    pinOn: v[1] === true,
+    pin: String(v[2] || "").slice(0, 500),
+    slow: isFinite(slow) ? Math.max(1, Math.min(600, slow)) : 1,
+    banned: String(v[4] || "").split(",").map(x => x.trim().toUpperCase()).filter(Boolean)
+  };
 }
 
 function chatCleanName(n) {
   return String(n || "").replace(/[^A-Za-z0-9 _.\-@]/g, "").trim().slice(0, 24);
 }
 
-function chatRecent() {
+// Recent messages + settings, read from the sheet (cached briefly). rev changes whenever either changes.
+function chatState() {
   const cache = CacheService.getScriptCache();
   const hit = cache.get(CHAT_CACHE_KEY);
   if (hit) {
     try { return JSON.parse(hit); } catch (_) {}
   }
   const sh = chatSheet();
+  const settings = chatSettings(sh);
   const last = sh.getLastRow();
-  if (last < 2) return [];
-  const n = Math.min(CHAT_KEEP, last - 1);
-  const rows = sh.getRange(last - n + 1, 1, n, 5).getValues();
-  const list = rows.filter(r => r[0] && r[1]).map(r => {
-    const name = String(r[1] || "").replace(/^'/, "");
-    const m = { ts: new Date(r[0]).getTime() || 0, name: name, msg: String(r[3] || "").replace(/^'/, "") };
-    if (name === "SYSTEM") m.sys = 1;
-    if (CHAT_COLORS.indexOf(String(r[4])) >= 0) m.c = String(r[4]);
-    return m;
-  });
-  cache.put(CHAT_CACHE_KEY, JSON.stringify(list), 21600);
-  return list;
+  let list = [];
+  if (last >= 2) {
+    const n = Math.min(CHAT_KEEP + 40, last - 1);
+    const rows = sh.getRange(last - n + 1, 1, n, 6).getValues();
+    list = rows.filter(r => r[0] !== "" && r[1] !== "" && r[3] !== "" && r[5] !== true).map(r => {
+      const name = String(r[1] || "").replace(/^'/, "").slice(0, 24);
+      const m = { ts: new Date(r[0]).getTime() || 0, name: name, msg: String(r[3] || "").replace(/^'/, "").slice(0, 500) };
+      if (name.toUpperCase() === "SYSTEM") m.sys = 1;
+      else if (name.toUpperCase() === "MOD" || name.toUpperCase() === "ADMIN") m.mod = 1;
+      if (CHAT_COLORS.indexOf(String(r[4]).toLowerCase()) >= 0) m.c = String(r[4]).toLowerCase();
+      return m;
+    });
+    list.sort((a, b) => a.ts - b.ts);
+    list = list.slice(-CHAT_KEEP);
+  }
+  const state = { list: list, settings: settings };
+  state.rev = Utilities.base64EncodeWebSafe(Utilities.computeDigest(Utilities.DigestAlgorithm.MD5, JSON.stringify(state))).slice(0, 12);
+  cache.put(CHAT_CACHE_KEY, JSON.stringify(state), CHAT_STATE_TTL);
+  return state;
 }
 
-// Adds entries to the sheet log and the recent-list cache (call while holding the script lock)
+function chatRecent() {
+  return chatState().list;
+}
+
+// Adds entries to the sheet log, then refreshes the cached state (call while holding the script lock)
 function chatAppend(entries) {
   if (!entries.length) return;
-  const list = chatRecent();
   const sh = chatSheet();
   entries.forEach(e => {
-    sh.appendRow([new Date(e.ts), e.sys ? "SYSTEM" : sheetSafe(e.name), e.ip || "", sheetSafe(e.msg), e.c || ""]);
-    const item = { ts: e.ts, name: e.sys ? "SYSTEM" : e.name, msg: e.msg };
-    if (e.sys) item.sys = 1;
-    if (e.c) item.c = e.c;
-    list.push(item);
+    sh.appendRow([new Date(e.ts), e.sys ? "SYSTEM" : sheetSafe(e.name), e.ip || "", sheetSafe(e.msg), e.c || "", false]);
   });
-  CacheService.getScriptCache().put(CHAT_CACHE_KEY, JSON.stringify(list.slice(-CHAT_KEEP)), 21600);
+  CacheService.getScriptCache().remove(CHAT_CACHE_KEY);
+}
+
+// Simple trigger: any edit on Chat_Log (messages or settings) reaches the live chat on the next poll
+function onEdit(e) {
+  try {
+    if (e && e.range && e.range.getSheet().getName() === "Chat_Log") {
+      CacheService.getScriptCache().remove(CHAT_CACHE_KEY);
+    }
+  } catch (_) {}
+}
+
+// Menu item: push sheet changes (like deleted rows) to the chat right away
+function chatRefreshNow() {
+  CacheService.getScriptCache().remove(CHAT_CACHE_KEY);
+  chatSetupSettings();
+  SpreadsheetApp.getActiveSpreadsheet().toast("Chat refreshed from the Chat_Log tab.", "H@N chat");
 }
 
 // Presence: every poll marks that browser as here; names that appear or time out become join/leave notices
@@ -1371,15 +1441,18 @@ function chatPresence(name, sid, leaving) {
   }
 }
 
-function chatPoll(since, name, sid) {
+// The client sends the rev it has; the full list and settings come back only when something changed
+function chatPoll(since, name, sid, rev) {
   const users = chatPresence(name, sid, false);
-  const list = chatRecent();
-  return {
-    status: "ok",
-    now: Date.now(),
-    users: users,
-    messages: since ? list.filter(m => m.ts > since) : list
-  };
+  const st = chatState();
+  const out = { status: "ok", now: Date.now(), users: users, rev: st.rev };
+  if (rev !== st.rev) {
+    out.full = 1;
+    out.messages = st.list;
+    out.open = st.settings.open;
+    out.pinned = st.settings.pinOn && st.settings.pin ? st.settings.pin : "";
+  }
+  return out;
 }
 
 function chatLeave(d) {
@@ -1393,14 +1466,17 @@ function chatSend(d) {
   const sid = String(d.sessionId || "").slice(0, 60);
   const color = CHAT_COLORS.indexOf(String(d.color || "").toLowerCase()) >= 0 ? String(d.color).toLowerCase() : "";
   if (name.length < 2) return { status: "error", message: "Pick a name of at least 2 letters or numbers" };
-  if (name.toUpperCase() === "SYSTEM") return { status: "error", message: "That name is reserved" };
+  if (CHAT_RESERVED.indexOf(name.toUpperCase()) >= 0) return { status: "error", message: "That name is reserved" };
   if (!msg) return { status: "error", message: "Empty message" };
-  // Per-session flood guard: one message per second or so
+  const settings = chatState().settings;
+  if (!settings.open) return { status: "error", message: "Chat is closed right now" };
+  if (settings.banned.indexOf(name.toUpperCase()) >= 0) return { status: "error", message: "This name can't post in the chat" };
+  // Per-session flood guard (slow mode is set in the Chat_Log tab)
   const cache = CacheService.getScriptCache();
   if (sid) {
     const k = "chat_sid_" + sid;
-    if (cache.get(k)) return { status: "error", message: "Slow down a little" };
-    cache.put(k, "1", 1);
+    if (cache.get(k)) return { status: "error", message: settings.slow > 1 ? "Slow mode: one message every " + settings.slow + " seconds" : "Slow down a little" };
+    cache.put(k, "1", settings.slow);
   }
   const lock = LockService.getScriptLock();
   if (!lock.tryLock(8000)) return { status: "error", message: "Chat busy, try again" };
@@ -1426,6 +1502,7 @@ function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu("H@N Tools")
     .addItem("Generate vault key", "generateVaultKey")
+    .addItem("Refresh live chat from Chat_Log", "chatRefreshNow")
     .addToUi();
 }
 

@@ -604,6 +604,12 @@
     .chat-msg .n { color: var(--accent); font-weight: 700; margin-right: 6px; }
     .chat-msg.sys { color: var(--muted); font-style: italic; font-size: 10px; }
     .chat-msg.pending { opacity: 0.55; }
+    .chat-msg.mod { background: rgba(255, 77, 94, 0.08); border-left: 2px solid #ff4d5e; padding-left: 4px; }
+    .chat-msg .n.mod-badge { color: #fff !important; background: #ff4d5e; padding: 0 4px; font-size: 9px; letter-spacing: 1px; }
+    .chat-pinned { flex-shrink: 0; margin-top: 6px; padding: 5px 8px; background: rgba(255, 209, 102, 0.1); border: 1px solid #ffd166; color: #ffd166; font-size: 11px; word-wrap: break-word; }
+    .chat-pinned[hidden] { display: none; }
+    .chat-pinned b { background: #ff4d5e; color: #fff; padding: 0 4px; margin-right: 6px; font-size: 9px; letter-spacing: 1px; }
+    .chat-closed #chatInput { opacity: 0.5; }
     .chat-colors { display: inline-flex; gap: 3px; align-items: center; }
     .chat-colors button { width: 12px; height: 12px; padding: 0; border: 1px solid #000; cursor: pointer; }
     .chat-colors button.on { outline: 1px solid #fff; outline-offset: 1px; }
@@ -877,7 +883,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.16.2]</span>
+        <span id="titleVersionBadge">[v.2.17.0]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -922,7 +928,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.16.2</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.17.0</span></div>
         </div>
       </aside>
 
@@ -1200,6 +1206,7 @@
                   <span class="chat-colors" id="chatColors" title="Name color"></span>
                   <button class="s7-btn" onclick="chatLeave()">leave</button>
                 </div>
+                <div id="chatPinned" class="chat-pinned" hidden></div>
                 <div class="chat-main">
                   <div id="chatMessages" class="chat-messages" aria-live="polite"></div>
                   <div class="chat-users">
@@ -1273,7 +1280,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.16.2]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.17.0]</div>
     </div>
     <!-- DATA CREDITS (smallest text, very bottom of the page) -->
     <div class="data-credits">
@@ -1306,7 +1313,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.16.2",
+      APP_VERSION: "v.2.17.0",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1370,6 +1377,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.17.0", Project: "H@N Core", Summary: "Chat control center in the Chat_Log sheet tab: edit, hide or delete messages and the live chat updates; pinned MOD message (on/off checkbox); open/close chat; slow mode; banned names; post as MOD.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.16.2", Project: "H@N Core", Summary: "Fixed the chat room not filling the page when you return already logged in.", Tag: "🟠 FIX" },
       { Date: "2026-11-14", Version: "v.2.16.1", Project: "H@N Core", Summary: "Outage cards: details float above on hover, click pins, click the pinned window to open the status page. Clock/sync/net match the theme dropdown width; vault boxes stacked (release unlock first); title bar shows your IP (display only); shield icon; recent visitors back under outage telemetry; removed duplicate ticket button.", Tag: "🔵 UPDATE" },
       { Date: "2026-11-14", Version: "v.2.16.0", Project: "H@N Core", Summary: "Outage telemetry opens in compact mode with a floating details window on hover; intro banner spans the full page above the globe; chat fills the page and scrolls inside; GIF picker in chat (site-hosted set); Direct Operator Comms moved under IT Services and now requires a client key.", Tag: "🟢 FEAT" },
@@ -4094,7 +4102,7 @@
        08a // LIVE CHAT (FEAT-109): pick a name, read + post in one public room.
        Polls the backend every 4 s only while the chat tab is open.
        ========================================================================= */
-    const CHAT = { name: "", since: 0, timer: null, seen: new Set(), busy: false, color: "#7ce8ff" };
+    const CHAT = { name: "", since: 0, timer: null, seen: new Set(), busy: false, color: "#7ce8ff", rev: "", open: true };
     const CHAT_COLORS = ["#7ce8ff", "#ffd166", "#40f0a0", "#ff8c46", "#ff4d5e", "#c4aaff", "#ff7ad9", "#ffffff"];
     const CHAT_EMOJI = "😀 😂 🤣 😊 😍 😎 🤔 😮 😢 😡 👍 👎 👏 🙏 💪 🔥 💯 ✅ ❌ ⚠️ 🚀 💻 🖥️ 📡 🛰️ 🌐 🔒 🔓 🛡️ 🐛 ⚡ 💾 📶 🎉 ❤️ 💀 👀 🤖 👾 🍕 ☕".split(" ");
     let VISITOR_IP = "Unknown";
@@ -4129,6 +4137,7 @@
       try { localStorage.removeItem("han_chat_name"); } catch (_) {}
       document.getElementById("chatRoom").style.display = "none";
       document.getElementById("chatLogin").style.display = "block";
+      CHAT.rev = "";
       chatStop();
     }
     function chatShowRoom() {
@@ -4141,7 +4150,7 @@
     }
     function chatMakeRow(m, pending) {
       const row = document.createElement("div");
-      row.className = "chat-msg" + (m.sys ? " sys" : "") + (m.name === CHAT.name ? " me" : "") + (pending ? " pending" : "");
+      row.className = "chat-msg" + (m.sys ? " sys" : "") + (m.mod ? " mod" : "") + (m.name === CHAT.name && !m.mod ? " me" : "") + (pending ? " pending" : "");
       const t = document.createElement("span");
       t.className = "t";
       t.textContent = new Date(m.ts).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
@@ -4165,8 +4174,9 @@
       } else {
         const n = document.createElement("span");
         n.className = "n";
-        n.textContent = m.name;
-        if (CHAT_COLORS.includes(m.c)) n.style.color = m.c;
+        n.textContent = m.mod ? "MOD" : m.name;
+        if (m.mod) n.classList.add("mod-badge");
+        else if (CHAT_COLORS.includes(m.c)) n.style.color = m.c;
         row.append(t, n, body);
       }
       return row;
@@ -4186,6 +4196,38 @@
         if (img && atBottom) img.addEventListener("load", () => { box.scrollTop = box.scrollHeight; }, { once: true });
       });
       if (atBottom) box.scrollTop = box.scrollHeight;
+    }
+    // The sheet changed (new, edited, hidden or deleted messages): redraw the whole list
+    function chatRebuild(messages) {
+      const box = document.getElementById("chatMessages");
+      if (!box) return;
+      const atBottom = box.scrollTop + box.clientHeight >= box.scrollHeight - 30;
+      const keepTop = box.scrollTop;
+      const pending = [...box.querySelectorAll(".chat-msg.pending")];
+      box.textContent = "";
+      CHAT.seen.clear();
+      chatRender(messages);
+      pending.forEach(r => box.appendChild(r));
+      box.scrollTop = atBottom ? box.scrollHeight : keepTop;
+    }
+    function chatApplySettings(data) {
+      const pin = document.getElementById("chatPinned");
+      const text = String(data.pinned || "");
+      pin.textContent = "";
+      if (text) {
+        const b = document.createElement("b");
+        b.textContent = "📌 MOD";
+        pin.append(b, document.createTextNode(text));
+      }
+      pin.hidden = !text;
+      CHAT.open = data.open !== false;
+      const room = document.getElementById("chatRoom");
+      room.classList.toggle("chat-closed", !CHAT.open);
+      const input = document.getElementById("chatInput");
+      input.disabled = !CHAT.open;
+      input.placeholder = CHAT.open ? "type a message, Enter to send" : "chat is closed by the moderator";
+      room.querySelectorAll(".chat-row button").forEach(b => { b.disabled = !CHAT.open; });
+      fitChat();
     }
     function chatRenderColors() {
       const box = document.getElementById("chatColors");
@@ -4287,9 +4329,13 @@
       const status = document.getElementById("chatStatus");
       await chatGifsReady;
       try {
-        const data = await BACKEND_API.get({ action: "chat_poll", since: CHAT.since, name: CHAT.name, cs: sessionStorage.getItem("hack_sid") || "" });
+        const data = await BACKEND_API.get({ action: "chat_poll", since: CHAT.since, name: CHAT.name, cs: sessionStorage.getItem("hack_sid") || "", rev: CHAT.rev });
         if (data && data.status === "ok") {
-          chatRender(data.messages || []);
+          if (data.full) {
+            chatRebuild(Array.isArray(data.messages) ? data.messages : []);
+            chatApplySettings(data);
+          }
+          if (data.rev) CHAT.rev = String(data.rev);
           chatRenderUsers(Array.isArray(data.users) ? data.users : []);
           status.textContent = "";
         }
@@ -4331,7 +4377,10 @@
         });
         if (res && res.status === "ok") {
           status.textContent = "";
-          CHAT.seen.add(res.ts + "|" + CHAT.name + "|" + msg);
+          const key = res.ts + "|" + CHAT.name + "|" + msg;
+          // A redraw may already have drawn the saved copy; then drop the temporary one
+          if (CHAT.seen.has(key)) { row.remove(); return; }
+          CHAT.seen.add(key);
           row.classList.remove("pending");
           row.querySelector(".t").textContent = new Date(res.ts).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
         } else {
