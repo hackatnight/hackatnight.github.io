@@ -3539,7 +3539,10 @@
       if (pop) pop.style.display = "none";
       if (card) delete card.dataset.popShown;
     }
-    window.addEventListener("scroll", () => hideOutagePop(), true);
+    // Hide the floating card when the page itself scrolls (not when the news box auto-scrolls)
+    window.addEventListener("scroll", e => {
+      if (e.target === document || (e.target && e.target.id === "mainViewport")) hideOutagePop();
+    }, true);
     function outageCardClick(ev, idx) {
       const card = ev.currentTarget || (ev.target && ev.target.closest(".outage-card"));
       // On touch screens there is no hover: the first tap shows the details, the second opens the page
