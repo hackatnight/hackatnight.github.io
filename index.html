@@ -588,7 +588,8 @@
     .overview-banner { margin-bottom: 10px; }
     /* The chat card fills the visible page height; the message list takes whatever is left */
     #view-chat .chat-card { display: flex; flex-direction: column; height: var(--chat-h, auto); min-height: 360px; box-sizing: border-box; }
-    #view-chat .chat-room { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    #view-chat .chat-room { flex: 1; min-height: 0; flex-direction: column; }
+    #view-chat .chat-room:not([style*="none"]) { display: flex !important; }
     #view-chat .chat-main { flex: 1 1 0; min-height: 0; overflow: hidden; }
     #view-chat .chat-messages, #view-chat .chat-users { height: auto; max-height: 100%; min-height: 0; overflow-y: auto; }
     #view-chat .chat-bar, #view-chat .chat-row, #view-chat .chat-note, #view-chat .card-head { flex-shrink: 0; }
@@ -876,7 +877,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.16.1]</span>
+        <span id="titleVersionBadge">[v.2.16.2]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -921,7 +922,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.16.1</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.16.2</span></div>
         </div>
       </aside>
 
@@ -1272,7 +1273,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.16.1]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.16.2]</div>
     </div>
     <!-- DATA CREDITS (smallest text, very bottom of the page) -->
     <div class="data-credits">
@@ -1305,7 +1306,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.16.1",
+      APP_VERSION: "v.2.16.2",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1369,6 +1370,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.16.2", Project: "H@N Core", Summary: "Fixed the chat room not filling the page when you return already logged in.", Tag: "🔴 FIX" },
       { Date: "2026-11-14", Version: "v.2.16.1", Project: "H@N Core", Summary: "Outage cards: details float above on hover, click pins, click the pinned window to open the status page. Clock/sync/net match the theme dropdown width; vault boxes stacked (release unlock first); title bar shows your IP (display only); shield icon; recent visitors back under outage telemetry; removed duplicate ticket button.", Tag: "🔵 UPDATE" },
       { Date: "2026-11-14", Version: "v.2.16.0", Project: "H@N Core", Summary: "Outage telemetry opens in compact mode with a floating details window on hover; intro banner spans the full page above the globe; chat fills the page and scrolls inside; GIF picker in chat (site-hosted set); Direct Operator Comms moved under IT Services and now requires a client key.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.15.2", Project: "H@N Core", Summary: "Chat room now fills all available page height; emoji button moved next to send.", Tag: "🔵 UPDATE" },
@@ -4371,7 +4373,8 @@
           CHAT.name = saved;
           document.getElementById("chatWho").textContent = saved;
           document.getElementById("chatLogin").style.display = "none";
-          document.getElementById("chatRoom").style.display = "block";
+          document.getElementById("chatRoom").style.display = "flex";
+          fitChat();
         }
       } catch (_) {}
     }
