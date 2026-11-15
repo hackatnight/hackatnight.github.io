@@ -871,7 +871,7 @@ function triageTabOpts(sh) {
   return {
     keyCols: [1, 2, 6], dataCols: TRIAGE_COLS, checkCols: [9, 10], styleFrom: 9,
     lists: { 4: TRIAGE_SEVERITIES, 8: statuses }, centerCols: [1, 2, 4, 8],
-    spacerCol: 11, settingsCol: 12, settingsDefs: TRIAGE_SETTINGS,
+    spacerCol: 11, settingsCol: 12, settingsDefs: TRIAGE_SETTINGS, timeFormat: "yyyy-MM-dd HH:mm:ss",
     widths: { 1: 150, 2: 84, 3: 110, 4: 90, 5: 80, 6: 360, 7: 200, 8: 150, 9: 64, 10: 84, 11: 24, 12: 230, 13: 320 }
   };
 }
@@ -1468,6 +1468,8 @@ function styleControlTab(sh, o) {
   if (last >= 2) controlTabRows(sh, 2, last - 1, o);
   (o.centerCols || []).concat(o.checkCols).forEach(c => sh.getRange(2, c, maxR - 1, 1).setHorizontalAlignment("center"));
   Object.keys(o.widths || {}).forEach(c => sh.setColumnWidth(Number(c), o.widths[c]));
+  if (o.timeFormat) sh.getRange(2, 1, maxR - 1, 1).setNumberFormat(o.timeFormat);
+  sh.setRowHeights(1, Math.min(maxR, Math.max(last, 40)), 21);
   if (o.settingsCol) settingsSetup(sh, o.settingsCol, o.settingsDefs);
 }
 
@@ -1509,7 +1511,8 @@ function settingsSetup(sh, col, defs) {
   sh.getRange(2, col, block.length - 1, 2).setVerticalAlignment("middle")
     .setBorder(null, null, true, null, null, true, "#3a2f52", SpreadsheetApp.BorderStyle.SOLID);
   defs.forEach((d, i) => { if (typeof d[1] === "boolean") sh.getRange(i + 1, col + 1).insertCheckboxes(); });
-  sh.getRange(2, col + 1, block.length - 1, 1).setWrap(true);
+  // No wrapping, so long values (like Tips) don't stretch the message rows they sit beside
+  sh.getRange(2, col + 1, block.length - 1, 1).setWrapStrategy(SpreadsheetApp.WrapStrategy.OVERFLOW);
   sh.setColumnWidth(col, 230);
   sh.setColumnWidth(col + 1, 320);
 }
@@ -1586,7 +1589,7 @@ function chatSettings(sh) {
 function chatTabOpts() {
   return {
     keyCols: [1, 2, 4], dataCols: 7, checkCols: [6, 7], lists: {}, centerCols: [1, 3, 5], styleFrom: 1,
-    spacerCol: 0, settingsCol: 8, settingsDefs: CHAT_SETTINGS,
+    spacerCol: 0, settingsCol: 8, settingsDefs: CHAT_SETTINGS, timeFormat: "MM/dd/yyyy HH:mm:ss",
     widths: { 1: 150, 2: 110, 3: 110, 4: 460, 5: 80, 6: 64, 7: 84, 8: 230, 9: 320 }
   };
 }
