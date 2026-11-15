@@ -1,0 +1,62 @@
+[
+ {
+  "id": "gg",
+  "label": "GG",
+  "file": "gg.gif"
+ },
+ {
+  "id": "lol",
+  "label": "LOL",
+  "file": "lol.gif"
+ },
+ {
+  "id": "hacking",
+  "label": "Hacking...",
+  "file": "hacking.gif"
+ },
+ {
+  "id": "granted",
+  "label": "Access granted",
+  "file": "granted.gif"
+ },
+ {
+  "id": "denied",
+  "label": "Access denied",
+  "file": "denied.gif"
+ },
+ {
+  "id": "matrix",
+  "label": "Matrix",
+  "file": "matrix.gif"
+ },
+ {
+  "id": "404",
+  "label": "404",
+  "file": "404.gif"
+ },
+ {
+  "id": "shipit",
+  "label": "Ship it",
+  "file": "shipit.gif"
+ },
+ {
+  "id": "brb",
+  "label": "BRB",
+  "file": "brb.gif"
+ },
+ {
+  "id": "heart",
+  "label": "Heart",
+  "file": "heart.gif"
+ },
+ {
+  "id": "wow",
+  "label": "WOW",
+  "file": "wow.gif"
+ },
+ {
+  "id": "ok",
+  "label": "OK",
+  "file": "ok.gif"
+ }
+]

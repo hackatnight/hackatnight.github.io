@@ -775,7 +775,33 @@ function createSupportTicket(d) {
   return { status: "ok", ticketId: ticketId };
 }
 
+// Checks a client key without spending a download: it must exist and not be expired.
+// Wrong keys count toward the same site-wide lockout as the vault.
+function clientKeyIsValid(key) {
+  key = String(key || "").trim();
+  if (!key) return { ok: false, message: "A client key is required to message the operator." };
+  const cache = CacheService.getScriptCache();
+  const fails = Number(cache.get("vault_fail") || 0);
+  if (fails >= VAULT_MAX_FAILS) return { ok: false, message: "Too many wrong keys. Try again in 15 minutes." };
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Client_Keys");
+  const rows = sheet ? sheet.getDataRange().getValues() : [];
+  const now = new Date();
+  for (let i = 1; i < rows.length; i++) {
+    if (String(rows[i][0]).trim().toUpperCase() !== key.toUpperCase()) continue;
+    const expiresAt = rows[i][4] ? new Date(rows[i][4]) : null;
+    if (expiresAt && expiresAt < now) return { ok: false, message: "This client key has expired." };
+    return { ok: true };
+  }
+  cache.put("vault_fail", String(fails + 1), VAULT_LOCK_SEC);
+  return { ok: false, message: "That client key is not valid." };
+}
+
 function createCommsMessage(d) {
+  // Direct comms is for clients only: a valid client key is required (sign-in will be added later)
+  const keyCheck = clientKeyIsValid(d.clientKey);
+  if (!keyCheck.ok) return { status: "denied", message: keyCheck.message };
+  const keyTag = "client key ..." + String(d.clientKey).trim().slice(-4).toUpperCase();
+  d.checksum = keyTag;
   const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Comms_Inbox");
   const now = new Date();
   sheet.appendRow([
@@ -795,7 +821,7 @@ function createCommsMessage(d) {
       ["Sender Handle", d.handle || "Anonymous"],
       ["Return Address", d.email || "N/A"],
       ["Subject", d.subject || "Direct Transmission"],
-      ["Payload Checksum", d.checksum || "N/A"],
+      ["Verified By", d.checksum || "N/A"],
       ["Timestamp", now.toUTCString()]
     ],
     d.message || ""

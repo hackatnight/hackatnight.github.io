@@ -576,11 +576,16 @@
     .chat-messages { height: min(55vh, 460px); overflow-y: auto; background: #000; border: 1px solid var(--card-border); margin-top: 6px; padding: 6px; font-size: 11px; }
     .chat-msg { margin: 2px 0; word-wrap: break-word; }
     .chat-main { display: flex; gap: 6px; }
+    .comms-card { margin-top: 10px; }
+    #btnComms:disabled { opacity: 0.45; cursor: not-allowed; }
+    /* Intro banner spans the full overview width above the globe and stats */
+    .overview-banner { margin-bottom: 10px; }
     /* The chat card fills the visible page height; the message list takes whatever is left */
     #view-chat .chat-card { display: flex; flex-direction: column; height: var(--chat-h, auto); min-height: 360px; box-sizing: border-box; }
     #view-chat .chat-room { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-    #view-chat .chat-main { flex: 1; min-height: 0; }
-    #view-chat .chat-messages, #view-chat .chat-users { height: auto; max-height: none; }
+    #view-chat .chat-main { flex: 1 1 0; min-height: 0; overflow: hidden; }
+    #view-chat .chat-messages, #view-chat .chat-users { height: auto; max-height: 100%; min-height: 0; overflow-y: auto; }
+    #view-chat .chat-bar, #view-chat .chat-row, #view-chat .chat-note, #view-chat .card-head { flex-shrink: 0; }
     .chat-main .chat-messages { flex: 1; min-width: 0; }
     .chat-users { width: 170px; flex-shrink: 0; background: #000; border: 1px solid var(--card-border); margin-top: 6px; padding: 4px 6px; font-size: 10px; overflow-y: auto; max-height: min(55vh, 460px); }
     .chat-users-head { color: var(--muted); font-size: 9px; border-bottom: 1px solid var(--card-border); margin-bottom: 3px; padding-bottom: 2px; }
@@ -600,6 +605,13 @@
     .chat-emoji-panel[hidden] { display: none; }
     .chat-emoji-panel button { background: none; border: none; font-size: 17px; cursor: pointer; padding: 2px; line-height: 1; }
     .chat-emoji-panel button:hover { background: rgba(124, 232, 255, 0.15); }
+    .chat-gif-btn { font-size: 9px; font-weight: 700; padding: 0 6px; }
+    .chat-gif-panel { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 4px; background: #000; border: 1px solid var(--card-border); margin-top: 6px; padding: 4px; max-height: 170px; overflow-y: auto; flex-shrink: 0; }
+    .chat-gif-panel[hidden] { display: none; }
+    .chat-gif-panel button { background: none; border: 1px solid transparent; padding: 0; cursor: pointer; }
+    .chat-gif-panel button:hover { border-color: var(--accent); }
+    .chat-gif-panel img, .chat-msg img.chat-gif { width: 100%; max-width: 160px; display: block; image-rendering: pixelated; }
+    .chat-msg img.chat-gif { width: 160px; height: 90px; margin-top: 2px; border: 1px solid var(--card-border); }
     .clock-box { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--accent); }
     #refreshCountdown { cursor: pointer; }
     .visits-mini { background: #000; border: 1px solid var(--card-border); margin-top: 6px; font-size: 10px; flex: 0 0 auto; }
@@ -623,18 +635,16 @@
     .tt-sev.sev-medium { color: #ffb84d; }
     .tt-sev.sev-low { color: #7ce8ff; }
     .outage-card { cursor: pointer; }
-    .oc-toggle { background: none; border: 1px solid var(--card-border); color: var(--muted); font-size: 9px; line-height: 1; padding: 1px 4px; cursor: pointer; transition: transform .15s; }
-    .outage-card.expanded .oc-toggle { transform: rotate(90deg); color: var(--accent); }
     .oc-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     /* compact: only icon + name + state; an expanded card shows its details */
     .outage-compact { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important; gap: 4px !important; }
     .outage-compact .outage-card { padding: 4px 6px; }
     .outage-compact .outage-card .card-head { margin-bottom: 0; font-size: 10px; }
     .outage-compact .outage-card .oc-body { display: none; }
-    .outage-compact .outage-card.expanded { grid-column: span 2; }
-    .outage-compact .outage-card.expanded .oc-body { display: block; margin-top: 4px; }
-    .outage-card:not(.expanded) .oc-toggle { }
-    #outageTelemetryGrid:not(.outage-compact) .oc-toggle { display: none; }
+    /* Floating full card shown while hovering a compact card */
+    .outage-pop { position: fixed; z-index: 9000; display: none; pointer-events: none; box-shadow: 0 6px 24px rgba(0,0,0,.6); outline: 1px solid var(--accent); }
+    .outage-pop .oc-body { display: block !important; margin-top: 4px; }
+    .outage-pop .oc-label { display: inline !important; white-space: normal; }
     .outage-card:hover, .outage-card:focus { outline: 1px solid var(--accent); outline-offset: -1px; }
     .outage-agree { font-size: 9px; color: var(--accent); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .outage-agree.warn { color: var(--warn); }
@@ -837,8 +847,6 @@
       #outageTelemetryGrid.outage-compact { grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)) !important; gap: 3px !important; }
       #outageTelemetryGrid.outage-compact .oc-label { display: none; }
       #outageTelemetryGrid.outage-compact .outage-card .tag { font-size: 7px; padding: 0 3px; }
-      #outageTelemetryGrid.outage-compact .outage-card.expanded { grid-column: 1 / -1; }
-      #outageTelemetryGrid.outage-compact .outage-card.expanded .oc-label { display: inline; }
       .data-credits { font-size: 6px; }
       /* miniaturize all content text on phones; keep a little hierarchy */
       #mainViewport { font-size: 9px; }
@@ -858,7 +866,7 @@
     <div class="sub7-titlebar">
       <div class="win-glyphs">
         <span>&raquo;</span>
-        <span id="titleVersionBadge">[v.2.15.2]</span>
+        <span id="titleVersionBadge">[v.2.16.0]</span>
       </div>
       <div id="titleCenterText">H@N</div>
       <div class="win-glyphs">
@@ -903,7 +911,7 @@
           <div><strong>NODE:</strong> HACKATNIGHT_HQ</div>
           <div><strong>LOC:</strong> H@N_HQ_FL</div>
           <div><strong>OP:</strong> gr33n</div>
-          <div><strong>BUILD:</strong> <span id="sideVer">v.2.15.2</span></div>
+          <div><strong>BUILD:</strong> <span id="sideVer">v.2.16.0</span></div>
         </div>
       </aside>
 
@@ -913,6 +921,18 @@
 
           <!-- 01 // OVERVIEW / STATS (GLOBE FIRST) -->
           <section id="view-overview" class="view active">
+            <!-- PRACTICE INTRO BANNER -->
+            <div class="banner-box overview-banner" id="overviewBanner">
+              <div>
+                <h1>HACKATNIGHT // Private IT Services &amp; Systems Engineering</h1>
+                <p>Independent infrastructure hardening, private cloud storage, system diagnostics, and custom embedded firmware operated by <strong>gr33n</strong>.</p>
+              </div>
+              <div style="display:flex;gap:6px;flex-wrap:wrap">
+                <button class="s7-btn active-toggle" onclick="switchTab('services')">it services -&gt;</button>
+                <button class="s7-btn" onclick="openSupportTicket()">open ticket</button>
+              </div>
+            </div>
+
             <div class="overview-split">
             <!-- LEFT COLUMN: 3D ROTATING VISITOR GEO-GLOBE -->
             <div class="overview-left">
@@ -970,18 +990,6 @@
 
             <!-- RIGHT COLUMN: INTRO, KPIs, HEALTH & SESSIONS -->
             <div class="overview-right">
-
-            <!-- PRACTICE INTRO BANNER -->
-            <div class="banner-box">
-              <div>
-                <h1>HACKATNIGHT // Private IT Services &amp; Systems Engineering</h1>
-                <p>Independent infrastructure hardening, private cloud storage, system diagnostics, and custom embedded firmware operated by <strong>gr33n</strong>.</p>
-              </div>
-              <div style="display:flex;gap:6px;flex-wrap:wrap">
-                <button class="s7-btn active-toggle" onclick="switchTab('services')">it services -&gt;</button>
-                <button class="s7-btn" onclick="openSupportTicket()">open ticket</button>
-              </div>
-            </div>
 
             <!-- 6 KPI METRICS -->
             <div class="grid-6">
@@ -1069,6 +1077,26 @@
               </div>
               <div id="supStatus" class="alert-box"></div>
             </div>
+
+            <!-- DIRECT OPERATOR COMMS (moved from Comms & Triage; client key required) -->
+              <div class="card comms-card" id="commsCard">
+                <div class="card-head"><span>DIRECT OPERATOR COMMS</span><span class="xray-pill">CLIENTS ONLY // POST comms -&gt; Comms_Inbox</span></div>
+                <div class="chat-note" style="margin:0 0 6px">For existing clients. Enter the client key you were given (sign-in is coming later). Everyone else can use the ticket form above.</div>
+                <label>CLIENT KEY</label>
+                <input id="commsKey" autocomplete="off" spellcheck="false" placeholder="Your client key" oninput="commsKeyChanged()" />
+                <label>HANDLE / NAME</label>
+                <input id="commsHandle" placeholder="Your name or handle" />
+                <label>RETURN EMAIL</label>
+                <input id="commsEmail" type="email" placeholder="you@domain.com" />
+                <label>SUBJECT</label>
+                <input id="commsSubject" placeholder="Inquiry topic" />
+                <label>MESSAGE</label>
+                <textarea id="commsMsg" rows="4" placeholder="Write your message..."></textarea>
+                <div style="margin-top:10px">
+                  <button class="s7-btn active-toggle" id="btnComms" onclick="submitComms()" disabled title="Enter your client key first">transmit message</button>
+                </div>
+                <div id="commsStatus" class="alert-box"></div>
+              </div>
           </section>
 
           <!-- 03 // CLIENT VAULT -->
@@ -1169,9 +1197,11 @@
                   </div>
                 </div>
                 <div class="chat-emoji-panel" id="chatEmojiPanel" hidden></div>
+                <div class="chat-gif-panel" id="chatGifPanel" hidden></div>
                 <div class="chat-row">
                   <input id="chatInput" maxlength="500" placeholder="type a message, Enter to send" autocomplete="off" />
                   <button class="s7-btn chat-emoji-btn" type="button" onclick="chatToggleEmoji()" title="Emoji">😀</button>
+                  <button class="s7-btn chat-gif-btn" type="button" onclick="chatToggleGifs()" title="Send a GIF">GIF</button>
                   <button class="s7-btn" onclick="chatSendMsg()">send</button>
                 </div>
                 <div class="chat-note" id="chatStatus"></div>
@@ -1181,23 +1211,7 @@
 
           <!-- 07 // COMMS & TRIAGE -->
           <section id="view-comms" class="view">
-            <div class="grid-2">
-              <div class="card">
-                <div class="card-head"><span>DIRECT OPERATOR COMMS</span><span class="xray-pill">POST comms -&gt; Comms_Inbox</span></div>
-                <label>HANDLE / NAME</label>
-                <input id="commsHandle" placeholder="Your name or handle" />
-                <label>RETURN EMAIL</label>
-                <input id="commsEmail" type="email" placeholder="you@domain.com" />
-                <label>SUBJECT</label>
-                <input id="commsSubject" placeholder="Inquiry topic" />
-                <label>MESSAGE</label>
-                <textarea id="commsMsg" rows="4" placeholder="Write your message..."></textarea>
-                <div style="margin-top:10px">
-                  <button class="s7-btn active-toggle" onclick="submitComms()">transmit message</button>
-                </div>
-                <div id="commsStatus" class="alert-box"></div>
-              </div>
-
+            <div>
               <div class="card">
                 <div class="card-head"><span>REPORT A BUG / REQUEST A FEATURE</span><span class="xray-pill">POST triage -&gt; Bug_Triage</span></div>
                 <div class="grid-2" style="margin-bottom:0">
@@ -1248,7 +1262,7 @@
     <!-- SPLIT BOTTOM STATUS BAR -->
     <div class="sub7-statusbar">
       <div class="status-pill" id="statusPill">- online -</div>
-      <div class="status-msg" id="statusMsg">ready for action. [v.2.15.2]</div>
+      <div class="status-msg" id="statusMsg">ready for action. [v.2.16.0]</div>
     </div>
     <!-- DATA CREDITS (smallest text, very bottom of the page) -->
     <div class="data-credits">
@@ -1281,7 +1295,7 @@
        01 // SITE_CONFIG — GLOBAL VERSION, BACKEND URL & OPERATOR SETTINGS
        ========================================================================= */
     const SITE_CONFIG = {
-      APP_VERSION: "v.2.15.2",
+      APP_VERSION: "v.2.16.0",
       BACKEND_URL: "https://script.google.com/macros/s/AKfycbwjIa-86sZJdIEaH2B33IJAq5C1fv8k55KLur_NLZ_jZIIyMSHSWklse0K5P4blisuG/exec",
       PUBLIC_USER: "hackatnight",
       HQ: { lat: 27.8, lon: -81.7, label: "HQ // H@N_HQ_FL" }
@@ -1345,6 +1359,7 @@
 
     // Used strictly after a successful Sheet fetch to auto-sync any new version tags into the Changelog tab
     const LOCAL_RELEASES_MANIFEST = [
+      { Date: "2026-11-14", Version: "v.2.16.0", Project: "H@N Core", Summary: "Outage telemetry opens in compact mode with a floating details window on hover; intro banner spans the full page above the globe; chat fills the page and scrolls inside; GIF picker in chat (site-hosted set); Direct Operator Comms moved under IT Services and now requires a client key.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.15.2", Project: "H@N Core", Summary: "Chat room now fills all available page height; emoji button moved next to send.", Tag: "🔵 UPDATE" },
       { Date: "2026-11-14", Version: "v.2.15.1", Project: "H@N Core", Summary: "Chat: emoji picker, name colors, enter/leave notices and instant sends. Compact recent-visitors widget under the news box (no route column); news box scrolls slowly and continuously; triage board restyled as a table; globe always opens at the largest size that fits, including after switching tabs.", Tag: "🟢 FEAT" },
       { Date: "2026-11-14", Version: "v.2.15.0", Project: "H@N Core", Summary: "Live clock with milliseconds (visitor time zone) and a 5-minute refresh countdown for all page data; globe overlays replaced by a compact legend; credits moved to a tiny footer; resizable globe width; interleaved auto-scrolling news; compact outage view; mobile layout; live chat tab (FEAT-109); vault SHA-256 verification (FEAT-110).", Tag: "🟢 FEAT" },
@@ -1961,9 +1976,19 @@
       setStatus(`support ticket ${res.data.ticketId} dispatched.`);
     }
 
+    // Direct comms needs a client key (checked again by the backend); sign-in will replace this later
+    function commsKeyChanged() {
+      const k = document.getElementById("commsKey").value.trim();
+      const b = document.getElementById("btnComms");
+      b.disabled = k.length < 6;
+      b.title = b.disabled ? "Enter your client key first" : "";
+    }
     async function submitComms() {
+      const clientKey = document.getElementById("commsKey").value.trim();
+      if (clientKey.length < 6) return showAlert("commsStatus", "ERROR: A client key is required to message the operator.");
       const payload = {
         action: "comms",
+        clientKey,
         handle: document.getElementById("commsHandle").value.trim(),
         email: document.getElementById("commsEmail").value.trim(),
         subject: document.getElementById("commsSubject").value.trim(),
@@ -2643,10 +2668,13 @@
       function fitOverviewLeft() {
         if (!viewport || !leftCol) return;
         const cs = getComputedStyle(viewport);
-        const h = viewport.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+        const banner = document.getElementById("overviewBanner");
+        const bh = banner && banner.offsetParent ? banner.offsetHeight + 10 : 0;
+        const h = viewport.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - bh;
         leftCol.style.setProperty("--overview-left-h", Math.max(400, Math.floor(h)) + "px");
       }
       window.addEventListener("resize", fitOverviewLeft);
+      window.addEventListener("han:layout", fitOverviewLeft);
       fitOverviewLeft();
 
       // Drag the bar under the globe to resize it; the size is remembered per browser
@@ -3469,10 +3497,9 @@
       }
     }
 
-    // Compact view: cards show only icon, name and state; the ▸ arrow expands one card (and an expanded card
-    // opens its status page when clicked). Full view: every card shows everything and opens on click.
-    let OUTAGE_COMPACT = (() => { try { const v = localStorage.getItem("han_outage_compact"); return v === null ? window.matchMedia("(max-width: 760px)").matches : v === "1"; } catch (_) { return false; } })();
-    const OUTAGE_EXPANDED = new Set();
+    // Compact view (the default on every load): cards show only icon, name and state; hovering one shows the
+    // full card in a floating window. Full view: every card shows everything. Clicking opens the status page.
+    let OUTAGE_COMPACT = true;
     function applyOutageView() {
       const grid = document.getElementById("outageTelemetryGrid");
       if (grid) grid.classList.toggle("outage-compact", OUTAGE_COMPACT);
@@ -3481,25 +3508,47 @@
     }
     function toggleOutageCompact() {
       OUTAGE_COMPACT = !OUTAGE_COMPACT;
-      OUTAGE_EXPANDED.clear();
-      document.querySelectorAll(".outage-card.expanded").forEach(c => c.classList.remove("expanded"));
-      try { localStorage.setItem("han_outage_compact", OUTAGE_COMPACT ? "1" : "0"); } catch (_) {}
+      hideOutagePop();
       applyOutageView();
     }
-    function toggleOutageCard(ev, id) {
-      ev.stopPropagation();
-      const card = document.querySelector(`.outage-card[data-oid="${CSS.escape(String(id))}"]`);
-      if (!card) return;
-      const open = !card.classList.contains("expanded");
-      card.classList.toggle("expanded", open);
-      if (open) OUTAGE_EXPANDED.add(String(id)); else OUTAGE_EXPANDED.delete(String(id));
+    function showOutagePop(card) {
+      if (!OUTAGE_COMPACT || !card) return;
+      let pop = document.getElementById("outagePop");
+      if (!pop) {
+        pop = document.createElement("div");
+        pop.id = "outagePop";
+        pop.className = "card outage-card outage-pop";
+        document.body.appendChild(pop);
+      }
+      pop.innerHTML = card.innerHTML;
+      pop.style.display = "block";
+      const r = card.getBoundingClientRect();
+      const w = Math.min(300, window.innerWidth - 16);
+      pop.style.width = w + "px";
+      let x = r.left + r.width / 2 - w / 2;
+      x = Math.max(8, Math.min(window.innerWidth - w - 8, x));
+      const ph = pop.offsetHeight;
+      let y = r.bottom + 6;
+      if (y + ph > window.innerHeight - 8) y = Math.max(8, r.top - ph - 6);
+      pop.style.left = x + "px";
+      pop.style.top = y + "px";
+      card.dataset.popShown = "1";
     }
+    function hideOutagePop(card) {
+      const pop = document.getElementById("outagePop");
+      if (pop) pop.style.display = "none";
+      if (card) delete card.dataset.popShown;
+    }
+    window.addEventListener("scroll", () => hideOutagePop(), true);
     function outageCardClick(ev, idx) {
       const card = ev.currentTarget || (ev.target && ev.target.closest(".outage-card"));
-      if (OUTAGE_COMPACT && card && !card.classList.contains("expanded")) {
-        toggleOutageCard(ev, card.dataset.oid);
+      // On touch screens there is no hover: the first tap shows the details, the second opens the page
+      if (OUTAGE_COMPACT && card && matchMedia("(hover: none)").matches && !card.dataset.popShown) {
+        document.querySelectorAll(".outage-card[data-pop-shown]").forEach(c => delete c.dataset.popShown);
+        showOutagePop(card);
         return;
       }
+      hideOutagePop(card);
       openOutageStatusPage(idx);
     }
 
@@ -3610,10 +3659,10 @@
         const edgeLoc = outageLocationText(svc.geo);
         const loc = [homeLoc ? homeLoc.label : "", edgeLoc ? `${svc.geo.cdn ? "edge" : "server"}: ${edgeLoc}` : ""].filter(Boolean).join(" // ");
         return `
-          <div class="card outage-card${OUTAGE_EXPANDED.has(String(svc.id)) ? " expanded" : ""}" tabindex="0" role="link" data-oid="${esc(svc.id)}"
-               title="Hover: show server location on the globe // Click: open status page"
-               onmouseenter="showOutageLocation(${idx})" onfocus="showOutageLocation(${idx})"
-               onmouseleave="clearThreatHighlight()" onblur="clearThreatHighlight()"
+          <div class="card outage-card" tabindex="0" role="link" data-oid="${esc(svc.id)}"
+               title="Hover: details and server location on the globe // Click: open status page"
+               onmouseenter="showOutageLocation(${idx});if(matchMedia('(hover: hover)').matches)showOutagePop(this)" onfocus="showOutageLocation(${idx})"
+               onmouseleave="clearThreatHighlight();hideOutagePop(this)" onblur="clearThreatHighlight();hideOutagePop(this)"
                onclick="outageCardClick(event, ${idx})" onkeydown="if(event.key==='Enter')outageCardClick(event, ${idx})">
             <div class="card-head">
               <span class="oc-name" style="display:inline-flex;align-items:center;gap:6px;min-width:0">
@@ -3622,7 +3671,6 @@
               </span>
               <span style="display:inline-flex;align-items:center;gap:4px">
                 <span class="${tagClass}">${esc(svc.state)}</span>
-                <button class="oc-toggle" type="button" aria-label="Expand or collapse" onclick="toggleOutageCard(event, this.closest('.outage-card').dataset.oid)">▸</button>
               </span>
             </div>
             <div class="oc-body"><div style="font-size:13px;font-weight:700;color:${isOnline ? 'var(--accent)' : unverified ? 'var(--muted)' : 'var(--warn)'}">
@@ -4047,7 +4095,20 @@
       t.className = "t";
       t.textContent = new Date(m.ts).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
       const body = document.createElement("span");
-      body.textContent = m.sys ? "— " + m.msg : m.msg;
+      const gif = !m.sys && chatGifFor(m.msg);
+      if (gif) {
+        // Only GIFs from the site's own list are shown; anything else stays plain text
+        const img = document.createElement("img");
+        img.className = "chat-gif";
+        img.src = "gifs/" + gif.file;
+        img.alt = gif.label;
+        img.title = gif.label;
+        img.loading = "lazy";
+        body.appendChild(document.createElement("br"));
+        body.appendChild(img);
+      } else {
+        body.textContent = m.sys ? "— " + m.msg : m.msg;
+      }
       if (m.sys) {
         row.append(t, body);
       } else {
@@ -4068,7 +4129,10 @@
         CHAT.since = Math.max(CHAT.since, m.ts);
         if (CHAT.seen.has(key)) return;
         CHAT.seen.add(key);
-        box.appendChild(chatMakeRow(m, false));
+        const row = chatMakeRow(m, false);
+        box.appendChild(row);
+        const img = row.querySelector("img.chat-gif");
+        if (img && atBottom) img.addEventListener("load", () => { box.scrollTop = box.scrollHeight; }, { once: true });
       });
       if (atBottom) box.scrollTop = box.scrollHeight;
     }
@@ -4092,7 +4156,43 @@
       });
       document.getElementById("chatWho").style.color = CHAT.color;
     }
+    // Pre-selected GIFs live in /gifs (listed in gifs/gifs.json); a GIF message is sent as "[gif:id]"
+    const CHAT_GIFS = new Map();
+    const chatGifsReady = fetch("gifs/gifs.json", { cache: "no-cache" }).then(r => r.json()).then(list => {
+      (Array.isArray(list) ? list : []).forEach(g => {
+        if (/^[a-z0-9_-]{1,24}$/.test(g.id) && /^[a-z0-9_-]{1,40}\.gif$/i.test(g.file)) CHAT_GIFS.set(g.id, g);
+      });
+    }).catch(() => {});
+    function chatGifFor(msg) {
+      const m = /^\[gif:([a-z0-9_-]{1,24})\]$/.exec(String(msg || "").trim());
+      return m ? CHAT_GIFS.get(m[1]) || null : null;
+    }
+    async function chatToggleGifs() {
+      const panel = document.getElementById("chatGifPanel");
+      document.getElementById("chatEmojiPanel").hidden = true;
+      await chatGifsReady;
+      if (!panel.childElementCount) {
+        CHAT_GIFS.forEach(g => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.title = g.label;
+          const img = document.createElement("img");
+          img.src = "gifs/" + g.file;
+          img.alt = g.label;
+          img.loading = "lazy";
+          b.appendChild(img);
+          b.onclick = () => {
+            panel.hidden = true;
+            chatSendMsg("[gif:" + g.id + "]");
+          };
+          panel.appendChild(b);
+        });
+      }
+      panel.hidden = !panel.hidden;
+      fitChat();
+    }
     function chatToggleEmoji() {
+      document.getElementById("chatGifPanel").hidden = true;
       const panel = document.getElementById("chatEmojiPanel");
       if (!panel.childElementCount) {
         CHAT_EMOJI.forEach(e => {
@@ -4110,6 +4210,7 @@
         });
       }
       panel.hidden = !panel.hidden;
+      fitChat();
     }
     // Tell the room we left (also when the tab closes); fire-and-forget
     function chatSendLeave() {
@@ -4133,6 +4234,7 @@
       if (CHAT.busy || !BACKEND_API.isLive()) return;
       CHAT.busy = true;
       const status = document.getElementById("chatStatus");
+      await chatGifsReady;
       try {
         const data = await BACKEND_API.get({ action: "chat_poll", since: CHAT.since, name: CHAT.name, cs: sessionStorage.getItem("hack_sid") || "" });
         if (data && data.status === "ok") {
@@ -4155,11 +4257,12 @@
       clearInterval(CHAT.timer);
       CHAT.timer = null;
     }
-    async function chatSendMsg() {
+    async function chatSendMsg(preset) {
       const input = document.getElementById("chatInput");
-      const msg = String(input.value || "").trim();
+      const typed = typeof preset !== "string";
+      const msg = String(typed ? input.value || "" : preset).trim();
       if (!msg || !CHAT.name) return;
-      input.value = "";
+      if (typed) input.value = "";
       const status = document.getElementById("chatStatus");
       // Show it right away (dimmed) while the backend saves it
       const box = document.getElementById("chatMessages");
@@ -4167,6 +4270,8 @@
       const row = chatMakeRow(local, true);
       box.appendChild(row);
       box.scrollTop = box.scrollHeight;
+      const pimg = row.querySelector("img.chat-gif");
+      if (pimg) pimg.addEventListener("load", () => { box.scrollTop = box.scrollHeight; }, { once: true });
       document.getElementById("chatEmojiPanel").hidden = true;
       try {
         const res = await BACKEND_API.post({
@@ -4181,12 +4286,12 @@
         } else {
           row.remove();
           status.textContent = (res && res.message) || "message not sent";
-          input.value = msg;
+          if (typed) input.value = msg;
         }
       } catch (_) {
         row.remove();
         status.textContent = "message not sent, try again";
-        input.value = msg;
+        if (typed) input.value = msg;
       }
     }
     // Size the chat card to the visible part of the scrolling viewport
