@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16T13:01:27Z",
+  "updated": "2026-11-16T22:57:59Z",
   "sources": [
     {
       "id": "KEV",
@@ -52,6 +52,101 @@
     }
   ],
   "items": [
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Cisco Informational for Emergency Distrust of eMudhra Root and Intermediate Certificate Authorities",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-16",
+      "severity": "INFO",
+      "summary": "Between October 17 and October 20, 2026, a critical security compromise involving Certificate Authorities that are managed by&nbsp; eMudhra was uncovered. A security researcher demonstrated that the private keys for eight eMudhra intermediate certificates were fundamentally broke",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-emudhra-info-ScS22A1r",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "AV26-1164",
+      "source": "CCCS",
+      "title": "Qualcomm security advisory (AV26-1164)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-16",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1164 Date: November 16, 2026 As of November 2, 2026, Qualcomm published a security bulletin to address vulnerabilities affecting Qualcomm products. The Cyber Centre encourages users and administrators to review the provided web link and apply any necessary upd",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/qualcomm-security-advisory-av26-1164",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1163",
+      "source": "CCCS",
+      "title": "Red Hat security advisory (AV26-1163)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-16",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1163 Date: November 16, 2026 As of November 13, 2026, Red Hat is affected by vulnerabilities in the following products: Red Hat Enterprise Linux 6 / 7 / 10 All versions Red Hat Hardened Images All versions Red Hat OpenShift Dev Spaces All versions Red Hat Sate",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/red-hat-security-advisory-av26-1163",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1162",
+      "source": "CCCS",
+      "title": "IBM security advisory (AV26-1162)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-16",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1162 Date: November 16, 2026 As of November 13, 2026, IBM is affected by vulnerabilities in the following products: App Connect Operator Prior to or equal to 12.0.28 Prior to or equal to 12.21.0 Prior to or equal to 13.6.0 ContextForge MCP Gateway Prior to or ",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/ibm-security-advisory-av26-1162",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1161",
+      "source": "CCCS",
+      "title": "Dell security advisory (AV26-1161)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-16",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1161 Date: November 16, 2026 As of November 16, 2026, Dell is affected by vulnerabilities in the following products: Ansible Storage for PowerFlex Prior to 3.2.0 Ansible Storage for PowerStore Prior to 3.9.0 Ansible Storage for Unity Prior to 1.2.13 OpenManage",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/dell-security-advisory-av26-1161",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
     {
       "id": "CVE-2026-96150",
       "source": "MSRC",
@@ -290,25 +385,6 @@
       "severity": "HIGH",
       "summary": "On October 21, 2026, Node.js announced the availability of fixes for multiple vulnerabilities across the following supported release lines: 22.x, 24.x, and 26.x.&nbsp; These vulnerabilities impact critical operations such as the Brotli decoder, DNS resolution, and TLS certificate",
       "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-oct2026-node-js-Jj3SQ19u",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CISCO",
-      "source": "CISCO",
-      "title": "Cisco Informational for Emergency Distrust of eMudhra Root and Intermediate Certificate Authorities",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-13",
-      "severity": "INFO",
-      "summary": "Between October 17 and October 20, 2026, a critical security compromise involving Certificate Authorities that are managed by&nbsp; eMudhra was uncovered. A security researcher demonstrated that the private keys for eight eMudhra intermediate certificates were fundamentally broke",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-emudhra-info-ScS22A1r",
       "geo": {
         "worldwide": true,
         "countries": [
@@ -584,82 +660,6 @@
       "severity": "ADVISORY",
       "summary": "Serial number: AV26-1157 Date: November 12, 2026 As of November 11, 2026, Google is affected by vulnerabilities in the following product: Stable Channel Chrome for Desktop Versions prior to 157.0.8103.78/.79 (Windows/Mac), and 157.0.8103.78 (Linux) The Cyber Centre encourages use",
       "url": "https://cyber.gc.ca/en/alerts-advisories/google-security-advisory-av26-1157",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1156",
-      "source": "CCCS",
-      "title": "Nodejs security advisory (AV26-1156)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-12",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1156 Date: November 12, 2026 As of November 11, 2026, Nodejs is affected by a vulnerability in the following product: node.js Prior to v24.22.3 Prior to v26.13.1 Prior to v22.23.5 The Cyber Centre encourages users and administrators to review the provided web ",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/nodejs-security-advisory-av26-1156",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1155",
-      "source": "CCCS",
-      "title": "AMD security advisory (AV26-1155)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-12",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1155 Date: November 12, 2026 As of November 11, 2026, AMD is affected by vulnerabilities in the following products: AMD Athlon™ 3000 Series Mobile Processors with Radeon™ Graphics ALL except PicassoPI-FP5_1.0.1.2c AMD EPYC™ 4004 Series Processors ALL except Co",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/amd-security-advisory-av26-1155",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1153",
-      "source": "CCCS",
-      "title": "Docker security advisory (AV26-1153)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-12",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1153 Date: November 12, 2026 As of November 10, 2026, Docker is affected by vulnerabilities in the following products: Docker Engine Prior to 23.0.0 Moby Prior to 2.0.0-beta.28 SwarmKit Prior to v1.12.1-0.20220307221335-616e8db4c3b0 Prior to 2.1.3 The Cyber Ce",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/docker-security-advisory-av26-1153",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1152",
-      "source": "CCCS",
-      "title": "React security advisory (AV26-1152)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-12",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1152 Date: November 12, 2026 As of November 10, 2026, React is affected by a vulnerability in the following product: react Prior to 19.0.9 Prior to 19.1.10 Prior to 19.2.9 Prior to 19.3.1 The Cyber Centre encourages users and administrators to review the provi",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/react-security-advisory-av26-1152",
       "geo": {
         "worldwide": false,
         "countries": [
