@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17T14:08:52Z",
+  "updated": "2026-11-17T22:31:13Z",
   "sources": [
     {
       "id": "KEV",
@@ -66,6 +66,446 @@
         "worldwide": false,
         "countries": [
           "GB"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "ICSA-26-321-11",
+      "source": "ICS",
+      "title": "Siemens meta-iot2050",
+      "vendor": "Siemens",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "HIGH",
+      "cvss": 7.3,
+      "cves": 1,
+      "sectors": "Critical Manufacturing, Energy, Information Technology",
+      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-11",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DE"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-321-10",
+      "source": "ICS",
+      "title": "Siemens Simcenter Femap",
+      "vendor": "Siemens",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cves": 1,
+      "sectors": "Critical Manufacturing",
+      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-10",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DE"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-321-09",
+      "source": "ICS",
+      "title": "Siemens SIMATIC WinCC",
+      "vendor": "Siemens",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cves": 1,
+      "sectors": "Critical Manufacturing",
+      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-09",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DE"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-321-08",
+      "source": "ICS",
+      "title": "Siemens SIMATIC",
+      "vendor": "Siemens",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cves": 1,
+      "sectors": "Critical Manufacturing",
+      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-08",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DE"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-321-07",
+      "source": "ICS",
+      "title": "Siemens RUGGEDCOM APE1808",
+      "vendor": "Siemens",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "LOW",
+      "cvss": 2.3,
+      "cves": 1,
+      "sectors": "Critical Manufacturing",
+      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-07",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DE"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-321-06",
+      "source": "ICS",
+      "title": "Siemens ROS#",
+      "vendor": "Siemens",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "HIGH",
+      "cvss": 8.2,
+      "cves": 1,
+      "sectors": "Critical Manufacturing",
+      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-06",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DE"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-321-05",
+      "source": "ICS",
+      "title": "Siemens Mendix Studio Pro",
+      "vendor": "Siemens",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "HIGH",
+      "cvss": 8.8,
+      "cves": 2,
+      "sectors": "Critical Manufacturing, Energy",
+      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-05",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DE"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-321-04",
+      "source": "ICS",
+      "title": "Siemens Industrial Software Products",
+      "vendor": "Siemens",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cves": 1,
+      "sectors": "Critical Manufacturing",
+      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-04",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DE"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-321-03",
+      "source": "ICS",
+      "title": "Siemens Industrial Automation Software Products",
+      "vendor": "Siemens",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cves": 1,
+      "sectors": "Critical Manufacturing, Food and Agriculture, Energy",
+      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-03",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DE"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-321-02",
+      "source": "ICS",
+      "title": "Siemens .NET Client Library for SIMATIC S7 Webserver API",
+      "vendor": "Siemens",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "HIGH",
+      "cvss": 7.5,
+      "cves": 2,
+      "sectors": "Critical Manufacturing",
+      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-02",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DE"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-321-01",
+      "source": "ICS",
+      "title": "Dorsett Controls InfoScan",
+      "vendor": "Dorsett Controls",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "HIGH",
+      "cvss": 8.1,
+      "cves": 6,
+      "sectors": "Water and Wastewater Systems",
+      "summary": "Deployed: Worldwide. Vendor HQ: United States.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-321-01",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "US"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-295-11",
+      "source": "ICS",
+      "title": "Siemens SIMATIC S7-1500 CPU 1518(F)-4 PN/DP MFP",
+      "vendor": "Siemens",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "CRITICAL",
+      "cvss": 10.0,
+      "cves": 493,
+      "sectors": "Critical Manufacturing, Transportation Systems, Energy, Healthcare and Public Health, Financial Services, Government Services and Facilities",
+      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-295-11",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DE"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-225-06",
+      "source": "ICS",
+      "title": "Siemens RUGGEDCOM APE1808",
+      "vendor": "Siemens",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "HIGH",
+      "cvss": 8.1,
+      "cves": 6,
+      "sectors": "Critical Manufacturing, Energy, Transportation Systems",
+      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-225-06",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DE"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-202-02",
+      "source": "ICS",
+      "title": "Siemens RUGGEDCOM APE1808 with Palo Alto Networks Virtual NGFW",
+      "vendor": "Siemens",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "CRITICAL",
+      "cvss": 10.0,
+      "cves": 23,
+      "sectors": "Critical Manufacturing",
+      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-202-02",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DE"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-174-03",
+      "source": "ICS",
+      "title": "Siemens Products using OpenSSL",
+      "vendor": "Siemens",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "HIGH",
+      "cvss": 8.8,
+      "cves": 1,
+      "sectors": "Critical Manufacturing, Transportation Systems, Energy, Healthcare and Public Health, Financial Services, Government Services and Facilities",
+      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-174-03",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DE"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "AV26-1169",
+      "source": "CCCS",
+      "title": "[Control systems] CODESYS security advisory (AV26-1169)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1169 Date: November 17, 2026 As of November 17, 2026, CODESYS is affected by vulnerabilities in the following products: CODESYS Automation Server Connector Prior to 1.40.0.0 CODESYS Service Tool Prior to 1.40.0.0 The Cyber Centre encourages users and administr",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/control-systems-codesys-security-advisory-av26-1169",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1168",
+      "source": "CCCS",
+      "title": "GitLab security advisory (AV26-1168)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1168 Date: November 17, 2026 As of November 17, 2026, GitLab is affected by vulnerabilities in the following product: GitLab Prior to 19.3.9 Prior to 19.4.8 Prior to 19.5.6 The Cyber Centre encourages users and administrators to review the provided web links a",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/gitlab-security-advisory-av26-1168",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1167",
+      "source": "CCCS",
+      "title": "Zyxel security advisory (AV26-1167)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1167 Date: November 17, 2026 As of November 17, 2026, Zyxel is affected by vulnerabilities in the following products: DX3300-T0 firmware Prior to or equal to 5.50(ABVY.8.3)C0 DX3301-T0 firmware Prior to or equal to 5.50(ABVY.8.3)C0 EX3301-T0 firmware Prior to ",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/zyxel-security-advisory-av26-1167",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1166",
+      "source": "CCCS",
+      "title": "Atlassian security advisory (AV26-1166)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1166 Date: November 17, 2026 As of November 17, 2026, Atlassian is affected by a vulnerability in the following products: Jira Service Management Data Center Version 10.3.27 and prior Version 11.3.13 and prior Jira Service Management Server Versions 5.12.16 to",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/atlassian-security-advisory-av26-1166",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1165",
+      "source": "CCCS",
+      "title": "N-able security advisory (AV26-1165)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1165 Date: November 17, 2026 As of November 17, 2026, N-able is affected by vulnerabilities in the following products: N-central Prior to 2026.4.1 HF3 N-central Patch Management Component Prior to 2.14.4.5829 The Cyber Centre encourages users and administrator",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/n-able-security-advisory-av26-1165",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
         ],
         "regions": [],
         "basis": "Issuing agency's advisory area"
@@ -433,63 +873,6 @@
       }
     },
     {
-      "id": "AV26-1160",
-      "source": "CCCS",
-      "title": "n8n security advisory (AV26-1160)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-13",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1160 Date: November 13, 2026 As of November 13, 2026, n8n is affected by vulnerabilities in the following product: n8n Prior to 2.45.5 Prior to 2.46.1 Prior to 3.0.1 The Cyber Centre encourages users and administrators to review the provided web links and appl",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/n8n-security-advisory-av26-1160",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1159",
-      "source": "CCCS",
-      "title": "Apache security advisory (AV26-1159)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-13",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1159 Date: November 13, 2026 As of November 11, 2026, Apache is affected by vulnerabilities in the following product: Apache HTTP Server Prior to 2.4.71 The Cyber Centre encourages users and administrators to review the provided web links and apply any necessa",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/apache-security-advisory-av26-1159",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1158",
-      "source": "CCCS",
-      "title": "[Control systems] Johnson Controls security advisory (AV26-1158)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-13",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1158 Date: November 13, 2026 As of November 12, 2026, Johnson Controls is affected by a vulnerability in the following product: EasyIO FW Prior to or equal to V3.0b25 The Cyber Centre encourages users and administrators to review the provided web links and app",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/control-systems-johnson-controls-security-advisory-av26-1158",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
       "id": "AV26-1154",
       "source": "CCCS",
       "title": "Check Point security advisory (AV26-1154) – Update 1",
@@ -499,205 +882,6 @@
       "severity": "EXPLOITED",
       "summary": "Serial number: AV26-1154 Date: November 12, 2026 Updated: November 13, 2026 As of November 12, 2026, Check Point is affected by vulnerabilities in the following products: Check Point Force Firewalls Multiple versions Check Point Management and Log Servers Multiple versions Multi-",
       "url": "https://cyber.gc.ca/en/alerts-advisories/check-point-security-advisory-av26-1154",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "ICSA-26-316-05",
-      "source": "ICS",
-      "title": "Siemens RUGGEDCOM APE1808",
-      "vendor": "Siemens",
-      "product": "",
-      "date": "2026-11-12",
-      "severity": "CRITICAL",
-      "cvss": 9.8,
-      "cves": 2,
-      "sectors": "Critical Manufacturing",
-      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-05",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "DE"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
-      "id": "ICSA-26-316-04",
-      "source": "ICS",
-      "title": "Siemens RUGGEDCOM APE1808",
-      "vendor": "Siemens",
-      "product": "",
-      "date": "2026-11-12",
-      "severity": "CRITICAL",
-      "cvss": 9.8,
-      "cves": 1,
-      "sectors": "Critical Manufacturing",
-      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-04",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "DE"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
-      "id": "ICSA-26-316-03",
-      "source": "ICS",
-      "title": "Siemens Industrial Edge Management",
-      "vendor": "Siemens",
-      "product": "",
-      "date": "2026-11-12",
-      "severity": "CRITICAL",
-      "cvss": 9.8,
-      "cves": 1,
-      "sectors": "Critical Manufacturing",
-      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-03",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "DE"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
-      "id": "ICSA-26-316-02",
-      "source": "ICS",
-      "title": "Siemens Desigo, Gridscale",
-      "vendor": "Siemens",
-      "product": "",
-      "date": "2026-11-12",
-      "severity": "CRITICAL",
-      "cvss": 9.8,
-      "cves": 1,
-      "sectors": "Critical Manufacturing, Energy, Information Technology",
-      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-02",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "DE"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
-      "id": "ICSA-26-316-01",
-      "source": "ICS",
-      "title": "Siemens Building Automation and Energy Products",
-      "vendor": "Siemens",
-      "product": "",
-      "date": "2026-11-12",
-      "severity": "CRITICAL",
-      "cvss": 9.8,
-      "cves": 2,
-      "sectors": "Energy",
-      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-316-01",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "DE"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
-      "id": "ICSA-26-237-03",
-      "source": "ICS",
-      "title": "Siemens SIMATIC IoT2050 Advanced",
-      "vendor": "Siemens",
-      "product": "",
-      "date": "2026-11-12",
-      "severity": "CRITICAL",
-      "cvss": 10.0,
-      "cves": 1,
-      "sectors": "Chemical, Critical Manufacturing, Energy, Transportation Systems",
-      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-237-03",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "DE"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
-      "id": "ICSA-26-155-04",
-      "source": "ICS",
-      "title": "Hitachi Energy RTU500 (Update A)",
-      "vendor": "Hitachi Energy",
-      "product": "",
-      "date": "2026-11-12",
-      "severity": "HIGH",
-      "cvss": 7.8,
-      "cves": 7,
-      "sectors": "Energy",
-      "summary": "Deployed: Worldwide. Vendor HQ: Switzerland.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-155-04",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "CH"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
-      "id": "AV26-1157",
-      "source": "CCCS",
-      "title": "Google security advisory (AV26-1157)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-12",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1157 Date: November 12, 2026 As of November 11, 2026, Google is affected by vulnerabilities in the following product: Stable Channel Chrome for Desktop Versions prior to 157.0.8103.78/.79 (Windows/Mac), and 157.0.8103.78 (Linux) The Cyber Centre encourages use",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/google-security-advisory-av26-1157",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1142",
-      "source": "CCCS",
-      "title": "Microsoft security advisory – November 2026 monthly rollup (AV26-1142) – Update 1",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-12",
-      "severity": "EXPLOITED",
-      "summary": "Serial number: AV26-1142 Date: November 10, 2026 Updated: November 12, 2026 As of November 10, 2026, Microsoft is affected by vulnerabilities in the following products: .NET 10.0 .NET 11.0 .NET 8.0 .NET 9.0 Aspire Dashboard Aspire Cli Aspire Dashboard Sdk Aspire Hosting Aspire Ho",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/microsoft-security-advisory-november-2026-monthly-rollup-av26-1142",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -996,29 +1180,6 @@
       }
     },
     {
-      "id": "ICSA-26-211-07",
-      "source": "ICS",
-      "title": "Mitsubishi Electric CC-Link IE TSN Communication Protocol (Update B)",
-      "vendor": "Mitsubishi Electric",
-      "product": "",
-      "date": "2026-11-05",
-      "severity": "HIGH",
-      "cvss": 7.1,
-      "cves": 1,
-      "sectors": "Critical Manufacturing",
-      "summary": "Deployed: Worldwide. Vendor HQ: Japan.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-211-07",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "JP"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
       "id": "CVE-2024-27834",
       "source": "KEV",
       "title": "Apple Multiple Products Improper Authentication Vulnerability",
@@ -1153,29 +1314,6 @@
       }
     },
     {
-      "id": "ICSA-26-307-01",
-      "source": "ICS",
-      "title": "Subnet Solutions PowerSYSTEM Center",
-      "vendor": "Subnet Solutions",
-      "product": "",
-      "date": "2026-11-03",
-      "severity": "CRITICAL",
-      "cvss": 9.0,
-      "cves": 2,
-      "sectors": "Critical Manufacturing, Energy",
-      "summary": "Deployed: Worldwide. Vendor HQ: Canada.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-307-01",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "CA"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
       "id": "CVE-2026-119977",
       "source": "KEV",
       "title": "WordPress WordPress Core Time-of-check Time-of-use (TOCTOU) Race Condition Vulnerability",
@@ -1191,121 +1329,6 @@
         "countries": [],
         "regions": [],
         "basis": "Global (vendor HQ unknown)"
-      }
-    },
-    {
-      "id": "ICSA-26-302-03",
-      "source": "ICS",
-      "title": "Hitachi Energy CoreTec Product",
-      "vendor": "Hitachi Energy",
-      "product": "",
-      "date": "2026-10-29",
-      "severity": "HIGH",
-      "cvss": 8.8,
-      "cves": 2,
-      "sectors": "Energy",
-      "summary": "Deployed: Worldwide. Vendor HQ: Switzerland.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-302-03",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "CH"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
-      "id": "ICSA-26-302-02",
-      "source": "ICS",
-      "title": "Hitachi Energy TRO600 series products",
-      "vendor": "Hitachi Energy",
-      "product": "",
-      "date": "2026-10-29",
-      "severity": "HIGH",
-      "cvss": 7.5,
-      "cves": 2,
-      "sectors": "Energy",
-      "summary": "Deployed: Worldwide. Vendor HQ: Switzerland.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-302-02",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "CH"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
-      "id": "ICSA-26-302-01",
-      "source": "ICS",
-      "title": "Siemens Mendix SAML Module",
-      "vendor": "Siemens",
-      "product": "",
-      "date": "2026-10-29",
-      "severity": "MEDIUM",
-      "cvss": 6.8,
-      "cves": 1,
-      "sectors": "Critical Manufacturing, Information Technology",
-      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-302-01",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "DE"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
-      "id": "ICSA-26-258-06",
-      "source": "ICS",
-      "title": "Siemens Mendix SAML",
-      "vendor": "Siemens",
-      "product": "",
-      "date": "2026-10-29",
-      "severity": "HIGH",
-      "cvss": 8.7,
-      "cves": 1,
-      "sectors": "Critical Manufacturing, Information Technology",
-      "summary": "Deployed: Worldwide. Vendor HQ: Germany.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-258-06",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "DE"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
-      "id": "ICSA-26-125-01",
-      "source": "ICS",
-      "title": "Hitachi Energy PCM600 (Update A)",
-      "vendor": "Hitachi Energy",
-      "product": "",
-      "date": "2026-10-29",
-      "severity": "MEDIUM",
-      "cvss": 4.4,
-      "cves": 1,
-      "sectors": "Energy",
-      "summary": "Deployed: Worldwide. Vendor HQ: Switzerland.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-125-01",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "CH"
-        ],
-        "basis": "Deployment areas"
       }
     },
     {
@@ -1325,29 +1348,6 @@
         ],
         "regions": [],
         "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "ICSA-26-300-02",
-      "source": "ICS",
-      "title": "Mitsubishi Electric GENESIS, GENESIS64, ICONICS Suite, Hyper Historian, AnalytiX, MobileHMI, IoTWorX, MC Works64, GENESIS32 and BizViz",
-      "vendor": "Mitsubishi Electric, Mitsubishi Electric Iconics Digital Sol",
-      "product": "",
-      "date": "2026-10-27",
-      "severity": "CRITICAL",
-      "cvss": 9.1,
-      "cves": 4,
-      "sectors": "Critical Manufacturing",
-      "summary": "Deployed: Worldwide. Vendor HQ: United States.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-300-02",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "US"
-        ],
-        "basis": "Deployment areas"
       }
     },
     {
@@ -1391,13 +1391,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Using TLS to protect data",
+      "title": "Post-quantum updates to our TLS guidance",
       "vendor": "",
       "product": "",
       "date": "2026-10-15",
-      "severity": "GUIDANCE",
-      "summary": "Recommended profiles to securely configure TLS for the most common versions and scenarios, with additional guidance for managing older versions.",
-      "url": "https://www.ncsc.gov.uk/guidance/using-tls-to-protect-data",
+      "severity": "BLOG",
+      "summary": "The NCSC publishes its recommendations for configuring post-quantum cryptography in TLS. Now is time to migrate.",
+      "url": "https://www.ncsc.gov.uk/blogs/post-quantum-updates-to-our-tls-guidance",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1410,13 +1410,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Post-quantum updates to our TLS guidance",
+      "title": "Using TLS to protect data",
       "vendor": "",
       "product": "",
       "date": "2026-10-15",
-      "severity": "BLOG",
-      "summary": "The NCSC publishes its recommendations for configuring post-quantum cryptography in TLS. Now is time to migrate.",
-      "url": "https://www.ncsc.gov.uk/blogs/post-quantum-updates-to-our-tls-guidance",
+      "severity": "GUIDANCE",
+      "summary": "Recommended profiles to securely configure TLS for the most common versions and scenarios, with additional guidance for managing older versions.",
+      "url": "https://www.ncsc.gov.uk/guidance/using-tls-to-protect-data",
       "geo": {
         "worldwide": false,
         "countries": [
