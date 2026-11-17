@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-17T04:58:23Z",
+  "updated": "2026-11-17T14:08:52Z",
   "sources": [
     {
       "id": "KEV",
@@ -52,6 +52,25 @@
     }
   ],
   "items": [
+    {
+      "id": "NCSC",
+      "source": "NCSC",
+      "title": "Why threat hunting should matter to every board",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-17",
+      "severity": "BLOG",
+      "summary": "Monitoring alone cannot detect every threat. Proactive threat hunting can expose gaps in defences and help organisations learn from others facing common threats.",
+      "url": "https://www.ncsc.gov.uk/blogs/why-threat-hunting-should-matter-to-every-board",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "GB"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
     {
       "id": "CISCO",
       "source": "CISCO",
@@ -1098,13 +1117,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Artificial intelligence and cyber intrusion",
+      "title": "Cyber chief: UK facing AI-powered attacks on critical infrastructure within two years",
       "vendor": "",
       "product": "",
       "date": "2026-11-03",
-      "severity": "REPORT",
-      "summary": "An NCSC assessment that examines current AI-enabled threat trends and projections of the threat landscape to 2028.",
-      "url": "https://www.ncsc.gov.uk/report/artificial-intelligence-and-cyber-intrusion",
+      "severity": "NEWS",
+      "summary": "The NCSC warns that ‘tech on the cheap’ has left UK organisations exposed to AI uncovering and exploiting longstanding cyber security weaknesses and calls for urgent investment in resilience.",
+      "url": "https://www.ncsc.gov.uk/news/cyber-chief-uk-facing-ai-powered-attacks-on-critical-infrastructure-in-two-years",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1117,13 +1136,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Cyber chief: UK facing AI-powered attacks on critical infrastructure within two years",
+      "title": "Artificial intelligence and cyber intrusion",
       "vendor": "",
       "product": "",
       "date": "2026-11-03",
-      "severity": "NEWS",
-      "summary": "The NCSC warns that ‘tech on the cheap’ has left UK organisations exposed to AI uncovering and exploiting longstanding cyber security weaknesses and calls for urgent investment in resilience.",
-      "url": "https://www.ncsc.gov.uk/news/cyber-chief-uk-facing-ai-powered-attacks-on-critical-infrastructure-in-two-years",
+      "severity": "REPORT",
+      "summary": "An NCSC assessment that examines current AI-enabled threat trends and projections of the threat landscape to 2028.",
+      "url": "https://www.ncsc.gov.uk/report/artificial-intelligence-and-cyber-intrusion",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1417,25 +1436,6 @@
       "severity": "BLOG",
       "summary": "We're looking to hear from people involved in evaluating, selecting or adopting EASM.",
       "url": "https://www.ncsc.gov.uk/blogs/help-ncsc-understand-how-organisations-approach-external-attack-surface-risk",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "GB"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "NCSC",
-      "source": "NCSC",
-      "title": "China-linked malicious actors called out by UK and international partners for targeting sensitive data globally",
-      "vendor": "",
-      "product": "",
-      "date": "2026-10-08",
-      "severity": "NEWS",
-      "summary": "Joint advisory with international partners highlights malicious targeting of organisations from a range of sectors across the globe.",
-      "url": "https://www.ncsc.gov.uk/news/china-linked-actors-called-out-by-uk-and-international-partners-for-targeting-sensitive-data",
       "geo": {
         "worldwide": false,
         "countries": [
