@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-11-18 03:58:58 UTC",
+  "lastUpdated": "2026-11-18 12:45:09 UTC",
   "summary": "20/24 NODES NOMINAL",
   "services": [
     {
@@ -7,7 +7,7 @@
       "name": "📡 Frontier Fiber (FL ISP)",
       "url": "https://frontier.com/helpcenter/categories/internet/troubleshooting/service-status",
       "http_status": 200,
-      "latency_ms": 728,
+      "latency_ms": 1044,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -26,17 +26,17 @@
       "type": "radar:5650",
       "geo": {
         "host": "frontier.com",
-        "ip": "23.62.93.122",
-        "city": "Chicago",
-        "region": "Illinois",
+        "ip": "96.7.20.138",
+        "city": "Washington",
+        "region": "District of Columbia",
         "country": "United States",
         "countryCode": "US",
-        "lat": 41.85,
-        "lon": -87.65,
+        "lat": 38.895,
+        "lon": -77.036,
         "network": "Akamai Technologies, Inc.",
         "asn": 16625,
         "cdn": true,
-        "checked": 1794891495
+        "checked": 1795005935
       }
     },
     {
@@ -44,7 +44,7 @@
       "name": "📡 Comcast / Xfinity (FL ISP)",
       "url": "https://www.xfinity.com/support/status",
       "http_status": 200,
-      "latency_ms": 785,
+      "latency_ms": 1295,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -63,17 +63,17 @@
       "type": "radar:7922",
       "geo": {
         "host": "www.xfinity.com",
-        "ip": "23.60.115.137",
-        "city": "Chicago",
-        "region": "Illinois",
+        "ip": "23.13.173.231",
+        "city": "Washington",
+        "region": "District of Columbia",
         "country": "United States",
         "countryCode": "US",
-        "lat": 41.85,
-        "lon": -87.65,
+        "lat": 38.895,
+        "lon": -77.036,
         "network": "Akamai Technologies, Inc.",
         "asn": 16625,
         "cdn": true,
-        "checked": 1794891495
+        "checked": 1795005935
       }
     },
     {
@@ -81,7 +81,7 @@
       "name": "📡 Spectrum / Charter (FL ISP)",
       "url": "https://www.spectrum.net/support/internet/outage",
       "http_status": 200,
-      "latency_ms": 2234,
+      "latency_ms": 2146,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -100,17 +100,17 @@
       "type": "radar:20115,33363",
       "geo": {
         "host": "www.spectrum.net",
-        "ip": "143.204.204.4",
-        "city": "Chicago",
-        "region": "Illinois",
+        "ip": "52.85.193.79",
+        "city": "Washington",
+        "region": "District of Columbia",
         "country": "United States",
         "countryCode": "US",
-        "lat": 41.85,
-        "lon": -87.65,
+        "lat": 38.895,
+        "lon": -77.036,
         "network": "Amazon.com, Inc.",
         "asn": 16509,
         "cdn": true,
-        "checked": 1794891495
+        "checked": 1795005935
       }
     },
     {
@@ -118,7 +118,7 @@
       "name": "📡 AT&T Fiber (FL ISP)",
       "url": "https://www.att.com/outages/",
       "http_status": 200,
-      "latency_ms": 660,
+      "latency_ms": 1484,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -137,17 +137,17 @@
       "type": "radar:7018",
       "geo": {
         "host": "www.att.com",
-        "ip": "23.60.113.151",
-        "city": "Chicago",
-        "region": "Illinois",
+        "ip": "96.7.21.254",
+        "city": "Washington",
+        "region": "District of Columbia",
         "country": "United States",
         "countryCode": "US",
-        "lat": 41.85,
-        "lon": -87.65,
+        "lat": 38.895,
+        "lon": -77.036,
         "network": "Akamai Technologies, Inc.",
         "asn": 16625,
         "cdn": true,
-        "checked": 1794891495
+        "checked": 1795005936
       }
     },
     {
@@ -155,7 +155,7 @@
       "name": "📶 T-Mobile 5G Home ISP",
       "url": "https://www.t-mobile.com/support/coverage",
       "http_status": 200,
-      "latency_ms": 680,
+      "latency_ms": 868,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -174,17 +174,17 @@
       "type": "radar:21928",
       "geo": {
         "host": "www.t-mobile.com",
-        "ip": "23.195.81.169",
-        "city": "Omaha",
-        "region": "Nebraska",
-        "country": "United States",
-        "countryCode": "US",
-        "lat": 41.256,
-        "lon": -95.94,
+        "ip": "23.43.161.139",
+        "city": "Montreal",
+        "region": "Quebec",
+        "country": "Canada",
+        "countryCode": "CA",
+        "lat": 45.509,
+        "lon": -73.588,
         "network": "Akamai Technologies, Inc.",
         "asn": 20940,
         "cdn": true,
-        "checked": 1794891495
+        "checked": 1795005936
       }
     },
     {
@@ -192,7 +192,7 @@
       "name": "📡 Verizon 5G / Fios ISP",
       "url": "https://www.verizon.com/support/check-network-status/",
       "http_status": 200,
-      "latency_ms": 1362,
+      "latency_ms": 2143,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -211,17 +211,17 @@
       "type": "radar:701,6167",
       "geo": {
         "host": "www.verizon.com",
-        "ip": "23.195.81.51",
-        "city": "Omaha",
-        "region": "Nebraska",
+        "ip": "23.221.227.170",
+        "city": "Washington",
+        "region": "District of Columbia",
         "country": "United States",
         "countryCode": "US",
-        "lat": 41.256,
-        "lon": -95.94,
+        "lat": 38.895,
+        "lon": -77.036,
         "network": "Akamai Technologies, Inc.",
         "asn": 20940,
         "cdn": true,
-        "checked": 1794891495
+        "checked": 1795005936
       }
     },
     {
@@ -229,7 +229,7 @@
       "name": "📡 CenturyLink / Quantum (FL)",
       "url": "https://www.quantumfiber.com",
       "http_status": 200,
-      "latency_ms": 787,
+      "latency_ms": 929,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -258,7 +258,7 @@
         "network": "Section.io, Inc.",
         "asn": 136133,
         "cdn": false,
-        "checked": 1794891495
+        "checked": 1795005936
       }
     },
     {
@@ -266,7 +266,7 @@
       "name": "📡 Hotwire Fision (FL Fiber)",
       "url": "https://gethotwired.com",
       "http_status": 200,
-      "latency_ms": 726,
+      "latency_ms": 3406,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -285,7 +285,7 @@
       "type": "radar:23089",
       "geo": {
         "host": "gethotwired.com",
-        "ip": "104.18.9.222",
+        "ip": "104.18.8.222",
         "city": "San Francisco",
         "region": "California",
         "country": "United States",
@@ -295,7 +295,7 @@
         "network": "Cloudflare, Inc.",
         "asn": 13335,
         "cdn": true,
-        "checked": 1794891495
+        "checked": 1795005936
       }
     },
     {
@@ -303,7 +303,7 @@
       "name": "🛰️ Starlink Satellite ISP",
       "url": "https://www.starlink.com",
       "http_status": 200,
-      "latency_ms": 650,
+      "latency_ms": 2250,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -332,7 +332,7 @@
         "network": "Fastly, Inc.",
         "asn": 54113,
         "cdn": true,
-        "checked": 1794891496
+        "checked": 1795005936
       }
     },
     {
@@ -340,7 +340,7 @@
       "name": "🟦 Microsoft Azure",
       "url": "https://azure.status.microsoft/en-us/status",
       "http_status": 200,
-      "latency_ms": 41,
+      "latency_ms": 59,
       "state": "ONLINE",
       "detail": "No active Azure incidents",
       "sources": [
@@ -352,24 +352,24 @@
         {
           "source": "Azure management API",
           "state": "ONLINE",
-          "detail": "HTTP 400 in 20 ms"
+          "detail": "HTTP 400 in 160 ms"
         }
       ],
       "agree": "2/2 agree",
       "type": "azure",
       "geo": {
         "host": "azure.status.microsoft",
-        "ip": "72.152.37.32",
-        "city": "Des Moines",
-        "region": "Iowa",
+        "ip": "72.152.160.52",
+        "city": "Washington",
+        "region": "District of Columbia",
         "country": "United States",
         "countryCode": "US",
-        "lat": 41.601,
-        "lon": -93.609,
+        "lat": 38.895,
+        "lon": -77.036,
         "network": "Microsoft Corporation",
         "asn": 8075,
         "cdn": true,
-        "checked": 1794891496
+        "checked": 1795005936
       }
     },
     {
@@ -377,7 +377,7 @@
       "name": "📧 Microsoft Outlook",
       "url": "https://portal.office.com/servicestatus",
       "http_status": 200,
-      "latency_ms": 172,
+      "latency_ms": 253,
       "state": "ONLINE",
       "detail": "Page reachable (HTTP 200) // no status feed",
       "sources": [
@@ -389,14 +389,14 @@
         {
           "source": "Microsoft sign-in",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 104 ms"
+          "detail": "HTTP 200 in 251 ms"
         }
       ],
       "agree": "2/2 agree",
       "type": "http",
       "geo": {
         "host": "portal.office.com",
-        "ip": "150.171.73.13",
+        "ip": "150.171.74.13",
         "city": "Redmond",
         "region": "Washington",
         "country": "United States",
@@ -406,7 +406,7 @@
         "network": "Microsoft Corporation",
         "asn": 8075,
         "cdn": true,
-        "checked": 1794891496
+        "checked": 1795005936
       }
     },
     {
@@ -414,7 +414,7 @@
       "name": "🔄 MS Exchange Online",
       "url": "https://outlook.office365.com/owa/healthcheck.htm",
       "http_status": 417,
-      "latency_ms": 90,
+      "latency_ms": 126,
       "state": "ONLINE",
       "detail": "Microsoft sign-in reachable // Blocked by site (HTTP 417) // can't verify",
       "sources": [
@@ -426,24 +426,24 @@
         {
           "source": "Microsoft sign-in",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 141 ms"
+          "detail": "HTTP 200 in 218 ms"
         }
       ],
       "agree": "1/2 (primary blocked)",
       "type": "http",
       "geo": {
         "host": "outlook.office365.com",
-        "ip": "40.104.49.242",
-        "city": "Des Moines",
-        "region": "Iowa",
+        "ip": "52.96.173.146",
+        "city": "Chase City",
+        "region": "Virginia",
         "country": "United States",
         "countryCode": "US",
-        "lat": 41.601,
-        "lon": -93.609,
+        "lat": 36.799,
+        "lon": -78.458,
         "network": "Microsoft Corporation",
         "asn": 8075,
         "cdn": true,
-        "checked": 1794891496
+        "checked": 1795005936
       }
     },
     {
@@ -451,7 +451,7 @@
       "name": "🌐 Google Workspace",
       "url": "https://www.google.com/appsstatus/dashboard/incidents.json",
       "http_status": 200,
-      "latency_ms": 96,
+      "latency_ms": 60,
       "state": "ONLINE",
       "detail": "No active Google Workspace incidents",
       "sources": [
@@ -463,14 +463,14 @@
         {
           "source": "Gmail",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 495 ms"
+          "detail": "HTTP 200 in 298 ms"
         }
       ],
       "agree": "2/2 agree",
       "type": "google",
       "geo": {
         "host": "www.google.com",
-        "ip": "142.251.151.119",
+        "ip": "142.251.154.119",
         "city": "San Jose",
         "region": "California",
         "country": "United States",
@@ -480,7 +480,7 @@
         "network": "Google LLC",
         "asn": 15169,
         "cdn": true,
-        "checked": 1794891496
+        "checked": 1795005937
       }
     },
     {
@@ -488,7 +488,7 @@
       "name": "🟧 Amazon Web Services",
       "url": "https://health.aws.amazon.com/health/status",
       "http_status": 200,
-      "latency_ms": 211,
+      "latency_ms": 216,
       "state": "DEGRADED",
       "detail": "2 event(s): Multiple services UAE - Region Availability",
       "sources": [
@@ -500,7 +500,7 @@
         {
           "source": "AWS S3 endpoint",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 421 ms"
+          "detail": "HTTP 200 in 195 ms"
         }
       ],
       "agree": "official incident // service reachable",
@@ -517,7 +517,7 @@
         "network": "Amazon Data Services Northern Virginia",
         "asn": 14618,
         "cdn": true,
-        "checked": 1794891496
+        "checked": 1795005937
       }
     },
     {
@@ -525,7 +525,7 @@
       "name": "☁️ Cloudflare Edge",
       "url": "https://www.cloudflarestatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 220,
+      "latency_ms": 156,
       "state": "DEGRADED",
       "detail": "Partially Degraded Service",
       "sources": [
@@ -537,7 +537,7 @@
         {
           "source": "Cloudflare edge",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 78 ms"
+          "detail": "HTTP 200 in 39 ms"
         }
       ],
       "agree": "official incident // service reachable",
@@ -554,7 +554,7 @@
         "network": "Google LLC",
         "asn": 396982,
         "cdn": true,
-        "checked": 1794891496
+        "checked": 1795005937
       }
     },
     {
@@ -562,7 +562,7 @@
       "name": "📘 Facebook / Meta",
       "url": "https://metastatus.com/data/orgs.json",
       "http_status": 200,
-      "latency_ms": 49,
+      "latency_ms": 110,
       "state": "ONLINE",
       "detail": "No known issues across Meta products",
       "sources": [
@@ -574,24 +574,24 @@
         {
           "source": "Meta Graph API",
           "state": "ONLINE",
-          "detail": "HTTP 400 in 201 ms"
+          "detail": "HTTP 400 in 34 ms"
         }
       ],
       "agree": "2/2 agree",
       "type": "meta",
       "geo": {
         "host": "metastatus.com",
-        "ip": "18.172.134.116",
-        "city": "Chicago",
-        "region": "Illinois",
+        "ip": "3.162.103.33",
+        "city": "Dulles",
+        "region": "Virginia",
         "country": "United States",
         "countryCode": "US",
-        "lat": 41.85,
-        "lon": -87.65,
-        "network": "Amazon.com, Inc.",
+        "lat": 38.965,
+        "lon": -77.446,
+        "network": "Amazon Technologies Inc.",
         "asn": 16509,
         "cdn": true,
-        "checked": 1794891496
+        "checked": 1795005937
       }
     },
     {
@@ -599,7 +599,7 @@
       "name": "🧠 OpenAI API",
       "url": "https://status.openai.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 204,
+      "latency_ms": 210,
       "state": "DEGRADED",
       "detail": "Partial System Degradation",
       "sources": [
@@ -611,14 +611,14 @@
         {
           "source": "OpenAI API",
           "state": "ONLINE",
-          "detail": "HTTP 401 in 108 ms"
+          "detail": "HTTP 401 in 64 ms"
         }
       ],
       "agree": "official incident // service reachable",
       "type": "statuspage",
       "geo": {
         "host": "status.openai.com",
-        "ip": "76.76.21.61",
+        "ip": "76.76.21.123",
         "city": "Los Angeles",
         "region": "California",
         "country": "United States",
@@ -628,7 +628,7 @@
         "network": "Vercel, Inc",
         "asn": 16509,
         "cdn": false,
-        "checked": 1794891496
+        "checked": 1795005937
       }
     },
     {
@@ -636,7 +636,7 @@
       "name": "💼 Slack",
       "url": "https://status.slack.com/api/v2.0.0/current",
       "http_status": 200,
-      "latency_ms": 341,
+      "latency_ms": 243,
       "state": "ONLINE",
       "detail": "All Systems Operational",
       "sources": [
@@ -648,14 +648,14 @@
         {
           "source": "Slack API",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 136 ms"
+          "detail": "HTTP 200 in 41 ms"
         }
       ],
       "agree": "2/2 agree",
       "type": "slack",
       "geo": {
         "host": "status.slack.com",
-        "ip": "23.22.255.42",
+        "ip": "3.223.34.124",
         "city": "Washington",
         "region": "District of Columbia",
         "country": "United States",
@@ -665,7 +665,7 @@
         "network": "Amazon Data Services Northern Virginia",
         "asn": 14618,
         "cdn": true,
-        "checked": 1794891496
+        "checked": 1795005937
       }
     },
     {
@@ -673,7 +673,7 @@
       "name": "📹 Zoom",
       "url": "https://status.zoom.us/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 400,
+      "latency_ms": 412,
       "state": "DEGRADED",
       "detail": "Service Under Maintenance",
       "sources": [
@@ -685,24 +685,24 @@
         {
           "source": "Zoom.us",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 56 ms"
+          "detail": "HTTP 200 in 147 ms"
         }
       ],
       "agree": "official incident // service reachable",
       "type": "statuspage",
       "geo": {
         "host": "status.zoom.us",
-        "ip": "54.192.55.83",
-        "city": "Chicago",
-        "region": "Illinois",
+        "ip": "13.35.78.80",
+        "city": "Washington",
+        "region": "District of Columbia",
         "country": "United States",
         "countryCode": "US",
-        "lat": 41.85,
-        "lon": -87.65,
+        "lat": 38.895,
+        "lon": -77.036,
         "network": "Amazon.com, Inc.",
         "asn": 16509,
         "cdn": true,
-        "checked": 1794891496
+        "checked": 1795005937
       }
     },
     {
@@ -710,7 +710,7 @@
       "name": "🐙 GitHub Pages / API",
       "url": "https://www.githubstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 220,
+      "latency_ms": 155,
       "state": "ONLINE",
       "detail": "All Systems Operational",
       "sources": [
@@ -722,24 +722,24 @@
         {
           "source": "GitHub.com",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 82 ms"
+          "detail": "HTTP 200 in 40 ms"
         }
       ],
       "agree": "2/2 agree",
       "type": "statuspage",
       "geo": {
         "host": "www.githubstatus.com",
-        "ip": "3.170.103.98",
-        "city": "Chicago",
-        "region": "Illinois",
+        "ip": "3.171.100.49",
+        "city": "Washington",
+        "region": "District of Columbia",
         "country": "United States",
         "countryCode": "US",
-        "lat": 41.85,
-        "lon": -87.65,
+        "lat": 38.895,
+        "lon": -77.036,
         "network": "Amazon Technologies Inc.",
         "asn": 16509,
         "cdn": true,
-        "checked": 1794891496
+        "checked": 1795005937
       }
     },
     {
@@ -747,7 +747,7 @@
       "name": "💬 Discord Infra",
       "url": "https://discordstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 198,
+      "latency_ms": 196,
       "state": "ONLINE",
       "detail": "All Systems Operational",
       "sources": [
@@ -759,24 +759,24 @@
         {
           "source": "Discord API",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 31 ms"
+          "detail": "HTTP 200 in 47 ms"
         }
       ],
       "agree": "2/2 agree",
       "type": "statuspage",
       "geo": {
         "host": "discordstatus.com",
-        "ip": "13.226.53.110",
-        "city": "Chicago",
-        "region": "Illinois",
+        "ip": "3.171.61.20",
+        "city": "Washington",
+        "region": "District of Columbia",
         "country": "United States",
         "countryCode": "US",
-        "lat": 41.85,
-        "lon": -87.65,
-        "network": "Amazon.com, Inc.",
+        "lat": 38.895,
+        "lon": -77.036,
+        "network": "Amazon Technologies Inc.",
         "asn": 16509,
         "cdn": true,
-        "checked": 1794891496
+        "checked": 1795005937
       }
     },
     {
@@ -784,7 +784,7 @@
       "name": "👽 Reddit",
       "url": "https://www.redditstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 304,
+      "latency_ms": 195,
       "state": "ONLINE",
       "detail": "All Systems Operational",
       "sources": [
@@ -796,24 +796,24 @@
         {
           "source": "Reddit.com",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 19 ms"
+          "detail": "HTTP 200 in 45 ms"
         }
       ],
       "agree": "2/2 agree",
       "type": "statuspage",
       "geo": {
         "host": "www.redditstatus.com",
-        "ip": "3.167.152.64",
-        "city": "Chicago",
-        "region": "Illinois",
+        "ip": "52.85.193.64",
+        "city": "Washington",
+        "region": "District of Columbia",
         "country": "United States",
         "countryCode": "US",
-        "lat": 41.85,
-        "lon": -87.65,
-        "network": "Amazon Technologies Inc.",
+        "lat": 38.895,
+        "lon": -77.036,
+        "network": "Amazon.com, Inc.",
         "asn": 16509,
         "cdn": true,
-        "checked": 1794891496
+        "checked": 1795005938
       }
     },
     {
@@ -821,7 +821,7 @@
       "name": "🌊 DigitalOcean",
       "url": "https://status.digitalocean.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 98,
+      "latency_ms": 115,
       "state": "ONLINE",
       "detail": "All Systems Operational",
       "sources": [
@@ -833,7 +833,7 @@
         {
           "source": "DigitalOcean API",
           "state": "ONLINE",
-          "detail": "HTTP 404 in 149 ms"
+          "detail": "HTTP 404 in 163 ms"
         }
       ],
       "agree": "2/2 agree",
@@ -850,7 +850,7 @@
         "network": "Cloudflare, Inc.",
         "asn": 13335,
         "cdn": true,
-        "checked": 1794891497
+        "checked": 1795005938
       }
     },
     {
@@ -858,7 +858,7 @@
       "name": "🛡️ HACKATNIGHT_CORE",
       "url": "https://hackatnight.com",
       "http_status": 200,
-      "latency_ms": 405,
+      "latency_ms": 175,
       "state": "ONLINE",
       "detail": "Page reachable (HTTP 200) // no status feed",
       "sources": [
@@ -882,7 +882,7 @@
         "network": "GitHub, Inc.",
         "asn": 54113,
         "cdn": false,
-        "checked": 1794891497
+        "checked": 1795005938
       }
     }
   ]
