@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-18T12:45:44Z",
+  "updated": "2026-11-18T21:02:22Z",
   "sources": [
     {
       "id": "KEV",
@@ -52,6 +52,158 @@
     }
   ],
   "items": [
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "ClamAV Vulnerabilities Affecting Cisco Products: November 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-18",
+      "severity": "HIGH",
+      "summary": "Multiple vulnerabilities in ClamAV could allow a remote attacker to bypass configured file and scan time limits and cause a denial of service (DoS) condition, interrupting scanning operations. For more information about these vulnerabilities, see the&nbsp; Details &nbsp;section o",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-clamav-multi-e93M3vdA",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Vulnerability in Oracle OpenJDK (Java4Shell) Affecting Cisco Products: November 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-18",
+      "severity": "HIGH",
+      "summary": "On November 17, 2026, Oracle announced the availability of fixes for a vulnerability in OpenJDK that could lead to remote code execution identified by CVE-2026-114938. The vulnerability affects OpenJDK Java 17.0.6 and later on x86-64 platforms when processing Base64 encoded conte",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nov2026-java-rce-eCa6ss9z",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "AV26-1175",
+      "source": "CCCS",
+      "title": "Cisco security advisory (AV26-1175)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-18",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1175 Date: November 18, 2026 As of November 18, 2026, Cisco is affected by vulnerabilities in the following products: Secure Endpoint Connector for Linux Prior to 1.29.3 Secure Endpoint Connector for Mac Prior to 1.27.5 Secure Endpoint Connector for Windows Pr",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/cisco-security-advisory-av26-1175",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1174",
+      "source": "CCCS",
+      "title": "F5 security advisory (AV26-1174)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-18",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1174 Date: November 18, 2026 As of November 18, 2026, F5 is affected by vulnerabilities in the following products: NGINX Plus Prior to 37.3.0.1 Prior to 37.0.8.1 Prior to 37.2.0.1 Prior to 37.0.7.1 NGINX Open Source Prior to 1.31.9 Prior to 1.30.7 The Cyber Ce",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/f5-security-advisory-av26-1174",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1173",
+      "source": "CCCS",
+      "title": "GNU security advisory (AV26-1173)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-18",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1173 Date: November 18, 2026 As of November 18, 2026, GNU is affected by a vulnerability in the following product: Emacs Prior to 31.2 The Cyber Centre encourages users and administrators to review the provided web links and apply any necessary updates as they",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/gnu-security-advisory-av26-1173",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1172",
+      "source": "CCCS",
+      "title": "GitHub security advisory (AV26-1172)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-18",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1172 Date: November 18, 2026 As of November 18, 2026, GitHub is affected by vulnerabilities in the following product: Enterprise Server 3.19.0 Prior to 3.19.16 3.20.0 Prior to 3.20.12 3.21.0 Prior to 3.21.10 3.22.0 Prior to 3.22.5 The Cyber Centre encourages u",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/github-security-advisory-av26-1172",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1171",
+      "source": "CCCS",
+      "title": "Google security advisory (AV26-1171)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-18",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1171 Date: November 17, 2026 As of November 17, 2026, Google is affected by a vulnerability in the following product: Stable Channel Chrome for Desktop Versions prior to 158.0.8127.36/.37 (Windows/Mac), and 158.0.8127.36 (Linux) The Cyber Centre encourages use",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/google-security-advisory-av26-1171",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1170",
+      "source": "CCCS",
+      "title": "Oracle Corporation security advisory (AV26-1170)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-18",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1170 Date: November 18, 2026 As of November 17, 2026, Oracle Corporation is affected by vulnerabilities in the following products: Helidon JD Edwards EnterpriseOne Localizations MySQL Cluster MySQL Server MySQL Server, MySQL Cluster MySQL Shell MySQL Workbench",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/oracle-corporation-security-advisory-av26-1170",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
     {
       "id": "NCSC",
       "source": "NCSC",
@@ -511,44 +663,6 @@
       }
     },
     {
-      "id": "AV26-1166",
-      "source": "CCCS",
-      "title": "Atlassian security advisory (AV26-1166)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-17",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1166 Date: November 17, 2026 As of November 17, 2026, Atlassian is affected by a vulnerability in the following products: Jira Service Management Data Center Version 10.3.27 and prior Version 11.3.13 and prior Jira Service Management Server Versions 5.12.16 to",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/atlassian-security-advisory-av26-1166",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1165",
-      "source": "CCCS",
-      "title": "N-able security advisory (AV26-1165)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-17",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1165 Date: November 17, 2026 As of November 17, 2026, N-able is affected by vulnerabilities in the following products: N-central Prior to 2026.4.1 HF3 N-central Patch Management Component Prior to 2.14.4.5829 The Cyber Centre encourages users and administrator",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/n-able-security-advisory-av26-1165",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
       "id": "AL26-029",
       "source": "CCCS",
       "title": "AL26-029 - Critical vulnerability impacting Oracle Java - CVE-2026-114938",
@@ -584,82 +698,6 @@
         ],
         "regions": [],
         "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "AV26-1164",
-      "source": "CCCS",
-      "title": "Qualcomm security advisory (AV26-1164)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-16",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1164 Date: November 16, 2026 As of November 2, 2026, Qualcomm published a security bulletin to address vulnerabilities affecting Qualcomm products. The Cyber Centre encourages users and administrators to review the provided web link and apply any necessary upd",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/qualcomm-security-advisory-av26-1164",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1163",
-      "source": "CCCS",
-      "title": "Red Hat security advisory (AV26-1163)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-16",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1163 Date: November 16, 2026 As of November 13, 2026, Red Hat is affected by vulnerabilities in the following products: Red Hat Enterprise Linux 6 / 7 / 10 All versions Red Hat Hardened Images All versions Red Hat OpenShift Dev Spaces All versions Red Hat Sate",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/red-hat-security-advisory-av26-1163",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1162",
-      "source": "CCCS",
-      "title": "IBM security advisory (AV26-1162)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-16",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1162 Date: November 16, 2026 As of November 13, 2026, IBM is affected by vulnerabilities in the following products: App Connect Operator Prior to or equal to 12.0.28 Prior to or equal to 12.21.0 Prior to or equal to 13.6.0 ContextForge MCP Gateway Prior to or ",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/ibm-security-advisory-av26-1162",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1161",
-      "source": "CCCS",
-      "title": "Dell security advisory (AV26-1161)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-16",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1161 Date: November 16, 2026 As of November 16, 2026, Dell is affected by vulnerabilities in the following products: Ansible Storage for PowerFlex Prior to 3.2.0 Ansible Storage for PowerStore Prior to 3.9.0 Ansible Storage for Unity Prior to 1.2.13 OpenManage",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/dell-security-advisory-av26-1161",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
       }
     },
     {
@@ -1256,44 +1294,6 @@
       }
     },
     {
-      "id": "CISCO",
-      "source": "CISCO",
-      "title": "Cisco Unified Communications Manager Cross-Site Scripting Vulnerability",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-04",
-      "severity": "MEDIUM",
-      "summary": "A vulnerability in the web-based management interface of Cisco Unified Communications Manager (Unified CM) and Cisco Unified Communications Manager Session Management Edition (Unified CM SME) could allow an unauthenticated, remote attacker to conduct a cross-site scripting (XSS) ",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-cucm-xss-5mQn2U5z",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CISCO",
-      "source": "CISCO",
-      "title": "Cisco UCS Central Software Remote Code Execution Vulnerability",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-04",
-      "severity": "HIGH",
-      "summary": "A vulnerability in the web-based management interface of Cisco UCS Central Software could allow an authenticated, remote attacker to achieve remote code execution or conduct information disclosure attacks on an affected device. This vulnerability is due to insufficient validation",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-cucs-rce-LzHSFRDQ",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
       "id": "NCSC",
       "source": "NCSC",
       "title": "Cyber chief: UK facing AI-powered attacks on critical infrastructure within two years",
@@ -1391,13 +1391,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Post-quantum updates to our TLS guidance",
+      "title": "Using TLS to protect data",
       "vendor": "",
       "product": "",
       "date": "2026-10-15",
-      "severity": "BLOG",
-      "summary": "The NCSC publishes its recommendations for configuring post-quantum cryptography in TLS. Now is time to migrate.",
-      "url": "https://www.ncsc.gov.uk/blogs/post-quantum-updates-to-our-tls-guidance",
+      "severity": "GUIDANCE",
+      "summary": "Recommended profiles to securely configure TLS for the most common versions and scenarios, with additional guidance for managing older versions.",
+      "url": "https://www.ncsc.gov.uk/guidance/using-tls-to-protect-data",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1410,13 +1410,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Using TLS to protect data",
+      "title": "Post-quantum updates to our TLS guidance",
       "vendor": "",
       "product": "",
       "date": "2026-10-15",
-      "severity": "GUIDANCE",
-      "summary": "Recommended profiles to securely configure TLS for the most common versions and scenarios, with additional guidance for managing older versions.",
-      "url": "https://www.ncsc.gov.uk/guidance/using-tls-to-protect-data",
+      "severity": "BLOG",
+      "summary": "The NCSC publishes its recommendations for configuring post-quantum cryptography in TLS. Now is time to migrate.",
+      "url": "https://www.ncsc.gov.uk/blogs/post-quantum-updates-to-our-tls-guidance",
       "geo": {
         "worldwide": false,
         "countries": [
