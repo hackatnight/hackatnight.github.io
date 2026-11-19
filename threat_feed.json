@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T02:42:58Z",
+  "updated": "2026-11-19T10:58:56Z",
   "sources": [
     {
       "id": "KEV",
@@ -1387,13 +1387,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Using TLS to protect data",
+      "title": "Post-quantum updates to our TLS guidance",
       "vendor": "",
       "product": "",
       "date": "2026-10-15",
-      "severity": "GUIDANCE",
-      "summary": "Recommended profiles to securely configure TLS for the most common versions and scenarios, with additional guidance for managing older versions.",
-      "url": "https://www.ncsc.gov.uk/guidance/using-tls-to-protect-data",
+      "severity": "BLOG",
+      "summary": "The NCSC publishes its recommendations for configuring post-quantum cryptography in TLS. Now is time to migrate.",
+      "url": "https://www.ncsc.gov.uk/blogs/post-quantum-updates-to-our-tls-guidance",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1406,13 +1406,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Post-quantum updates to our TLS guidance",
+      "title": "Using TLS to protect data",
       "vendor": "",
       "product": "",
       "date": "2026-10-15",
-      "severity": "BLOG",
-      "summary": "The NCSC publishes its recommendations for configuring post-quantum cryptography in TLS. Now is time to migrate.",
-      "url": "https://www.ncsc.gov.uk/blogs/post-quantum-updates-to-our-tls-guidance",
+      "severity": "GUIDANCE",
+      "summary": "Recommended profiles to securely configure TLS for the most common versions and scenarios, with additional guidance for managing older versions.",
+      "url": "https://www.ncsc.gov.uk/guidance/using-tls-to-protect-data",
       "geo": {
         "worldwide": false,
         "countries": [
