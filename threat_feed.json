@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-20T08:47:25Z",
+  "updated": "2026-11-20T17:27:01Z",
   "sources": [
     {
       "id": "KEV",
@@ -52,6 +52,44 @@
     }
   ],
   "items": [
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Cisco Informational for Emergency Distrust of eMudhra Root and Intermediate Certificate Authorities",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-20",
+      "severity": "INFO",
+      "summary": "Between October 17 and October 20, 2026, a critical security compromise involving Certificate Authorities that are managed by&nbsp; eMudhra was uncovered. A security researcher demonstrated that the private keys for eight eMudhra intermediate certificates were fundamentally broke",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-emudhra-info-ScS22A1r",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "AV26-1187",
+      "source": "CCCS",
+      "title": "[Control Systems] Moxa security advisory (AV26-1187)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-20",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1187 Date: November 20, 2026 As of November 20, 2026, Moxa is affected by vulnerabilities in the following product: ioLogik E1200 Series Firmware v4.0 and prior EDS-E Series All firmware versions IKS Series All firmware versions ICS Series All firmware version",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/control-systems-moxa-security-advisory-av26-1187",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
     {
       "id": "ICSA-26-323-03",
       "source": "ICS",
@@ -701,25 +739,6 @@
       }
     },
     {
-      "id": "AV26-1177",
-      "source": "CCCS",
-      "title": "SmarterTools security advisory (AV26-1177)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-18",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1177 Date: November 18, 2026 As of November 17, 2026, SmarterTools is affected by vulnerabilities in the following product: SmarterMail Prior to Build 9817 The Cyber Centre encourages users and administrators to review the provided web links and apply any nece",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/smartertools-security-advisory-av26-1177",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
       "id": "NCSC",
       "source": "NCSC",
       "title": "Why threat hunting should matter to every board",
@@ -766,25 +785,6 @@
       "severity": "HIGH",
       "summary": "On October 21, 2026, Node.js announced the availability of fixes for multiple vulnerabilities across the following supported release lines: 22.x, 24.x, and 26.x.&nbsp; These vulnerabilities impact critical operations such as the Brotli decoder, DNS resolution, and TLS certificate",
       "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-oct2026-node-js-Jj3SQ19u",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CISCO",
-      "source": "CISCO",
-      "title": "Cisco Informational for Emergency Distrust of eMudhra Root and Intermediate Certificate Authorities",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-16",
-      "severity": "INFO",
-      "summary": "Between October 17 and October 20, 2026, a critical security compromise involving Certificate Authorities that are managed by&nbsp; eMudhra was uncovered. A security researcher demonstrated that the private keys for eight eMudhra intermediate certificates were fundamentally broke",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-emudhra-info-ScS22A1r",
       "geo": {
         "worldwide": true,
         "countries": [
@@ -1295,13 +1295,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Artificial intelligence and cyber intrusion",
+      "title": "Cyber chief: UK facing AI-powered attacks on critical infrastructure within two years",
       "vendor": "",
       "product": "",
       "date": "2026-11-03",
-      "severity": "REPORT",
-      "summary": "An NCSC assessment that examines current AI-enabled threat trends and projections of the threat landscape to 2028.",
-      "url": "https://www.ncsc.gov.uk/report/artificial-intelligence-and-cyber-intrusion",
+      "severity": "NEWS",
+      "summary": "The NCSC warns that ‘tech on the cheap’ has left UK organisations exposed to AI uncovering and exploiting longstanding cyber security weaknesses and calls for urgent investment in resilience.",
+      "url": "https://www.ncsc.gov.uk/news/cyber-chief-uk-facing-ai-powered-attacks-on-critical-infrastructure-in-two-years",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1314,13 +1314,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Cyber chief: UK facing AI-powered attacks on critical infrastructure within two years",
+      "title": "Artificial intelligence and cyber intrusion",
       "vendor": "",
       "product": "",
       "date": "2026-11-03",
-      "severity": "NEWS",
-      "summary": "The NCSC warns that ‘tech on the cheap’ has left UK organisations exposed to AI uncovering and exploiting longstanding cyber security weaknesses and calls for urgent investment in resilience.",
-      "url": "https://www.ncsc.gov.uk/news/cyber-chief-uk-facing-ai-powered-attacks-on-critical-infrastructure-in-two-years",
+      "severity": "REPORT",
+      "summary": "An NCSC assessment that examines current AI-enabled threat trends and projections of the threat landscape to 2028.",
+      "url": "https://www.ncsc.gov.uk/report/artificial-intelligence-and-cyber-intrusion",
       "geo": {
         "worldwide": false,
         "countries": [
