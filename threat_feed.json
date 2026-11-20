@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-20T17:27:01Z",
+  "updated": "2026-11-20T23:15:53Z",
   "sources": [
     {
       "id": "KEV",
@@ -53,6 +53,122 @@
   ],
   "items": [
     {
+      "id": "CVE-2026-76466",
+      "source": "KEV",
+      "title": "Cisco Expressway Series Use of Hard-coded Credentials Vulnerability",
+      "vendor": "Cisco",
+      "product": "Expressway Series",
+      "date": "2026-11-20",
+      "due": "2026-11-23",
+      "severity": "EXPLOITED",
+      "summary": "Cisco Expressway Series contains a use of hard-coded credentials vulnerability that allows an unauthenticated, remote attacker with persistent cookies and network access to execute commands as root on a clustered device via the database service.",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76466",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ"
+      }
+    },
+    {
+      "id": "CVE-2026-129448",
+      "source": "KEV",
+      "title": "Apache Roller Deserialization of Untrusted Data Vulnerability",
+      "vendor": "Apache",
+      "product": "Roller",
+      "date": "2026-11-20",
+      "due": "2026-11-23",
+      "severity": "EXPLOITED",
+      "summary": "Apache Roller contains a deserialization of untrusted data vulnerability that allows an unauthenticated remote attacker to execute arbitrary code via the XML-RPC endpoint, which accepts and deserializes vendor extension types before authentication. This CVE covers the same underl",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-129448",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "basis": "Global (vendor HQ unknown)"
+      }
+    },
+    {
+      "id": "CVE-2026-123890",
+      "source": "KEV",
+      "title": "VMWare vCenter Authentication Bypass Using an Alternate Path or Channel Vulnerability",
+      "vendor": "Broadcom",
+      "product": "VMware vCenter",
+      "date": "2026-11-20",
+      "due": "2026-11-23",
+      "severity": "EXPLOITED",
+      "summary": "Broadcom VMware vCenter contains an authentication bypass using an alternate path or channel vulnerability in the VMware Directory Service that allows an unauthenticated attacker with network access to vCenter to bypass authentication and gain unauthorized access to the system.",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123890",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ"
+      }
+    },
+    {
+      "id": "CVE-2025-42884",
+      "source": "KEV",
+      "title": "SAP NetWeaver Improper Neutralization of Special Elements in Data Query Logic Vulnerability",
+      "vendor": "SAP",
+      "product": "NetWeaver",
+      "date": "2026-11-20",
+      "due": "2026-11-23",
+      "severity": "EXPLOITED",
+      "summary": "SAP NetWeaver Enterprise Portal contains an improper neutralization of special elements in data query logic vulnerability that allows an unauthenticated attacker to disclose or modify server information via injected JNDI environment properties or a URL used during JNDI lookup ope",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-42884",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "DE"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Vulnerability in Oracle OpenJDK (Java4Shell) Affecting Cisco Products: November 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-20",
+      "severity": "HIGH",
+      "summary": "On November 17, 2026, Oracle announced the availability of fixes for a vulnerability in OpenJDK that could lead to remote code execution identified by CVE-2026-114938. The vulnerability affects OpenJDK Java 17.0.6 and later on x86-64 platforms when processing Base64 encoded conte",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nov2026-java-rce-eCa6ss9z",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Vulnerabilities in nginx Affecting Cisco Products: November 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-20",
+      "severity": "CRITICAL",
+      "summary": "On November 18, 2026, nginx announced the availability of a fix for multiple critical vulnerabilities in nginx that could lead to remote code execution. These vulnerabilities affect nginx releases 1.9.5 through 1.31.8 and is fixed in releases 1.31.9 (mainline) and 1.30.7 (stable)",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nginx-nov-2026-e8jska2s",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
       "id": "CISCO",
       "source": "CISCO",
       "title": "Cisco Informational for Emergency Distrust of eMudhra Root and Intermediate Certificate Authorities",
@@ -81,6 +197,63 @@
       "severity": "ADVISORY",
       "summary": "Serial number: AV26-1187 Date: November 20, 2026 As of November 20, 2026, Moxa is affected by vulnerabilities in the following product: ioLogik E1200 Series Firmware v4.0 and prior EDS-E Series All firmware versions IKS Series All firmware versions ICS Series All firmware version",
       "url": "https://cyber.gc.ca/en/alerts-advisories/control-systems-moxa-security-advisory-av26-1187",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1185",
+      "source": "CCCS",
+      "title": "VMware security advisory (AV26-1185) – Update 1",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-20",
+      "severity": "EXPLOITED",
+      "summary": "Serial number: AV26-1185 Date: November 19, 2026 Updated: November 20, 2026 As of November 19, 2026, VMware is affected by vulnerabilities in the following products: VMware Cloud Foundation / VMware vSphere Foundation - vCenter 9.1.x.x Versions prior to 9.1.1.0200 9.0.x.x Version",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/vmware-security-advisory-av26-1185",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1073",
+      "source": "CCCS",
+      "title": "Cisco security advisory (AV26-1073) – Update 1",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-20",
+      "severity": "EXPLOITED",
+      "summary": "Serial number: AV26-1073 Date: October 21, 2026 Updated: November 20, 2026 As of October 21, 2026, Cisco is affected by vulnerabilities in the following products: Cisco IOS XR Software Release Multiple versions Cisco Expressway Series Release Prior to X15.5.20 Snort 3 Release Pri",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/cisco-security-advisory-av26-1073",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV25-738",
+      "source": "CCCS",
+      "title": "SAP security advisory – November 2025 monthly rollup (AV25-738) – Update 1",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-20",
+      "severity": "EXPLOITED",
+      "summary": "Serial number: AV25-738 Date: November 12, 2025 Updated: November 20, 2026 On November 11, 2025, SAP published security advisories to address vulnerabilities in multiple products. Included were updates for the following: SQL Anywhere Monitor (Non-Gui) – version SYBASE_SQL_ANYWHER",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/sap-security-advisory-november-2025-monthly-rollup-av25-738",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -182,25 +355,6 @@
       }
     },
     {
-      "id": "CISCO",
-      "source": "CISCO",
-      "title": "Vulnerability in Oracle OpenJDK (Java4Shell) Affecting Cisco Products: November 2026",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-19",
-      "severity": "HIGH",
-      "summary": "On November 17, 2026, Oracle announced the availability of fixes for a vulnerability in OpenJDK that could lead to remote code execution identified by CVE-2026-114938. The vulnerability affects OpenJDK Java 17.0.6 and later on x86-64 platforms when processing Base64 encoded conte",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nov2026-java-rce-eCa6ss9z",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
       "id": "AV26-1186",
       "source": "CCCS",
       "title": "Drupal security advisory (AV26-1186)",
@@ -210,25 +364,6 @@
       "severity": "ADVISORY",
       "summary": "Serial number: AV26-1186 Date: November 19, 2026 As of November 19, 2026, Drupal is affected by vulnerabilities in the following product: Drupal core Prior to 10.6.22 Prior to 11.3.22 Prior to 11.4.13 The Cyber Centre encourages users and administrators to review the provided web",
       "url": "https://cyber.gc.ca/en/alerts-advisories/drupal-security-advisory-av26-1186",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1185",
-      "source": "CCCS",
-      "title": "VMware security advisory (AV26-1185)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-19",
-      "severity": "EXPLOITED",
-      "summary": "Serial number: AV26-1185 Date: November 19, 2026 As of November 19, 2026, VMware is affected by vulnerabilities in the following products: VMware Cloud Foundation / VMware vSphere Foundation - vCenter 9.1.x.x Versions prior to 9.1.1.0200 9.0.x.x Versions prior to 9.0.2.0200 VMwar",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/vmware-security-advisory-av26-1185",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -324,44 +459,6 @@
       "severity": "ADVISORY",
       "summary": "Serial number: AV26-1180 Date: November 19, 2026 As of November 18, 2026, CraftCMS is affected by vulnerabilities in the following product: CMS Prior to 5.11.5 The Cyber Centre encourages users and administrators to review the provided web links and apply any necessary updates as",
       "url": "https://cyber.gc.ca/en/alerts-advisories/craftcms-security-advisory-av26-1180",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1179",
-      "source": "CCCS",
-      "title": "OpenVPN security advisory (AV26-1179)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-19",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1179 Date: November 19, 2026 As of November 18, 2026, OpenVPN is affected by a vulnerability in the following product: OpenVPN Prior to or equal to 2.7.8 The Cyber Centre encourages users and administrators to review the provided web links and apply any necess",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/openvpn-security-advisory-av26-1179",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1178",
-      "source": "CCCS",
-      "title": "F5 security advisory (AV26-1178)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-19",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1178 Date: November 19, 2026 As of November 18, 2026, F5 is affected by vulnerabilities in the following products: BIG-IP 17.1.0 Prior to BIGIP-17.1.3.7.0.21.4-ENG 17.5.0 Prior to BIGIP-17.5.1.11.0.61.12-ENG 21.1.0 Prior to BIGIP-21.1.0.4.0.19.3-ENG BIG-IP (AP",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/f5-security-advisory-av26-1178",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1122,44 +1219,6 @@
       }
     },
     {
-      "id": "CVE-2026-111793",
-      "source": "KEV",
-      "title": "Openwave Messaging Limited Webtop Media Transcoder Incorrect Resource Transfer Between Spheres Vulnerability",
-      "vendor": "Openwave Messaging Limited",
-      "product": "Webtop Media Transcoder",
-      "date": "2026-11-10",
-      "due": "2026-11-24",
-      "severity": "EXPLOITED",
-      "summary": "Openwave Messaging Limited Webtop Media Transcoder contains an incorrect resource transfer between spheres vulnerability that may allow an authenticated user to process and convert unintended document types if bypassing the Webmail experience.",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111793",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "basis": "Global (vendor HQ unknown)"
-      }
-    },
-    {
-      "id": "CVE-2026-111560",
-      "source": "KEV",
-      "title": "Barracuda Networks Multiple Products OS Command Injection Vulnerability",
-      "vendor": "Barracuda Networks",
-      "product": "Multiple Products",
-      "date": "2026-11-10",
-      "due": "2026-11-13",
-      "severity": "EXPLOITED",
-      "summary": "Barracuda Networks Email Security Gateway (ESG), Load Balancer, Application Delivery Controller (ADC), Message Archiver (BMA), WAF Control Center (WCC), Web Application Firewall (WAF), and Web Security Gateway (WSG) contain an OS command injection vulnerability. This vulnerabilit",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-111560",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ"
-      }
-    },
-    {
       "id": "CISCO",
       "source": "CISCO",
       "title": "Cisco Identity Services Engine Authorization Bypass Vulnerabilities",
@@ -1176,44 +1235,6 @@
         ],
         "regions": [],
         "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CVE-2026-123218",
-      "source": "KEV",
-      "title": "IBM Aspera Faspex Incorrect Authorization Vulnerability",
-      "vendor": "IBM",
-      "product": "Aspera Faspex",
-      "date": "2026-11-09",
-      "due": "2026-11-12",
-      "severity": "EXPLOITED",
-      "summary": "IBM Aspera Faspex contains an incorrect authorization vulnerability that could allow an authenticated user to craft a specific message to bypass authorization, causing privilege escalations.",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123218",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ"
-      }
-    },
-    {
-      "id": "CVE-2026-123158",
-      "source": "KEV",
-      "title": "OpenBSD OpenSSH Unexpected Status Code or Return Value Vulnerability",
-      "vendor": "OpenBSD",
-      "product": "OpenSSH",
-      "date": "2026-11-09",
-      "due": "2026-11-12",
-      "severity": "EXPLOITED",
-      "summary": "OpenBSD OpenSSH on Linux contains an unexpected status code or return value vulnerability that could allow for authentication bypass.",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123158",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "basis": "Global (vendor HQ unknown)"
       }
     },
     {
@@ -1264,25 +1285,6 @@
       "severity": "MEDIUM",
       "summary": "A vulnerability in the authorization mechanism of Cisco Identity Services Engine (ISE) and Cisco ISE Passive Identity Connector (ISE-PIC) could allow an unauthenticated, remote attacker to obtain an endpoint identity certificate. This vulnerability is due to improper authorizatio",
       "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-ise-cert-mE9BD5GO",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CISCO",
-      "source": "CISCO",
-      "title": "Cisco Advance Notification for Publication of November 4, 2026, Security Advisories",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-04",
-      "severity": "INFO",
-      "summary": "On November 4, 2026, the Cisco Product Security Incident Response Team (PSIRT) published the following advisories: Cisco Security Advisory CVE ID Security Impact Rating CVSS Base Score Cisco UCS Central Software Remote Code Execution Vulnerability CVE-2026-76506 High 7.6 Cisco Un",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-notice-I8z3n6lK",
       "geo": {
         "worldwide": true,
         "countries": [
