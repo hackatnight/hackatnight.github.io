@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-20T01:22:52Z",
+  "updated": "2026-11-20T08:47:25Z",
   "sources": [
     {
       "id": "KEV",
@@ -1295,13 +1295,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Cyber chief: UK facing AI-powered attacks on critical infrastructure within two years",
+      "title": "Artificial intelligence and cyber intrusion",
       "vendor": "",
       "product": "",
       "date": "2026-11-03",
-      "severity": "NEWS",
-      "summary": "The NCSC warns that ‘tech on the cheap’ has left UK organisations exposed to AI uncovering and exploiting longstanding cyber security weaknesses and calls for urgent investment in resilience.",
-      "url": "https://www.ncsc.gov.uk/news/cyber-chief-uk-facing-ai-powered-attacks-on-critical-infrastructure-in-two-years",
+      "severity": "REPORT",
+      "summary": "An NCSC assessment that examines current AI-enabled threat trends and projections of the threat landscape to 2028.",
+      "url": "https://www.ncsc.gov.uk/report/artificial-intelligence-and-cyber-intrusion",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1314,13 +1314,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Artificial intelligence and cyber intrusion",
+      "title": "Cyber chief: UK facing AI-powered attacks on critical infrastructure within two years",
       "vendor": "",
       "product": "",
       "date": "2026-11-03",
-      "severity": "REPORT",
-      "summary": "An NCSC assessment that examines current AI-enabled threat trends and projections of the threat landscape to 2028.",
-      "url": "https://www.ncsc.gov.uk/report/artificial-intelligence-and-cyber-intrusion",
+      "severity": "NEWS",
+      "summary": "The NCSC warns that ‘tech on the cheap’ has left UK organisations exposed to AI uncovering and exploiting longstanding cyber security weaknesses and calls for urgent investment in resilience.",
+      "url": "https://www.ncsc.gov.uk/news/cyber-chief-uk-facing-ai-powered-attacks-on-critical-infrastructure-in-two-years",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1390,13 +1390,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Using TLS to protect data",
+      "title": "Post-quantum updates to our TLS guidance",
       "vendor": "",
       "product": "",
       "date": "2026-10-15",
-      "severity": "GUIDANCE",
-      "summary": "Recommended profiles to securely configure TLS for the most common versions and scenarios, with additional guidance for managing older versions.",
-      "url": "https://www.ncsc.gov.uk/guidance/using-tls-to-protect-data",
+      "severity": "BLOG",
+      "summary": "The NCSC publishes its recommendations for configuring post-quantum cryptography in TLS. Now is time to migrate.",
+      "url": "https://www.ncsc.gov.uk/blogs/post-quantum-updates-to-our-tls-guidance",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1409,13 +1409,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Post-quantum updates to our TLS guidance",
+      "title": "Using TLS to protect data",
       "vendor": "",
       "product": "",
       "date": "2026-10-15",
-      "severity": "BLOG",
-      "summary": "The NCSC publishes its recommendations for configuring post-quantum cryptography in TLS. Now is time to migrate.",
-      "url": "https://www.ncsc.gov.uk/blogs/post-quantum-updates-to-our-tls-guidance",
+      "severity": "GUIDANCE",
+      "summary": "Recommended profiles to securely configure TLS for the most common versions and scenarios, with additional guidance for managing older versions.",
+      "url": "https://www.ncsc.gov.uk/guidance/using-tls-to-protect-data",
       "geo": {
         "worldwide": false,
         "countries": [

@@ -1,12 +1,12 @@
 {
   "dshield": {
-    "fetched": "2026-11-20T01:22:52Z",
+    "fetched": "2026-11-20T08:47:25Z",
     "networks": [
       {
         "network": "193.47.62.0/24",
         "name": "ASN-QUADRANET-GLOBAL",
         "country": "US",
-        "targets": 316,
+        "targets": 354,
         "geo": {
           "city": "Amsterdam",
           "region": "Provincie Noord-Holland",
@@ -18,25 +18,10 @@
         }
       },
       {
-        "network": "45.198.224.0/24",
-        "name": "OWS",
-        "country": "US",
-        "targets": 310,
-        "geo": {
-          "city": "Montreal",
-          "region": "Quebec",
-          "countryCode": "CA",
-          "lat": 45.509,
-          "lon": -73.588,
-          "org": "VPSVAULT.HOST LTD",
-          "asn": 215925
-        }
-      },
-      {
         "network": "205.210.31.0/24",
         "name": "GOOGLE-CLOUD-PLATFORM",
         "country": "US",
-        "targets": 310,
+        "targets": 349,
         "geo": {
           "city": "San Jose",
           "region": "California",
@@ -48,10 +33,25 @@
         }
       },
       {
+        "network": "45.198.224.0/24",
+        "name": "OWS",
+        "country": "US",
+        "targets": 346,
+        "geo": {
+          "city": "Montreal",
+          "region": "Quebec",
+          "countryCode": "CA",
+          "lat": 45.509,
+          "lon": -73.588,
+          "org": "VPSVAULT.HOST LTD",
+          "asn": 215925
+        }
+      },
+      {
         "network": "198.235.24.0/24",
         "name": "GOOGLE-CLOUD-PLATFORM",
         "country": "US",
-        "targets": 302,
+        "targets": 346,
         "geo": {
           "city": "Taipei",
           "region": "Taipei",
@@ -66,7 +66,7 @@
         "network": "151.243.11.0/24",
         "name": "RASANA",
         "country": "IR",
-        "targets": 299,
+        "targets": 340,
         "geo": {
           "city": "Hamburg",
           "region": "Free and Hanseatic City of Hamburg",
@@ -78,40 +78,10 @@
         }
       },
       {
-        "network": "195.182.16.0/24",
-        "name": "OT2-AS",
-        "country": "UA",
-        "targets": 299,
-        "geo": {
-          "city": "Frankfurt am Main",
-          "region": "Hessen",
-          "countryCode": "DE",
-          "lat": 50.116,
-          "lon": 8.684,
-          "org": "Amarutu Technology Ltd",
-          "asn": 206264
-        }
-      },
-      {
-        "network": "200.138.46.0/24",
-        "name": "V tal",
-        "country": "BR",
-        "targets": 299,
-        "geo": {
-          "city": "Amsterdam",
-          "region": "Provincie Noord-Holland",
-          "countryCode": "NL",
-          "lat": 52.374,
-          "lon": 4.89,
-          "org": "Private Customer",
-          "asn": 25369
-        }
-      },
-      {
         "network": "91.230.168.0/24",
         "name": "BHA",
         "country": "FR",
-        "targets": 298,
+        "targets": 334,
         "geo": {
           "city": "Portland",
           "region": "Oregon",
@@ -126,7 +96,7 @@
         "network": "64.205.72.0/24",
         "name": "MEGAPATH2-",
         "country": "US",
-        "targets": 293,
+        "targets": 331,
         "geo": {
           "city": "Amsterdam",
           "region": "Provincie Noord-Holland",
@@ -138,17 +108,32 @@
         }
       },
       {
-        "network": "5.226.140.0/24",
-        "name": "BANDWIDTH-AS",
+        "network": "45.148.10.0/24",
+        "name": "PPTECHNOLOGY",
         "country": "GB",
-        "targets": 290,
+        "targets": 330,
         "geo": {
-          "city": "London",
-          "region": "England",
-          "countryCode": "GB",
-          "lat": 51.513,
-          "lon": -0.092,
-          "org": "Hydra Communications Ltd",
+          "city": "Amsterdam",
+          "region": "Provincie Noord-Holland",
+          "countryCode": "NL",
+          "lat": 52.374,
+          "lon": 4.89,
+          "org": "TECHOFF SRV LIMITED",
+          "asn": 48090
+        }
+      },
+      {
+        "network": "200.138.46.0/24",
+        "name": "V tal",
+        "country": "BR",
+        "targets": 330,
+        "geo": {
+          "city": "Amsterdam",
+          "region": "Provincie Noord-Holland",
+          "countryCode": "NL",
+          "lat": 52.374,
+          "lon": 4.89,
+          "org": "Private Customer",
           "asn": 25369
         }
       },
@@ -156,7 +141,7 @@
         "network": "77.67.26.0/24",
         "name": "GTT-BACKBONE GTT",
         "country": "US",
-        "targets": 289,
+        "targets": 329,
         "geo": {
           "city": "Amsterdam",
           "region": "Provincie Noord-Holland",
@@ -168,25 +153,10 @@
         }
       },
       {
-        "network": "35.214.209.0/24",
-        "name": "GOOGLE-2",
-        "country": "US",
-        "targets": 288,
-        "geo": {
-          "city": "Groningen",
-          "region": "Provincie Groningen",
-          "countryCode": "NL",
-          "lat": 53.219,
-          "lon": 6.567,
-          "org": "Google LLC",
-          "asn": 43515
-        }
-      },
-      {
         "network": "64.62.197.0/24",
         "name": "HURRICANE",
         "country": "US",
-        "targets": 288,
+        "targets": 326,
         "geo": {
           "city": "Livermore-Pleasanton",
           "region": "California",
@@ -196,190 +166,220 @@
           "org": "Hurricane Electric LLC",
           "asn": 6939
         }
+      },
+      {
+        "network": "91.231.89.0/24",
+        "name": "BHA",
+        "country": "FR",
+        "targets": 326,
+        "geo": {
+          "city": "Gravelines",
+          "region": "Hauts-de-France",
+          "countryCode": "FR",
+          "lat": 50.987,
+          "lon": 2.128,
+          "org": "ONYPHE SAS",
+          "asn": 213412
+        }
+      },
+      {
+        "network": "100.29.192.0/24",
+        "name": "AMAZON-AES",
+        "country": "US",
+        "targets": 326,
+        "geo": {
+          "city": "Washington",
+          "region": "District of Columbia",
+          "countryCode": "US",
+          "lat": 38.895,
+          "lon": -77.036,
+          "org": "Amazon Data Services Northern Virginia",
+          "asn": 14618
+        }
       }
     ],
     "attribution": "SANS Technology Institute, Internet Storm Center (DShield), https://isc.sans.edu"
   },
   "cloudflare": {
     "enabled": true,
-    "fetched": "2026-11-20T01:22:52Z",
+    "fetched": "2026-11-20T08:47:25Z",
     "window": "24h",
     "attribution": "Cloudflare Radar, https://radar.cloudflare.com",
     "layer3": [
+      {
+        "origin": "US",
+        "originName": "United States",
+        "target": "FI",
+        "targetName": "Finland",
+        "value": 8.893
+      },
       {
         "origin": "BR",
         "originName": "Brazil",
         "target": "US",
         "targetName": "United States",
-        "value": 11.817
+        "value": 8.689
       },
       {
         "origin": "US",
         "originName": "United States",
         "target": "US",
         "targetName": "United States",
-        "value": 7.033
+        "value": 6.715
       },
       {
         "origin": "US",
         "originName": "United States",
         "target": "HK",
         "targetName": "Hong Kong",
-        "value": 6.19
+        "value": 6.124
       },
       {
         "origin": "DE",
         "originName": "Germany",
         "target": "HK",
         "targetName": "Hong Kong",
-        "value": 4.418
-      },
-      {
-        "origin": "US",
-        "originName": "United States",
-        "target": "FI",
-        "targetName": "Finland",
-        "value": 3.532
+        "value": 4.263
       },
       {
         "origin": "NL",
         "originName": "Netherlands",
         "target": "HK",
         "targetName": "Hong Kong",
-        "value": 2.993
+        "value": 2.879
       },
       {
         "origin": "CL",
         "originName": "Chile",
         "target": "US",
         "targetName": "United States",
-        "value": 2.594
+        "value": 2.328
+      },
+      {
+        "origin": "SG",
+        "originName": "Singapore",
+        "target": "US",
+        "targetName": "United States",
+        "value": 2.214
       },
       {
         "origin": "IN",
         "originName": "India",
         "target": "US",
         "targetName": "United States",
-        "value": 2.406
-      },
-      {
-        "origin": "SG",
-        "originName": "Singapore",
-        "target": "US",
-        "targetName": "United States",
-        "value": 2.345
-      },
-      {
-        "origin": "FR",
-        "originName": "France",
-        "target": "US",
-        "targetName": "United States",
-        "value": 2.038
-      },
-      {
-        "origin": "BD",
-        "originName": "Bangladesh",
-        "target": "US",
-        "targetName": "United States",
-        "value": 2.016
-      },
-      {
-        "origin": "MX",
-        "originName": "Mexico",
-        "target": "US",
-        "targetName": "United States",
-        "value": 1.96
+        "value": 1.953
       },
       {
         "origin": "ES",
         "originName": "Spain",
         "target": "HK",
         "targetName": "Hong Kong",
-        "value": 1.905
+        "value": 1.847
+      },
+      {
+        "origin": "BD",
+        "originName": "Bangladesh",
+        "target": "US",
+        "targetName": "United States",
+        "value": 1.826
       },
       {
         "origin": "BR",
         "originName": "Brazil",
         "target": "HK",
         "targetName": "Hong Kong",
-        "value": 1.614
+        "value": 1.805
+      },
+      {
+        "origin": "FR",
+        "originName": "France",
+        "target": "US",
+        "targetName": "United States",
+        "value": 1.798
+      },
+      {
+        "origin": "MX",
+        "originName": "Mexico",
+        "target": "US",
+        "targetName": "United States",
+        "value": 1.793
       },
       {
         "origin": "UA",
         "originName": "Ukraine",
         "target": "US",
         "targetName": "United States",
-        "value": 1.607
-      },
-      {
-        "origin": "CO",
-        "originName": "Colombia",
-        "target": "US",
-        "targetName": "United States",
-        "value": 1.567
+        "value": 1.446
       },
       {
         "origin": "AR",
         "originName": "Argentina",
         "target": "US",
         "targetName": "United States",
-        "value": 1.544
+        "value": 1.364
+      },
+      {
+        "origin": "CO",
+        "originName": "Colombia",
+        "target": "US",
+        "targetName": "United States",
+        "value": 1.323
       },
       {
         "origin": "RU",
         "originName": "Russian Federation",
         "target": "HK",
         "targetName": "Hong Kong",
-        "value": 1.443
-      },
-      {
-        "origin": "HK",
-        "originName": "Hong Kong",
-        "target": "HK",
-        "targetName": "Hong Kong",
-        "value": 1.236
-      },
-      {
-        "origin": "FR",
-        "originName": "France",
-        "target": "HK",
-        "targetName": "Hong Kong",
-        "value": 1.186
-      },
-      {
-        "origin": "GB",
-        "originName": "United Kingdom",
-        "target": "US",
-        "targetName": "United States",
-        "value": 1.138
-      },
-      {
-        "origin": "FI",
-        "originName": "Finland",
-        "target": "HK",
-        "targetName": "Hong Kong",
-        "value": 1.122
-      },
-      {
-        "origin": "DE",
-        "originName": "Germany",
-        "target": "US",
-        "targetName": "United States",
-        "value": 1.111
+        "value": 1.282
       },
       {
         "origin": "SG",
         "originName": "Singapore",
         "target": "HK",
         "targetName": "Hong Kong",
-        "value": 1.061
+        "value": 1.264
+      },
+      {
+        "origin": "HK",
+        "originName": "Hong Kong",
+        "target": "HK",
+        "targetName": "Hong Kong",
+        "value": 1.253
+      },
+      {
+        "origin": "FR",
+        "originName": "France",
+        "target": "HK",
+        "targetName": "Hong Kong",
+        "value": 1.215
+      },
+      {
+        "origin": "DE",
+        "originName": "Germany",
+        "target": "US",
+        "targetName": "United States",
+        "value": 1.124
+      },
+      {
+        "origin": "GB",
+        "originName": "United Kingdom",
+        "target": "US",
+        "targetName": "United States",
+        "value": 1.083
+      },
+      {
+        "origin": "FI",
+        "originName": "Finland",
+        "target": "HK",
+        "targetName": "Hong Kong",
+        "value": 1.078
       },
       {
         "origin": "RU",
         "originName": "Russian Federation",
         "target": "US",
         "targetName": "United States",
-        "value": 1.057
+        "value": 0.952
       }
     ],
     "layer7": [
@@ -388,229 +388,229 @@
         "originName": "Belgium",
         "target": "US",
         "targetName": "United States",
-        "value": 14.88
+        "value": 12.005
       },
       {
         "origin": "US",
         "originName": "United States",
         "target": "US",
         "targetName": "United States",
-        "value": 8.654
-      },
-      {
-        "origin": "BE",
-        "originName": "Belgium",
-        "target": "CA",
-        "targetName": "Canada",
-        "value": 5.195
+        "value": 9.549
       },
       {
         "origin": "CN",
         "originName": "China",
         "target": "US",
         "targetName": "United States",
-        "value": 3.924
+        "value": 4.534
+      },
+      {
+        "origin": "BE",
+        "originName": "Belgium",
+        "target": "CA",
+        "targetName": "Canada",
+        "value": 4.428
       },
       {
         "origin": "SG",
         "originName": "Singapore",
         "target": "IL",
         "targetName": "Israel",
-        "value": 3.702
-      },
-      {
-        "origin": "SG",
-        "originName": "Singapore",
-        "target": "US",
-        "targetName": "United States",
-        "value": 3.435
+        "value": 4.015
       },
       {
         "origin": "NL",
         "originName": "Netherlands",
         "target": "US",
         "targetName": "United States",
-        "value": 3.383
+        "value": 3.568
       },
       {
         "origin": "PL",
         "originName": "Poland",
         "target": "US",
         "targetName": "United States",
-        "value": 3.246
+        "value": 3.413
       },
       {
-        "origin": "US",
-        "originName": "United States",
-        "target": "CA",
-        "targetName": "Canada",
-        "value": 2.612
-      },
-      {
-        "origin": "US",
-        "originName": "United States",
-        "target": "IL",
-        "targetName": "Israel",
-        "value": 2.586
+        "origin": "SG",
+        "originName": "Singapore",
+        "target": "US",
+        "targetName": "United States",
+        "value": 3.234
       },
       {
         "origin": "DE",
         "originName": "Germany",
         "target": "US",
         "targetName": "United States",
-        "value": 2.514
+        "value": 2.831
+      },
+      {
+        "origin": "US",
+        "originName": "United States",
+        "target": "IL",
+        "targetName": "Israel",
+        "value": 2.717
       },
       {
         "origin": "ID",
         "originName": "Indonesia",
         "target": "US",
         "targetName": "United States",
-        "value": 1.734
+        "value": 2.531
       },
       {
-        "origin": "BE",
-        "originName": "Belgium",
-        "target": "IL",
-        "targetName": "Israel",
-        "value": 1.327
+        "origin": "US",
+        "originName": "United States",
+        "target": "CA",
+        "targetName": "Canada",
+        "value": 2.373
       },
       {
         "origin": "IT",
         "originName": "Italy",
         "target": "US",
         "targetName": "United States",
-        "value": 1.302
+        "value": 1.651
       },
       {
         "origin": "BR",
         "originName": "Brazil",
         "target": "US",
         "targetName": "United States",
-        "value": 1.183
-      },
-      {
-        "origin": "US",
-        "originName": "United States",
-        "target": "AU",
-        "targetName": "Australia",
-        "value": 1.1
+        "value": 1.389
       },
       {
         "origin": "CA",
         "originName": "Canada",
         "target": "CA",
         "targetName": "Canada",
-        "value": 1.002
+        "value": 1.087
       },
       {
-        "origin": "SG",
-        "originName": "Singapore",
-        "target": "CA",
-        "targetName": "Canada",
-        "value": 0.931
-      },
-      {
-        "origin": "FR",
-        "originName": "France",
-        "target": "US",
-        "targetName": "United States",
-        "value": 0.883
+        "origin": "BE",
+        "originName": "Belgium",
+        "target": "IL",
+        "targetName": "Israel",
+        "value": 1.063
       },
       {
         "origin": "JP",
         "originName": "Japan",
         "target": "US",
         "targetName": "United States",
-        "value": 0.846
+        "value": 0.883
+      },
+      {
+        "origin": "FR",
+        "originName": "France",
+        "target": "US",
+        "targetName": "United States",
+        "value": 0.793
+      },
+      {
+        "origin": "US",
+        "originName": "United States",
+        "target": "AU",
+        "targetName": "Australia",
+        "value": 0.666
       },
       {
         "origin": "CN",
         "originName": "China",
         "target": "GB",
         "targetName": "United Kingdom",
-        "value": 0.6
-      },
-      {
-        "origin": "RU",
-        "originName": "Russian Federation",
-        "target": "DE",
-        "targetName": "Germany",
-        "value": 0.551
-      },
-      {
-        "origin": "GB",
-        "originName": "United Kingdom",
-        "target": "US",
-        "targetName": "United States",
-        "value": 0.522
-      },
-      {
-        "origin": "CH",
-        "originName": "Switzerland",
-        "target": "US",
-        "targetName": "United States",
-        "value": 0.511
+        "value": 0.663
       },
       {
         "origin": "CA",
         "originName": "Canada",
         "target": "US",
         "targetName": "United States",
-        "value": 0.496
+        "value": 0.604
+      },
+      {
+        "origin": "RU",
+        "originName": "Russian Federation",
+        "target": "DE",
+        "targetName": "Germany",
+        "value": 0.595
+      },
+      {
+        "origin": "MX",
+        "originName": "Mexico",
+        "target": "US",
+        "targetName": "United States",
+        "value": 0.59
+      },
+      {
+        "origin": "GB",
+        "originName": "United Kingdom",
+        "target": "US",
+        "targetName": "United States",
+        "value": 0.589
+      },
+      {
+        "origin": "SE",
+        "originName": "Sweden",
+        "target": "US",
+        "targetName": "United States",
+        "value": 0.558
       }
     ],
     "topAses": [
       {
         "asn": "396982",
         "name": "Google LLC",
-        "value": 6.493
+        "value": 5.363
       },
       {
         "asn": "4134",
         "name": "CHINANET BACKBONE",
-        "value": 3.568
+        "value": 4.155
       },
       {
         "asn": "8075",
         "name": "Microsoft Corporation",
-        "value": 3.51
+        "value": 3.359
       },
       {
         "asn": "16509",
         "name": "Amazon.com, Inc.",
-        "value": 2.958
+        "value": 2.801
       },
       {
         "asn": "4837",
         "name": "CHINA UNICOM China169 Backbone",
-        "value": 2.532
+        "value": 2.659
       },
       {
         "asn": "9808",
         "name": "China Mobile Communications Group Co., Ltd.",
-        "value": 1.941
-      },
-      {
-        "asn": "45102",
-        "name": "Alibaba (US) Technology Co., Ltd.",
-        "value": 1.75
+        "value": 2.037
       },
       {
         "asn": "14618",
         "name": "Amazon.com, Inc.",
-        "value": 1.631
+        "value": 1.697
       },
       {
-        "asn": "14061",
-        "name": "DigitalOcean, LLC",
-        "value": 1.132
+        "asn": "45102",
+        "name": "Alibaba (US) Technology Co., Ltd.",
+        "value": 1.682
       },
       {
         "asn": "24940",
         "name": "Hetzner Online GmbH",
-        "value": 1.056
+        "value": 1.212
+      },
+      {
+        "asn": "14061",
+        "name": "DigitalOcean, LLC",
+        "value": 1.156
       }
     ]
   },
-  "updated": "2026-11-20T01:22:54Z"
+  "updated": "2026-11-20T08:47:28Z"
 }
