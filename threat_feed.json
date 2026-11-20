@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T19:24:07Z",
+  "updated": "2026-11-20T01:22:52Z",
   "sources": [
     {
       "id": "KEV",
@@ -122,6 +122,63 @@
           "US"
         ],
         "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "CVE-2026-111497",
+      "source": "MSRC",
+      "title": "Google: CVE-2026-111497 Buffer overflow vulnerability in the Brotli decoder",
+      "vendor": "Microsoft",
+      "product": "",
+      "date": "2026-11-19",
+      "severity": "CVE",
+      "summary": "Information published.",
+      "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-111497",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Vulnerability in Oracle OpenJDK (Java4Shell) Affecting Cisco Products: November 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-19",
+      "severity": "HIGH",
+      "summary": "On November 17, 2026, Oracle announced the availability of fixes for a vulnerability in OpenJDK that could lead to remote code execution identified by CVE-2026-114938. The vulnerability affects OpenJDK Java 17.0.6 and later on x86-64 platforms when processing Base64 encoded conte",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nov2026-java-rce-eCa6ss9z",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "AV26-1186",
+      "source": "CCCS",
+      "title": "Drupal security advisory (AV26-1186)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-19",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1186 Date: November 19, 2026 As of November 19, 2026, Drupal is affected by vulnerabilities in the following product: Drupal core Prior to 10.6.22 Prior to 11.3.22 Prior to 11.4.13 The Cyber Centre encourages users and administrators to review the provided web",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/drupal-security-advisory-av26-1186",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
       }
     },
     {
@@ -627,25 +684,6 @@
     {
       "id": "CISCO",
       "source": "CISCO",
-      "title": "Vulnerability in Oracle OpenJDK (Java4Shell) Affecting Cisco Products: November 2026",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-18",
-      "severity": "HIGH",
-      "summary": "On November 17, 2026, Oracle announced the availability of fixes for a vulnerability in OpenJDK that could lead to remote code execution identified by CVE-2026-114938. The vulnerability affects OpenJDK Java 17.0.6 and later on x86-64 platforms when processing Base64 encoded conte",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nov2026-java-rce-eCa6ss9z",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CISCO",
-      "source": "CISCO",
       "title": "ClamAV Vulnerabilities Affecting Cisco Products: November 2026",
       "vendor": "Cisco",
       "product": "",
@@ -672,25 +710,6 @@
       "severity": "ADVISORY",
       "summary": "Serial number: AV26-1177 Date: November 18, 2026 As of November 17, 2026, SmarterTools is affected by vulnerabilities in the following product: SmarterMail Prior to Build 9817 The Cyber Centre encourages users and administrators to review the provided web links and apply any nece",
       "url": "https://cyber.gc.ca/en/alerts-advisories/smartertools-security-advisory-av26-1177",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1176",
-      "source": "CCCS",
-      "title": "JetBrains security advisory (AV26-1176)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-18",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1176 Date: November 18, 2026 As of November 18, 2026, JetBrains is affected by vulnerabilities in the following product: TeamCity Prior to 2025.11.7 Prior to 2026.1.3 The Cyber Centre encourages users and administrators to review the provided web links and app",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/jetbrains-security-advisory-av26-1176",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -982,25 +1001,6 @@
         "countries": [],
         "regions": [],
         "basis": "Global (vendor HQ unknown)"
-      }
-    },
-    {
-      "id": "CVE-2026-113749",
-      "source": "MSRC",
-      "title": "Microsoft Windows Codecs Library Remote Code Execution Vulnerability",
-      "vendor": "Microsoft",
-      "product": "",
-      "date": "2026-11-13",
-      "severity": "CVE",
-      "summary": "Added Microsoft Office software to the Security Updates table. Customers that are running supported version of Microsoft Office are encouraged to update to the indicated version to be protected from this vulnerability.",
-      "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-113749",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
       }
     },
     {
