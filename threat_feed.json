@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-21T12:52:30Z",
+  "updated": "2026-11-21T19:53:55Z",
   "sources": [
     {
       "id": "KEV",
@@ -52,6 +52,44 @@
     }
   ],
   "items": [
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Vulnerabilities in nginx Affecting Cisco Products: November 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-21",
+      "severity": "CRITICAL",
+      "summary": "On November 18, 2026, nginx announced the availability of a fix for multiple critical vulnerabilities in nginx that could lead to remote code execution. These vulnerabilities affect nginx releases 1.9.5 through 1.31.8 and is fixed in releases 1.31.9 (mainline) and 1.30.7 (stable)",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nginx-nov-2026-e8jska2s",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "AV26-1188",
+      "source": "CCCS",
+      "title": "Apache security advisory (AV26-1188)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-21",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1188 Date: November 21, 2026 As of November 19, 2026, Apache is affected by a vulnerability in the following product: Apache Tomcat Prior to or equal to 10.1.62 Prior or equal to 9.0.124 Prior to or equal to 11.0.29 The Cyber Centre encourages users and admini",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/apache-security-advisory-av26-1188",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
     {
       "id": "CVE-2026-76466",
       "source": "KEV",
@@ -140,25 +178,6 @@
       "severity": "HIGH",
       "summary": "On November 17, 2026, Oracle announced the availability of fixes for a vulnerability in OpenJDK that could lead to remote code execution identified by CVE-2026-114938. The vulnerability affects OpenJDK Java 17.0.6 and later on x86-64 platforms when processing Base64 encoded conte",
       "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nov2026-java-rce-eCa6ss9z",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CISCO",
-      "source": "CISCO",
-      "title": "Vulnerabilities in nginx Affecting Cisco Products: November 2026",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-20",
-      "severity": "CRITICAL",
-      "summary": "On November 18, 2026, nginx announced the availability of a fix for multiple critical vulnerabilities in nginx that could lead to remote code execution. These vulnerabilities affect nginx releases 1.9.5 through 1.31.8 and is fixed in releases 1.31.9 (mainline) and 1.30.7 (stable)",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nginx-nov-2026-e8jska2s",
       "geo": {
         "worldwide": true,
         "countries": [
@@ -440,25 +459,6 @@
       "severity": "ADVISORY",
       "summary": "Serial number: AV26-1181 Date: November 19, 2026 As of November 19, 2026, JetBrains is affected by vulnerabilities in the following product: TeamCity Prior to 2026.2.1 Prior to 2026.1.5 The Cyber Centre encourages users and administrators to review the provided web links and appl",
       "url": "https://cyber.gc.ca/en/alerts-advisories/jetbrains-security-advisory-av26-1181",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1180",
-      "source": "CCCS",
-      "title": "CraftCMS security advisory (AV26-1180)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-19",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1180 Date: November 19, 2026 As of November 18, 2026, CraftCMS is affected by vulnerabilities in the following product: CMS Prior to 5.11.5 The Cyber Centre encourages users and administrators to review the provided web links and apply any necessary updates as",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/craftcms-security-advisory-av26-1180",
       "geo": {
         "worldwide": false,
         "countries": [
