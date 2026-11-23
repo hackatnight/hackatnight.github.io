@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-23T09:22:52Z",
+  "updated": "2026-11-23T21:36:06Z",
   "sources": [
     {
       "id": "KEV",
@@ -55,11 +55,30 @@
     {
       "id": "CISCO",
       "source": "CISCO",
+      "title": "Vulnerability in Oracle OpenJDK (Java4Shell) Affecting Cisco Products: November 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-23",
+      "severity": "HIGH",
+      "summary": "On November 17, 2026, Oracle announced the availability of fixes for a vulnerability in OpenJDK that could lead to remote code execution identified by CVE-2026-114938. The vulnerability affects OpenJDK Java 17.0.6 and later on x86-64 platforms when processing Base64 encoded conte",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nov2026-java-rce-eCa6ss9z",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
       "title": "Vulnerabilities in nginx Affecting Cisco Products: November 2026",
       "vendor": "Cisco",
       "product": "",
-      "date": "2026-11-21",
-      "severity": "CRITICAL",
+      "date": "2026-11-23",
+      "severity": "HIGH",
       "summary": "On November 18, 2026, nginx announced the availability of a fix for multiple critical vulnerabilities in nginx that could lead to remote code execution. These vulnerabilities affect nginx releases 1.9.5 through 1.31.8 and is fixed in releases 1.31.9 (mainline) and 1.30.7 (stable)",
       "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nginx-nov-2026-e8jska2s",
       "geo": {
@@ -69,6 +88,196 @@
         ],
         "regions": [],
         "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Cisco Expressway Series Remote Code Execution Vulnerability",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-23",
+      "severity": "CRITICAL",
+      "summary": "A vulnerability in the database service feature of Cisco Expressway Series could allow an unauthenticated, remote attacker with network access to a Cisco Expressway device to execute arbitrary operating system commands as&nbsp; root . This vulnerability is due to the use of persi",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-vcs-static-cred-hr7EWZ8t",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "AV26-1197",
+      "source": "CCCS",
+      "title": "MISP security advisory (AV26-1197)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-23",
+      "severity": "ADVISORY",
+      "summary": "Serial Number: AV26-1197 Date: November 23, 2026 As of November 23, 2026, MISP is affected by vulnerabilities in the following product: MISP Prior to v2.5.53 The Cyber Centre encourages users and administrators to review the provided web links and apply any necessary updates as t",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/misp-security-advisory-av26-1197",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1196",
+      "source": "CCCS",
+      "title": "Splunk security advisory (AV26-1196)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-23",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1196 Date: November 23, 2026 As of November 19, 2026, Splunk is affected by vulnerabilities in the following products: Splunk Enterprise Prior to 10.6.1 Prior to 10.4.5 Prior to 10.2.9 Prior to 10.0.12 Prior to 9.4.17 Splunk Enterprise Security Prior to 8.7.0 ",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/splunk-security-advisory-av26-1196",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1195",
+      "source": "CCCS",
+      "title": "Spring security advisory (AV26-1195)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-23",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1195 Date: November 23, 2026 As of November 23, 2026, Spring is affected by vulnerabilities in the following product: Spring AI Prior to 1.0.11 Prior to 1.1.10 Prior to 2.0.2.1 Prior to 2.0.3 The Cyber Centre encourages users and administrators to review the p",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/spring-security-advisory-av26-1195",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1194",
+      "source": "CCCS",
+      "title": "Apache security advisory (AV26-1194)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-23",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1194 Date: November 23, 2026 As of November 23, 2026, Apache Software Foundation is affected by vulnerabilities in the following product: Apache Solr Prior to 10.1.0 Prior to 9.11.0 The Cyber Centre encourages users and administrators to review the provided we",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/apache-security-advisory-av26-1194",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1193",
+      "source": "CCCS",
+      "title": "Synology security advisory (AV26-1193)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-23",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1193 Date: November 23, 2026 As of November 23, 2026, Synology is affected by a vulnerability in the following product: DiskStation Manager (DSM) Prior to 7.1.1-42962-10 Prior to 7.2.1-69057-14 Prior to 7.2.2-72806-11 Prior to 7.3.2-86009-6 Prior to 7.4.1-9008",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/synology-security-advisory-av26-1193",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1192",
+      "source": "CCCS",
+      "title": "JetBrains security advisory (AV26-1192)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-23",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1192 Date: November 23, 2026 As of November 19, 2026, JetBrains is affected by vulnerabilities in the following products: Junie Prior to 252.819.35 Prior to 253.819.35 Prior to 252.284.50 Prior to 251.284.50 Prior to 243.284.50 Junie CLI Prior to 26.11.2 Prior",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/jetbrains-security-advisory-av26-1192",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1191",
+      "source": "CCCS",
+      "title": "N-able security advisory (AV26-1191) - Update 1",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-23",
+      "severity": "EXPLOITED",
+      "summary": "Serial number: AV26-1191 Date: November 23, 2026 As of November 22, 2026, N-able is affected by a vulnerability in the following product: MailAssure Prior to 20261121.1943 The Cyber Centre encourages users and administrators to review the provided web links and apply any necessar",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/n-able-security-advisory-av26-1191",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1190",
+      "source": "CCCS",
+      "title": "Red Hat security advisory (AV26-1190)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-23",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1190 Date: November 23, 2026 As of November 23, 2026, Red Hat is affected by vulnerabilities in the following products: Red Hat Enterprise Linux 10 All versions Red Hat Enterprise Linux 9 All versions Red Hat Enterprise Linux 8 All versions Red Hat Enterprise ",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/red-hat-security-advisory-av26-1190",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1189",
+      "source": "CCCS",
+      "title": "IBM security advisory (AV26-1189)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-23",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1189 Date: November 23, 2026 As of November 19, 2026, IBM is affected by vulnerabilities in the following products: Engineering AI Hub Prior to or equal to 1.0.0 Prior to or equal to 1.1.0 Prior to or equal to 1.2.0 Prior to or equal to 1.3.0 Prior to or equal",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/ibm-security-advisory-av26-1189",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
       }
     },
     {
@@ -171,25 +380,6 @@
     {
       "id": "CISCO",
       "source": "CISCO",
-      "title": "Vulnerability in Oracle OpenJDK (Java4Shell) Affecting Cisco Products: November 2026",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-20",
-      "severity": "HIGH",
-      "summary": "On November 17, 2026, Oracle announced the availability of fixes for a vulnerability in OpenJDK that could lead to remote code execution identified by CVE-2026-114938. The vulnerability affects OpenJDK Java 17.0.6 and later on x86-64 platforms when processing Base64 encoded conte",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nov2026-java-rce-eCa6ss9z",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CISCO",
-      "source": "CISCO",
       "title": "Cisco Informational for Emergency Distrust of eMudhra Root and Intermediate Certificate Authorities",
       "vendor": "Cisco",
       "product": "",
@@ -204,82 +394,6 @@
         ],
         "regions": [],
         "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "AV26-1187",
-      "source": "CCCS",
-      "title": "[Control Systems] Moxa security advisory (AV26-1187)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-20",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1187 Date: November 20, 2026 As of November 20, 2026, Moxa is affected by vulnerabilities in the following product: ioLogik E1200 Series Firmware v4.0 and prior EDS-E Series All firmware versions IKS Series All firmware versions ICS Series All firmware version",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/control-systems-moxa-security-advisory-av26-1187",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1185",
-      "source": "CCCS",
-      "title": "VMware security advisory (AV26-1185) – Update 1",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-20",
-      "severity": "EXPLOITED",
-      "summary": "Serial number: AV26-1185 Date: November 19, 2026 Updated: November 20, 2026 As of November 19, 2026, VMware is affected by vulnerabilities in the following products: VMware Cloud Foundation / VMware vSphere Foundation - vCenter 9.1.x.x Versions prior to 9.1.1.0200 9.0.x.x Version",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/vmware-security-advisory-av26-1185",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1073",
-      "source": "CCCS",
-      "title": "Cisco security advisory (AV26-1073) – Update 1",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-20",
-      "severity": "EXPLOITED",
-      "summary": "Serial number: AV26-1073 Date: October 21, 2026 Updated: November 20, 2026 As of October 21, 2026, Cisco is affected by vulnerabilities in the following products: Cisco IOS XR Software Release Multiple versions Cisco Expressway Series Release Prior to X15.5.20 Snort 3 Release Pri",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/cisco-security-advisory-av26-1073",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV25-738",
-      "source": "CCCS",
-      "title": "SAP security advisory – November 2025 monthly rollup (AV25-738) – Update 1",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-20",
-      "severity": "EXPLOITED",
-      "summary": "Serial number: AV25-738 Date: November 12, 2025 Updated: November 20, 2026 On November 11, 2025, SAP published security advisories to address vulnerabilities in multiple products. Included were updates for the following: SQL Anywhere Monitor (Non-Gui) – version SYBASE_SQL_ANYWHER",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/sap-security-advisory-november-2025-monthly-rollup-av25-738",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
       }
     },
     {
@@ -371,101 +485,6 @@
         ],
         "regions": [],
         "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "AV26-1186",
-      "source": "CCCS",
-      "title": "Drupal security advisory (AV26-1186)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-19",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1186 Date: November 19, 2026 As of November 19, 2026, Drupal is affected by vulnerabilities in the following product: Drupal core Prior to 10.6.22 Prior to 11.3.22 Prior to 11.4.13 The Cyber Centre encourages users and administrators to review the provided web",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/drupal-security-advisory-av26-1186",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1184",
-      "source": "CCCS",
-      "title": "Mitel security advisory (AV26-1184)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-19",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1184 Date: November 19, 2026 As of November 19, 2026, Mitel is affected by vulnerabilities in the following product: MiCollab Prior to or equal to 10.3 (10.3.0.18) The Cyber Centre encourages users and administrators to review the provided web link and apply t",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/mitel-security-advisory-av26-1184",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1183",
-      "source": "CCCS",
-      "title": "PHP Group security advisory (AV26-1183)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-19",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1183 Date: November 19, 2026 As of November 19, 2026, PHP Group is affected by vulnerabilities in the following product: PHP Prior to 8.2.36 Prior to 8.3.37 Prior to 8.4.28 Prior to 8.5.13 Prior to 8.6.0 The Cyber Centre encourages users and administrators to ",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/php-group-security-advisory-av26-1183",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1182",
-      "source": "CCCS",
-      "title": "Ubiquiti security advisory (AV26-1182)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-19",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1182 Date: November 19, 2026 As of November 18, 2026, Ubiquiti is affected by vulnerabilities in the following product: UniFi Access Application Prior to 4.3.24 The Cyber Centre encourages users and administrators to review the provided web link and apply any ",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/ubiquiti-security-advisory-av26-1182",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1181",
-      "source": "CCCS",
-      "title": "JetBrains security advisory (AV26-1181)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-19",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1181 Date: November 19, 2026 As of November 19, 2026, JetBrains is affected by vulnerabilities in the following product: TeamCity Prior to 2026.2.1 Prior to 2026.1.5 The Cyber Centre encourages users and administrators to review the provided web links and appl",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/jetbrains-security-advisory-av26-1181",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
       }
     },
     {
@@ -1276,34 +1295,15 @@
       }
     },
     {
-      "id": "CISCO",
-      "source": "CISCO",
-      "title": "Cisco Identity Services Engine Authorization Bypass Vulnerability",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-04",
-      "severity": "MEDIUM",
-      "summary": "A vulnerability in the authorization mechanism of Cisco Identity Services Engine (ISE) and Cisco ISE Passive Identity Connector (ISE-PIC) could allow an unauthenticated, remote attacker to obtain an endpoint identity certificate. This vulnerability is due to improper authorizatio",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-ise-cert-mE9BD5GO",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Artificial intelligence and cyber intrusion",
+      "title": "Cyber chief: UK facing AI-powered attacks on critical infrastructure within two years",
       "vendor": "",
       "product": "",
       "date": "2026-11-03",
-      "severity": "REPORT",
-      "summary": "An NCSC assessment that examines current AI-enabled threat trends and projections of the threat landscape to 2028.",
-      "url": "https://www.ncsc.gov.uk/report/artificial-intelligence-and-cyber-intrusion",
+      "severity": "NEWS",
+      "summary": "The NCSC warns that ‘tech on the cheap’ has left UK organisations exposed to AI uncovering and exploiting longstanding cyber security weaknesses and calls for urgent investment in resilience.",
+      "url": "https://www.ncsc.gov.uk/news/cyber-chief-uk-facing-ai-powered-attacks-on-critical-infrastructure-in-two-years",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1316,13 +1316,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Cyber chief: UK facing AI-powered attacks on critical infrastructure within two years",
+      "title": "Artificial intelligence and cyber intrusion",
       "vendor": "",
       "product": "",
       "date": "2026-11-03",
-      "severity": "NEWS",
-      "summary": "The NCSC warns that ‘tech on the cheap’ has left UK organisations exposed to AI uncovering and exploiting longstanding cyber security weaknesses and calls for urgent investment in resilience.",
-      "url": "https://www.ncsc.gov.uk/news/cyber-chief-uk-facing-ai-powered-attacks-on-critical-infrastructure-in-two-years",
+      "severity": "REPORT",
+      "summary": "An NCSC assessment that examines current AI-enabled threat trends and projections of the threat landscape to 2028.",
+      "url": "https://www.ncsc.gov.uk/report/artificial-intelligence-and-cyber-intrusion",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1392,13 +1392,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Using TLS to protect data",
+      "title": "Post-quantum updates to our TLS guidance",
       "vendor": "",
       "product": "",
       "date": "2026-10-15",
-      "severity": "GUIDANCE",
-      "summary": "Recommended profiles to securely configure TLS for the most common versions and scenarios, with additional guidance for managing older versions.",
-      "url": "https://www.ncsc.gov.uk/guidance/using-tls-to-protect-data",
+      "severity": "BLOG",
+      "summary": "The NCSC publishes its recommendations for configuring post-quantum cryptography in TLS. Now is time to migrate.",
+      "url": "https://www.ncsc.gov.uk/blogs/post-quantum-updates-to-our-tls-guidance",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1411,13 +1411,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Post-quantum updates to our TLS guidance",
+      "title": "Using TLS to protect data",
       "vendor": "",
       "product": "",
       "date": "2026-10-15",
-      "severity": "BLOG",
-      "summary": "The NCSC publishes its recommendations for configuring post-quantum cryptography in TLS. Now is time to migrate.",
-      "url": "https://www.ncsc.gov.uk/blogs/post-quantum-updates-to-our-tls-guidance",
+      "severity": "GUIDANCE",
+      "summary": "Recommended profiles to securely configure TLS for the most common versions and scenarios, with additional guidance for managing older versions.",
+      "url": "https://www.ncsc.gov.uk/guidance/using-tls-to-protect-data",
       "geo": {
         "worldwide": false,
         "countries": [
