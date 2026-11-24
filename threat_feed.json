@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-24T05:41:56Z",
+  "updated": "2026-11-24T16:46:35Z",
   "sources": [
     {
       "id": "KEV",
@@ -52,6 +52,208 @@
     }
   ],
   "items": [
+    {
+      "id": "NCSC",
+      "source": "NCSC",
+      "title": "Introducing CORNERSTONE: delivering external services for the NCSC",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "BLOG",
+      "summary": "The NCSC is seeking industry feedback on a new delivery model for modernising external cyber security services.",
+      "url": "https://www.ncsc.gov.uk/blogs/introducing-cornerstone-delivering-external-services-for-the-ncsc",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "GB"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "NCSC",
+      "source": "NCSC",
+      "title": "Familiar weaknesses, exploited faster: defending against agentic cyber attacks",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "BLOG",
+      "summary": "How to protect your organisation from cyber attacks created using ‘agentic offensive frameworks’.",
+      "url": "https://www.ncsc.gov.uk/blogs/familiar-weaknesses-exploited-faster-defending-against-agentic-cyber-attacks",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "GB"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "ICSA-26-328-03",
+      "source": "ICS",
+      "title": "Danfoss AK-SM 8xxA Series",
+      "vendor": "Danfoss",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "CRITICAL",
+      "cvss": 9.8,
+      "cves": 1,
+      "sectors": "Commercial Facilities",
+      "summary": "Deployed: Worldwide. Vendor HQ: Denmark.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-328-03",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "DK"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-328-02",
+      "source": "ICS",
+      "title": "Schneider Electric EcoStruxure Power Build Rapsody software",
+      "vendor": "Schneider Electric",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "MEDIUM",
+      "cvss": 5.3,
+      "cves": 1,
+      "sectors": "Energy, Critical Manufacturing, Commercial Facilities",
+      "summary": "Deployed: Worldwide. Vendor HQ: France.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-328-02",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "FR"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "ICSA-26-328-01",
+      "source": "ICS",
+      "title": "AutomationDirect C-More EA9 Programming Software",
+      "vendor": "AutomationDirect",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "HIGH",
+      "cvss": 7.8,
+      "cves": 1,
+      "sectors": "Critical Manufacturing, Energy, Water and Wastewater Systems",
+      "summary": "Deployed: Worldwide. Vendor HQ: United States.",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-328-01",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "hq": [
+          "US"
+        ],
+        "basis": "Deployment areas"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "ClamAV Vulnerabilities Affecting Cisco Products: November 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "HIGH",
+      "summary": "Multiple vulnerabilities in ClamAV could allow a remote attacker to bypass configured file and scan time limits and cause a denial of service (DoS) condition, interrupting scanning operations. For more information about these vulnerabilities, see the&nbsp; Details &nbsp;section o",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-clamav-multi-e93M3vdA",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "AV26-1201",
+      "source": "CCCS",
+      "title": "Google security advisory (AV26-1201)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1201 Date: November 24, 2026 As of November 23, 2026, Google is affected by a vulnerability in the following product: Stable Channel Chrome for Desktop Versions prior to 158.0.8127.88/.89 (Windows/Mac), and 158.0.8127.88 (Linux) The Cyber Centre encourages use",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/google-security-advisory-av26-1201",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1200",
+      "source": "CCCS",
+      "title": "n8n security advisory (AV26-1200)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1200 Date: November 24, 2026 As of November 23, 2026, n8n is affected by vulnerabilities in the following product: n8n Prior to 3.4.0 Prior to 2.50.0 Prior to 2.49.5 Prior to 2.48.8 Prior to 1.123.101 Prior to 2.49.4 Prior to 2.48.7 Prior to 1.123.100 The Cybe",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/n8n-security-advisory-av26-1200",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1199",
+      "source": "CCCS",
+      "title": "[Control systems] Codesys security advisory (AV26-1199)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1199 Date: November 24, 2026 As of November 24, 2026, Codesys is affected by vulnerabilities in the following product: Visualization Prior to 4.11.0.0 The Cyber Centre encourages users and administrators to review the provided web links and apply any necessary",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/control-systems-codesys-security-advisory-av26-1199",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1198",
+      "source": "CCCS",
+      "title": "SUSE Linux security advisory (AV26-1198)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1198 Date: November 24, 2026 As of November 24, 2026, SUSE is affected by vulnerabilities in the following product: NeuVector Prior to 5.7.0 Prior to 5.5.6 Prior to 5.6.5 The Cyber Centre encourages users and administrators to review the provided web links and",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/suse-linux-security-advisory-av26-1198",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
     {
       "id": "CVE-2026-134624",
       "source": "KEV",
@@ -281,82 +483,6 @@
       }
     },
     {
-      "id": "AV26-1191",
-      "source": "CCCS",
-      "title": "N-able security advisory (AV26-1191) - Update 1",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-23",
-      "severity": "EXPLOITED",
-      "summary": "Serial number: AV26-1191 Date: November 23, 2026 As of November 22, 2026, N-able is affected by a vulnerability in the following product: MailAssure Prior to 20261121.1943 The Cyber Centre encourages users and administrators to review the provided web links and apply any necessar",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/n-able-security-advisory-av26-1191",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1190",
-      "source": "CCCS",
-      "title": "Red Hat security advisory (AV26-1190)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-23",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1190 Date: November 23, 2026 As of November 23, 2026, Red Hat is affected by vulnerabilities in the following products: Red Hat Enterprise Linux 10 All versions Red Hat Enterprise Linux 9 All versions Red Hat Enterprise Linux 8 All versions Red Hat Enterprise ",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/red-hat-security-advisory-av26-1190",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1189",
-      "source": "CCCS",
-      "title": "IBM security advisory (AV26-1189)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-23",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1189 Date: November 23, 2026 As of November 19, 2026, IBM is affected by vulnerabilities in the following products: Engineering AI Hub Prior to or equal to 1.0.0 Prior to or equal to 1.1.0 Prior to or equal to 1.2.0 Prior to or equal to 1.3.0 Prior to or equal",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/ibm-security-advisory-av26-1189",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1188",
-      "source": "CCCS",
-      "title": "Apache security advisory (AV26-1188)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-21",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1188 Date: November 21, 2026 As of November 19, 2026, Apache is affected by a vulnerability in the following product: Apache Tomcat Prior to or equal to 10.1.62 Prior or equal to 9.0.124 Prior to or equal to 11.0.29 The Cyber Centre encourages users and admini",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/apache-security-advisory-av26-1188",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
       "id": "CVE-2026-76466",
       "source": "KEV",
       "title": "Cisco Expressway Series Use of Hard-coded Credentials Vulnerability",
@@ -542,29 +668,6 @@
         ],
         "regions": [],
         "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "ICSMA-21-007-01",
-      "source": "ICS-MED",
-      "title": "Innokas Yhtymä Oy Vital Signs Monitor",
-      "vendor": "Innokas Yhtymä Oy",
-      "product": "",
-      "date": "2026-11-18",
-      "severity": "MEDIUM",
-      "cvss": 5.3,
-      "cves": 2,
-      "sectors": "Healthcare and Public Health",
-      "summary": "Deployed: Worldwide. Vendor HQ: Finland.",
-      "url": "https://www.cisa.gov/news-events/ics-medical-advisories/icsma-21-007-01",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "FI"
-        ],
-        "basis": "Deployment areas"
       }
     },
     {
@@ -775,52 +878,6 @@
       }
     },
     {
-      "id": "ICSA-23-138-03",
-      "source": "ICS",
-      "title": "Hitachi Energy's MicroSCADA Pro/X SYS600 Products",
-      "vendor": "Hitachi Energy",
-      "product": "",
-      "date": "2026-11-18",
-      "severity": "MEDIUM",
-      "cvss": 6.7,
-      "cves": 1,
-      "sectors": "Energy",
-      "summary": "Deployed: Worldwide. Vendor HQ: Switzerland.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-23-138-03",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "CH"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
-      "id": "ICSA-23-096-03",
-      "source": "ICS",
-      "title": "JTEKT ELECTRONICS Kostac PLC Programming Software",
-      "vendor": "JTEKT ELECTRONICS CORPORATION",
-      "product": "",
-      "date": "2026-11-18",
-      "severity": "HIGH",
-      "cvss": 7.8,
-      "cves": 3,
-      "sectors": "Critical Manufacturing",
-      "summary": "Deployed: Worldwide. Vendor HQ: Japan.",
-      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-23-096-03",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "hq": [
-          "JP"
-        ],
-        "basis": "Deployment areas"
-      }
-    },
-    {
       "id": "CVE-2026-90817",
       "source": "KEV",
       "title": "Vanderbilt University Research Electronic Data Capture (REDCap) Code Injection Vulnerability",
@@ -890,25 +947,6 @@
         "countries": [],
         "regions": [],
         "basis": "Global (vendor HQ unknown)"
-      }
-    },
-    {
-      "id": "CISCO",
-      "source": "CISCO",
-      "title": "ClamAV Vulnerabilities Affecting Cisco Products: November 2026",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-18",
-      "severity": "HIGH",
-      "summary": "Multiple vulnerabilities in ClamAV could allow a remote attacker to bypass configured file and scan time limits and cause a denial of service (DoS) condition, interrupting scanning operations. For more information about these vulnerabilities, see the&nbsp; Details &nbsp;section o",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-clamav-multi-e93M3vdA",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
       }
     },
     {
@@ -1397,44 +1435,6 @@
       "severity": "BLOG",
       "summary": "The NCSC publishes its recommendations for configuring post-quantum cryptography in TLS. Now is time to migrate.",
       "url": "https://www.ncsc.gov.uk/blogs/post-quantum-updates-to-our-tls-guidance",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "GB"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "NCSC",
-      "source": "NCSC",
-      "title": "Using TLS to protect data",
-      "vendor": "",
-      "product": "",
-      "date": "2026-10-15",
-      "severity": "GUIDANCE",
-      "summary": "Recommended profiles to securely configure TLS for the most common versions and scenarios, with additional guidance for managing older versions.",
-      "url": "https://www.ncsc.gov.uk/guidance/using-tls-to-protect-data",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "GB"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "NCSC",
-      "source": "NCSC",
-      "title": "Help the NCSC understand how organisations approach external attack surface risk",
-      "vendor": "",
-      "product": "",
-      "date": "2026-10-12",
-      "severity": "BLOG",
-      "summary": "We're looking to hear from people involved in evaluating, selecting or adopting EASM.",
-      "url": "https://www.ncsc.gov.uk/blogs/help-ncsc-understand-how-organisations-approach-external-attack-surface-risk",
       "geo": {
         "worldwide": false,
         "countries": [
