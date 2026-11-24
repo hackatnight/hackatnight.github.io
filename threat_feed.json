@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-23T21:36:06Z",
+  "updated": "2026-11-24T05:41:56Z",
   "sources": [
     {
       "id": "KEV",
@@ -53,6 +53,44 @@
   ],
   "items": [
     {
+      "id": "CVE-2026-134624",
+      "source": "KEV",
+      "title": "N-able MailAssure (SpamExperts) Server-Side Request Forgery (SSRF) Vulnerability",
+      "vendor": "N-able",
+      "product": "MailAssure",
+      "date": "2026-11-23",
+      "due": "2026-11-26",
+      "severity": "EXPLOITED",
+      "summary": "N-able MailAssure (SpamExperts) contains a server-side request forgery vulnerability in the LDAP synchronization connection check that allows an authenticated API user to connect to arbitrary internal hosts and ports, determine which are reachable, and send crafted data to intern",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134624",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ"
+      }
+    },
+    {
+      "id": "CVE-2026-133968",
+      "source": "KEV",
+      "title": "Project MONAI MONAI Label Path Traversal Vulnerability",
+      "vendor": "Project MONAI",
+      "product": "MONAI Label",
+      "date": "2026-11-23",
+      "due": "2026-11-26",
+      "severity": "EXPLOITED",
+      "summary": "Project MONAI MONAI Label contains a path traversal vulnerability that allows an unauthenticated remote attacker to write arbitrary files outside the intended datastore directory, potentially resulting in remote code execution.",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133968",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "basis": "Global (vendor HQ unknown)"
+      }
+    },
+    {
       "id": "CISCO",
       "source": "CISCO",
       "title": "Vulnerability in Oracle OpenJDK (Java4Shell) Affecting Cisco Products: November 2026",
@@ -62,6 +100,25 @@
       "severity": "HIGH",
       "summary": "On November 17, 2026, Oracle announced the availability of fixes for a vulnerability in OpenJDK that could lead to remote code execution identified by CVE-2026-114938. The vulnerability affects OpenJDK Java 17.0.6 and later on x86-64 platforms when processing Base64 encoded conte",
       "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nov2026-java-rce-eCa6ss9z",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Vulnerability in PHP Affecting Cisco Products: November 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-23",
+      "severity": "CRITICAL",
+      "summary": "On November 19, 2026, the PHP Foundation announced the availability of security fixes that address a critical vulnerability that could lead to remote code execution. This vulnerability is identified by CVE-2026-126714. For information about this vulnerability, see the advisory&nb",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-phpaftershell-nov-2026-kT9pL4Xe",
       "geo": {
         "worldwide": true,
         "countries": [
@@ -825,7 +882,7 @@
       "product": "DiskStation Manager (DSM)",
       "date": "2026-11-18",
       "due": "2026-11-21",
-      "severity": "EXPLOITED",
+      "severity": "RANSOMWARE",
       "summary": "Synology DSM contains an improper encoding or escaping of output vulnerability in the system plugin daemon in Synology BeeStation OS (BSM) that could allow a remote attacker to execute arbitrary code via unspecified vectors.",
       "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-10441",
       "geo": {
@@ -1198,46 +1255,6 @@
       }
     },
     {
-      "id": "CVE-2026-124194",
-      "source": "KEV",
-      "title": "Microsoft Office Outlook Missing User Interaction for Potentially Unsafe Action Vulnerability",
-      "vendor": "Microsoft",
-      "product": "Office",
-      "date": "2026-11-10",
-      "due": "2026-11-24",
-      "severity": "EXPLOITED",
-      "summary": "Microsoft Office Outlook contains a missing user interaction for potentially unsafe action vulnerability that allows an unauthorized attacker to perform spoofing over a network.",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-124194",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ"
-      }
-    },
-    {
-      "id": "CVE-2026-116606",
-      "source": "KEV",
-      "title": "Barracuda Networks Email Security Gateway (ESG) Authentication Bypass Using an Alternate Path or Channel Vulnerability",
-      "vendor": "Barracuda Networks",
-      "product": "Barracuda Email Security Gateway (ESG)",
-      "date": "2026-11-10",
-      "due": "2026-11-13",
-      "severity": "EXPLOITED",
-      "summary": "Barracuda Networks Email Security Gateway (ESG) contains an authentication bypass using an alternate path or channel that could allow an unauthenticated remote attacker to invoke a configuration-import function and restore a crafted, compatible backup archive, resulting in unauth",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-116606",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ"
-      }
-    },
-    {
       "id": "CISCO",
       "source": "CISCO",
       "title": "Cisco Identity Services Engine Authorization Bypass Vulnerabilities",
@@ -1266,25 +1283,6 @@
       "severity": "CRITICAL",
       "summary": "As part of Cisco's ongoing commitment to proactive security and product quality, engineering teams conducted a comprehensive internal security review. This review resulted in software hardening releases that address multiple internally discovered vulnerabilities. These vulnerabil",
       "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-hardening-meraki-os-drbEX9GH",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CISCO",
-      "source": "CISCO",
-      "title": "Vulnerabilities in PHP Affecting Cisco Products: October 2026",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-06",
-      "severity": "CRITICAL",
-      "summary": "On October 21, the PHP Foundation announced the availability of a Critical PHP Security release addressing two critical vulnerabilities:&nbsp; CVE-2026-109618 - RCE via OOM corruption CVE-2026-109619 - RCE via stale global state For information about these vulnerabilities, see th",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-php-october26-Jj384Daq",
       "geo": {
         "worldwide": true,
         "countries": [
