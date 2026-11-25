@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-24T16:46:35Z",
+  "updated": "2026-11-25T01:14:19Z",
   "sources": [
     {
       "id": "KEV",
@@ -160,6 +160,117 @@
       }
     },
     {
+      "id": "CVE-2026-132224",
+      "source": "KEV",
+      "title": "Optimizely Web Experimentation External Control of Critical State Data Vulnerability",
+      "vendor": "Optimizely",
+      "product": "Web Experimentation",
+      "date": "2026-11-24",
+      "due": "2026-11-27",
+      "severity": "EXPLOITED",
+      "summary": "Optimizely Web Experimentation contains an external control of critical state data vulnerability in its account signup flow that could allow an attacker to impersonate existing customer users and modify Project JavaScript. Successful exploitation can result in attacker-controlled",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-132224",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "basis": "Global (vendor HQ unknown)"
+      }
+    },
+    {
+      "id": "CVE-2026-132165",
+      "source": "KEV",
+      "title": "Drupal Core Remote Code Execution Vulnerability",
+      "vendor": "Drupal",
+      "product": "Core",
+      "date": "2026-11-24",
+      "due": "2026-11-27",
+      "severity": "EXPLOITED",
+      "summary": "Drupal Core contains a not failing securely vulnerability that could allow an unauthenticated attacker to take over an existing site or execute arbitrary code via the Drupal installer. Under specific conditions, the attacker can use install.php to attempt to reinstall Drupal on t",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-132165",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "basis": "Global (vendor HQ unknown)"
+      }
+    },
+    {
+      "id": "CVE-2026-131914",
+      "source": "KEV",
+      "title": "Idunno AntiCsrf Deserialization of Untrusted Data Vulnerability",
+      "vendor": "Idunno",
+      "product": "AntiCsrf",
+      "date": "2026-11-24",
+      "due": "2026-11-27",
+      "severity": "EXPLOITED",
+      "summary": "Idunno AntiCsrf contains a deserialization of untrusted data vulnerability that allows an unauthenticated remote attacker to execute arbitrary code via object injection. The impacted product(s) could be end-of-life (EoL) and/or end-of-service (EoS). Users are advised to discontin",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-131914",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "basis": "Global (vendor HQ unknown)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Vulnerabilities in nginx Affecting Cisco Products: November 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "HIGH",
+      "summary": "On November 18, 2026, nginx announced the availability of a fix for multiple critical vulnerabilities in nginx that could lead to remote code execution. These vulnerabilities affect nginx releases 1.9.5 through 1.31.8 and is fixed in releases 1.31.9 (mainline) and 1.30.7 (stable)",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nginx-nov-2026-e8jska2s",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Vulnerabilities in Node.js and Brotli Affecting Cisco Products: October 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "HIGH",
+      "summary": "On October 21, 2026, Node.js announced the availability of fixes for multiple vulnerabilities across the following supported release lines: 22.x, 24.x, and 26.x.&nbsp; These vulnerabilities impact critical operations such as the Brotli decoder, DNS resolution, and TLS certificate",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-oct2026-node-js-Jj3SQ19u",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Vulnerability in PHP Affecting Cisco Products: November 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "CRITICAL",
+      "summary": "On November 19, 2026, the PHP Foundation announced the availability of security fixes that address a critical vulnerability that could lead to remote code execution. This vulnerability is identified by CVE-2026-126714. For information about this vulnerability, see the advisory&nb",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-phpaftershell-nov-2026-kT9pL4Xe",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
       "id": "CISCO",
       "source": "CISCO",
       "title": "ClamAV Vulnerabilities Affecting Cisco Products: November 2026",
@@ -176,6 +287,63 @@
         ],
         "regions": [],
         "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "AV26-1204",
+      "source": "CCCS",
+      "title": "Erlang security advisory (AV26-1204)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1204 Date: November 24, 2026 As of November 24, 2026, Erlang is affected by vulnerabilities in the following product: OTP Multiple versions The Cyber Centre encourages users and administrators to review the provided web link and apply any necessary updates as ",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/erlang-security-advisory-av26-1204",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1203",
+      "source": "CCCS",
+      "title": "VMware security advisory (AV26-1203)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1203 Date: November 24, 2026 As of November 24, 2026, VMware is affected by vulnerabilities in the following products: VMware Cloud Foundation / VMware vSphere Foundation - vCenter 9.1.x.x versions prior to 9.1.2 9.0.x.x versions prior to 9.0.2.0300 VMware vCe",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/vmware-security-advisory-av26-1203",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1202",
+      "source": "CCCS",
+      "title": "Tanium security advisory (AV26-1202)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1202 Date: November 24, 2026 As of November 23, 2026, Tanium is affected by vulnerabilities in the following products: Core Content Prior to 1.11.97 Prior to 1.14.124 Prior to 1.15.171 Core Content - Enhanced Tags Prior to 2.6.90 Prior to 2.8.113 Default Conte",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/tanium-security-advisory-av26-1202",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
       }
     },
     {
@@ -255,6 +423,25 @@
       }
     },
     {
+      "id": "AV26-1186",
+      "source": "CCCS",
+      "title": "Drupal security advisory (AV26-1186) – Update 1",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-24",
+      "severity": "EXPLOITED",
+      "summary": "Serial number: AV26-1186 Date: November 19, 2026 Updated: November 24, 2026 As of November 19, 2026, Drupal is affected by vulnerabilities in the following product: Drupal core Prior to 10.6.22 Prior to 11.3.22 Prior to 11.4.13 Update 1 On November 24, 2026, Cybersecurity and Inf",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/drupal-security-advisory-av26-1186",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
       "id": "CVE-2026-134624",
       "source": "KEV",
       "title": "N-able MailAssure (SpamExperts) Server-Side Request Forgery (SSRF) Vulnerability",
@@ -314,44 +501,6 @@
     {
       "id": "CISCO",
       "source": "CISCO",
-      "title": "Vulnerability in PHP Affecting Cisco Products: November 2026",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-23",
-      "severity": "CRITICAL",
-      "summary": "On November 19, 2026, the PHP Foundation announced the availability of security fixes that address a critical vulnerability that could lead to remote code execution. This vulnerability is identified by CVE-2026-126714. For information about this vulnerability, see the advisory&nb",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-phpaftershell-nov-2026-kT9pL4Xe",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CISCO",
-      "source": "CISCO",
-      "title": "Vulnerabilities in nginx Affecting Cisco Products: November 2026",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-23",
-      "severity": "HIGH",
-      "summary": "On November 18, 2026, nginx announced the availability of a fix for multiple critical vulnerabilities in nginx that could lead to remote code execution. These vulnerabilities affect nginx releases 1.9.5 through 1.31.8 and is fixed in releases 1.31.9 (mainline) and 1.30.7 (stable)",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nginx-nov-2026-e8jska2s",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CISCO",
-      "source": "CISCO",
       "title": "Cisco Expressway Series Remote Code Execution Vulnerability",
       "vendor": "Cisco",
       "product": "",
@@ -397,82 +546,6 @@
       "severity": "ADVISORY",
       "summary": "Serial number: AV26-1196 Date: November 23, 2026 As of November 19, 2026, Splunk is affected by vulnerabilities in the following products: Splunk Enterprise Prior to 10.6.1 Prior to 10.4.5 Prior to 10.2.9 Prior to 10.0.12 Prior to 9.4.17 Splunk Enterprise Security Prior to 8.7.0 ",
       "url": "https://cyber.gc.ca/en/alerts-advisories/splunk-security-advisory-av26-1196",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1195",
-      "source": "CCCS",
-      "title": "Spring security advisory (AV26-1195)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-23",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1195 Date: November 23, 2026 As of November 23, 2026, Spring is affected by vulnerabilities in the following product: Spring AI Prior to 1.0.11 Prior to 1.1.10 Prior to 2.0.2.1 Prior to 2.0.3 The Cyber Centre encourages users and administrators to review the p",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/spring-security-advisory-av26-1195",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1194",
-      "source": "CCCS",
-      "title": "Apache security advisory (AV26-1194)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-23",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1194 Date: November 23, 2026 As of November 23, 2026, Apache Software Foundation is affected by vulnerabilities in the following product: Apache Solr Prior to 10.1.0 Prior to 9.11.0 The Cyber Centre encourages users and administrators to review the provided we",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/apache-security-advisory-av26-1194",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1193",
-      "source": "CCCS",
-      "title": "Synology security advisory (AV26-1193)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-23",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1193 Date: November 23, 2026 As of November 23, 2026, Synology is affected by a vulnerability in the following product: DiskStation Manager (DSM) Prior to 7.1.1-42962-10 Prior to 7.2.1-69057-14 Prior to 7.2.2-72806-11 Prior to 7.3.2-86009-6 Prior to 7.4.1-9008",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/synology-security-advisory-av26-1193",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1192",
-      "source": "CCCS",
-      "title": "JetBrains security advisory (AV26-1192)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-23",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1192 Date: November 23, 2026 As of November 19, 2026, JetBrains is affected by vulnerabilities in the following products: Junie Prior to 252.819.35 Prior to 253.819.35 Prior to 252.284.50 Prior to 251.284.50 Prior to 243.284.50 Junie CLI Prior to 26.11.2 Prior",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/jetbrains-security-advisory-av26-1192",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -987,25 +1060,6 @@
       }
     },
     {
-      "id": "CISCO",
-      "source": "CISCO",
-      "title": "Vulnerabilities in Node.js and Brotli Affecting Cisco Products: October 2026",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-17",
-      "severity": "HIGH",
-      "summary": "On October 21, 2026, Node.js announced the availability of fixes for multiple vulnerabilities across the following supported release lines: 22.x, 24.x, and 26.x.&nbsp; These vulnerabilities impact critical operations such as the Brotli decoder, DNS resolution, and TLS certificate",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-oct2026-node-js-Jj3SQ19u",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
       "id": "CVE-2026-96150",
       "source": "MSRC",
       "title": "Microsoft Windows Codecs Library Information Disclosure Vulnerability",
@@ -1197,24 +1251,6 @@
       }
     },
     {
-      "id": "CVE-2026-114713",
-      "source": "KEV",
-      "title": "UnrealIRCd Improper Neutralization of Delimiters Vulnerability",
-      "vendor": "UnrealIRCd",
-      "product": "UnrealIRCd",
-      "date": "2026-11-13",
-      "due": "2026-11-16",
-      "severity": "EXPLOITED",
-      "summary": "UnrealIRCd UnrealIRCd contains an improper neutralization of delimiters vulnerability that allows any user on a network with two or more linked servers to inject server-to-server commands that are executed with server authority.",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-114713",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "basis": "Global (vendor HQ unknown)"
-      }
-    },
-    {
       "id": "CISCO",
       "source": "CISCO",
       "title": "Cisco BroadWorks Out-of-Band Blind XML External Entity Injection Vulnerability",
@@ -1250,46 +1286,6 @@
         ],
         "regions": [],
         "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "CVE-2026-20320",
-      "source": "KEV",
-      "title": "Cisco BroadWorks Improper Restriction of XML External Entity Reference Vulnerability",
-      "vendor": "Cisco",
-      "product": "BroadWorks",
-      "date": "2026-11-10",
-      "due": "2026-11-24",
-      "severity": "EXPLOITED",
-      "summary": "Cisco BroadWorks contains an improper restriction of XML external entity reference vulnerability that could allow an unauthenticated, remote attacker to read sensitive configuration information on an affected system.",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-20320",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ"
-      }
-    },
-    {
-      "id": "CVE-2026-125350",
-      "source": "KEV",
-      "title": "Google Chromium Use-After-Free Vulnerability",
-      "vendor": "Google",
-      "product": "Chromium",
-      "date": "2026-11-10",
-      "due": "2026-11-24",
-      "severity": "EXPLOITED",
-      "summary": "Google Chromium contains a use-after-free vulnerability in the XML component that could allow a remote attacker to execute arbitrary code inside the sandbox via a specially crafted webpage. This vulnerability could affect multiple web browsers that utilize Chromium, including, bu",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-125350",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ"
       }
     },
     {
