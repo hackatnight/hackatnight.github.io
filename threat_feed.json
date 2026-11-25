@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-25T01:14:19Z",
+  "updated": "2026-11-25T10:03:29Z",
   "sources": [
     {
       "id": "KEV",
@@ -55,13 +55,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Introducing CORNERSTONE: delivering external services for the NCSC",
+      "title": "Familiar weaknesses, exploited faster: defending against agentic cyber attacks",
       "vendor": "",
       "product": "",
       "date": "2026-11-24",
       "severity": "BLOG",
-      "summary": "The NCSC is seeking industry feedback on a new delivery model for modernising external cyber security services.",
-      "url": "https://www.ncsc.gov.uk/blogs/introducing-cornerstone-delivering-external-services-for-the-ncsc",
+      "summary": "How to protect your organisation from cyber attacks created using ‘agentic offensive frameworks’.",
+      "url": "https://www.ncsc.gov.uk/blogs/familiar-weaknesses-exploited-faster-defending-against-agentic-cyber-attacks",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -74,13 +74,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Familiar weaknesses, exploited faster: defending against agentic cyber attacks",
+      "title": "Introducing CORNERSTONE: delivering external services for the NCSC",
       "vendor": "",
       "product": "",
       "date": "2026-11-24",
       "severity": "BLOG",
-      "summary": "How to protect your organisation from cyber attacks created using ‘agentic offensive frameworks’.",
-      "url": "https://www.ncsc.gov.uk/blogs/familiar-weaknesses-exploited-faster-defending-against-agentic-cyber-attacks",
+      "summary": "The NCSC is seeking industry feedback on a new delivery model for modernising external cyber security services.",
+      "url": "https://www.ncsc.gov.uk/blogs/introducing-cornerstone-delivering-external-services-for-the-ncsc",
       "geo": {
         "worldwide": false,
         "countries": [
