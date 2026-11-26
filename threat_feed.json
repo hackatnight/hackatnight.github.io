@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-25T20:01:41Z",
+  "updated": "2026-11-26T02:58:24Z",
   "sources": [
     {
       "id": "KEV",
@@ -55,6 +55,234 @@
     {
       "id": "CISCO",
       "source": "CISCO",
+      "title": "Vulnerabilities in nginx Affecting Cisco Products: November 2026",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-26",
+      "severity": "HIGH",
+      "summary": "On November 18, 2026, nginx announced the availability of a fix for multiple critical vulnerabilities in nginx that could lead to remote code execution. These vulnerabilities affect nginx releases 1.9.5 through 1.31.8 and is fixed in releases 1.31.9 (mainline) and 1.30.7 (stable)",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nginx-nov-2026-e8jska2s",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CVE-2026-133469",
+      "source": "KEV",
+      "title": "Vates Xen Orchestra Improper Validation of Specified Type of Input Vulnerability",
+      "vendor": "Vates",
+      "product": "Xen Orchestra",
+      "date": "2026-11-25",
+      "due": "2026-11-28",
+      "severity": "EXPLOITED",
+      "summary": "Vates Xen Orchestra contains an improper validation of specified type of input vulnerability that could allow an unauthenticated attacker to bypass authentication and perform actions with administrative privileges via a specially crafted authentication token containing an empty J",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133469",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "basis": "Global (vendor HQ unknown)"
+      }
+    },
+    {
+      "id": "CVE-2026-133324",
+      "source": "KEV",
+      "title": "Mitel MiCollab Not Failing Securely Vulnerability",
+      "vendor": "Mitel",
+      "product": "MiCollab",
+      "date": "2026-11-25",
+      "due": "2026-11-28",
+      "severity": "EXPLOITED",
+      "summary": "Mitel MiCollab contains a not failing securely vulnerability in the Audio, Web and Video Conferencing (AWV) component that could allow an unauthenticated attacker to bypass authentication controls and perform unauthorized actions.",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133324",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ"
+      }
+    },
+    {
+      "id": "CVE-2026-133323",
+      "source": "KEV",
+      "title": "Mitel MiCollab OS Command Injection Vulnerability",
+      "vendor": "Mitel",
+      "product": "MiCollab",
+      "date": "2026-11-25",
+      "due": "2026-11-28",
+      "severity": "EXPLOITED",
+      "summary": "Mitel MiCollab contains an improper neutralization of special elements used in an OS command (OS command injection) vulnerability in its Audio, Web, and Video Conferencing (AWV) component that could allow an unauthenticated attacker to execute arbitrary system commands.",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133323",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ"
+      }
+    },
+    {
+      "id": "CVE-2026-133311",
+      "source": "KEV",
+      "title": "Mitel MiCollab Weak Authentication Vulnerability",
+      "vendor": "Mitel",
+      "product": "MiCollab",
+      "date": "2026-11-25",
+      "due": "2026-12-09",
+      "severity": "EXPLOITED",
+      "summary": "Mitel MiCollab contains a weak authentication vulnerability in the Audio, Web and Video Conferencing (AWV) component that could allow an unauthenticated attacker to access sensitive information using a specific system-generated random identifier or pre-staged content.",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133311",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ"
+      }
+    },
+    {
+      "id": "CVE-2026-133303",
+      "source": "KEV",
+      "title": "Mitel MiCollab XML Injection Vulnerability",
+      "vendor": "Mitel",
+      "product": "MiCollab",
+      "date": "2026-11-25",
+      "due": "2026-11-28",
+      "severity": "EXPLOITED",
+      "summary": "Mitel MiCollab contains an XML injection vulnerability in its Audio, Web, and Video Conferencing (AWV) component that could allow an unauthenticated attacker to execute arbitrary commands using pre-staged malicious content.",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133303",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ"
+      }
+    },
+    {
+      "id": "CVE-2026-133275",
+      "source": "KEV",
+      "title": "Mitel MiCollab Unrestricted Upload of File with Dangerous Type Vulnerability",
+      "vendor": "Mitel",
+      "product": "MiCollab",
+      "date": "2026-11-25",
+      "due": "2026-11-28",
+      "severity": "EXPLOITED",
+      "summary": "Mitel MiCollab contains an unrestricted upload of file with dangerous type vulnerability in the Audio, Web and Video Conferencing (AWV) component due to insufficient file type validation that could allow an unauthenticated attacker to upload arbitrary files.",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133275",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ"
+      }
+    },
+    {
+      "id": "CVE-2026-103406",
+      "source": "KEV",
+      "title": "Hewlett Packard Enterprise (HPE) Juniper Session Smart Conductor and Session Smart Router OS Command Injection Vulnerability",
+      "vendor": "Hewlett Packard Enterprise (HPE)",
+      "product": "Juniper Session Smart Conductor and Session Smart Router",
+      "date": "2026-11-25",
+      "due": "2026-11-28",
+      "severity": "EXPLOITED",
+      "summary": "Hewlett Packard Enterprise (HPE) Juniper Session Smart Conductor and Session Smart Router contain an OS command injection vulnerability that could allow a remote attacker to execute arbitrary commands as root via a specially crafted salt minion ID.",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-103406",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "basis": "Global (vendor HQ unknown)"
+      }
+    },
+    {
+      "id": "CVE-2025-41450",
+      "source": "KEV",
+      "title": "Danfoss AK-SM 800A Series Improper Authentication Vulnerability",
+      "vendor": "Danfoss",
+      "product": "AK-SM 800A Series",
+      "date": "2026-11-25",
+      "due": "2026-12-09",
+      "severity": "EXPLOITED",
+      "summary": "Danfoss AK-SM 800A Series contains an improper authentication vulnerability that could allow an attacker to generate a web report exposing sensitive information, including internal IP addresses, usernames, and store names.",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-41450",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "basis": "Global (vendor HQ unknown)"
+      }
+    },
+    {
+      "id": "CVE-2023-25915",
+      "source": "KEV",
+      "title": "Danfoss AK-SM 800A Series Improper Input Validation Vulnerability",
+      "vendor": "Danfoss",
+      "product": "AK-SM 800A Series",
+      "date": "2026-11-25",
+      "due": "2026-11-28",
+      "severity": "EXPLOITED",
+      "summary": "Danfoss AK-SM 800A Series contains an improper input validation vulnerability that could allow a remote attacker to run arbitrary commands on the affected system.",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25915",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "basis": "Global (vendor HQ unknown)"
+      }
+    },
+    {
+      "id": "CVE-2023-25914",
+      "source": "KEV",
+      "title": "Danfoss AK-SM 800A Series Path Traversal Vulnerability",
+      "vendor": "Danfoss",
+      "product": "AK-SM 800A Series",
+      "date": "2026-11-25",
+      "due": "2026-11-28",
+      "severity": "EXPLOITED",
+      "summary": "Danfoss AK-SM 800A Series contains a path traversal vulnerability that could allow an attacker to access and read underlying server system files via the XML interface.",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2023-25914",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "basis": "Global (vendor HQ unknown)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
+      "title": "Cisco Informational for Emergency Distrust of eMudhra Root and Intermediate Certificate Authorities",
+      "vendor": "Cisco",
+      "product": "",
+      "date": "2026-11-25",
+      "severity": "INFO",
+      "summary": "Between October 17 and October 20, 2026, a critical security compromise involving Certificate Authorities that are managed by&nbsp; eMudhra was uncovered. A security researcher demonstrated that the private keys for eight eMudhra intermediate certificates were fundamentally broke",
+      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-emudhra-info-ScS22A1r",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CISCO",
+      "source": "CISCO",
       "title": "Cisco UCS and UCS-Based Appliances UEFI Shell Secure Boot Bypass Vulnerability",
       "vendor": "Cisco",
       "product": "",
@@ -69,6 +297,25 @@
         ],
         "regions": [],
         "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "AV26-1210",
+      "source": "CCCS",
+      "title": "GitLab security advisory (AV26-1210)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-25",
+      "severity": "ADVISORY",
+      "summary": "Serial number: AV26-1210 Date: November 25, 2026 As of November 25, 2026, GitLab is affected by vulnerabilities in the following product: GitLab Community Edition (CE) and Enterprise Edition (EE) Prior to 19.6.2 Prior to 19.5.9 Prior to 19.4.11 Prior to 19.3.10 Prior to 19.2.11 P",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/gitlab-security-advisory-av26-1210",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
       }
     },
     {
@@ -157,6 +404,25 @@
       "severity": "ADVISORY",
       "summary": "Serial number: AV26-1205 Date: November 25, 2026 As of November 24, 2026, Adobe is affected by vulnerabilities in the following products: Adobe Experience Manager (AEM) Cloud Service (CS) Prior to or equal to 2026.11.29643 Adobe Experience Manager (AEM) 6.5 Prior to or equal to S",
       "url": "https://cyber.gc.ca/en/alerts-advisories/adobe-security-advisory-av26-1205",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
+      }
+    },
+    {
+      "id": "AV26-1184",
+      "source": "CCCS",
+      "title": "Mitel security advisory (AV26-1184) – Update 1",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-25",
+      "severity": "EXPLOITED",
+      "summary": "Serial number: AV26-1184 Date: November 19, 2026 Updated: November 25, 2026 As of November 19, 2026, Mitel is affected by vulnerabilities in the following product: MiCollab Prior to or equal to 10.3 (10.3.0.18) Update 1 On November 25, 2026, Cybersecurity and Infrastructure Secur",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/mitel-security-advisory-av26-1184",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -349,25 +615,6 @@
     {
       "id": "CISCO",
       "source": "CISCO",
-      "title": "Vulnerabilities in nginx Affecting Cisco Products: November 2026",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-24",
-      "severity": "HIGH",
-      "summary": "On November 18, 2026, nginx announced the availability of a fix for multiple critical vulnerabilities in nginx that could lead to remote code execution. These vulnerabilities affect nginx releases 1.9.5 through 1.31.8 and is fixed in releases 1.31.9 (mainline) and 1.30.7 (stable)",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-nginx-nov-2026-e8jska2s",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CISCO",
-      "source": "CISCO",
       "title": "Vulnerabilities in Node.js and Brotli Affecting Cisco Products: October 2026",
       "vendor": "Cisco",
       "product": "",
@@ -432,44 +679,6 @@
       "severity": "ADVISORY",
       "summary": "Serial number: AV26-1204 Date: November 24, 2026 As of November 24, 2026, Erlang is affected by vulnerabilities in the following product: OTP Multiple versions The Cyber Centre encourages users and administrators to review the provided web link and apply any necessary updates as ",
       "url": "https://cyber.gc.ca/en/alerts-advisories/erlang-security-advisory-av26-1204",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1203",
-      "source": "CCCS",
-      "title": "VMware security advisory (AV26-1203)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-24",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1203 Date: November 24, 2026 As of November 24, 2026, VMware is affected by vulnerabilities in the following products: VMware Cloud Foundation / VMware vSphere Foundation - vCenter 9.1.x.x versions prior to 9.1.2 9.0.x.x versions prior to 9.0.2.0300 VMware vCe",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/vmware-security-advisory-av26-1203",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1202",
-      "source": "CCCS",
-      "title": "Tanium security advisory (AV26-1202)",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-24",
-      "severity": "ADVISORY",
-      "summary": "Serial number: AV26-1202 Date: November 24, 2026 As of November 23, 2026, Tanium is affected by vulnerabilities in the following products: Core Content Prior to 1.11.97 Prior to 1.14.124 Prior to 1.15.171 Core Content - Enhanced Tags Prior to 2.6.90 Prior to 2.8.113 Default Conte",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/tanium-security-advisory-av26-1202",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -565,103 +774,6 @@
       "severity": "CRITICAL",
       "summary": "A vulnerability in the database service feature of Cisco Expressway Series could allow an unauthenticated, remote attacker with network access to a Cisco Expressway device to execute arbitrary operating system commands as&nbsp; root . This vulnerability is due to the use of persi",
       "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-vcs-static-cred-hr7EWZ8t",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CVE-2026-76466",
-      "source": "KEV",
-      "title": "Cisco Expressway Series Use of Hard-coded Credentials Vulnerability",
-      "vendor": "Cisco",
-      "product": "Expressway Series",
-      "date": "2026-11-20",
-      "due": "2026-11-23",
-      "severity": "EXPLOITED",
-      "summary": "Cisco Expressway Series contains a use of hard-coded credentials vulnerability that allows an unauthenticated, remote attacker with persistent cookies and network access to execute commands as root on a clustered device via the database service.",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-76466",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ"
-      }
-    },
-    {
-      "id": "CVE-2026-129448",
-      "source": "KEV",
-      "title": "Apache Roller Deserialization of Untrusted Data Vulnerability",
-      "vendor": "Apache",
-      "product": "Roller",
-      "date": "2026-11-20",
-      "due": "2026-11-23",
-      "severity": "EXPLOITED",
-      "summary": "Apache Roller contains a deserialization of untrusted data vulnerability that allows an unauthenticated remote attacker to execute arbitrary code via the XML-RPC endpoint, which accepts and deserializes vendor extension types before authentication. This CVE covers the same underl",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-129448",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "basis": "Global (vendor HQ unknown)"
-      }
-    },
-    {
-      "id": "CVE-2026-123890",
-      "source": "KEV",
-      "title": "VMWare vCenter Authentication Bypass Using an Alternate Path or Channel Vulnerability",
-      "vendor": "Broadcom",
-      "product": "VMware vCenter",
-      "date": "2026-11-20",
-      "due": "2026-11-23",
-      "severity": "EXPLOITED",
-      "summary": "Broadcom VMware vCenter contains an authentication bypass using an alternate path or channel vulnerability in the VMware Directory Service that allows an unauthenticated attacker with network access to vCenter to bypass authentication and gain unauthorized access to the system.",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123890",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ"
-      }
-    },
-    {
-      "id": "CVE-2025-42884",
-      "source": "KEV",
-      "title": "SAP NetWeaver Improper Neutralization of Special Elements in Data Query Logic Vulnerability",
-      "vendor": "SAP",
-      "product": "NetWeaver",
-      "date": "2026-11-20",
-      "due": "2026-11-23",
-      "severity": "EXPLOITED",
-      "summary": "SAP NetWeaver Enterprise Portal contains an improper neutralization of special elements in data query logic vulnerability that allows an unauthenticated attacker to disclose or modify server information via injected JNDI environment properties or a URL used during JNDI lookup ope",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2025-42884",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "DE"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ"
-      }
-    },
-    {
-      "id": "CISCO",
-      "source": "CISCO",
-      "title": "Cisco Informational for Emergency Distrust of eMudhra Root and Intermediate Certificate Authorities",
-      "vendor": "Cisco",
-      "product": "",
-      "date": "2026-11-20",
-      "severity": "INFO",
-      "summary": "Between October 17 and October 20, 2026, a critical security compromise involving Certificate Authorities that are managed by&nbsp; eMudhra was uncovered. A security researcher demonstrated that the private keys for eight eMudhra intermediate certificates were fundamentally broke",
-      "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-emudhra-info-ScS22A1r",
       "geo": {
         "worldwide": true,
         "countries": [
@@ -970,78 +1082,6 @@
       }
     },
     {
-      "id": "CVE-2026-90817",
-      "source": "KEV",
-      "title": "Vanderbilt University Research Electronic Data Capture (REDCap) Code Injection Vulnerability",
-      "vendor": "Vanderbilt University",
-      "product": "Research Electronic Data Capture (REDCap)",
-      "date": "2026-11-18",
-      "due": "2026-11-21",
-      "severity": "EXPLOITED",
-      "summary": "Vanderbilt University Research Electronic Data Capture (REDCap) contains a code injection vulnerability which could allow an unauthenticated attacker to execute arbitrary code on the server. An attacker could exploit this via crafted HTTP requests that access an unintended contro",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90817",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "basis": "Global (vendor HQ unknown)"
-      }
-    },
-    {
-      "id": "CVE-2026-90436",
-      "source": "KEV",
-      "title": "Apache Axis Unsafe Reflection Vulnerability",
-      "vendor": "Apache",
-      "product": "Axis",
-      "date": "2026-11-18",
-      "due": "2026-11-21",
-      "severity": "EXPLOITED",
-      "summary": "Apache Axis contains an unsafe reflection vulnerability that could allow an unauthenticated remote attacker to execute arbitrary code via a crafted SOAP fault message that causes Axis to load and instantiate an attacker-specified class when a suitable class is available on the ap",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-90436",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "basis": "Global (vendor HQ unknown)"
-      }
-    },
-    {
-      "id": "CVE-2026-40217",
-      "source": "KEV",
-      "title": "BerriAI LiteLLM Unprotected Alternate Channel Vulnerability",
-      "vendor": "BerriAI",
-      "product": "LiteLLM",
-      "date": "2026-11-18",
-      "due": "2026-12-02",
-      "severity": "EXPLOITED",
-      "summary": "BerriAI LiteLLM contains an unprotected alternate channel vulnerability that could allow remote attackers to execute arbitrary code via bytecode rewriting at the /guardrails/test_custom_code URI.",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-40217",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "basis": "Global (vendor HQ unknown)"
-      }
-    },
-    {
-      "id": "CVE-2024-10441",
-      "source": "KEV",
-      "title": "Synology DiskStation Manager (DSM) Improper Encoding or Escaping of Output Vulnerability",
-      "vendor": "Synology",
-      "product": "DiskStation Manager (DSM)",
-      "date": "2026-11-18",
-      "due": "2026-11-21",
-      "severity": "RANSOMWARE",
-      "summary": "Synology DSM contains an improper encoding or escaping of output vulnerability in the system plugin daemon in Synology BeeStation OS (BSM) that could allow a remote attacker to execute arbitrary code via unspecified vectors.",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-10441",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "basis": "Global (vendor HQ unknown)"
-      }
-    },
-    {
       "id": "NCSC",
       "source": "NCSC",
       "title": "Why threat hunting should matter to every board",
@@ -1058,24 +1098,6 @@
         ],
         "regions": [],
         "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "CVE-2026-115731",
-      "source": "KEV",
-      "title": "Perforce Puppet Enterprise Deserialization of Untrusted Data Vulnerability",
-      "vendor": "Perforce",
-      "product": "Puppet Enterprise",
-      "date": "2026-11-17",
-      "due": "2026-12-01",
-      "severity": "EXPLOITED",
-      "summary": "Perforce Puppet Enterprise contains a deserialization of untrusted data vulnerability in Puppet’s report-processing code that allows a client with any CA-signed agent certificate to execute arbitrary code on the Puppet Server as the service user by submitting a report containing ",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-115731",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "basis": "Global (vendor HQ unknown)"
       }
     },
     {
@@ -1247,26 +1269,6 @@
         ],
         "regions": [],
         "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CVE-2026-123039",
-      "source": "KEV",
-      "title": "Check Point Multiple Products Incorrect Permission Assignment for Critical Resource Vulnerability",
-      "vendor": "Check Point",
-      "product": "Multiple Products",
-      "date": "2026-11-13",
-      "due": "2026-11-16",
-      "severity": "EXPLOITED",
-      "summary": "Check Point Firewall, Multi-Domain Security Management Server, Scalable Platforms, Security Gateway, and Security Management Server contain an incorrect permissions assignment for critical resources vulnerability when the Gaia OS DynamicCLI daemon runs as root and listens on a wo",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-123039",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "IL"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ"
       }
     },
     {
