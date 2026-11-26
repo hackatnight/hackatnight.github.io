@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-26T11:57:21Z",
+  "updated": "2026-11-26T20:56:36Z",
   "sources": [
     {
       "id": "KEV",
@@ -69,6 +69,25 @@
         ],
         "regions": [],
         "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "AV26-1211",
+      "source": "CCCS",
+      "title": "PostgreSQL security advisory (AV26-1211)",
+      "vendor": "",
+      "product": "",
+      "date": "2026-11-26",
+      "severity": "ADVISORY",
+      "summary": "Serial Number: AV26-1211 Date: November 26, 2026 As of November 25, 2026, PostgreSQL is affected by vulnerabilities in the following product: psqlODBC Prior to or equal to 18.00.0006 The Cyber Centre encourages users and administrators to review the provided web links and apply a",
+      "url": "https://cyber.gc.ca/en/alerts-advisories/postgresql-security-advisory-av26-1211",
+      "geo": {
+        "worldwide": false,
+        "countries": [
+          "CA"
+        ],
+        "regions": [],
+        "basis": "Issuing agency's advisory area"
       }
     },
     {
@@ -679,25 +698,6 @@
       "severity": "ADVISORY",
       "summary": "Serial number: AV26-1204 Date: November 24, 2026 As of November 24, 2026, Erlang is affected by vulnerabilities in the following product: OTP Multiple versions The Cyber Centre encourages users and administrators to review the provided web link and apply any necessary updates as ",
       "url": "https://cyber.gc.ca/en/alerts-advisories/erlang-security-advisory-av26-1204",
-      "geo": {
-        "worldwide": false,
-        "countries": [
-          "CA"
-        ],
-        "regions": [],
-        "basis": "Issuing agency's advisory area"
-      }
-    },
-    {
-      "id": "AV26-1186",
-      "source": "CCCS",
-      "title": "Drupal security advisory (AV26-1186) – Update 1",
-      "vendor": "",
-      "product": "",
-      "date": "2026-11-24",
-      "severity": "EXPLOITED",
-      "summary": "Serial number: AV26-1186 Date: November 19, 2026 Updated: November 24, 2026 As of November 19, 2026, Drupal is affected by vulnerabilities in the following product: Drupal core Prior to 10.6.22 Prior to 11.3.22 Prior to 11.4.13 Update 1 On November 24, 2026, Cybersecurity and Inf",
-      "url": "https://cyber.gc.ca/en/alerts-advisories/drupal-security-advisory-av26-1186",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1426,13 +1426,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Post-quantum updates to our TLS guidance",
+      "title": "Using TLS to protect data",
       "vendor": "",
       "product": "",
       "date": "2026-10-15",
-      "severity": "BLOG",
-      "summary": "The NCSC publishes its recommendations for configuring post-quantum cryptography in TLS. Now is time to migrate.",
-      "url": "https://www.ncsc.gov.uk/blogs/post-quantum-updates-to-our-tls-guidance",
+      "severity": "GUIDANCE",
+      "summary": "Recommended profiles to securely configure TLS for the most common versions and scenarios, with additional guidance for managing older versions.",
+      "url": "https://www.ncsc.gov.uk/guidance/using-tls-to-protect-data",
       "geo": {
         "worldwide": false,
         "countries": [

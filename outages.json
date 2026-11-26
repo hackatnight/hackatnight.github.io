@@ -1,13 +1,13 @@
 {
-  "lastUpdated": "2026-11-26 11:56:47 UTC",
-  "summary": "21/24 NODES NOMINAL",
+  "lastUpdated": "2026-11-26 20:53:38 UTC",
+  "summary": "22/24 NODES NOMINAL",
   "services": [
     {
       "id": "NODE-FRNT",
       "name": "📡 Frontier Fiber (FL ISP)",
       "url": "https://frontier.com/helpcenter/categories/internet/troubleshooting/service-status",
       "http_status": 200,
-      "latency_ms": 822,
+      "latency_ms": 977,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -15,14 +15,9 @@
           "source": "Cloudflare Radar",
           "state": "ONLINE",
           "detail": "No network disruptions (Cloudflare Radar)"
-        },
-        {
-          "source": "IODA (Georgia Tech)",
-          "state": "ONLINE",
-          "detail": "no alerts in last 3 h"
         }
       ],
-      "agree": "2/2 agree",
+      "agree": "1 source",
       "type": "radar:5650",
       "geo": {
         "host": "frontier.com",
@@ -44,7 +39,7 @@
       "name": "📡 Comcast / Xfinity (FL ISP)",
       "url": "https://www.xfinity.com/support/status",
       "http_status": 200,
-      "latency_ms": 817,
+      "latency_ms": 841,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -52,14 +47,9 @@
           "source": "Cloudflare Radar",
           "state": "ONLINE",
           "detail": "No network disruptions (Cloudflare Radar)"
-        },
-        {
-          "source": "IODA (Georgia Tech)",
-          "state": "ONLINE",
-          "detail": "no alerts in last 3 h"
         }
       ],
-      "agree": "2/2 agree",
+      "agree": "1 source",
       "type": "radar:7922",
       "geo": {
         "host": "www.xfinity.com",
@@ -81,7 +71,7 @@
       "name": "📡 Spectrum / Charter (FL ISP)",
       "url": "https://www.spectrum.net/support/internet/outage",
       "http_status": 200,
-      "latency_ms": 1852,
+      "latency_ms": 1628,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -89,14 +79,9 @@
           "source": "Cloudflare Radar",
           "state": "ONLINE",
           "detail": "No network disruptions (Cloudflare Radar)"
-        },
-        {
-          "source": "IODA (Georgia Tech)",
-          "state": "ONLINE",
-          "detail": "no alerts in last 3 h"
         }
       ],
-      "agree": "2/2 agree",
+      "agree": "1 source",
       "type": "radar:20115,33363",
       "geo": {
         "host": "www.spectrum.net",
@@ -118,7 +103,7 @@
       "name": "📡 AT&T Fiber (FL ISP)",
       "url": "https://www.att.com/outages/",
       "http_status": 200,
-      "latency_ms": 837,
+      "latency_ms": 751,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -126,14 +111,9 @@
           "source": "Cloudflare Radar",
           "state": "ONLINE",
           "detail": "No network disruptions (Cloudflare Radar)"
-        },
-        {
-          "source": "IODA (Georgia Tech)",
-          "state": "ONLINE",
-          "detail": "no alerts in last 3 h"
         }
       ],
-      "agree": "2/2 agree",
+      "agree": "1 source",
       "type": "radar:7018",
       "geo": {
         "host": "www.att.com",
@@ -155,7 +135,7 @@
       "name": "📶 T-Mobile 5G Home ISP",
       "url": "https://www.t-mobile.com/support/coverage",
       "http_status": 200,
-      "latency_ms": 945,
+      "latency_ms": 2271,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -163,14 +143,9 @@
           "source": "Cloudflare Radar",
           "state": "ONLINE",
           "detail": "No network disruptions (Cloudflare Radar)"
-        },
-        {
-          "source": "IODA (Georgia Tech)",
-          "state": "ONLINE",
-          "detail": "no alerts in last 3 h"
         }
       ],
-      "agree": "2/2 agree",
+      "agree": "1 source",
       "type": "radar:21928",
       "geo": {
         "host": "www.t-mobile.com",
@@ -192,7 +167,7 @@
       "name": "📡 Verizon 5G / Fios ISP",
       "url": "https://www.verizon.com/support/check-network-status/",
       "http_status": 200,
-      "latency_ms": 1561,
+      "latency_ms": 2874,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -200,14 +175,9 @@
           "source": "Cloudflare Radar",
           "state": "ONLINE",
           "detail": "No network disruptions (Cloudflare Radar)"
-        },
-        {
-          "source": "IODA (Georgia Tech)",
-          "state": "ONLINE",
-          "detail": "no alerts in last 3 h"
         }
       ],
-      "agree": "2/2 agree",
+      "agree": "1 source",
       "type": "radar:701,6167",
       "geo": {
         "host": "www.verizon.com",
@@ -229,7 +199,7 @@
       "name": "📡 CenturyLink / Quantum (FL)",
       "url": "https://www.quantumfiber.com",
       "http_status": 200,
-      "latency_ms": 828,
+      "latency_ms": 768,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -237,14 +207,9 @@
           "source": "Cloudflare Radar",
           "state": "ONLINE",
           "detail": "No network disruptions (Cloudflare Radar)"
-        },
-        {
-          "source": "IODA (Georgia Tech)",
-          "state": "ONLINE",
-          "detail": "no alerts in last 3 h"
         }
       ],
-      "agree": "2/2 agree",
+      "agree": "1 source",
       "type": "radar:209",
       "geo": {
         "host": "www.quantumfiber.com",
@@ -266,7 +231,7 @@
       "name": "📡 Hotwire Fision (FL Fiber)",
       "url": "https://gethotwired.com",
       "http_status": 200,
-      "latency_ms": 807,
+      "latency_ms": 806,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -274,14 +239,9 @@
           "source": "Cloudflare Radar",
           "state": "ONLINE",
           "detail": "No network disruptions (Cloudflare Radar)"
-        },
-        {
-          "source": "IODA (Georgia Tech)",
-          "state": "ONLINE",
-          "detail": "no alerts in last 3 h"
         }
       ],
-      "agree": "2/2 agree",
+      "agree": "1 source",
       "type": "radar:23089",
       "geo": {
         "host": "gethotwired.com",
@@ -303,7 +263,7 @@
       "name": "🛰️ Starlink Satellite ISP",
       "url": "https://www.starlink.com",
       "http_status": 200,
-      "latency_ms": 1165,
+      "latency_ms": 902,
       "state": "ONLINE",
       "detail": "No network disruptions (Cloudflare Radar)",
       "sources": [
@@ -311,14 +271,9 @@
           "source": "Cloudflare Radar",
           "state": "ONLINE",
           "detail": "No network disruptions (Cloudflare Radar)"
-        },
-        {
-          "source": "IODA (Georgia Tech)",
-          "state": "ONLINE",
-          "detail": "no alerts in last 3 h"
         }
       ],
-      "agree": "2/2 agree",
+      "agree": "1 source",
       "type": "radar:14593",
       "geo": {
         "host": "www.starlink.com",
@@ -340,7 +295,7 @@
       "name": "🟦 Microsoft Azure",
       "url": "https://azure.status.microsoft/en-us/status",
       "http_status": 200,
-      "latency_ms": 126,
+      "latency_ms": 26,
       "state": "ONLINE",
       "detail": "No active Azure incidents",
       "sources": [
@@ -352,7 +307,7 @@
         {
           "source": "Azure management API",
           "state": "ONLINE",
-          "detail": "HTTP 400 in 78 ms"
+          "detail": "HTTP 400 in 23 ms"
         }
       ],
       "agree": "2/2 agree",
@@ -377,7 +332,7 @@
       "name": "📧 Microsoft Outlook",
       "url": "https://portal.office.com/servicestatus",
       "http_status": 200,
-      "latency_ms": 276,
+      "latency_ms": 368,
       "state": "ONLINE",
       "detail": "Page reachable (HTTP 200) // no status feed",
       "sources": [
@@ -389,7 +344,7 @@
         {
           "source": "Microsoft sign-in",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 71 ms"
+          "detail": "HTTP 200 in 42 ms"
         }
       ],
       "agree": "2/2 agree",
@@ -414,7 +369,7 @@
       "name": "🔄 MS Exchange Online",
       "url": "https://outlook.office365.com/owa/healthcheck.htm",
       "http_status": 417,
-      "latency_ms": 124,
+      "latency_ms": 103,
       "state": "ONLINE",
       "detail": "Microsoft sign-in reachable // Blocked by site (HTTP 417) // can't verify",
       "sources": [
@@ -426,7 +381,7 @@
         {
           "source": "Microsoft sign-in",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 44 ms"
+          "detail": "HTTP 200 in 28 ms"
         }
       ],
       "agree": "1/2 (primary blocked)",
@@ -451,7 +406,7 @@
       "name": "🌐 Google Workspace",
       "url": "https://www.google.com/appsstatus/dashboard/incidents.json",
       "http_status": 200,
-      "latency_ms": 56,
+      "latency_ms": 99,
       "state": "ONLINE",
       "detail": "No active Google Workspace incidents",
       "sources": [
@@ -463,7 +418,7 @@
         {
           "source": "Gmail",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 369 ms"
+          "detail": "HTTP 200 in 399 ms"
         }
       ],
       "agree": "2/2 agree",
@@ -488,7 +443,7 @@
       "name": "🟧 Amazon Web Services",
       "url": "https://health.aws.amazon.com/health/status",
       "http_status": 200,
-      "latency_ms": 337,
+      "latency_ms": 294,
       "state": "DEGRADED",
       "detail": "2 event(s): Multiple services UAE - Region Availability",
       "sources": [
@@ -500,7 +455,7 @@
         {
           "source": "AWS S3 endpoint",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 364 ms"
+          "detail": "HTTP 200 in 342 ms"
         }
       ],
       "agree": "official incident // service reachable",
@@ -525,7 +480,7 @@
       "name": "☁️ Cloudflare Edge",
       "url": "https://www.cloudflarestatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 127,
+      "latency_ms": 162,
       "state": "DEGRADED",
       "detail": "Partially Degraded Service",
       "sources": [
@@ -537,7 +492,7 @@
         {
           "source": "Cloudflare edge",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 58 ms"
+          "detail": "HTTP 200 in 38 ms"
         }
       ],
       "agree": "official incident // service reachable",
@@ -562,7 +517,7 @@
       "name": "📘 Facebook / Meta",
       "url": "https://metastatus.com/data/orgs.json",
       "http_status": 200,
-      "latency_ms": 75,
+      "latency_ms": 140,
       "state": "ONLINE",
       "detail": "No known issues across Meta products",
       "sources": [
@@ -574,7 +529,7 @@
         {
           "source": "Meta Graph API",
           "state": "ONLINE",
-          "detail": "HTTP 400 in 140 ms"
+          "detail": "HTTP 400 in 57 ms"
         }
       ],
       "agree": "2/2 agree",
@@ -599,22 +554,22 @@
       "name": "🧠 OpenAI API",
       "url": "https://status.openai.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 273,
-      "state": "DEGRADED",
-      "detail": "Partial System Degradation",
+      "latency_ms": 208,
+      "state": "ONLINE",
+      "detail": "All Systems Operational",
       "sources": [
         {
           "source": "Official status page",
-          "state": "DEGRADED",
-          "detail": "Partial System Degradation"
+          "state": "ONLINE",
+          "detail": "All Systems Operational"
         },
         {
           "source": "OpenAI API",
           "state": "ONLINE",
-          "detail": "HTTP 401 in 130 ms"
+          "detail": "HTTP 401 in 106 ms"
         }
       ],
-      "agree": "official incident // service reachable",
+      "agree": "2/2 agree",
       "type": "statuspage",
       "geo": {
         "host": "status.openai.com",
@@ -636,7 +591,7 @@
       "name": "💼 Slack",
       "url": "https://status.slack.com/api/v2.0.0/current",
       "http_status": 200,
-      "latency_ms": 287,
+      "latency_ms": 344,
       "state": "ONLINE",
       "detail": "All Systems Operational",
       "sources": [
@@ -648,7 +603,7 @@
         {
           "source": "Slack API",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 177 ms"
+          "detail": "HTTP 200 in 116 ms"
         }
       ],
       "agree": "2/2 agree",
@@ -673,7 +628,7 @@
       "name": "📹 Zoom",
       "url": "https://status.zoom.us/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 440,
+      "latency_ms": 489,
       "state": "ONLINE",
       "detail": "All Systems Operational",
       "sources": [
@@ -685,7 +640,7 @@
         {
           "source": "Zoom.us",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 157 ms"
+          "detail": "HTTP 200 in 156 ms"
         }
       ],
       "agree": "2/2 agree",
@@ -710,7 +665,7 @@
       "name": "🐙 GitHub Pages / API",
       "url": "https://www.githubstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 191,
+      "latency_ms": 178,
       "state": "ONLINE",
       "detail": "All Systems Operational",
       "sources": [
@@ -722,7 +677,7 @@
         {
           "source": "GitHub.com",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 208 ms"
+          "detail": "HTTP 200 in 115 ms"
         }
       ],
       "agree": "2/2 agree",
@@ -747,7 +702,7 @@
       "name": "💬 Discord Infra",
       "url": "https://discordstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 217,
+      "latency_ms": 257,
       "state": "ONLINE",
       "detail": "All Systems Operational",
       "sources": [
@@ -759,7 +714,7 @@
         {
           "source": "Discord API",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 76 ms"
+          "detail": "HTTP 200 in 49 ms"
         }
       ],
       "agree": "2/2 agree",
@@ -784,7 +739,7 @@
       "name": "👽 Reddit",
       "url": "https://www.redditstatus.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 219,
+      "latency_ms": 390,
       "state": "ONLINE",
       "detail": "All Systems Operational",
       "sources": [
@@ -796,7 +751,7 @@
         {
           "source": "Reddit.com",
           "state": "ONLINE",
-          "detail": "HTTP 200 in 69 ms"
+          "detail": "HTTP 200 in 77 ms"
         }
       ],
       "agree": "2/2 agree",
@@ -821,7 +776,7 @@
       "name": "🌊 DigitalOcean",
       "url": "https://status.digitalocean.com/api/v2/status.json",
       "http_status": 200,
-      "latency_ms": 109,
+      "latency_ms": 159,
       "state": "ONLINE",
       "detail": "All Systems Operational",
       "sources": [
@@ -833,7 +788,7 @@
         {
           "source": "DigitalOcean API",
           "state": "ONLINE",
-          "detail": "HTTP 404 in 159 ms"
+          "detail": "HTTP 404 in 103 ms"
         }
       ],
       "agree": "2/2 agree",
@@ -858,7 +813,7 @@
       "name": "🛡️ HACKATNIGHT_CORE",
       "url": "https://hackatnight.com",
       "http_status": 200,
-      "latency_ms": 234,
+      "latency_ms": 246,
       "state": "ONLINE",
       "detail": "Page reachable (HTTP 200) // no status feed",
       "sources": [
