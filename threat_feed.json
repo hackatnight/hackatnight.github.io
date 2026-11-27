@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-27T03:27:16Z",
+  "updated": "2026-11-27T12:56:46Z",
   "sources": [
     {
       "id": "KEV",
@@ -52,6 +52,25 @@
     }
   ],
   "items": [
+    {
+      "id": "CVE-2026-62840",
+      "source": "MSRC",
+      "title": "Linux Kernel Elevation of Privilege Vulnerability",
+      "vendor": "Microsoft",
+      "product": "",
+      "date": "2026-11-27",
+      "severity": "CVE",
+      "summary": "Information published.",
+      "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-62840",
+      "geo": {
+        "worldwide": true,
+        "countries": [
+          "US"
+        ],
+        "regions": [],
+        "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
     {
       "id": "CISCO",
       "source": "CISCO",
@@ -473,13 +492,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Familiar weaknesses, exploited faster: defending against agentic cyber attacks",
+      "title": "Introducing CORNERSTONE: delivering external services for the NCSC",
       "vendor": "",
       "product": "",
       "date": "2026-11-24",
       "severity": "BLOG",
-      "summary": "How to protect your organisation from cyber attacks created using ‘agentic offensive frameworks’.",
-      "url": "https://www.ncsc.gov.uk/blogs/familiar-weaknesses-exploited-faster-defending-against-agentic-cyber-attacks",
+      "summary": "The NCSC is seeking industry feedback on a new delivery model for modernising external cyber security services.",
+      "url": "https://www.ncsc.gov.uk/blogs/introducing-cornerstone-delivering-external-services-for-the-ncsc",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -492,13 +511,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Introducing CORNERSTONE: delivering external services for the NCSC",
+      "title": "Familiar weaknesses, exploited faster: defending against agentic cyber attacks",
       "vendor": "",
       "product": "",
       "date": "2026-11-24",
       "severity": "BLOG",
-      "summary": "The NCSC is seeking industry feedback on a new delivery model for modernising external cyber security services.",
-      "url": "https://www.ncsc.gov.uk/blogs/introducing-cornerstone-delivering-external-services-for-the-ncsc",
+      "summary": "How to protect your organisation from cyber attacks created using ‘agentic offensive frameworks’.",
+      "url": "https://www.ncsc.gov.uk/blogs/familiar-weaknesses-exploited-faster-defending-against-agentic-cyber-attacks",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1177,25 +1196,6 @@
       }
     },
     {
-      "id": "CVE-2026-95948",
-      "source": "MSRC",
-      "title": "Windows Graphics Kernel Elevation of Privilege Vulnerability",
-      "vendor": "Microsoft",
-      "product": "",
-      "date": "2026-11-13",
-      "severity": "CVE",
-      "summary": "Added Microsoft Office software to the Security Updates table. Customers that are running supported version of Microsoft Office are encouraged to update to the indicated version to be protected from this vulnerability.",
-      "url": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2026-95948",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
       "id": "CVE-2026-95942",
       "source": "MSRC",
       "title": "Windows Graphics Kernel Elevation of Privilege Vulnerability",
@@ -1331,13 +1331,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Cyber chief: UK facing AI-powered attacks on critical infrastructure within two years",
+      "title": "Artificial intelligence and cyber intrusion",
       "vendor": "",
       "product": "",
       "date": "2026-11-03",
-      "severity": "NEWS",
-      "summary": "The NCSC warns that ‘tech on the cheap’ has left UK organisations exposed to AI uncovering and exploiting longstanding cyber security weaknesses and calls for urgent investment in resilience.",
-      "url": "https://www.ncsc.gov.uk/news/cyber-chief-uk-facing-ai-powered-attacks-on-critical-infrastructure-in-two-years",
+      "severity": "REPORT",
+      "summary": "An NCSC assessment that examines current AI-enabled threat trends and projections of the threat landscape to 2028.",
+      "url": "https://www.ncsc.gov.uk/report/artificial-intelligence-and-cyber-intrusion",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1350,13 +1350,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Artificial intelligence and cyber intrusion",
+      "title": "Cyber chief: UK facing AI-powered attacks on critical infrastructure within two years",
       "vendor": "",
       "product": "",
       "date": "2026-11-03",
-      "severity": "REPORT",
-      "summary": "An NCSC assessment that examines current AI-enabled threat trends and projections of the threat landscape to 2028.",
-      "url": "https://www.ncsc.gov.uk/report/artificial-intelligence-and-cyber-intrusion",
+      "severity": "NEWS",
+      "summary": "The NCSC warns that ‘tech on the cheap’ has left UK organisations exposed to AI uncovering and exploiting longstanding cyber security weaknesses and calls for urgent investment in resilience.",
+      "url": "https://www.ncsc.gov.uk/news/cyber-chief-uk-facing-ai-powered-attacks-on-critical-infrastructure-in-two-years",
       "geo": {
         "worldwide": false,
         "countries": [
@@ -1426,13 +1426,13 @@
     {
       "id": "NCSC",
       "source": "NCSC",
-      "title": "Using TLS to protect data",
+      "title": "Post-quantum updates to our TLS guidance",
       "vendor": "",
       "product": "",
       "date": "2026-10-15",
-      "severity": "GUIDANCE",
-      "summary": "Recommended profiles to securely configure TLS for the most common versions and scenarios, with additional guidance for managing older versions.",
-      "url": "https://www.ncsc.gov.uk/guidance/using-tls-to-protect-data",
+      "severity": "BLOG",
+      "summary": "The NCSC publishes its recommendations for configuring post-quantum cryptography in TLS. Now is time to migrate.",
+      "url": "https://www.ncsc.gov.uk/blogs/post-quantum-updates-to-our-tls-guidance",
       "geo": {
         "worldwide": false,
         "countries": [
