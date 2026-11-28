@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-27T21:47:56Z",
+  "updated": "2026-11-28T03:42:47Z",
   "sources": [
     {
       "id": "KEV",
@@ -69,6 +69,60 @@
         ],
         "regions": [],
         "basis": "Vendor HQ (products deployed worldwide)"
+      }
+    },
+    {
+      "id": "CVE-2026-136716",
+      "source": "KEV",
+      "title": "Drupal Core Improper Check for Unusual or Exceptional Conditions Vulnerability",
+      "vendor": "Drupal",
+      "product": "Core",
+      "date": "2026-11-27",
+      "due": "2026-11-30",
+      "severity": "EXPLOITED",
+      "summary": "Drupal Core contains an improper check for unusual or exceptional conditions vulnerability that allows an unauthenticated remote attacker to take over a site via the exposed Drupal installer when the site is in one of the affected unusual or incomplete installation states.",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-136716",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "basis": "Global (vendor HQ unknown)"
+      }
+    },
+    {
+      "id": "CVE-2026-129243",
+      "source": "KEV",
+      "title": "OSGeo GeoServer Incorrect Authorization Vulnerability",
+      "vendor": "OSGeo",
+      "product": "GeoServer",
+      "date": "2026-11-27",
+      "due": "2026-11-30",
+      "severity": "EXPLOITED",
+      "summary": "GeoServer contains an incorrect authorization vulnerability that allows an unauthenticated remote attacker to bypass service-level role checks and invoke operations protected solely by those checks via a request with a prefixed service parameter. This vulnerability can be chained",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-129243",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "basis": "Global (vendor HQ unknown)"
+      }
+    },
+    {
+      "id": "CVE-2026-120705",
+      "source": "KEV",
+      "title": "OSGeo GeoServer XML Injection Vulnerability",
+      "vendor": "OSGeo",
+      "product": "GeoServer",
+      "date": "2026-11-27",
+      "due": "2026-11-30",
+      "severity": "EXPLOITED",
+      "summary": "OsGeo GeoServer contains an XML injection vulnerability that allows an unauthenticated remote attacker to cause the server to read local text files accessible to the GeoServer process or fetch attacker-specified HTTP or HTTPS URLs via a crafted ID parameter in the WFS 2.0 GetFeat",
+      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-120705",
+      "geo": {
+        "worldwide": true,
+        "countries": [],
+        "regions": [],
+        "basis": "Global (vendor HQ unknown)"
       }
     },
     {
@@ -652,24 +706,6 @@
       }
     },
     {
-      "id": "CVE-2026-131914",
-      "source": "KEV",
-      "title": "Idunno AntiCsrf Deserialization of Untrusted Data Vulnerability",
-      "vendor": "Idunno",
-      "product": "AntiCsrf",
-      "date": "2026-11-24",
-      "due": "2026-11-27",
-      "severity": "EXPLOITED",
-      "summary": "Idunno AntiCsrf contains a deserialization of untrusted data vulnerability that allows an unauthenticated remote attacker to execute arbitrary code via object injection. The impacted product(s) could be end-of-life (EoL) and/or end-of-service (EoS). Users are advised to discontin",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-131914",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "basis": "Global (vendor HQ unknown)"
-      }
-    },
-    {
       "id": "CISCO",
       "source": "CISCO",
       "title": "Vulnerabilities in Node.js and Brotli Affecting Cisco Products: October 2026",
@@ -724,44 +760,6 @@
         ],
         "regions": [],
         "basis": "Vendor HQ (products deployed worldwide)"
-      }
-    },
-    {
-      "id": "CVE-2026-134624",
-      "source": "KEV",
-      "title": "N-able MailAssure (SpamExperts) Server-Side Request Forgery (SSRF) Vulnerability",
-      "vendor": "N-able",
-      "product": "MailAssure",
-      "date": "2026-11-23",
-      "due": "2026-11-26",
-      "severity": "EXPLOITED",
-      "summary": "N-able MailAssure (SpamExperts) contains a server-side request forgery vulnerability in the LDAP synchronization connection check that allows an authenticated API user to connect to arbitrary internal hosts and ports, determine which are reachable, and send crafted data to intern",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-134624",
-      "geo": {
-        "worldwide": true,
-        "countries": [
-          "US"
-        ],
-        "regions": [],
-        "basis": "Vendor HQ"
-      }
-    },
-    {
-      "id": "CVE-2026-133968",
-      "source": "KEV",
-      "title": "Project MONAI MONAI Label Path Traversal Vulnerability",
-      "vendor": "Project MONAI",
-      "product": "MONAI Label",
-      "date": "2026-11-23",
-      "due": "2026-11-26",
-      "severity": "EXPLOITED",
-      "summary": "Project MONAI MONAI Label contains a path traversal vulnerability that allows an unauthenticated remote attacker to write arbitrary files outside the intended datastore directory, potentially resulting in remote code execution.",
-      "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-133968",
-      "geo": {
-        "worldwide": true,
-        "countries": [],
-        "regions": [],
-        "basis": "Global (vendor HQ unknown)"
       }
     },
     {
